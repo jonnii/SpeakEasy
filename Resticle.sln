@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle", "Resticle\Resticle.csproj", "{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Examples", "Resticle.Examples\Resticle.Examples.csproj", "{D1866D82-2EAA-43E8-B601-27750B9AE693}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+		Default|Any CPU = Default|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|x86.ActiveCfg = Debug|x86
+		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|x86.Build.0 = Debug|x86
+		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|x86.ActiveCfg = Release|x86
+		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|x86.Build.0 = Release|x86
+		{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}.Debug|x86.ActiveCfg = Debug|x86
+		{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}.Debug|x86.Build.0 = Debug|x86
+		{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}.Release|x86.ActiveCfg = Release|x86
+		{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Resticle.Examples\Resticle.Examples.csproj
+	EndGlobalSection
+EndGlobal
