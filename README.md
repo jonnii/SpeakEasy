@@ -1,9 +1,9 @@
 Resticle
 ========
 
-** PLEASE NOTE THIS IS A WORK IN PROGRESS **
-** IF YOU HAVE FEEDBACK PLEASE EMAIL ME **
-** me@[mygithubusername].com **
+**PLEASE NOTE THIS IS A WORK IN PROGRESS**
+**IF YOU HAVE FEEDBACK PLEASE EMAIL ME**
+**me@[mygithubusername].com**
 
 This is a super simple library to talk to restful web services, the kind you can easily create using
 asp.net mvc webapi. It's heavily inspired by [RestSharp](http://restsharp.org) and therefore licensed
