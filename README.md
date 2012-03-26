@@ -10,6 +10,10 @@ asp.net mvc webapi. It's heavily inspired by [RestSharp](http://restsharp.org) a
 the same. It exists primarily to scratch and itch I had that RestSharp couldn't and if you find it useful
 then great!
 
+I highly recommend you DO NOT USE THIS library. It most likely will not do anything you want. You are 
+far better served by using RestSharp. It supports async, it has xml support, it has a big community,
+John Sheehan is far smarter than I am, it has documentation, it works. etc... 
+
 Contributing
 ------------
 
@@ -26,7 +30,9 @@ Installation
 ------------
 
     install-package Resticle
-    
+
+This has a dependency on Newtonsoft.Json.
+
 Examples
 --------
 
@@ -50,3 +56,8 @@ Examples
     // change some state
     var company = Resource.Create("company/:id");
     client.Put(new { price = 3.1459 }, company.Id("Hooray!")).Is(HttpStatusCode.Created);
+    
+    // Asynchronous
+    var company = Resource.Create("company/:id");
+    var response = await client.Put(new { Name = "Awesome Startup"}, company.Id("1234"));
+    var 
