@@ -60,4 +60,4 @@ Examples
     // Asynchronous
     var company = Resource.Create("company/:id");
     var response = await client.Put(new { Name = "Awesome Startup"}, company.Id("1234"));
-    var 
+    var foo = ???
