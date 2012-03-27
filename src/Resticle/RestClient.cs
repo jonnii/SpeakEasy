@@ -6,11 +6,10 @@ namespace Resticle
         {
             Root = root;
         }
-
-        public string Root { get; set; }
-
-        public IRestResponse Get(string url, object segments = null)
-        {
+		
+        public string Root{ get; set; }
+		
+        public IRestResponse Get(string url, object segments = null){
             return new RestResponse();
         }
     }
