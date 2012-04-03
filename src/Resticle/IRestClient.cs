@@ -43,6 +43,14 @@ namespace Resticle
         /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Put(object body, string url, object segments = null);
+
+        /// <summary>
+        /// Executes an http delete request
+        /// </summary>
+        /// <param name="url">The url to delete</param>
+        /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Delete(string url, object segments = null);
     }
 }
 

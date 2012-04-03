@@ -27,5 +27,10 @@ namespace Resticle
         {
             throw new NotImplementedException();
         }
+
+        public IRestResponse Delete(string url, object segments = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

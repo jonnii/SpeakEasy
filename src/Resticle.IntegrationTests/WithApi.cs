@@ -151,5 +151,15 @@ namespace Resticle.IntegrationTests
                 client.Put(product, "product/:id", new { id = 1 })
                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); }));
         }
+
+        [Test]
+        public void ShouldDeletePerson()
+        {
+            var success = client.Delete("product/:id", new { id = 1 })
+                .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
+                .Is(HttpStatusCode.NoContent);
+
+            Assert.That(success);
+        }
     }
 }
