@@ -1,0 +1,91 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Web.Http;
+using System.Web.Http.SelfHost;
+using NUnit.Framework;
+using Resticle.IntegrationTests.Controllers;
+
+namespace Resticle.IntegrationTests
+{
+    [TestFixture]
+    public class WithApi
+    {
+        private HttpSelfHostServer server;
+
+        private IRestClient client;
+
+        [TestFixtureSetUp]
+        public void StartServer()
+        {
+            var config = new HttpSelfHostConfiguration("http://localhost:1337");
+            config.Routes.MapHttpRoute("api", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+
+            server = new HttpSelfHostServer(config);
+            server.OpenAsync().Wait();
+
+            client = new RestClient("http://localhost:1337/api")
+            {
+                DefaultSerializer = Serializer.Json
+            };
+        }
+
+        [TestFixtureTearDown]
+        public void StopServer()
+        {
+            server.Dispose();
+        }
+
+        [Test]
+        public void ShouldGetCollection()
+        {
+            var products = client.Get("products").On(HttpStatusCode.OK).Unwrap<List<Product>>();
+
+            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+        }
+
+        [Test]
+        public void ShouldGetCollectionShort()
+        {
+            var products = client.Get("products").OnOK().Unwrap<List<Product>>();
+
+            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+        }
+
+        [Test]
+        public void ShouldGetProduct()
+        {
+            var product = client.Get("products/1").OnOK().Unwrap<Product>();
+
+            Assert.That(product.Id, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldGetProductWithSegments()
+        {
+            var product = client.Get("products/:id", new { id = 1 }).OnOK().Unwrap<Product>();
+
+            Assert.That(product.Id, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldGetProductWithResource()
+        {
+            var resource = new Resource("product/:id");
+
+            var product = client.Get(resource.Merge(new { id = 1 })).OnOK().Unwrap<Product>();
+
+            Assert.That(product.Id, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldGetProductWithDynamicResource()
+        {
+            var resource = Resource.Create("product/:id");
+
+            var product = client.Get(resource.Id(1)).OnOK().Unwrap<Product>();
+
+            Assert.That(product.Id, Is.EqualTo(1));
+        }
+    }
+}

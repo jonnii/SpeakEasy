@@ -2,6 +2,11 @@
 {
     public class Resource
     {
+        public static dynamic Create(string path)
+        {
+            return new Resource(path);
+        }
+
         private readonly string path;
 
         public Resource(string path)

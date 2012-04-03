@@ -34,11 +34,16 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="DataFormat.cs" />
     <Compile Include="IRestClient.cs" />
     <Compile Include="IRestResponse.cs" />
+    <Compile Include="IRestResponseHandler.cs" />
+    <Compile Include="ISerializer.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="RestClient.cs" />
     <Compile Include="RestResponse.cs" />
+    <Compile Include="RestResponseHandler.cs" />
+    <Compile Include="Serializers\JsonSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
