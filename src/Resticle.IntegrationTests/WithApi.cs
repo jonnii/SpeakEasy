@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
@@ -86,6 +87,39 @@ namespace Resticle.IntegrationTests
             var product = client.Get(resource.Id(1)).OnOK().Unwrap<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldCreateNewProduct()
+        {
+            var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+
+            var isok = client.Post(product, "products").Is(HttpStatusCode.OK);
+
+            Assert.That(isok);
+        }
+
+        [Test]
+        public void ShouldCreateNewProductShort()
+        {
+            var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+
+            var isok = client.Post(product, "products").IsOK();
+
+            Assert.That(isok);
+        }
+
+        [Test]
+        public void ShouldCreateNewProductWithErrors()
+        {
+            var product = new Product { Name = "Canoli", Category = "" };
+
+            var response = client.Post(product, "products");
+
+            Assert.Throws<ValidationException>(() =>
+                response
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
+                    .OnOK(() => { throw new Exception("Expected error"); }));
         }
     }
 }

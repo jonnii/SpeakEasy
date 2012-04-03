@@ -17,5 +17,10 @@ namespace Resticle
         {
             return new RestResponse();
         }
+
+        public IRestResponse Post(object body, string url, object segments = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

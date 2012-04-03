@@ -51,3 +51,6 @@ packages/
 #ncrunch
 *ncrunch*
 *crunch*.local.xml
+
+#resticle
+targets

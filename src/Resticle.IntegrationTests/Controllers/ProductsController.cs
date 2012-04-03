@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace Resticle.IntegrationTests.Controllers
 {
@@ -24,6 +26,23 @@ namespace Resticle.IntegrationTests.Controllers
         public Product GetProductById(int id)
         {
             return products.Single(p => p.Id == id);
+        }
+
+        public HttpResponseMessage Post(Product product)
+        {
+            if (string.IsNullOrEmpty(product.Name))
+            {
+                return new HttpResponseMessage<ValidationError>(
+                    new ValidationError("Name required"), HttpStatusCode.BadRequest);
+            }
+
+            if (string.IsNullOrEmpty(product.Category))
+            {
+                return new HttpResponseMessage<ValidationError>(
+                    new ValidationError("Category required"), HttpStatusCode.BadRequest);
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }
