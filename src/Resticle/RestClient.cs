@@ -22,5 +22,10 @@ namespace Resticle
         {
             throw new NotImplementedException();
         }
+
+        public IRestResponse Put(object body, string url, object segments = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

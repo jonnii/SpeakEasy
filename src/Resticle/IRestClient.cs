@@ -34,6 +34,15 @@ namespace Resticle
         /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Post(object body, string url, object segments = null);
+
+        /// <summary>
+        /// Executes an http put request
+        /// </summary>
+        /// <param name="body">An object that represents the body to put</param>
+        /// <param name="url">The url to put to</param>
+        /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Put(object body, string url, object segments = null);
     }
 }
 

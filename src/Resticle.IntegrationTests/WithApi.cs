@@ -104,9 +104,9 @@ namespace Resticle.IntegrationTests
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-            var isok = client.Post(product, "products").IsOk();
+            var success = client.Post(product, "products").Is(HttpStatusCode.Created);
 
-            Assert.That(isok);
+            Assert.That(success);
         }
 
         [Test]
@@ -120,6 +120,36 @@ namespace Resticle.IntegrationTests
                 response
                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
                     .OnOk(() => { throw new Exception("Expected error"); }));
+        }
+
+        [Test]
+        public void ShouldUpdatePerson()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+
+            var success = client.Put(product, "product/:id", new { id = 1 }).IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
+        public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+
+            var success = client.Put(product, "product/:id").IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
+        public void ShouldUpdatePersonWithErrors()
+        {
+            var product = new Product { Id = 1, Name = "", Category = "Cakes" };
+
+            Assert.Throws<ValidationException>(() =>
+                client.Put(product, "product/:id", new { id = 1 })
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); }));
         }
     }
 }

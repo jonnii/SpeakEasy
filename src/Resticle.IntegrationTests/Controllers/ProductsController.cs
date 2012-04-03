@@ -42,7 +42,7 @@ namespace Resticle.IntegrationTests.Controllers
                     new ValidationError("Category required"), HttpStatusCode.BadRequest);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }
 }
