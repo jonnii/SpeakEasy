@@ -3,6 +3,10 @@ using System.Net;
 
 namespace Resticle
 {
+    /// <summary>
+    /// A chainable rest response which gives you access to all the data available
+    /// on a response to a restful service.
+    /// </summary>
     public interface IRestResponse
     {
         IRestResponse On(HttpStatusCode code, Action action);
@@ -11,14 +15,14 @@ namespace Resticle
 
         IRestResponseHandler On(HttpStatusCode code);
 
-        IRestResponseHandler OnOK();
+        IRestResponseHandler OnOk();
 
-        IRestResponse OnOK(Action action);
+        IRestResponse OnOk(Action action);
 
-        IRestResponse OnOK<T>(Action<T> action);
+        IRestResponse OnOk<T>(Action<T> action);
 
         bool Is(HttpStatusCode code);
 
-        bool IsOK();
+        bool IsOk();
     }
 }

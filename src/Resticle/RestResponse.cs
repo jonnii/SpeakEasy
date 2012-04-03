@@ -20,17 +20,17 @@ namespace Resticle
             return new RestResponseHandler();
         }
 
-        public IRestResponseHandler OnOK()
+        public IRestResponseHandler OnOk()
         {
             throw new NotImplementedException();
         }
 
-        public IRestResponse OnOK(Action action)
+        public IRestResponse OnOk(Action action)
         {
             throw new NotImplementedException();
         }
 
-        public IRestResponse OnOK<T>(Action<T> action)
+        public IRestResponse OnOk<T>(Action<T> action)
         {
             throw new NotImplementedException();
         }
@@ -40,7 +40,7 @@ namespace Resticle
             throw new NotImplementedException();
         }
 
-        public bool IsOK()
+        public bool IsOk()
         {
             throw new NotImplementedException();
         }

@@ -1,3 +1,5 @@
+using System;
+
 namespace Resticle
 {
     /// <summary>
@@ -6,8 +8,31 @@ namespace Resticle
     /// </summary>
     public interface IRestClient
     {
+        /// <summary>
+        /// The root url for this rest client, all calls will be relative to this url
+        /// </summary>
+        string Root { get; set; }
+
+        /// <summary>
+        /// The default serializer to use when formatting the body of rest requests
+        /// </summary>
+        Type DefaultSerializer { get; set; }
+
+        /// <summary>
+        /// Executes an http get request
+        /// </summary>
+        /// <param name="url">The url to get</param>
+        /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
         IRestResponse Get(string url, object segments = null);
 
+        /// <summary>
+        /// Executes an http post request
+        /// </summary>
+        /// <param name="body">An object that represents the body to post</param>
+        /// <param name="url">The url to post to</param>
+        /// <param name="segments">An object that contains any segments in the url that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
         IRestResponse Post(object body, string url, object segments = null);
     }
 }

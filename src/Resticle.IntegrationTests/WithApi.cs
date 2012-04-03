@@ -48,7 +48,7 @@ namespace Resticle.IntegrationTests
         [Test]
         public void ShouldGetCollectionShort()
         {
-            var products = client.Get("products").OnOK().Unwrap<List<Product>>();
+            var products = client.Get("products").OnOk().Unwrap<List<Product>>();
 
             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         }
@@ -56,7 +56,7 @@ namespace Resticle.IntegrationTests
         [Test]
         public void ShouldGetProduct()
         {
-            var product = client.Get("products/1").OnOK().Unwrap<Product>();
+            var product = client.Get("products/1").OnOk().Unwrap<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -64,7 +64,7 @@ namespace Resticle.IntegrationTests
         [Test]
         public void ShouldGetProductWithSegments()
         {
-            var product = client.Get("products/:id", new { id = 1 }).OnOK().Unwrap<Product>();
+            var product = client.Get("products/:id", new { id = 1 }).OnOk().Unwrap<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -74,7 +74,7 @@ namespace Resticle.IntegrationTests
         {
             var resource = new Resource("product/:id");
 
-            var product = client.Get(resource.Merge(new { id = 1 })).OnOK().Unwrap<Product>();
+            var product = client.Get(resource.Merge(new { id = 1 })).OnOk().Unwrap<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -104,7 +104,7 @@ namespace Resticle.IntegrationTests
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-            var isok = client.Post(product, "products").IsOK();
+            var isok = client.Post(product, "products").IsOk();
 
             Assert.That(isok);
         }
@@ -119,7 +119,7 @@ namespace Resticle.IntegrationTests
             Assert.Throws<ValidationException>(() =>
                 response
                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-                    .OnOK(() => { throw new Exception("Expected error"); }));
+                    .OnOk(() => { throw new Exception("Expected error"); }));
         }
     }
 }
