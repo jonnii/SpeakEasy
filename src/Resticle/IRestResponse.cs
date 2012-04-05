@@ -10,6 +10,11 @@ namespace Resticle
     public interface IRestResponse
     {
         /// <summary>
+        /// The uri that was requested
+        /// </summary>
+        Uri RequestedUri { get; }
+
+        /// <summary>
         /// Executes the given action when the rest response status code matches the supplied status code.
         /// </summary>
         /// <param name="code">The http status code we're expecting</param>

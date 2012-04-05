@@ -9,9 +9,9 @@ namespace Resticle
     public interface IRestClient
     {
         /// <summary>
-        /// The root url for this rest client, all calls will be relative to this url
+        /// The root resource for this rest client, all calls will be relative to this resource
         /// </summary>
-        string Root { get; set; }
+        Resource Root { get; set; }
 
         /// <summary>
         /// The default serializer to use when formatting the body of rest requests

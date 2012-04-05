@@ -5,6 +5,13 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
+        public RestResponse(Uri requestUri)
+        {
+            RequestedUri = requestUri;
+        }
+
+        public Uri RequestedUri { get; private set; }
+
         public IRestResponse On(HttpStatusCode code, Action action)
         {
             throw new NotImplementedException();

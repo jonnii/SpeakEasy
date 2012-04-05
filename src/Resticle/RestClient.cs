@@ -4,18 +4,27 @@ namespace Resticle
 {
     public class RestClient : IRestClient
     {
-        public RestClient(string root)
+        public RestClient()
         {
-            Root = root;
+
         }
 
-        public string Root { get; set; }
+        public RestClient(string root)
+        {
+            Root = new Resource(root);
+        }
+
+        public Resource Root { get; set; }
 
         public Type DefaultSerializer { get; set; }
 
         public IRestResponse Get(string url, object segments = null)
         {
-            return new RestResponse();
+            var resource = Root.Append(url);
+
+            var mergedResource = resource.Merge(segments);
+
+            return new RestResponse(new Uri(mergedResource));
         }
 
         public IRestResponse Post(object body, string url, object segments = null)

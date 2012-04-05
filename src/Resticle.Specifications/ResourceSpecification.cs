@@ -17,6 +17,40 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(Resource))]
+        public class when_appending_resources
+        {
+            Establish context = () =>
+                root = new Resource("http://example.com");
+
+            Because of = () =>
+                appended = root.Append(new Resource("api/companies"));
+
+            It should_create_appended_resource = () =>
+                appended.Path.ShouldEqual("http://example.com/api/companies");
+
+            static Resource root;
+
+            static Resource appended;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_appending_resources_with_trailing_slash
+        {
+            Establish context = () =>
+                root = new Resource("http://example.com/");
+
+            Because of = () =>
+                appended = root.Append(new Resource("api/companies"));
+
+            It should_create_appended_resource = () =>
+                appended.Path.ShouldEqual("http://example.com/api/companies");
+
+            static Resource root;
+
+            static Resource appended;
+        }
+
+        [Subject(typeof(Resource))]
         public class when_creating_resource_with_parameters : with_resource_with_parameter
         {
             It should_create_resource_with_parameter = () =>
@@ -46,6 +80,23 @@ namespace Resticle.Specifications
 
             It should_merge_values_into_resource = () =>
                 merged.ShouldEqual("company/company-name");
+
+            static string merged;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_merging_null_segments
+        {
+            Establish context = () =>
+                resource = new Resource("company");
+
+            Because of = () =>
+                merged = resource.Merge(null);
+
+            It should_return_resource = () =>
+                merged.ShouldEqual("company");
+
+            static Resource resource;
 
             static string merged;
         }
