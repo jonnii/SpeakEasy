@@ -1,4 +1,10 @@
-﻿namespace Resticle
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+
+namespace Resticle
 {
     public class Resource
     {
@@ -9,24 +15,58 @@
 
         private readonly string path;
 
+        private readonly string[] segments;
+
         public Resource(string path)
         {
             this.path = path;
+
+            segments = ExtractSegments();
         }
 
-        public int NumParameters
+        public int NumSegments
         {
-            get { return 0; }
+            get { return segments.Length; }
         }
 
-        public bool HasParameter(string name)
+        private string[] ExtractSegments()
         {
-            return true;
+            var segmentMatches = Regex.Matches(path, ":([a-zA-Z-]+)");
+
+            return segmentMatches
+                .Cast<Match>()
+                .Select(m => m.Groups[1].Value.ToLower())
+                .ToArray();
         }
 
-        public string Merge(object segments)
+        public bool HasSegment(string name)
         {
-            return string.Empty;
+            return segments.Contains(name);
+        }
+
+        public string Merge(object segmentProvider)
+        {
+            var properties = segmentProvider
+                .GetType()
+                .GetProperties()
+                .ToDictionary(p => p.Name.ToLower());
+
+            var merged = path;
+
+            foreach (var segment in segments)
+            {
+                PropertyInfo property;
+                if (!properties.TryGetValue(segment, out property))
+                {
+                    throw new ArgumentException("Could not find a property matching segment: " + segment);
+                }
+
+                var propertyValue = property.GetValue(segmentProvider, new object[0]);
+
+                merged = merged.Replace(":" + segment, propertyValue.ToString());
+            }
+
+            return merged;
         }
     }
 }

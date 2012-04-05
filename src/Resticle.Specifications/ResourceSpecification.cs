@@ -11,7 +11,7 @@ namespace Resticle.Specifications
                 resource = new Resource("company");
 
             It should_create_resource_with_no_parameters = () =>
-                resource.NumParameters.ShouldEqual(0);
+                resource.NumSegments.ShouldEqual(0);
 
             static Resource resource;
         }
@@ -20,10 +20,10 @@ namespace Resticle.Specifications
         public class when_creating_resource_with_parameters : with_resource_with_parameter
         {
             It should_create_resource_with_parameter = () =>
-                resource.HasParameter("name");
+                resource.HasSegment("name");
 
             It should_have_one_parameter = () =>
-                resource.NumParameters.ShouldEqual(1);
+                resource.NumSegments.ShouldEqual(1);
         }
 
         [Subject(typeof(Resource))]
