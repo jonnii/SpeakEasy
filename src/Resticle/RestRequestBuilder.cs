@@ -4,26 +4,19 @@ namespace Resticle
 {
     public class RestRequestBuilder : IRestRequestBuilder
     {
-        private RestRequest request;
+        private readonly GetRestRequest request;
 
         public RestRequestBuilder(Resource root, string path, object segments = null)
         {
             var mergedUri = root.Append(path).Merge(segments);
             var uri = new Uri(mergedUri);
 
-            request = new RestRequest(uri);
+            request = new GetRestRequest(uri);
         }
 
         public IRestRequest Build()
         {
             return request;
-        }
-
-        public RestRequestBuilder WithBody(object body)
-        {
-            request.Body = body;
-
-            return this;
         }
     }
 }

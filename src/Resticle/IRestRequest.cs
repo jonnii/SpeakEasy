@@ -12,10 +12,5 @@ namespace Resticle
         /// The url that will be requested by this rest request
         /// </summary>
         Uri Url { get; }
-
-        /// <summary>
-        /// The body of this rest request
-        /// </summary>
-        object Body { get; }
     }
 }

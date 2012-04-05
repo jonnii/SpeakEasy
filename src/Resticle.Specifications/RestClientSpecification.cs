@@ -1,9 +1,22 @@
-﻿using Machine.Specifications;
+﻿using Machine.Fakes;
+using Machine.Specifications;
 
 namespace Resticle.Specifications
 {
     public class RestClientSpecification
     {
+        [Subject(typeof(RestClient))]
+        public class in_general
+        {
+            Establish context = () =>
+                client = new RestClient();
+
+            It should_have_dispatcher = () =>
+                client.Dispatcher.ShouldNotBeNull();
+
+            static RestClient client;
+        }
+
         [Subject(typeof(RestClient))]
         public class when_creating_new_request : with_client
         {
@@ -20,15 +33,11 @@ namespace Resticle.Specifications
         public class when_getting_collection_resource : with_client
         {
             Because of = () =>
-                response = client.Get("companies");
+                client.Get("companies");
 
-            It should_create_rest_response = () =>
-                response.ShouldNotBeNull();
-
-            It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUrl.ToString().ShouldEqual("http://example.com/companies");
-
-            static IRestResponse response;
+            It should_dispatch_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/companies")));
         }
 
         [Subject(typeof(RestClient))]
@@ -37,23 +46,28 @@ namespace Resticle.Specifications
             Because of = () =>
                 response = client.Get("company/:id", new { id = 5 });
 
-            It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUrl.ToString().ShouldEqual("http://example.com/company/5");
+            It should_dispatch_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/company/5")));
 
             static IRestResponse response;
         }
 
         [Subject(typeof(RestClient))]
-        public class when_getting_resource_on_rest_client_with_parameterized_root
+        public class when_getting_resource_on_rest_client_with_parameterized_root : with_dispatcher
         {
             Establish context = () =>
-                client = new RestClient("http://:company.example.com/api");
+                client = new RestClient("http://:company.example.com/api")
+                {
+                    Dispatcher = dispatcher
+                };
 
             Because of = () =>
                 response = client.Get("user/:id", new { company = "acme", id = 5 });
 
-            It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUrl.ToString().ShouldEqual("http://acme.example.com/api/user/5");
+            It should_dispatch_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://acme.example.com/api/user/5")));
 
             static RestClient client;
 
@@ -61,10 +75,23 @@ namespace Resticle.Specifications
         }
     }
 
-    public class with_client
+    public class with_dispatcher : WithFakes
     {
         Establish context = () =>
-            client = new RestClient("http://example.com");
+            dispatcher = An<IRestRequestDispatcher>();
+
+        protected static IRestRequestDispatcher dispatcher;
+    }
+
+    public class with_client : with_dispatcher
+    {
+        Establish context = () =>
+        {
+            client = new RestClient("http://example.com")
+            {
+                Dispatcher = dispatcher
+            };
+        };
 
         protected static RestClient client;
     }

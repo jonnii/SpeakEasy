@@ -2,15 +2,13 @@ using System;
 
 namespace Resticle
 {
-    public class RestRequest : IRestRequest
+    public class GetRestRequest : IRestRequest
     {
-        public RestRequest(Uri url)
+        public GetRestRequest(Uri url)
         {
             Url = url;
         }
 
         public Uri Url { get; private set; }
-
-        public object Body { get; set; }
     }
 }

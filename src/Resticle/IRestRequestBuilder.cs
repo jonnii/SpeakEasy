@@ -6,5 +6,10 @@ namespace Resticle
     /// </summary>
     public interface IRestRequestBuilder
     {
+        /// <summary>
+        /// Builds the rest request
+        /// </summary>
+        /// <returns>A new rest request which can be executed</returns>
+        IRestRequest Build();
     }
 }

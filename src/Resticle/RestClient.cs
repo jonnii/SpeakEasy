@@ -6,10 +6,11 @@ namespace Resticle
     {
         public RestClient()
         {
-
+            Dispatcher = new RestRequestDispatcher();
         }
 
         public RestClient(string root)
+            : this()
         {
             Root = new Resource(root);
         }
@@ -18,12 +19,18 @@ namespace Resticle
 
         public Type DefaultSerializer { get; set; }
 
+        public IRestRequestDispatcher Dispatcher { get; set; }
+
         public IRestResponse Get(string url, object segments = null)
         {
-            var resource = Root.Append(url);
-            var mergedResource = resource.Merge(segments);
+            var request = NewRequest(url, segments).Build();
 
-            return new RestResponse(new Uri(mergedResource));
+            return Dispatcher.Dispatch(request);
+
+            //var resource = Root.Append(url);
+            //var mergedResource = resource.Merge(segments);
+
+            //return new RestResponse(new Uri(mergedResource));
         }
 
         public IRestResponse Post(object body, string url, object segments = null)
