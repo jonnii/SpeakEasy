@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 
 namespace Resticle
 {
@@ -7,9 +8,8 @@ namespace Resticle
     /// </summary>
     public interface IHttpWebResponse
     {
-        /// <summary>
-        /// The uri that responded to the web request
-        /// </summary>
         Uri ResponseUri { get; }
+
+        HttpStatusCode StatusCode { get; }
     }
 }

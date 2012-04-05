@@ -5,16 +5,24 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        public RestResponse(Uri requestUrl)
+        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode)
         {
             RequestedUrl = requestUrl;
+            HttpStatusCode = httpStatusCode;
         }
 
         public Uri RequestedUrl { get; private set; }
 
+        public HttpStatusCode HttpStatusCode { get; private set; }
+
         public IRestResponse On(HttpStatusCode code, Action action)
         {
-            throw new NotImplementedException();
+            if (HttpStatusCode == code)
+            {
+                action();
+            }
+
+            return this;
         }
 
         public IRestResponse On<T>(HttpStatusCode code, Action<T> action)
@@ -34,7 +42,7 @@ namespace Resticle
 
         public IRestResponse OnOk(Action action)
         {
-            throw new NotImplementedException();
+            return On(HttpStatusCode.OK, action);
         }
 
         public IRestResponse OnOk<T>(Action<T> action)

@@ -23,7 +23,9 @@ namespace Resticle
 
         public RestResponse CreateRestResponse(IHttpWebResponse webResponse)
         {
-            return new RestResponse(webResponse.ResponseUri);
+            return new RestResponse(
+                webResponse.ResponseUri,
+                webResponse.StatusCode);
         }
     }
 }

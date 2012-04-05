@@ -60,6 +60,7 @@
     <Compile Include="RestClientSpecification.cs" />
     <Compile Include="RestRequestBuilderSpecification.cs" />
     <Compile Include="RestRequestDispatcherSpecification.cs" />
+    <Compile Include="RestResponseSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

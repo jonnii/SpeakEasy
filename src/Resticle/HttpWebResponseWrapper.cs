@@ -5,9 +5,9 @@ namespace Resticle
 {
     public class HttpWebResponseWrapper : IHttpWebResponse
     {
-        private readonly WebResponse response;
+        private readonly HttpWebResponse response;
 
-        public HttpWebResponseWrapper(WebResponse response)
+        public HttpWebResponseWrapper(HttpWebResponse response)
         {
             this.response = response;
         }
@@ -15,6 +15,11 @@ namespace Resticle
         public Uri ResponseUri
         {
             get { return response.ResponseUri; }
+        }
+
+        public HttpStatusCode StatusCode
+        {
+            get { return response.StatusCode; }
         }
     }
 }
