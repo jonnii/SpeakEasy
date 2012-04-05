@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 
 namespace Resticle
 {
@@ -12,5 +13,11 @@ namespace Resticle
         /// The url that will be requested by this rest request
         /// </summary>
         Uri Url { get; }
+
+        /// <summary>
+        /// Creates a web request corresponding to this rest request
+        /// </summary>
+        /// <returns>A web request</returns>
+        WebRequest BuildWebRequest();
     }
 }

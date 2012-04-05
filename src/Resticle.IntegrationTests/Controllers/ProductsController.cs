@@ -2,10 +2,11 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 
 namespace Resticle.IntegrationTests.Controllers
 {
-    public class ProductsController
+    public class ProductsController : ApiController
     {
         private readonly IEnumerable<Product> products;
 
@@ -18,12 +19,12 @@ namespace Resticle.IntegrationTests.Controllers
             };
         }
 
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Product> Get()
         {
             return products;
         }
 
-        public Product GetProductById(int id)
+        public Product Get(int id)
         {
             return products.Single(p => p.Id == id);
         }

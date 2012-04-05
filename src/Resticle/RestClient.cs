@@ -24,13 +24,7 @@ namespace Resticle
         public IRestResponse Get(string url, object segments = null)
         {
             var request = NewRequest(url, segments).Build();
-
             return Dispatcher.Dispatch(request);
-
-            //var resource = Root.Append(url);
-            //var mergedResource = resource.Merge(segments);
-
-            //return new RestResponse(new Uri(mergedResource));
         }
 
         public IRestResponse Post(object body, string url, object segments = null)

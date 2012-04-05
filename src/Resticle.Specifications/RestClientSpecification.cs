@@ -44,13 +44,11 @@ namespace Resticle.Specifications
         public class when_getting_specific_resource : with_client
         {
             Because of = () =>
-                response = client.Get("company/:id", new { id = 5 });
+                client.Get("company/:id", new { id = 5 });
 
             It should_dispatch_request = () =>
                 dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
                     r => r.Url.ToString() == "http://example.com/company/5")));
-
-            static IRestResponse response;
         }
 
         [Subject(typeof(RestClient))]
@@ -63,36 +61,34 @@ namespace Resticle.Specifications
                 };
 
             Because of = () =>
-                response = client.Get("user/:id", new { company = "acme", id = 5 });
+                client.Get("user/:id", new { company = "acme", id = 5 });
 
             It should_dispatch_request = () =>
                 dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
                     r => r.Url.ToString() == "http://acme.example.com/api/user/5")));
 
             static RestClient client;
-
-            static IRestResponse response;
         }
-    }
 
-    public class with_dispatcher : WithFakes
-    {
-        Establish context = () =>
-            dispatcher = An<IRestRequestDispatcher>();
-
-        protected static IRestRequestDispatcher dispatcher;
-    }
-
-    public class with_client : with_dispatcher
-    {
-        Establish context = () =>
+        public class with_dispatcher : WithFakes
         {
-            client = new RestClient("http://example.com")
-            {
-                Dispatcher = dispatcher
-            };
-        };
+            Establish context = () =>
+                dispatcher = An<IRestRequestDispatcher>();
 
-        protected static RestClient client;
+            protected static IRestRequestDispatcher dispatcher;
+        }
+
+        public class with_client : with_dispatcher
+        {
+            Establish context = () =>
+            {
+                client = new RestClient("http://example.com")
+                {
+                    Dispatcher = dispatcher
+                };
+            };
+
+            protected static RestClient client;
+        }
     }
 }

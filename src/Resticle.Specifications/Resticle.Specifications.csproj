@@ -54,10 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetRestRequestSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClientSpecification.cs" />
     <Compile Include="RestRequestBuilderSpecification.cs" />
+    <Compile Include="RestRequestDispatcherSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

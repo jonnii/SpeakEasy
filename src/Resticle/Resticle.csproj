@@ -34,9 +34,12 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="HttpWebResponseWrapper.cs" />
     <Compile Include="IHttpGateway.cs" />
+    <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRestRequest.cs" />
     <Compile Include="IRestRequestBuilder.cs" />
+    <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="RestRequest.cs" />
     <Compile Include="RestRequestBuilder.cs" />
     <Compile Include="RestRequestDispatcher.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="RestResponse.cs" />
     <Compile Include="RestResponseHandler.cs" />
     <Compile Include="Serializers\JsonSerializer.cs" />
+    <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

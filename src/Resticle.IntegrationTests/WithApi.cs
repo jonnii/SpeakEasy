@@ -36,7 +36,7 @@ namespace Resticle.IntegrationTests
         {
             server.Dispose();
         }
-
+        
         [Test]
         public void ShouldGetCollection()
         {
