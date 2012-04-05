@@ -21,7 +21,6 @@ namespace Resticle
         public IRestResponse Get(string url, object segments = null)
         {
             var resource = Root.Append(url);
-
             var mergedResource = resource.Merge(segments);
 
             return new RestResponse(new Uri(mergedResource));
@@ -40,6 +39,11 @@ namespace Resticle
         public IRestResponse Delete(string url, object segments = null)
         {
             throw new NotImplementedException();
+        }
+
+        public IRestRequestBuilder NewRequest(string url, object segments = null)
+        {
+            return new RestRequestBuilder(Root, url, segments);
         }
     }
 }

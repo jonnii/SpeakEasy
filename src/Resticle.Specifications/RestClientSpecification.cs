@@ -5,6 +5,18 @@ namespace Resticle.Specifications
     public class RestClientSpecification
     {
         [Subject(typeof(RestClient))]
+        public class when_creating_new_request : with_client
+        {
+            Because of = () =>
+                builder = client.NewRequest("company/:id", new { id = 5 });
+
+            It should_create_request_builder = () =>
+                builder.ShouldNotBeNull();
+
+            static IRestRequestBuilder builder;
+        }
+
+        [Subject(typeof(RestClient))]
         public class when_getting_collection_resource : with_client
         {
             Because of = () =>
@@ -14,7 +26,7 @@ namespace Resticle.Specifications
                 response.ShouldNotBeNull();
 
             It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUri.ToString().ShouldEqual("http://example.com/companies");
+                response.RequestedUrl.ToString().ShouldEqual("http://example.com/companies");
 
             static IRestResponse response;
         }
@@ -26,7 +38,7 @@ namespace Resticle.Specifications
                 response = client.Get("company/:id", new { id = 5 });
 
             It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUri.ToString().ShouldEqual("http://example.com/company/5");
+                response.RequestedUrl.ToString().ShouldEqual("http://example.com/company/5");
 
             static IRestResponse response;
         }
@@ -41,7 +53,7 @@ namespace Resticle.Specifications
                 response = client.Get("user/:id", new { company = "acme", id = 5 });
 
             It should_have_rest_response_with_full_resource = () =>
-                response.RequestedUri.ToString().ShouldEqual("http://acme.example.com/api/user/5");
+                response.RequestedUrl.ToString().ShouldEqual("http://acme.example.com/api/user/5");
 
             static RestClient client;
 

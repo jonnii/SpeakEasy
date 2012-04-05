@@ -10,9 +10,9 @@ namespace Resticle
     public interface IRestResponse
     {
         /// <summary>
-        /// The uri that was requested
+        /// The url that was requested
         /// </summary>
-        Uri RequestedUri { get; }
+        Uri RequestedUrl { get; }
 
         /// <summary>
         /// Executes the given action when the rest response status code matches the supplied status code.

@@ -5,12 +5,12 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        public RestResponse(Uri requestUri)
+        public RestResponse(Uri requestUrl)
         {
-            RequestedUri = requestUri;
+            RequestedUrl = requestUrl;
         }
 
-        public Uri RequestedUri { get; private set; }
+        public Uri RequestedUrl { get; private set; }
 
         public IRestResponse On(HttpStatusCode code, Action action)
         {
