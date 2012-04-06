@@ -44,12 +44,23 @@ namespace Resticle
 
         public IRestResponse Put(object body, string relativeUrl, object segments = null)
         {
-            throw new NotImplementedException();
+            var url = Root.Append(relativeUrl).Merge(segments);
+
+            var request = new PutRestRequest(url)
+            {
+                Body = () => JsonConvert.SerializeObject(body)
+            };
+
+            return Dispatcher.Dispatch(request);
         }
 
         public IRestResponse Delete(string relativeUrl, object segments = null)
         {
-            throw new NotImplementedException();
+            var url = Root.Append(relativeUrl).Merge(segments);
+
+            var request = new DeleteRestRequest(url);
+
+            return Dispatcher.Dispatch(request);
         }
     }
 }

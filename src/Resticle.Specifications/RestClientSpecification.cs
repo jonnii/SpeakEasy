@@ -68,6 +68,26 @@ namespace Resticle.Specifications
                 dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PostRestRequest>()));
         }
 
+        [Subject(typeof(RestClient))]
+        public class when_putting : with_client
+        {
+            Because of = () =>
+                client.Put(new { Name = "frobble" }, "user");
+
+            It should_dispatch_put_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PutRestRequest>()));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_deleting : with_client
+        {
+            Because of = () =>
+                client.Delete("user/5");
+
+            It should_dispatch_delete_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<DeleteRestRequest>()));
+        }
+
         public class with_dispatcher : WithFakes
         {
             Establish context = () =>

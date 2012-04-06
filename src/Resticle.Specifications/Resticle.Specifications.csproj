@@ -54,8 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteRestRequestSpecification.cs" />
     <Compile Include="GetRestRequestSpecification.cs" />
     <Compile Include="PostRestRequestSpecification.cs" />
+    <Compile Include="PutRestRequestSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClientSpecification.cs" />

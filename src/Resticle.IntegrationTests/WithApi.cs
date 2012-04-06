@@ -127,7 +127,7 @@ namespace Resticle.IntegrationTests
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-            var success = client.Put(product, "product/:id", new { id = 1 }).IsOk();
+            var success = client.Put(product, "products/:id", new { id = 1 }).IsOk();
 
             Assert.That(success);
         }

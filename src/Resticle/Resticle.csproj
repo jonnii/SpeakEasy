@@ -34,6 +34,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="DeleteRestRequest.cs" />
     <Compile Include="Deserializers\JsonDeserializer.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
@@ -43,6 +44,7 @@
     <Compile Include="IRestRequest.cs" />
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="PostRestRequest.cs" />
+    <Compile Include="PutRestRequest.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
     <Compile Include="RestRequestDispatcher.cs" />
