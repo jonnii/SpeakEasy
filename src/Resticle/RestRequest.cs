@@ -3,16 +3,16 @@ using System.Net;
 
 namespace Resticle
 {
-    public class GetRestRequest : IRestRequest
+    public abstract class RestRequest : IRestRequest
     {
-        public GetRestRequest(Uri url)
+        protected RestRequest(Uri url)
         {
             Url = url;
         }
 
         public Uri Url { get; private set; }
 
-        public WebRequest BuildWebRequest()
+        public virtual WebRequest BuildWebRequest()
         {
             return WebRequest.Create(Url);
         }

@@ -36,7 +36,7 @@ namespace Resticle.Specifications
                 client.Get("companies");
 
             It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
                     r => r.Url.ToString() == "http://example.com/companies")));
         }
 
@@ -47,7 +47,7 @@ namespace Resticle.Specifications
                 client.Get("company/:id", new { id = 5 });
 
             It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
                     r => r.Url.ToString() == "http://example.com/company/5")));
         }
 
@@ -64,10 +64,20 @@ namespace Resticle.Specifications
                 client.Get("user/:id", new { company = "acme", id = 5 });
 
             It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<IRestRequest>.Matches(
+                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
                     r => r.Url.ToString() == "http://acme.example.com/api/user/5")));
 
             static RestClient client;
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_posting : with_client
+        {
+            Because of = () =>
+                client.Post(new { Name = "frobble" }, "user");
+
+            It should_dispatch_post_request = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PostRestRequest>()));
         }
 
         public class with_dispatcher : WithFakes

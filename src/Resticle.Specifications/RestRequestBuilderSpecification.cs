@@ -5,13 +5,13 @@ namespace Resticle.Specifications
     public class RestRequestBuilderSpecification
     {
         [Subject(typeof(RestRequestBuilder))]
-        public class when_creating_request
+        public class when_creating_get_request
         {
             Establish context = () =>
                 builder = new RestRequestBuilder(new Resource("http://example.com"), "companies");
 
             Because of = () =>
-                request = builder.Build();
+                request = builder.Build(u => new GetRestRequest(u));
 
             It should_create_request = () =>
                 request.ShouldNotBeNull();

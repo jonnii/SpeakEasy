@@ -23,13 +23,14 @@ namespace Resticle
 
         public IRestResponse Get(string url, object segments = null)
         {
-            var request = NewRequest(url, segments).Build();
+            var request = NewRequest(url, segments).Build(u => new GetRestRequest(u));
             return Dispatcher.Dispatch(request);
         }
 
         public IRestResponse Post(object body, string url, object segments = null)
         {
-            throw new NotImplementedException();
+            var request = NewRequest(url, segments).Build(u => new PostRestRequest(u));
+            return Dispatcher.Dispatch(request);
         }
 
         public IRestResponse Put(object body, string url, object segments = null)

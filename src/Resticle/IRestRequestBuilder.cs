@@ -1,3 +1,5 @@
+using System;
+
 namespace Resticle
 {
     /// <summary>
@@ -10,6 +12,7 @@ namespace Resticle
         /// Builds the rest request
         /// </summary>
         /// <returns>A new rest request which can be executed</returns>
-        IRestRequest Build();
+        TRequest Build<TRequest>(Func<Uri, TRequest> builder)
+            where TRequest : IRestRequest;
     }
 }
