@@ -118,7 +118,7 @@ namespace Resticle.Specifications
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = new RestResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.OK, "body");
+                response = new RestResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, "body", deserializer);
 
             protected static RestResponse response;
         }
@@ -126,7 +126,7 @@ namespace Resticle.Specifications
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = new RestResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.Created, "body");
+                response = new RestResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, "body", deserializer);
 
             protected static RestResponse response;
         }

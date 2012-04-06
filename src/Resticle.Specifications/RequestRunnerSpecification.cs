@@ -18,12 +18,13 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RequestRunner))]
-        public class when_building_rest_response : with_request_runner
+        public class when_creating_rest_response : with_request_runner
         {
             Establish context = () =>
             {
                 webResponse = An<IHttpWebResponse>();
                 webResponse.WhenToldTo(r => r.ResponseUri).Return(new Uri("http://example.com/companies"));
+                webResponse.WhenToldTo(r => r.ContentType).Return("application/json");
             };
 
             Because of = () =>
@@ -32,9 +33,12 @@ namespace Resticle.Specifications
             It should_have_response_url_corresponding_to_request = () =>
                 response.RequestedUrl.ShouldEqual(new Uri("http://example.com/companies"));
 
+            It should_find_deserializer = () =>
+                The<ITransmission>().WasToldTo(t => t.FindDeserializer("application/json"));
+
             static IHttpWebResponse webResponse;
 
-            static RestResponse response;
+            static IRestResponse response;
         }
 
         public class with_request_runner : WithSubject<RequestRunner>

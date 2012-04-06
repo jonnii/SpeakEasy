@@ -21,9 +21,7 @@ namespace Resticle
         public override HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
             var baseRequest = base.BuildWebRequest(transmission);
-
             baseRequest.Method = "POST";
-            baseRequest.ContentType = "application/json";
 
             if (HasBody)
             {

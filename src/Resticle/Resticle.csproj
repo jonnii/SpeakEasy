@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="DeleteRestRequest.cs" />
     <Compile Include="Deserializers\JsonDeserializer.cs" />
+    <Compile Include="Deserializers\NullDeserializer.cs" />
     <Compile Include="Deserializers\XmlDeserializer.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />

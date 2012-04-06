@@ -22,7 +22,6 @@ namespace Resticle
         {
             var baseRequest = base.BuildWebRequest(transmission);
             baseRequest.Method = "PUT";
-            baseRequest.ContentType = "application/json";
 
             if (HasBody)
             {

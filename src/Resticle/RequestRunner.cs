@@ -1,5 +1,3 @@
-using Resticle.Deserializers;
-
 namespace Resticle
 {
     public class RequestRunner : IRequestRunner
@@ -21,18 +19,16 @@ namespace Resticle
             return webRequestGateway.Send(webRequest, CreateRestResponse);
         }
 
-        public RestResponse CreateRestResponse(IHttpWebResponse webResponse)
+        public IRestResponse CreateRestResponse(IHttpWebResponse webResponse)
         {
-            var deserializer = new JsonDeserializer();
-
+            var deserializer = transmission.FindDeserializer(webResponse.ContentType);
             var body = webResponse.ReadBody();
 
             return new RestResponse(
-                deserializer,
                 webResponse.ResponseUri,
                 webResponse.StatusCode,
-                body);
+                body,
+                deserializer);
         }
-
     }
 }

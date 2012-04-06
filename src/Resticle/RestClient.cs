@@ -11,9 +11,9 @@ namespace Resticle
 
         public static IRestClient Create(string url, RestClientSettings settings)
         {
-            var runner = new RequestRunner(
-                new Transmission(),
-                new WebRequestGateway());
+            var transmision = new Transmission(settings.DefaultSerializer, settings.Deserializers);
+
+            var runner = new RequestRunner(transmision, new WebRequestGateway());
 
             return new RestClient(runner)
             {

@@ -61,10 +61,12 @@
     <Compile Include="RequestRunnerSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestClientSettingsSpecification.cs" />
     <Compile Include="RestClientSpecification.cs" />
     <Compile Include="RestRequestSpecification.cs" />
     <Compile Include="RestResponseHandlerSpecification.cs" />
     <Compile Include="RestResponseSpecification.cs" />
+    <Compile Include="TransmissionSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

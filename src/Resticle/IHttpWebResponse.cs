@@ -19,6 +19,21 @@ namespace Resticle
         HttpStatusCode StatusCode { get; }
 
         /// <summary>
+        /// Indicates whether or not the web response has content
+        /// </summary>
+        bool HasContent { get; }
+
+        /// <summary>
+        /// The content type of the web response
+        /// </summary>
+        string ContentType { get; }
+
+        /// <summary>
+        /// The media type of the web response
+        /// </summary>
+        string MediaType { get; }
+
+        /// <summary>
         /// Reads the body of the http web response
         /// </summary>
         /// <returns>A string representation of the body</returns>

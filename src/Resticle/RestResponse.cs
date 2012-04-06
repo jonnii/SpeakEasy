@@ -5,11 +5,7 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        public RestResponse(
-            IDeserializer deserializer,
-            Uri requestUrl,
-            HttpStatusCode httpStatusCode,
-            string body)
+        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, IDeserializer deserializer)
         {
             Deserializer = deserializer;
 

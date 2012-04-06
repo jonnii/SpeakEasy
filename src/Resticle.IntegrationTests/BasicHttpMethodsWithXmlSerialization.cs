@@ -4,6 +4,7 @@ using System.Net;
 using NUnit.Framework;
 using Resticle.Deserializers;
 using Resticle.IntegrationTests.Controllers;
+using Resticle.Serializers;
 
 namespace Resticle.IntegrationTests
 {
@@ -12,18 +13,18 @@ namespace Resticle.IntegrationTests
     {
         protected override IRestClient CreateClient()
         {
-            return RestClient.Create("http://localhost:1337/api");
+            var settings = RestClientSettings.Default;
+            settings.DefaultSerializer = new DotNetXmlSerializer();
 
-            //var baseClient = base.CreateClient();
-            //baseClient.DefaultSerializer = Serializer.Xml;
-            //return baseClient;
+            return RestClient.Create("http://localhost:1337/api", settings);
         }
 
         [Test]
         public void ShouldHaveCorrectDeserializerOnResponse()
         {
             var response = client.Get("products/1");
-            Assert.That(response.Deserializer, Is.TypeOf<XmlDeserializer>());
+
+            Assert.That(response.Deserializer, Is.TypeOf<DotNetXmlDeserializer>());
         }
 
         [Test]

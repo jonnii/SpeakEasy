@@ -15,6 +15,9 @@ namespace Resticle.Specifications
             It should_set_content_type = () =>
                 webRequest.ContentType.ShouldEqual("text/xml");
 
+            It should_set_supported_accept_types = () =>
+                webRequest.Accept.ShouldEqual("text/xml, application/json");
+
             static HttpWebRequest webRequest;
         }
 
@@ -23,7 +26,8 @@ namespace Resticle.Specifications
             Establish context = () =>
             {
                 transmission = An<ITransmission>();
-                transmission.WhenToldTo(s => s.ContentType).Return("text/xml");
+                transmission.WhenToldTo(t => t.ContentType).Return("text/xml");
+                transmission.WhenToldTo(t => t.DeserializableMediaTypes).Return(new[] { "text/xml", "application/json" });
 
                 webRequestGateway = An<IWebRequestGateway>();
 

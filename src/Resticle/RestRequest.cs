@@ -17,6 +17,7 @@ namespace Resticle
 
             request.ContentType = transmission.ContentType;
             request.ContentLength = 0;
+            request.Accept = string.Join(", ", transmission.DeserializableMediaTypes);
 
             return request;
         }

@@ -1,12 +1,15 @@
+using System.Collections.Generic;
+
 namespace Resticle
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public interface ITransmission
     {
         string ContentType { get; }
 
         ISerializer DefaultSerializer { get; }
+
+        IEnumerable<string> DeserializableMediaTypes { get; }
+
+        IDeserializer FindDeserializer(string contentType);
     }
 }

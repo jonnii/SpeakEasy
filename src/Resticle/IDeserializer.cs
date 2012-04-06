@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Resticle
 {
     /// <summary>
@@ -6,6 +8,11 @@ namespace Resticle
     /// </summary>
     public interface IDeserializer
     {
+        /// <summary>
+        /// The content types that this deserializer supports
+        /// </summary>
+        IEnumerable<string> SupportedMediaTypes { get; }
+
         /// <summary>
         /// Deserializes the body of a rest response and creates
         /// an instance of the given type

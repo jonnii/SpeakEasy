@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Mime;
 
 namespace Resticle
 {
@@ -21,6 +22,21 @@ namespace Resticle
         public HttpStatusCode StatusCode
         {
             get { return response.StatusCode; }
+        }
+
+        public bool HasContent
+        {
+            get { return !string.IsNullOrEmpty(ContentType); }
+        }
+
+        public string ContentType
+        {
+            get { return response.ContentType; }
+        }
+
+        public string MediaType
+        {
+            get { return new ContentType(response.ContentType).MediaType; }
         }
 
         public string ReadBody()
