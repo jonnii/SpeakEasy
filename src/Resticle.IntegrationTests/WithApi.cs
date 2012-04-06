@@ -36,7 +36,7 @@ namespace Resticle.IntegrationTests
         {
             server.Dispose();
         }
-        
+
         [Test]
         public void ShouldGetCollection()
         {
@@ -72,7 +72,7 @@ namespace Resticle.IntegrationTests
         [Test]
         public void ShouldGetProductWithResource()
         {
-            var resource = new Resource("product/:id");
+            var resource = new Resource("products/:id");
 
             var product = client.Get(resource.Merge(new { id = 1 })).OnOk().Unwrap<Product>();
 
@@ -82,7 +82,7 @@ namespace Resticle.IntegrationTests
         [Test]
         public void ShouldGetProductWithDynamicResource()
         {
-            var resource = Resource.Create("product/:id");
+            var resource = Resource.Create("products/:id");
 
             var product = client.Get(resource.Id(1)).OnOK().Unwrap<Product>();
 
@@ -137,7 +137,7 @@ namespace Resticle.IntegrationTests
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-            var success = client.Put(product, "product/:id").IsOk();
+            var success = client.Put(product, "products/:id").IsOk();
 
             Assert.That(success);
         }
@@ -148,14 +148,14 @@ namespace Resticle.IntegrationTests
             var product = new Product { Id = 1, Name = "", Category = "Cakes" };
 
             Assert.Throws<ValidationException>(() =>
-                client.Put(product, "product/:id", new { id = 1 })
+                client.Put(product, "products/:id", new { id = 1 })
                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); }));
         }
 
         [Test]
         public void ShouldDeletePerson()
         {
-            var success = client.Delete("product/:id", new { id = 1 })
+            var success = client.Delete("products/:id", new { id = 1 })
                 .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
                 .Is(HttpStatusCode.NoContent);
 
