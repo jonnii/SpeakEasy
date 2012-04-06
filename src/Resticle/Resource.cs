@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Resticle
 {
-    public class Resource
+    public class Resource : DynamicObject
     {
         public static dynamic Create(string path)
         {
@@ -91,6 +92,16 @@ namespace Resticle
         public Resource Append(string resource)
         {
             return Append(new Resource(resource));
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            var methodName = binder.Name;
+            var parameter = args[0];
+
+            result = Path.Replace(":" + methodName.ToLower(), parameter.ToString());
+
+            return true;
         }
     }
 }

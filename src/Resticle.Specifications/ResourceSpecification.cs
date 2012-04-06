@@ -101,6 +101,23 @@ namespace Resticle.Specifications
             static string merged;
         }
 
+        [Subject(typeof(Resource))]
+        public class when_calling_methods_on_dynamic_resources
+        {
+            Establish context = () =>
+                resource = Resource.Create("companies/:id");
+
+            Because of = () =>
+                 url = resource.Id("ibm");
+
+            It should_format_url = () =>
+                url.ShouldEqual("companies/ibm");
+
+            static dynamic resource;
+
+            static string url;
+        }
+
         public class with_resource_with_parameter
         {
             Establish context = () =>

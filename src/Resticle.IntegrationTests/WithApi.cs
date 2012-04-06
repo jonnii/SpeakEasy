@@ -84,7 +84,7 @@ namespace Resticle.IntegrationTests
         {
             var resource = Resource.Create("products/:id");
 
-            var product = client.Get(resource.Id(1)).OnOK().Unwrap<Product>();
+            var product = client.Get(resource.Id(1)).OnOk().Unwrap<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
