@@ -32,7 +32,7 @@ namespace Resticle
 
         public IRestResponse Post(object body, string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
+            var url = Root.Append(relativeUrl).Merge(segments ?? body);
 
             var request = new PostRestRequest(url)
             {
@@ -44,7 +44,7 @@ namespace Resticle
 
         public IRestResponse Put(object body, string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
+            var url = Root.Append(relativeUrl).Merge(segments ?? body);
 
             var request = new PutRestRequest(url)
             {

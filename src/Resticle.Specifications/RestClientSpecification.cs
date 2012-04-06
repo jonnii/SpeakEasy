@@ -69,6 +69,28 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestClient))]
+        public class when_posting_with_body_and_no_segments : with_client
+        {
+            Because of = () =>
+                client.Post(new { Id = "body" }, "company/:id");
+
+            It should_use_body_as_segments = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<PostRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/company/body")));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_posting_with_body_and_segments : with_client
+        {
+            Because of = () =>
+                client.Post(new { Id = "body" }, "company/:id", new { Id = "segments" });
+
+            It should_use_segments = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<PostRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/company/segments")));
+        }
+
+        [Subject(typeof(RestClient))]
         public class when_putting : with_client
         {
             Because of = () =>
@@ -76,6 +98,28 @@ namespace Resticle.Specifications
 
             It should_dispatch_put_request = () =>
                 dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PutRestRequest>()));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_putting_with_body_and_no_segments : with_client
+        {
+            Because of = () =>
+                client.Put(new { Id = "body" }, "company/:id");
+
+            It should_use_body_as_segments = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<PutRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/company/body")));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_putting_with_body_and_segments : with_client
+        {
+            Because of = () =>
+                client.Put(new { Id = "body" }, "company/:id", new { Id = "segments" });
+
+            It should_use_segments = () =>
+                dispatcher.WasToldTo(d => d.Dispatch(Param<PutRestRequest>.Matches(
+                    r => r.Url.ToString() == "http://example.com/company/segments")));
         }
 
         [Subject(typeof(RestClient))]
