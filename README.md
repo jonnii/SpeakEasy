@@ -29,7 +29,7 @@ Adding an example is also great!
 Installation
 ------------
 
-If you aren't using nuget, then same on you. If you are, then installation is as simple as:
+If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
 
     install-package Resticle
 
