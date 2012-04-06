@@ -12,9 +12,11 @@ namespace Resticle.IntegrationTests
     {
         protected override IRestClient CreateClient()
         {
-            var baseClient = base.CreateClient();
-            baseClient.DefaultSerializer = Serializer.Xml;
-            return baseClient;
+            return RestClient.Create("http://localhost:1337/api");
+
+            //var baseClient = base.CreateClient();
+            //baseClient.DefaultSerializer = Serializer.Xml;
+            //return baseClient;
         }
 
         [Test]

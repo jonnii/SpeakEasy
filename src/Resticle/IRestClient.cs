@@ -1,5 +1,3 @@
-using System;
-
 namespace Resticle
 {
     /// <summary>
@@ -11,12 +9,7 @@ namespace Resticle
         /// <summary>
         /// The root resource for this rest client, all calls will be relative to this resource
         /// </summary>
-        Resource Root { get; set; }
-
-        /// <summary>
-        /// The default serializer to use when formatting the body of rest requests
-        /// </summary>
-        Func<ISerializer> DefaultSerializer { get; set; }
+        Resource Root { get; }
 
         /// <summary>
         /// Executes an http get request

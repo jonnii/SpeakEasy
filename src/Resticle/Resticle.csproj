@@ -48,6 +48,7 @@
     <Compile Include="PostRestRequest.cs" />
     <Compile Include="PutRestRequest.cs" />
     <Compile Include="RequestRunner.cs" />
+    <Compile Include="RestClientSettings.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
     <Compile Include="Serializer.cs" />

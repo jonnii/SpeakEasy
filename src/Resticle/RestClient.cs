@@ -4,20 +4,21 @@ namespace Resticle
 {
     public class RestClient : IRestClient
     {
-        public static IRestClient Create()
+        public static IRestClient Create(string url)
+        {
+            return Create(url, RestClientSettings.Default);
+        }
+
+        public static IRestClient Create(string url, RestClientSettings settings)
         {
             var runner = new RequestRunner(
                 new Transmission(),
                 new WebRequestGateway());
 
-            return new RestClient(runner);
-        }
-
-        public static IRestClient Create(string url)
-        {
-            var client = Create();
-            client.Root = new Resource(url);
-            return client;
+            return new RestClient(runner)
+            {
+                Root = new Resource(url)
+            };
         }
 
         private readonly IRequestRunner requestRunner;
