@@ -1,5 +1,6 @@
-using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Resticle.Deserializers
 {
@@ -12,7 +13,12 @@ namespace Resticle.Deserializers
 
         public T Deserialize<T>(string body)
         {
-            throw new NotSupportedException();
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var reader = new StringReader(body))
+            {
+                return (T)serializer.Deserialize(reader);
+            }
         }
     }
 }

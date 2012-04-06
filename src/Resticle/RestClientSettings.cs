@@ -15,8 +15,8 @@ namespace Resticle
                     DefaultSerializer = new JsonSerializer()
                 };
 
-                settings.AddDeserializer(new JsonDeserializer());
-                settings.AddDeserializer(new DotNetXmlDeserializer());
+                settings.Deserializers.Add(new JsonDeserializer());
+                settings.Deserializers.Add(new DotNetXmlDeserializer());
 
                 return settings;
             }
@@ -26,14 +26,9 @@ namespace Resticle
 
         public ISerializer DefaultSerializer { get; set; }
 
-        public IEnumerable<IDeserializer> Deserializers
+        public List<IDeserializer> Deserializers
         {
             get { return deserializers; }
-        }
-
-        private void AddDeserializer(IDeserializer deserializer)
-        {
-            deserializers.Add(deserializer);
         }
     }
 }

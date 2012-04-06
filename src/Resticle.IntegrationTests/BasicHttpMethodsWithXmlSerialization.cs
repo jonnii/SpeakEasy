@@ -15,6 +15,8 @@ namespace Resticle.IntegrationTests
         {
             var settings = RestClientSettings.Default;
             settings.DefaultSerializer = new DotNetXmlSerializer();
+            settings.Deserializers.Clear();
+            settings.Deserializers.Add(new DotNetXmlDeserializer());
 
             return RestClient.Create("http://localhost:1337/api", settings);
         }

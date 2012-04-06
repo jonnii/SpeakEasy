@@ -1,7 +1,11 @@
+using NLog;
+
 namespace Resticle
 {
     public class RequestRunner : IRequestRunner
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly ITransmission transmission;
 
         private readonly IWebRequestGateway webRequestGateway;
@@ -14,6 +18,8 @@ namespace Resticle
 
         public IRestResponse Run(IRestRequest request)
         {
+            Logger.Debug("running request of type {0}", request.GetType().Name);
+
             var webRequest = request.BuildWebRequest(transmission);
 
             return webRequestGateway.Send(webRequest, CreateRestResponse);
