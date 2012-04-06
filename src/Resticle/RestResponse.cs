@@ -5,15 +5,13 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        private readonly IDeserializer deserializer;
-
         public RestResponse(
             IDeserializer deserializer,
             Uri requestUrl,
             HttpStatusCode httpStatusCode,
             string body)
         {
-            this.deserializer = deserializer;
+            Deserializer = deserializer;
 
             RequestedUrl = requestUrl;
             HttpStatusCode = httpStatusCode;
@@ -22,9 +20,11 @@ namespace Resticle
 
         public Uri RequestedUrl { get; private set; }
 
+        public HttpStatusCode HttpStatusCode { get; private set; }
+
         public string Body { get; private set; }
 
-        public HttpStatusCode HttpStatusCode { get; private set; }
+        public IDeserializer Deserializer { get; private set; }
 
         public IRestResponse On(HttpStatusCode code, Action action)
         {
@@ -46,7 +46,7 @@ namespace Resticle
                 throw new RestException(message);
             }
 
-            var deserialied = deserializer.Deserialize<T>(Body);
+            var deserialied = Deserializer.Deserialize<T>(Body);
 
             action(deserialied);
 
@@ -55,7 +55,7 @@ namespace Resticle
 
         public IRestResponseHandler On(HttpStatusCode code)
         {
-            return new RestResponseHandler(this, deserializer);
+            return new RestResponseHandler(this);
         }
 
         public IRestResponseHandler OnOk()
@@ -68,7 +68,7 @@ namespace Resticle
                 throw new RestException(message);
             }
 
-            return new RestResponseHandler(this, deserializer);
+            return new RestResponseHandler(this);
         }
 
         public IRestResponse OnOk(Action action)

@@ -1,66 +1,63 @@
 using System;
-using Newtonsoft.Json;
 
 namespace Resticle
 {
     public class RestClient : IRestClient
     {
-        public RestClient()
+        public static IRestClient Create()
         {
-            Dispatcher = new RestRequestDispatcher();
+            var runner = new RequestRunner(
+                new Transmission(), new WebRequestGateway());
+
+            return new RestClient(runner);
         }
 
-        public RestClient(string root)
-            : this()
+        public static IRestClient Create(string url)
         {
-            Root = new Resource(root);
+            var client = Create();
+            client.Root = new Resource(url);
+            return client;
+        }
+
+        private readonly IRequestRunner requestRunner;
+
+        public RestClient(IRequestRunner requestRunner)
+        {
+            this.requestRunner = requestRunner;
+
+            DefaultSerializer = Serializer.Json;
         }
 
         public Resource Root { get; set; }
 
-        public Type DefaultSerializer { get; set; }
-
-        public IRestRequestDispatcher Dispatcher { get; set; }
+        public Func<ISerializer> DefaultSerializer { get; set; }
 
         public IRestResponse Get(string relativeUrl, object segments = null)
         {
             var url = Root.Append(relativeUrl).Merge(segments);
             var request = new GetRestRequest(url);
-
-            return Dispatcher.Dispatch(request);
+            return requestRunner.Run(request);
         }
 
         public IRestResponse Post(object body, string relativeUrl, object segments = null)
         {
             var url = Root.Append(relativeUrl).Merge(segments ?? body);
-
-            var request = new PostRestRequest(url)
-            {
-                Body = () => JsonConvert.SerializeObject(body)
-            };
-
-            return Dispatcher.Dispatch(request);
+            var request = new PostRestRequest(url, body);
+            return requestRunner.Run(request);
         }
 
         public IRestResponse Put(object body, string relativeUrl, object segments = null)
         {
             var url = Root.Append(relativeUrl).Merge(segments ?? body);
-
-            var request = new PutRestRequest(url)
-            {
-                Body = () => JsonConvert.SerializeObject(body)
-            };
-
-            return Dispatcher.Dispatch(request);
+            var request = new PutRestRequest(url, body);
+            return requestRunner.Run(request);
         }
 
         public IRestResponse Delete(string relativeUrl, object segments = null)
         {
             var url = Root.Append(relativeUrl).Merge(segments);
-
             var request = new DeleteRestRequest(url);
-
-            return Dispatcher.Dispatch(request);
+            return requestRunner.Run(request);
         }
     }
 }

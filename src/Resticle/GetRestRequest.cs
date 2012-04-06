@@ -5,6 +5,7 @@ namespace Resticle
         public GetRestRequest(string url)
             : base(url)
         {
+
         }
     }
 }

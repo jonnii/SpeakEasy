@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+
+using Machine.Fakes;
 using Machine.Specifications;
 
 namespace Resticle.Specifications
@@ -10,10 +12,10 @@ namespace Resticle.Specifications
         public class when_building_web_request : with_get_request
         {
             Because of = () =>
-                webRequest = request.BuildWebRequest();
+                webRequest = request.BuildWebRequest(transmission);
 
             It should_set_url = () =>
-                request.Url.ShouldEqual(new Uri("http://example.com/companies"));
+                request.Url.ShouldEqual("http://example.com/companies");
 
             It should_set_request_to_get_request = () =>
                 webRequest.Method.ShouldEqual("GET");
@@ -24,7 +26,15 @@ namespace Resticle.Specifications
             static WebRequest webRequest;
         }
 
-        public class with_get_request
+        public class with_transmission : WithFakes
+        {
+            Establish context = () =>
+                transmission = An<ITransmission>();
+
+            protected static ITransmission transmission;
+        }
+
+        public class with_get_request : with_transmission
         {
             Establish context = () =>
                 request = new GetRestRequest("http://example.com/companies");

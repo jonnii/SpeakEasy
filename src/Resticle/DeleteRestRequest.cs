@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Resticle
 {
     public class DeleteRestRequest : RestRequest
@@ -5,11 +7,12 @@ namespace Resticle
         public DeleteRestRequest(string url)
             : base(url)
         {
+
         }
 
-        public override System.Net.WebRequest BuildWebRequest()
+        public override HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
-            var baseRequest = base.BuildWebRequest();
+            var baseRequest = base.BuildWebRequest(transmission);
 
             baseRequest.Method = "DELETE";
 

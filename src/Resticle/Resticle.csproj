@@ -36,18 +36,20 @@
   <ItemGroup>
     <Compile Include="DeleteRestRequest.cs" />
     <Compile Include="Deserializers\JsonDeserializer.cs" />
+    <Compile Include="Deserializers\XmlDeserializer.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
     <Compile Include="IDeserializer.cs" />
-    <Compile Include="IRestRequestDispatcher.cs" />
     <Compile Include="IHttpWebResponse.cs" />
+    <Compile Include="IRequestRunner.cs" />
     <Compile Include="IRestRequest.cs" />
+    <Compile Include="ITransmission.cs" />
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="PostRestRequest.cs" />
     <Compile Include="PutRestRequest.cs" />
+    <Compile Include="RequestContext.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
-    <Compile Include="RestRequestDispatcher.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="IRestClient.cs" />
     <Compile Include="IRestResponse.cs" />
@@ -58,6 +60,8 @@
     <Compile Include="RestResponse.cs" />
     <Compile Include="RestResponseHandler.cs" />
     <Compile Include="Serializers\JsonSerializer.cs" />
+    <Compile Include="Serializers\DotNetXmlSerializer.cs" />
+    <Compile Include="Transmission.cs" />
     <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +70,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

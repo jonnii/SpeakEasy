@@ -12,12 +12,13 @@ namespace Resticle
         /// <summary>
         /// The url that will be requested by this rest request
         /// </summary>
-        Uri Url { get; }
+        string Url { get; }
 
         /// <summary>
         /// Creates a web request corresponding to this rest request
         /// </summary>
+        /// <param name="transmission">The current transmission</param>
         /// <returns>A web request</returns>
-        WebRequest BuildWebRequest();
+        HttpWebRequest BuildWebRequest(ITransmission transmission);
     }
 }

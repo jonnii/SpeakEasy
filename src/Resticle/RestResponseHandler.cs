@@ -3,18 +3,16 @@ namespace Resticle
     public class RestResponseHandler : IRestResponseHandler
     {
         private readonly IRestResponse response;
-        private readonly IDeserializer deserializer;
 
-        public RestResponseHandler(
-            IRestResponse response,
-            IDeserializer deserializer)
+        public RestResponseHandler(IRestResponse response)
         {
             this.response = response;
-            this.deserializer = deserializer;
         }
 
         public T Unwrap<T>()
         {
+            var deserializer = response.Deserializer;
+
             return deserializer.Deserialize<T>(response.Body);
         }
     }

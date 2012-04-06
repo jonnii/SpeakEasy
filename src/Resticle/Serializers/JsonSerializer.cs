@@ -1,7 +1,17 @@
-﻿namespace Resticle.Serializers
+﻿using Newtonsoft.Json;
+
+namespace Resticle.Serializers
 {
     public class JsonSerializer : ISerializer
     {
-        public const string ContentType = "application/json";
+        public string ContentType
+        {
+            get { return "application/json"; }
+        }
+
+        public string Serialize<T>(T t)
+        {
+            return JsonConvert.SerializeObject(t);
+        }
     }
 }

@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicHttpMethods.cs" />
+    <Compile Include="BasicHttpMethodsWithXmlSerialization.cs" />
     <Compile Include="Controllers\Product.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ValidationError.cs" />

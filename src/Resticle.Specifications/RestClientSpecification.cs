@@ -1,156 +1,128 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
 
+using Resticle.Serializers;
+
 namespace Resticle.Specifications
 {
     public class RestClientSpecification
     {
         [Subject(typeof(RestClient))]
-        public class in_general
+        public class in_general : WithSubject<RestClient>
         {
-            Establish context = () =>
-                client = new RestClient();
-
-            It should_have_dispatcher = () =>
-                client.Dispatcher.ShouldNotBeNull();
-
-            static RestClient client;
+            It should_default_to_json_serializer = () =>
+                Subject.DefaultSerializer().ShouldBeOfType<JsonSerializer>();
         }
 
         [Subject(typeof(RestClient))]
         public class when_getting_collection_resource : with_client
         {
             Because of = () =>
-                client.Get("companies");
+                Subject.Get("companies");
 
-            It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/companies")));
+            It should_send_request = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://example.com/companies")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_getting_specific_resource : with_client
         {
             Because of = () =>
-                client.Get("company/:id", new { id = 5 });
+                Subject.Get("company/:id", new { id = 5 });
 
-            It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/company/5")));
+            It should_send_request = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://example.com/company/5")));
         }
 
         [Subject(typeof(RestClient))]
-        public class when_getting_resource_on_rest_client_with_parameterized_root : with_dispatcher
+        public class when_getting_resource_on_rest_client_with_parameterized_root : with_client
         {
             Establish context = () =>
-                client = new RestClient("http://:company.example.com/api")
-                {
-                    Dispatcher = dispatcher
-                };
+                Subject.Root = new Resource("http://:company.example.com/api");
 
             Because of = () =>
-                client.Get("user/:id", new { company = "acme", id = 5 });
+                Subject.Get("user/:id", new { company = "acme", id = 5 });
 
-            It should_dispatch_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<GetRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://acme.example.com/api/user/5")));
-
-            static RestClient client;
+            It should_send_request = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://acme.example.com/api/user/5")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_posting : with_client
         {
             Because of = () =>
-                client.Post(new { Name = "frobble" }, "user");
+                Subject.Post(new { Name = "frobble" }, "user");
 
             It should_dispatch_post_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PostRestRequest>()));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param.IsAny<PostRestRequest>()));
         }
 
         [Subject(typeof(RestClient))]
         public class when_posting_with_body_and_no_segments : with_client
         {
             Because of = () =>
-                client.Post(new { Id = "body" }, "company/:id");
+                Subject.Post(new { Id = "body" }, "company/:id");
 
             It should_use_body_as_segments = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<PostRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/company/body")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Url == "http://example.com/company/body")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_posting_with_body_and_segments : with_client
         {
             Because of = () =>
-                client.Post(new { Id = "body" }, "company/:id", new { Id = "segments" });
+                Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments" });
 
             It should_use_segments = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<PostRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/company/segments")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Url == "http://example.com/company/segments")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_putting : with_client
         {
             Because of = () =>
-                client.Put(new { Name = "frobble" }, "user");
+                Subject.Put(new { Name = "frobble" }, "user");
 
             It should_dispatch_put_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<PutRestRequest>()));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param.IsAny<PutRestRequest>()));
         }
 
         [Subject(typeof(RestClient))]
         public class when_putting_with_body_and_no_segments : with_client
         {
             Because of = () =>
-                client.Put(new { Id = "body" }, "company/:id");
+                Subject.Put(new { Id = "body" }, "company/:id");
 
             It should_use_body_as_segments = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<PutRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/company/body")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Url == "http://example.com/company/body")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_putting_with_body_and_segments : with_client
         {
             Because of = () =>
-                client.Put(new { Id = "body" }, "company/:id", new { Id = "segments" });
+                Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments" });
 
             It should_use_segments = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param<PutRestRequest>.Matches(
-                    r => r.Url.ToString() == "http://example.com/company/segments")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Url == "http://example.com/company/segments")));
         }
 
         [Subject(typeof(RestClient))]
         public class when_deleting : with_client
         {
             Because of = () =>
-                client.Delete("user/5");
+                Subject.Delete("user/5");
 
             It should_dispatch_delete_request = () =>
-                dispatcher.WasToldTo(d => d.Dispatch(Param.IsAny<DeleteRestRequest>()));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param.IsAny<DeleteRestRequest>()));
         }
 
-        public class with_dispatcher : WithFakes
-        {
-            Establish context = () =>
-                dispatcher = An<IRestRequestDispatcher>();
-
-            protected static IRestRequestDispatcher dispatcher;
-        }
-
-        public class with_client : with_dispatcher
+        public class with_client : WithSubject<RestClient>
         {
             Establish context = () =>
             {
-                client = new RestClient("http://example.com")
-                {
-                    Dispatcher = dispatcher
-                };
+                Subject.Root = new Resource("http://example.com");
             };
-
-            protected static RestClient client;
         }
     }
 }

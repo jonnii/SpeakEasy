@@ -58,10 +58,11 @@
     <Compile Include="GetRestRequestSpecification.cs" />
     <Compile Include="PostRestRequestSpecification.cs" />
     <Compile Include="PutRestRequestSpecification.cs" />
+    <Compile Include="RequestContextSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClientSpecification.cs" />
-    <Compile Include="RestRequestDispatcherSpecification.cs" />
+    <Compile Include="RestRequestSpecification.cs" />
     <Compile Include="RestResponseHandlerSpecification.cs" />
     <Compile Include="RestResponseSpecification.cs" />
   </ItemGroup>

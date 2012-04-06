@@ -15,9 +15,19 @@ namespace Resticle
         Uri RequestedUrl { get; }
 
         /// <summary>
+        /// The http status code of this rest response
+        /// </summary>
+        HttpStatusCode HttpStatusCode { get; }
+
+        /// <summary>
         /// The body of the rest response
         /// </summary>
         string Body { get; }
+
+        /// <summary>
+        /// The deserializer that will be used to deserialize the response
+        /// </summary>
+        IDeserializer Deserializer { get; }
 
         /// <summary>
         /// Executes the given action when the rest response status code matches the supplied status code.

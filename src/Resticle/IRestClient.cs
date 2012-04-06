@@ -16,7 +16,7 @@ namespace Resticle
         /// <summary>
         /// The default serializer to use when formatting the body of rest requests
         /// </summary>
-        Type DefaultSerializer { get; set; }
+        Func<ISerializer> DefaultSerializer { get; set; }
 
         /// <summary>
         /// Executes an http get request

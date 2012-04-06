@@ -5,5 +5,17 @@ namespace Resticle
     /// </summary>
     public interface ISerializer
     {
+        /// <summary>
+        /// The content type of this serializer
+        /// </summary>
+        string ContentType { get; }
+
+        /// <summary>
+        /// Serializes an object
+        /// </summary>
+        /// <typeparam name="T">The type of object to serialize</typeparam>
+        /// <param name="t">The object to serialize</param>
+        /// <returns>A serialized object</returns>
+        string Serialize<T>(T t);
     }
 }

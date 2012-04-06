@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Text;
 
@@ -6,27 +5,32 @@ namespace Resticle
 {
     public class PostRestRequest : RestRequest
     {
-        public PostRestRequest(string url)
+        public PostRestRequest(string url, object body)
             : base(url)
         {
+            Body = body;
         }
 
-        public Func<string> Body { get; set; }
+        public object Body { get; set; }
 
         public bool HasBody
         {
             get { return Body != null; }
         }
 
-        public override WebRequest BuildWebRequest()
+        public override HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
-            var baseRequest = base.BuildWebRequest();
+            var baseRequest = base.BuildWebRequest(transmission);
+
             baseRequest.Method = "POST";
             baseRequest.ContentType = "application/json";
 
             if (HasBody)
             {
-                var bytes = Encoding.Default.GetBytes(Body());
+                var serializer = transmission.DefaultSerializer;
+
+                var serialized = serializer.Serialize(Body);
+                var bytes = Encoding.Default.GetBytes(serialized);
 
                 baseRequest.ContentLength = bytes.Length;
                 using (var stream = baseRequest.GetRequestStream())

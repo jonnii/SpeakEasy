@@ -2,23 +2,21 @@ using Resticle.Deserializers;
 
 namespace Resticle
 {
-    public class RestRequestDispatcher : IRestRequestDispatcher
+    public class RequestContext
     {
-        private readonly IWebRequestGateway webRequestGateway;
+        private readonly ITransmission transmission;
 
-        public RestRequestDispatcher()
-            : this(new WebRequestGateway())
+        private readonly IRestRequest request;
+
+        public RequestContext(ITransmission transmission, IRestRequest request)
         {
+            this.transmission = transmission;
+            this.request = request;
         }
 
-        public RestRequestDispatcher(IWebRequestGateway webRequestGateway)
+        public IRestResponse Send(IWebRequestGateway webRequestGateway)
         {
-            this.webRequestGateway = webRequestGateway;
-        }
-
-        public IRestResponse Dispatch(IRestRequest request)
-        {
-            var webRequest = request.BuildWebRequest();
+            var webRequest = request.BuildWebRequest(transmission);
 
             return webRequestGateway.Send(webRequest, CreateRestResponse);
         }

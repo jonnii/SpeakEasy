@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 
 namespace Resticle
@@ -7,15 +6,16 @@ namespace Resticle
     {
         protected RestRequest(string url)
         {
-            Url = new Uri(url);
+            Url = url;
         }
 
-        public Uri Url { get; private set; }
+        public string Url { get; private set; }
 
-        public virtual WebRequest BuildWebRequest()
+        public virtual HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
-            var request = WebRequest.Create(Url);
+            var request = (HttpWebRequest)WebRequest.Create(Url);
 
+            request.ContentType = transmission.ContentType;
             request.ContentLength = 0;
 
             return request;
