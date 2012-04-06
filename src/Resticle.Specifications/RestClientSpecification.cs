@@ -78,6 +78,16 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestClient))]
+        public class when_posting_without_body : with_client
+        {
+            Because of = () =>
+                Subject.Post("companies");
+
+            It should_not_have_body_set = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Body == null)));
+        }
+
+        [Subject(typeof(RestClient))]
         public class when_putting : with_client
         {
             Because of = () =>
@@ -105,6 +115,16 @@ namespace Resticle.Specifications
 
             It should_use_segments = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Url == "http://example.com/company/segments")));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_putting_without_body : with_client
+        {
+            Because of = () =>
+                Subject.Put("companies");
+
+            It should_not_have_body_set = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Body == null)));
         }
 
         [Subject(typeof(RestClient))]

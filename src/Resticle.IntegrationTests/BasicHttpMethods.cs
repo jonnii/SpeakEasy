@@ -117,6 +117,14 @@ namespace Resticle.IntegrationTests
         }
 
         [Test]
+        public void ShouldUpdateReservations()
+        {
+            var success = client.Post("products/:id/reservations", new { id = 1 }).IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
         public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };

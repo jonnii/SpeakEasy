@@ -29,6 +29,14 @@ namespace Resticle
         IRestResponse Post(object body, string relativeUrl, object segments = null);
 
         /// <summary>
+        /// Executes an http post request without a body
+        /// </summary>
+        /// <param name="relativeUrl">The relative url to post to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Post(string relativeUrl, object segments = null);
+
+        /// <summary>
         /// Executes an http put request
         /// </summary>
         /// <param name="body">An object that represents the body to put</param>
@@ -36,6 +44,14 @@ namespace Resticle
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Put(object body, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http put request without a body
+        /// </summary>
+        /// <param name="relativeUrl">The relative url to put to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Put(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http delete request

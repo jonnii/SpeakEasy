@@ -48,10 +48,24 @@ namespace Resticle
             return requestRunner.Run(request);
         }
 
+        public IRestResponse Post(string relativeUrl, object segments = null)
+        {
+            var url = Root.Append(relativeUrl).Merge(segments);
+            var request = new PostRestRequest(url);
+            return requestRunner.Run(request);
+        }
+
         public IRestResponse Put(object body, string relativeUrl, object segments = null)
         {
             var url = Root.Append(relativeUrl).Merge(segments ?? body);
             var request = new PutRestRequest(url, body);
+            return requestRunner.Run(request);
+        }
+
+        public IRestResponse Put(string relativeUrl, object segments = null)
+        {
+            var url = Root.Append(relativeUrl).Merge(segments);
+            var request = new PutRestRequest(url);
             return requestRunner.Run(request);
         }
 

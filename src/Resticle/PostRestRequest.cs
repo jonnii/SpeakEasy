@@ -5,6 +5,11 @@ namespace Resticle
 {
     public class PostRestRequest : RestRequest
     {
+        public PostRestRequest(string url)
+            : base(url)
+        {
+        }
+
         public PostRestRequest(string url, object body)
             : base(url)
         {
