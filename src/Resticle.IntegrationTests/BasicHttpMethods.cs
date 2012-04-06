@@ -22,6 +22,14 @@ namespace Resticle.IntegrationTests
         }
 
         [Test]
+        public void ShouldGetHeadHurHur()
+        {
+            var success = client.Head("products").IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
         public void ShouldGetCollection()
         {
             var products = client.Get("products").On(HttpStatusCode.OK).Unwrap<List<Product>>();

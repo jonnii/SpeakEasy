@@ -39,6 +39,7 @@
     <Compile Include="Deserializers\NullDeserializer.cs" />
     <Compile Include="Deserializers\XmlDeserializer.cs" />
     <Compile Include="GetRestRequest.cs" />
+    <Compile Include="HeadRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
     <Compile Include="IDeserializer.cs" />
     <Compile Include="IHttpWebResponse.cs" />

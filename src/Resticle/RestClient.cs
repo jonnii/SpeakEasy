@@ -75,5 +75,12 @@ namespace Resticle
             var request = new DeleteRestRequest(url);
             return requestRunner.Run(request);
         }
+
+        public IRestResponse Head(string relativeUrl, object segments = null)
+        {
+            var url = Root.Append(relativeUrl).Merge(segments);
+            var request = new HeadRestRequest(url);
+            return requestRunner.Run(request);
+        }
     }
 }

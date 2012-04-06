@@ -60,6 +60,14 @@ namespace Resticle
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Delete(string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http head request
+        /// </summary>
+        /// <param name="relativeUrl">The relative url to delete</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Head(string relativeUrl, object segments = null);
     }
 }
 

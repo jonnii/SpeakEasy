@@ -19,6 +19,12 @@ namespace Resticle.IntegrationTests.Controllers
             };
         }
 
+        [AcceptVerbs("HEAD")]
+        public HttpResponseMessage Head()
+        {
+            return new HttpResponseMessage();
+        }
+
         public IEnumerable<Product> Get()
         {
             return products;
