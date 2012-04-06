@@ -5,16 +5,20 @@ namespace Resticle
 {
     public abstract class RestRequest : IRestRequest
     {
-        protected RestRequest(Uri url)
+        protected RestRequest(string url)
         {
-            Url = url;
+            Url = new Uri(url);
         }
 
         public Uri Url { get; private set; }
 
         public virtual WebRequest BuildWebRequest()
         {
-            return WebRequest.Create(Url);
+            var request = WebRequest.Create(Url);
+
+            request.ContentLength = 0;
+
+            return request;
         }
     }
 }

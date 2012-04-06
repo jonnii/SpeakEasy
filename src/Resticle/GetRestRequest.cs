@@ -1,10 +1,8 @@
-using System;
-
 namespace Resticle
 {
     public class GetRestRequest : RestRequest
     {
-        public GetRestRequest(Uri url)
+        public GetRestRequest(string url)
             : base(url)
         {
         }

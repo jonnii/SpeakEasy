@@ -18,6 +18,36 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestResponse))]
+        public class when_on_with_correct_status_and_typed_callback : with_ok_response
+        {
+            Because of = () =>
+                response.On(HttpStatusCode.OK, (Person p) => { called = true; });
+
+            It should_deserialize_person = () =>
+                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<string>()));
+
+            It should_call_callback = () =>
+                called.ShouldBeTrue();
+
+            static bool called;
+        }
+
+        [Subject(typeof(RestResponse))]
+        public class when_on_ok_with_correct_status_and_typed_callback : with_ok_response
+        {
+            Because of = () =>
+                response.OnOk((Person p) => { called = true; });
+
+            It should_deserialize_person = () =>
+                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<string>()));
+
+            It should_call_callback = () =>
+                called.ShouldBeTrue();
+
+            static bool called;
+        }
+
+        [Subject(typeof(RestResponse))]
         public class when_on_ok_with_correct_status_code : with_ok_response
         {
             Because of = () =>
@@ -100,5 +130,7 @@ namespace Resticle.Specifications
 
             protected static RestResponse response;
         }
+
+        public class Person { }
     }
 }

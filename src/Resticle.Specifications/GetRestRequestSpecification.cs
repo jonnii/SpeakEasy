@@ -18,13 +18,16 @@ namespace Resticle.Specifications
             It should_set_request_to_get_request = () =>
                 webRequest.Method.ShouldEqual("GET");
 
+            It should_set_content_length_to_zero = () =>
+                webRequest.ContentLength.ShouldEqual(0);
+
             static WebRequest webRequest;
         }
 
         public class with_get_request
         {
             Establish context = () =>
-                request = new GetRestRequest(new Uri("http://example.com/companies"));
+                request = new GetRestRequest("http://example.com/companies");
 
             protected static GetRestRequest request;
         }

@@ -8,8 +8,14 @@ namespace Resticle
     /// </summary>
     public interface IHttpWebResponse
     {
+        /// <summary>
+        /// The uri that responded to the web request
+        /// </summary>
         Uri ResponseUri { get; }
 
+        /// <summary>
+        /// The status code of the web response
+        /// </summary>
         HttpStatusCode StatusCode { get; }
 
         /// <summary>

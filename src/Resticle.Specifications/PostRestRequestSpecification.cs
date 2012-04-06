@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Machine.Specifications;
 
 namespace Resticle.Specifications
@@ -21,7 +20,7 @@ namespace Resticle.Specifications
         public class with_post_request
         {
             Establish context = () =>
-                request = new PostRestRequest(new Uri("http://example.com/companies"));
+                request = new PostRestRequest("http://example.com/companies");
 
             protected static PostRestRequest request;
         }

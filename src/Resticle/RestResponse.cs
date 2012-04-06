@@ -38,7 +38,19 @@ namespace Resticle
 
         public IRestResponse On<T>(HttpStatusCode code, Action<T> action)
         {
-            throw new NotImplementedException();
+            if (!Is(code))
+            {
+                var message = string.Format(
+                    "Expected the status code to be {0} but was {1}", code, HttpStatusCode);
+
+                throw new RestException(message);
+            }
+
+            var deserialied = deserializer.Deserialize<T>(Body);
+
+            action(deserialied);
+
+            return this;
         }
 
         public IRestResponseHandler On(HttpStatusCode code)
@@ -66,7 +78,7 @@ namespace Resticle
 
         public IRestResponse OnOk<T>(Action<T> action)
         {
-            throw new NotImplementedException();
+            return On(HttpStatusCode, action);
         }
 
         public bool Is(HttpStatusCode code)

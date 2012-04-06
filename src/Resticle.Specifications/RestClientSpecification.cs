@@ -18,18 +18,6 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestClient))]
-        public class when_creating_new_request : with_client
-        {
-            Because of = () =>
-                builder = client.NewRequest("company/:id", new { id = 5 });
-
-            It should_create_request_builder = () =>
-                builder.ShouldNotBeNull();
-
-            static IRestRequestBuilder builder;
-        }
-
-        [Subject(typeof(RestClient))]
         public class when_getting_collection_resource : with_client
         {
             Because of = () =>

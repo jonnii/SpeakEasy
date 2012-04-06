@@ -94,7 +94,7 @@ namespace Resticle.IntegrationTests
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-            var isok = client.Post(product, "products").Is(HttpStatusCode.OK);
+            var isok = client.Post(product, "products").Is(HttpStatusCode.Created);
 
             Assert.That(isok);
         }

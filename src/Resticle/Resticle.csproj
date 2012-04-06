@@ -38,15 +38,13 @@
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
     <Compile Include="IDeserializer.cs" />
-    <Compile Include="IHttpGateway.cs" />
+    <Compile Include="IRestRequestDispatcher.cs" />
     <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRestRequest.cs" />
-    <Compile Include="IRestRequestBuilder.cs" />
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="PostRestRequest.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
-    <Compile Include="RestRequestBuilder.cs" />
     <Compile Include="RestRequestDispatcher.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="IRestClient.cs" />

@@ -5,6 +5,5 @@ namespace Resticle
     /// </summary>
     public interface ISerializer
     {
-
     }
 }
