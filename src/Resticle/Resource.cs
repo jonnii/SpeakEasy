@@ -56,6 +56,16 @@ namespace Resticle
                 return Path;
             }
 
+            if (segments == null)
+            {
+                var message = string.Format(
+                    "The resource {0} requires the following segments, but none were given: {1}",
+                    Path,
+                    string.Join(", ", segmentNames));
+
+                throw new ArgumentException(message);
+            }
+
             var properties = segments
                 .GetType()
                 .GetProperties()

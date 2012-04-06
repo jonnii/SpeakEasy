@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using System;
+using Machine.Specifications;
 
 namespace Resticle.Specifications
 {
@@ -99,6 +100,23 @@ namespace Resticle.Specifications
             static Resource resource;
 
             static string merged;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_merging_null_segments_when_resource_has_segments
+        {
+            Establish context = () =>
+                resource = new Resource("company/:id");
+
+            Because of = () =>
+                exception = Catch.Exception(() => resource.Merge(null));
+
+            It should_throw_exception = () =>
+                exception.ShouldBeOfType<ArgumentException>();
+
+            static Resource resource;
+
+            static Exception exception;
         }
 
         [Subject(typeof(Resource))]
