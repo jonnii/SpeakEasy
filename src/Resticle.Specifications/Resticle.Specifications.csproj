@@ -58,7 +58,7 @@
     <Compile Include="GetRestRequestSpecification.cs" />
     <Compile Include="PostRestRequestSpecification.cs" />
     <Compile Include="PutRestRequestSpecification.cs" />
-    <Compile Include="RequestContextSpecification.cs" />
+    <Compile Include="RequestRunnerSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestClientSpecification.cs" />

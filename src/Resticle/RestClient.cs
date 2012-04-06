@@ -7,7 +7,8 @@ namespace Resticle
         public static IRestClient Create()
         {
             var runner = new RequestRunner(
-                new Transmission(), new WebRequestGateway());
+                new Transmission(),
+                new WebRequestGateway());
 
             return new RestClient(runner);
         }

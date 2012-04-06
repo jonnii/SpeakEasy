@@ -5,20 +5,20 @@ using Machine.Specifications;
 
 namespace Resticle.Specifications
 {
-    public class RequestContextSpecification
+    public class RequestRunnerSpecification
     {
-        [Subject(typeof(RestRequest))]
-        public class when_sending_request : with_request_context
+        [Subject(typeof(RequestRunner))]
+        public class when_sending_request : with_request_runner
         {
             Because of = () =>
-                requestContext.Send(webRequestGateway);
+                Subject.Run(request);
 
             It should_execute_web_request = () =>
-                webRequestGateway.WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), requestContext.CreateRestResponse));
+                The<IWebRequestGateway>().WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), Subject.CreateRestResponse));
         }
 
-        [Subject(typeof(RestRequest))]
-        public class when_building_rest_response : with_request_context
+        [Subject(typeof(RequestRunner))]
+        public class when_building_rest_response : with_request_runner
         {
             Establish context = () =>
             {
@@ -27,7 +27,7 @@ namespace Resticle.Specifications
             };
 
             Because of = () =>
-                response = requestContext.CreateRestResponse(webResponse);
+                response = Subject.CreateRestResponse(webResponse);
 
             It should_have_response_url_corresponding_to_request = () =>
                 response.RequestedUrl.ShouldEqual(new Uri("http://example.com/companies"));
@@ -37,24 +37,14 @@ namespace Resticle.Specifications
             static RestResponse response;
         }
 
-        public class with_request_context : WithFakes
+        public class with_request_runner : WithSubject<RequestRunner>
         {
             Establish context = () =>
             {
-                transmission = An<ITransmission>();
                 request = An<IRestRequest>();
-                webRequestGateway = An<IWebRequestGateway>();
-
-                requestContext = new RequestContext(transmission, request);
             };
 
-            protected static IWebRequestGateway webRequestGateway;
-
-            protected static ITransmission transmission;
-
             protected static IRestRequest request;
-
-            protected static RequestContext requestContext;
         }
     }
 }

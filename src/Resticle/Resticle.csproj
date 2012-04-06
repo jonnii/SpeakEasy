@@ -47,7 +47,7 @@
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="PostRestRequest.cs" />
     <Compile Include="PutRestRequest.cs" />
-    <Compile Include="RequestContext.cs" />
+    <Compile Include="RequestRunner.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
     <Compile Include="Serializer.cs" />

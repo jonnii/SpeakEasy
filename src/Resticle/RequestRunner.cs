@@ -2,19 +2,19 @@ using Resticle.Deserializers;
 
 namespace Resticle
 {
-    public class RequestContext
+    public class RequestRunner : IRequestRunner
     {
         private readonly ITransmission transmission;
 
-        private readonly IRestRequest request;
+        private readonly IWebRequestGateway webRequestGateway;
 
-        public RequestContext(ITransmission transmission, IRestRequest request)
+        public RequestRunner(ITransmission transmission, IWebRequestGateway webRequestGateway)
         {
             this.transmission = transmission;
-            this.request = request;
+            this.webRequestGateway = webRequestGateway;
         }
 
-        public IRestResponse Send(IWebRequestGateway webRequestGateway)
+        public IRestResponse Run(IRestRequest request)
         {
             var webRequest = request.BuildWebRequest(transmission);
 
@@ -33,5 +33,6 @@ namespace Resticle
                 webResponse.StatusCode,
                 body);
         }
+
     }
 }
