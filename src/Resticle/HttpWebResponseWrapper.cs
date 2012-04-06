@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 
 namespace Resticle
@@ -20,6 +21,22 @@ namespace Resticle
         public HttpStatusCode StatusCode
         {
             get { return response.StatusCode; }
+        }
+
+        public string ReadBody()
+        {
+            using (var responseStream = response.GetResponseStream())
+            {
+                if (responseStream == null)
+                {
+                    throw new NotSupportedException("The body of the response stream could not be read.");
+                }
+
+                using (var streamReader = new StreamReader(responseStream))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
         }
     }
 }

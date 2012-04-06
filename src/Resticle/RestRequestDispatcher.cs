@@ -1,3 +1,5 @@
+using Resticle.Deserializers;
+
 namespace Resticle
 {
     public class RestRequestDispatcher : IRestRequestDispatcher
@@ -23,9 +25,15 @@ namespace Resticle
 
         public RestResponse CreateRestResponse(IHttpWebResponse webResponse)
         {
+            var deserializer = new JsonDeserializer();
+
+            var body = webResponse.ReadBody();
+
             return new RestResponse(
+                deserializer,
                 webResponse.ResponseUri,
-                webResponse.StatusCode);
+                webResponse.StatusCode,
+                body);
         }
     }
 }

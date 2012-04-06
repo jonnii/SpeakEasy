@@ -34,12 +34,15 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Deserializers\JsonDeserializer.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
+    <Compile Include="IDeserializer.cs" />
     <Compile Include="IHttpGateway.cs" />
     <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRestRequest.cs" />
     <Compile Include="IRestRequestBuilder.cs" />
     <Compile Include="IWebRequestGateway.cs" />
+    <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
     <Compile Include="RestRequestBuilder.cs" />
     <Compile Include="RestRequestDispatcher.cs" />
@@ -56,8 +59,14 @@
     <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

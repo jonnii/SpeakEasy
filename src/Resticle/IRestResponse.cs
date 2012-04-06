@@ -15,6 +15,11 @@ namespace Resticle
         Uri RequestedUrl { get; }
 
         /// <summary>
+        /// The body of the rest response
+        /// </summary>
+        string Body { get; }
+
+        /// <summary>
         /// Executes the given action when the rest response status code matches the supplied status code.
         /// </summary>
         /// <param name="code">The http status code we're expecting</param>

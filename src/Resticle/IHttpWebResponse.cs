@@ -11,5 +11,11 @@ namespace Resticle
         Uri ResponseUri { get; }
 
         HttpStatusCode StatusCode { get; }
+
+        /// <summary>
+        /// Reads the body of the http web response
+        /// </summary>
+        /// <returns>A string representation of the body</returns>
+        string ReadBody();
     }
 }

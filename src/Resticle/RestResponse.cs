@@ -5,13 +5,24 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode)
+        private readonly IDeserializer deserializer;
+
+        public RestResponse(
+            IDeserializer deserializer,
+            Uri requestUrl,
+            HttpStatusCode httpStatusCode,
+            string body)
         {
+            this.deserializer = deserializer;
+
             RequestedUrl = requestUrl;
             HttpStatusCode = httpStatusCode;
+            Body = body;
         }
 
         public Uri RequestedUrl { get; private set; }
+
+        public string Body { get; private set; }
 
         public HttpStatusCode HttpStatusCode { get; private set; }
 
@@ -32,12 +43,20 @@ namespace Resticle
 
         public IRestResponseHandler On(HttpStatusCode code)
         {
-            return new RestResponseHandler();
+            return new RestResponseHandler(this, deserializer);
         }
 
         public IRestResponseHandler OnOk()
         {
-            throw new NotImplementedException();
+            if (!IsOk())
+            {
+                var message = string.Format(
+                    "Cannot get a rest response handler for Ok, because the status was {0}", HttpStatusCode);
+
+                throw new RestException(message);
+            }
+
+            return new RestResponseHandler(this, deserializer);
         }
 
         public IRestResponse OnOk(Action action)
@@ -52,12 +71,12 @@ namespace Resticle
 
         public bool Is(HttpStatusCode code)
         {
-            throw new NotImplementedException();
+            return HttpStatusCode == code;
         }
 
         public bool IsOk()
         {
-            throw new NotImplementedException();
+            return Is(HttpStatusCode.OK);
         }
     }
 }
