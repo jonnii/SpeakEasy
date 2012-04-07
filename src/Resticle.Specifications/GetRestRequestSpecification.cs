@@ -10,7 +10,7 @@ namespace Resticle.Specifications
         public class when_building_web_request : with_get_request
         {
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_set_url = () =>
                 request.Resource.Path.ShouldEqual("http://example.com/companies");
@@ -37,7 +37,7 @@ namespace Resticle.Specifications
             };
 
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_set_url = () =>
                 webRequest.RequestUri.ToString().ShouldEqual("http://example.com/companies?filter=ftse&starred=True");
@@ -50,9 +50,9 @@ namespace Resticle.Specifications
         public class with_transmission : WithFakes
         {
             Establish context = () =>
-                transmission = An<ITransmission>();
+                transmissionSettings = An<ITransmissionSettings>();
 
-            protected static ITransmission transmission;
+            protected static ITransmissionSettings transmissionSettings;
         }
 
         public class with_get_request : with_transmission

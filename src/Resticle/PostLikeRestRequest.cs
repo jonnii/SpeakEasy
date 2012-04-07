@@ -24,14 +24,14 @@ namespace Resticle
             get { return Body != null || Resource.HasParameters; }
         }
 
-        public override HttpWebRequest BuildWebRequest(ITransmission transmission)
+        public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
-            var baseRequest = base.BuildWebRequest(transmission);
+            var baseRequest = base.BuildWebRequest(transmissionSettings);
             baseRequest.Method = GetHttpMethod();
 
             if (HasSerializableBody)
             {
-                var serialized = GetSerializedBody(transmission);
+                var serialized = GetSerializedBody(transmissionSettings);
                 var bytes = Encoding.Default.GetBytes(serialized);
 
                 baseRequest.ContentLength = bytes.Length;
@@ -45,12 +45,11 @@ namespace Resticle
             return baseRequest;
         }
 
-        private string GetSerializedBody(ITransmission transmission)
+        private string GetSerializedBody(ITransmissionSettings transmissionSettings)
         {
             if (Body != null)
             {
-                var serializer = transmission.DefaultSerializer;
-                return serializer.Serialize(Body);
+                return transmissionSettings.Serialize(Body);
             }
 
             if (Resource.HasParameters)
@@ -69,11 +68,11 @@ namespace Resticle
             return resource.Path;
         }
 
-        protected override string CalculateContentType(ITransmission transmission)
+        protected override string CalculateContentType(ITransmissionSettings transmissionSettings)
         {
             return Resource.HasParameters
                 ? "application/x-www-form-urlencoded"
-                : transmission.ContentType;
+                : transmissionSettings.DefaultSerializerContentType;
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Resticle
             return string.Concat(resource.Path, "?", queryString);
         }
 
-        protected override string CalculateContentType(ITransmission transmission)
+        protected override string CalculateContentType(ITransmissionSettings transmissionSettings)
         {
-            return transmission.ContentType;
+            return transmissionSettings.DefaultSerializerContentType;
         }
     }
 }

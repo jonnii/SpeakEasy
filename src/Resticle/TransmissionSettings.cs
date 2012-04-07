@@ -5,7 +5,7 @@ using Resticle.Deserializers;
 
 namespace Resticle
 {
-    public class Transmission : ITransmission
+    public class TransmissionSettings : ITransmissionSettings
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -13,7 +13,7 @@ namespace Resticle
 
         private readonly IEnumerable<IDeserializer> deserializers;
 
-        public Transmission(ISerializer serializer, IEnumerable<IDeserializer> deserializers)
+        public TransmissionSettings(ISerializer serializer, IEnumerable<IDeserializer> deserializers)
         {
             this.serializer = serializer;
             this.deserializers = deserializers;
@@ -24,7 +24,7 @@ namespace Resticle
             get { return serializer; }
         }
 
-        public string ContentType
+        public string DefaultSerializerContentType
         {
             get { return DefaultSerializer.ContentType; }
         }
@@ -41,6 +41,11 @@ namespace Resticle
             var deserializer = deserializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
 
             return deserializer ?? new NullDeserializer(contentType);
+        }
+
+        public string Serialize<T>(T body)
+        {
+            return DefaultSerializer.Serialize(body);
         }
     }
 }

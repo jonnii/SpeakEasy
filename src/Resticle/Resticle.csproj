@@ -49,7 +49,7 @@
     <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRequestRunner.cs" />
     <Compile Include="IRestRequest.cs" />
-    <Compile Include="ITransmission.cs" />
+    <Compile Include="ITransmissionSettings.cs" />
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="PostLikeRestRequest.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="RestResponseHandler.cs" />
     <Compile Include="Serializers\JsonSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
-    <Compile Include="Transmission.cs" />
+    <Compile Include="TransmissionSettings.cs" />
     <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>
   <ItemGroup>

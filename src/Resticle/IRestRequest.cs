@@ -16,8 +16,8 @@ namespace Resticle
         /// <summary>
         /// Creates a web request corresponding to this rest request
         /// </summary>
-        /// <param name="transmission">The current transmission</param>
+        /// <param name="transmissionSettings">The current transmissionSettings</param>
         /// <returns>A web request</returns>
-        HttpWebRequest BuildWebRequest(ITransmission transmission);
+        HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings);
     }
 }

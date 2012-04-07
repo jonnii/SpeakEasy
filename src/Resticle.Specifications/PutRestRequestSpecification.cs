@@ -23,9 +23,9 @@ namespace Resticle.Specifications
         public class with_serializer : WithFakes
         {
             Establish context = () =>
-                serializer = An<ITransmission>();
+                serializer = An<ITransmissionSettings>();
 
-            protected static ITransmission serializer;
+            protected static ITransmissionSettings serializer;
         }
 
         public class with_put_request : with_serializer

@@ -10,7 +10,7 @@ namespace Resticle.Specifications
         public class when_building_web_request : with_delete_request
         {
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_have_delete_method = () =>
                 webRequest.Method.ShouldEqual("DELETE");
@@ -21,9 +21,9 @@ namespace Resticle.Specifications
         public class with_serializer : WithFakes
         {
             Establish context = () =>
-                transmission = An<ITransmission>();
+                transmissionSettings = An<ITransmissionSettings>();
 
-            protected static ITransmission transmission;
+            protected static ITransmissionSettings transmissionSettings;
         }
 
         public class with_delete_request : with_serializer

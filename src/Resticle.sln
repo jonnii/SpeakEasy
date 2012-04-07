@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1E4DC5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5B4F3026-0C68-47B0-87C3-35D6A9562F47}"
 	ProjectSection(SolutionItems) = preProject
+		..\VERSION = ..\VERSION
 		..\build\default.ps1 = ..\build\default.ps1
 		..\build\package.nuspec = ..\build\package.nuspec
 	EndProjectSection

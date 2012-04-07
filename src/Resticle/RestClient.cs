@@ -4,20 +4,33 @@ namespace Resticle
 {
     public class RestClient : IRestClient
     {
-        public static IRestClient Create(string url)
+        /// <summary>
+        /// Creates a new rest client with default settings
+        /// </summary>
+        /// <param name="rootUrl">The root url that all requests will be relative to</param>
+        /// <returns>A new rest client</returns>
+        public static IRestClient Create(string rootUrl)
         {
-            return Create(url, RestClientSettings.Default);
+            return Create(rootUrl, RestClientSettings.Default);
         }
 
-        public static IRestClient Create(string url, RestClientSettings settings)
+        /// <summary>
+        /// Creates a new rest client with custom settings
+        /// </summary>
+        /// <param name="rootUrl">The root url that all requests will be relative to</param>
+        /// <param name="settings">The custom settings to use for this rest client</param>
+        /// <returns>A new rest client</returns>
+        public static IRestClient Create(string rootUrl, RestClientSettings settings)
         {
-            var transmision = new Transmission(settings.DefaultSerializer, settings.Deserializers);
+            var transmissionSettings = new TransmissionSettings(
+                settings.DefaultSerializer,
+                settings.Deserializers);
 
-            var runner = new RequestRunner(transmision, new WebRequestGateway());
+            var runner = new RequestRunner(transmissionSettings, new WebRequestGateway());
 
             return new RestClient(runner)
             {
-                Root = new Resource(url)
+                Root = new Resource(rootUrl)
             };
         }
 

@@ -11,20 +11,24 @@ namespace Resticle
 
         public Resource Resource { get; private set; }
 
-        public virtual HttpWebRequest BuildWebRequest(ITransmission transmission)
+        public virtual HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
             var url = BuildRequestUrl(Resource);
             var request = (HttpWebRequest)WebRequest.Create(url);
 
-            request.ContentType = CalculateContentType(transmission);
+            request.UseDefaultCredentials = false;
+            ServicePointManager.Expect100Continue = false;
+
+            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+            request.ContentType = CalculateContentType(transmissionSettings);
             request.ContentLength = 0;
-            request.Accept = string.Join(", ", transmission.DeserializableMediaTypes);
+            request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
             return request;
         }
 
         protected abstract string BuildRequestUrl(Resource resource);
 
-        protected abstract string CalculateContentType(ITransmission transmission);
+        protected abstract string CalculateContentType(ITransmissionSettings transmissionSettings);
     }
 }

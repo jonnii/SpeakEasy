@@ -54,7 +54,7 @@ namespace Resticle.Specifications
                 request = new PostRestRequest(new Resource("http://example.com/companies"), null);
 
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_have_post_method = () =>
                 webRequest.Method.ShouldEqual("POST");
@@ -80,7 +80,7 @@ namespace Resticle.Specifications
             };
 
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_have_form_encoded_content_type = () =>
                 webRequest.ContentType.ShouldEqual("application/x-www-form-urlencoded");
@@ -94,11 +94,11 @@ namespace Resticle.Specifications
         {
             Establish context = () =>
             {
-                transmission = An<ITransmission>();
-                transmission.WhenToldTo(r => r.ContentType).Return("application/json");
+                transmissionSettings = An<ITransmissionSettings>();
+                transmissionSettings.WhenToldTo(r => r.DefaultSerializerContentType).Return("application/json");
             };
 
-            protected static ITransmission transmission;
+            protected static ITransmissionSettings transmissionSettings;
         }
     }
 }

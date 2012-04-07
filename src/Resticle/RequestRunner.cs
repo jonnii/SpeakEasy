@@ -6,13 +6,15 @@ namespace Resticle
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly ITransmission transmission;
+        private readonly ITransmissionSettings transmissionSettings;
 
         private readonly IWebRequestGateway webRequestGateway;
 
-        public RequestRunner(ITransmission transmission, IWebRequestGateway webRequestGateway)
+        public RequestRunner(
+            ITransmissionSettings transmissionSettings,
+            IWebRequestGateway webRequestGateway)
         {
-            this.transmission = transmission;
+            this.transmissionSettings = transmissionSettings;
             this.webRequestGateway = webRequestGateway;
         }
 
@@ -20,14 +22,14 @@ namespace Resticle
         {
             Logger.Debug("running request of type {0}", request.GetType().Name);
 
-            var webRequest = request.BuildWebRequest(transmission);
+            var webRequest = request.BuildWebRequest(transmissionSettings);
 
             return webRequestGateway.Send(webRequest, CreateRestResponse);
         }
 
         public IRestResponse CreateRestResponse(IHttpWebResponse webResponse)
         {
-            var deserializer = transmission.FindDeserializer(webResponse.ContentType);
+            var deserializer = transmissionSettings.FindDeserializer(webResponse.ContentType);
             var body = webResponse.ReadBody();
 
             return new RestResponse(

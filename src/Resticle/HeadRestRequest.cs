@@ -10,9 +10,9 @@ namespace Resticle
 
         }
 
-        public override HttpWebRequest BuildWebRequest(ITransmission transmission)
+        public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
-            var baseRequest = base.BuildWebRequest(transmission);
+            var baseRequest = base.BuildWebRequest(transmissionSettings);
 
             baseRequest.Method = "HEAD";
 

@@ -10,7 +10,7 @@ namespace Resticle.Specifications
         public class when_building_web_request : with_rest_request
         {
             Because of = () =>
-                webRequest = request.BuildWebRequest(transmission);
+                webRequest = request.BuildWebRequest(transmissionSettings);
 
             It should_set_content_type = () =>
                 webRequest.ContentType.ShouldEqual("text/xml");
@@ -25,9 +25,9 @@ namespace Resticle.Specifications
         {
             Establish context = () =>
             {
-                transmission = An<ITransmission>();
-                transmission.WhenToldTo(t => t.ContentType).Return("text/xml");
-                transmission.WhenToldTo(t => t.DeserializableMediaTypes).Return(new[] { "text/xml", "application/json" });
+                transmissionSettings = An<ITransmissionSettings>();
+                transmissionSettings.WhenToldTo(t => t.DefaultSerializerContentType).Return("text/xml");
+                transmissionSettings.WhenToldTo(t => t.DeserializableMediaTypes).Return(new[] { "text/xml", "application/json" });
 
                 webRequestGateway = An<IWebRequestGateway>();
 
@@ -36,7 +36,7 @@ namespace Resticle.Specifications
 
             protected static TestRestRequest request;
 
-            protected static ITransmission transmission;
+            protected static ITransmissionSettings transmissionSettings;
 
             protected static IWebRequestGateway webRequestGateway;
         }
