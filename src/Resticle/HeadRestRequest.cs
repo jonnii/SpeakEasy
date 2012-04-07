@@ -2,7 +2,7 @@ using System.Net;
 
 namespace Resticle
 {
-    public class HeadRestRequest : RestRequest
+    public sealed class HeadRestRequest : GetLikeRestRequest
     {
         public HeadRestRequest(Resource resource)
             : base(resource)

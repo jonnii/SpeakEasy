@@ -13,7 +13,8 @@ namespace Resticle
 
         public virtual HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
-            var request = (HttpWebRequest)WebRequest.Create(Resource.Path);
+            var url = BuildRequestUrl(Resource);
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.ContentType = transmission.ContentType;
             request.ContentLength = 0;
@@ -21,5 +22,7 @@ namespace Resticle
 
             return request;
         }
+
+        public abstract string BuildRequestUrl(Resource resource);
     }
 }

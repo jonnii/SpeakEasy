@@ -40,6 +40,7 @@
     <Compile Include="Deserializers\JsonDeserializer.cs" />
     <Compile Include="Deserializers\NullDeserializer.cs" />
     <Compile Include="Deserializers\XmlDeserializer.cs" />
+    <Compile Include="GetLikeRestRequest.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HeadRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="ITransmission.cs" />
     <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="Parameter.cs" />
+    <Compile Include="PostLikeRestRequest.cs" />
     <Compile Include="PostRestRequest.cs" />
     <Compile Include="PutRestRequest.cs" />
     <Compile Include="RequestRunner.cs" />

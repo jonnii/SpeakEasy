@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-
+﻿using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 
@@ -24,6 +22,29 @@ namespace Resticle.Specifications
                 webRequest.ContentLength.ShouldEqual(0);
 
             static WebRequest webRequest;
+        }
+
+        [Subject(typeof(GetRestRequest))]
+        public class when_building_web_request_with_parameters : with_transmission
+        {
+            Establish context = () =>
+            {
+                var resource = new Resource("http://example.com/companies");
+                resource.AddParameter("filter", "ftse");
+                resource.AddParameter("starred", true);
+
+                request = new GetRestRequest(resource);
+            };
+
+            Because of = () =>
+                webRequest = request.BuildWebRequest(transmission);
+
+            It should_set_url = () =>
+                webRequest.RequestUri.ToString().ShouldEqual("http://example.com/companies?filter=ftse&starred=True");
+
+            static WebRequest webRequest;
+
+            static GetRestRequest request;
         }
 
         public class with_transmission : WithFakes

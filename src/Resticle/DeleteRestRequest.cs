@@ -2,7 +2,7 @@ using System.Net;
 
 namespace Resticle
 {
-    public class DeleteRestRequest : RestRequest
+    public sealed class DeleteRestRequest : GetLikeRestRequest
     {
         public DeleteRestRequest(Resource resource)
             : base(resource)

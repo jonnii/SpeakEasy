@@ -11,5 +11,10 @@ namespace Resticle
         public string Name { get; private set; }
 
         public object Value { get; private set; }
+
+        public string ToQueryString()
+        {
+            return string.Concat(Name, "=", Value);
+        }
     }
 }

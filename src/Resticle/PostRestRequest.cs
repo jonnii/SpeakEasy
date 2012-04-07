@@ -1,48 +1,22 @@
-using System.Net;
-using System.Text;
-
 namespace Resticle
 {
-    public class PostRestRequest : RestRequest
+    public sealed class PostRestRequest : PostLikeRestRequest
     {
         public PostRestRequest(Resource resource)
             : base(resource)
         {
+
         }
 
         public PostRestRequest(Resource resource, object body)
-            : base(resource)
+            : base(resource, body)
         {
-            Body = body;
+
         }
 
-        public object Body { get; set; }
-
-        public bool HasBody
+        protected override string GetHttpMethod()
         {
-            get { return Body != null; }
-        }
-
-        public override HttpWebRequest BuildWebRequest(ITransmission transmission)
-        {
-            var baseRequest = base.BuildWebRequest(transmission);
-            baseRequest.Method = "POST";
-
-            if (HasBody)
-            {
-                var serializer = transmission.DefaultSerializer;
-
-                var serialized = serializer.Serialize(Body);
-                var bytes = Encoding.Default.GetBytes(serialized);
-
-                baseRequest.ContentLength = bytes.Length;
-                using (var stream = baseRequest.GetRequestStream())
-                {
-                    stream.Write(bytes, 0, bytes.Length);
-                }
-            }
-
-            return baseRequest;
+            return "POST";
         }
     }
 }

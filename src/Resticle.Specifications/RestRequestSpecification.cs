@@ -42,7 +42,7 @@ namespace Resticle.Specifications
         }
     }
 
-    public class TestRestRequest : RestRequest
+    public class TestRestRequest : GetLikeRestRequest
     {
         public TestRestRequest(Resource resource)
             : base(resource) { }
