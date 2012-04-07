@@ -18,6 +18,24 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(Resource))]
+        public class when_adding_parameters
+        {
+            Establish context = () =>
+                resource = new Resource("company");
+
+            Because of = () =>
+                resource.AddParameter("filter", 5);
+
+            It should_have_parameters = () =>
+                resource.HasParameters.ShouldBeTrue();
+
+            It should_have_parameter = () =>
+                resource.HasParameter("filter");
+
+            static Resource resource;
+        }
+
+        [Subject(typeof(Resource))]
         public class when_appending_resources
         {
             Establish context = () =>
@@ -117,6 +135,46 @@ namespace Resticle.Specifications
             static Resource resource;
 
             static Exception exception;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_merging_segments_as_parameters_when_no_segment_names_in_path
+        {
+            Establish context = () =>
+                resource = new Resource("companies");
+
+            Because of = () =>
+                merged = resource.Merge(new { Filter = "nasdaq" });
+
+            It should_add_parameters = () =>
+                merged.HasParameter("Filter").ShouldBeTrue();
+
+            static Resource resource;
+
+            static Resource merged;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_merging_extra_segments_add_as_parameters
+        {
+            Establish context = () =>
+                resource = new Resource("company/:id");
+
+            Because of = () =>
+                merged = resource.Merge(new { id = 5, Filter = "ftse" });
+
+            It should_merge_url_segments = () =>
+                merged.Path.ShouldEqual("company/5");
+
+            It should_have_parameter_with_original_casing = () =>
+                merged.HasParameter("Filter").ShouldBeTrue();
+
+            It should_only_merge_in_given_parameters = () =>
+                merged.NumParameters.ShouldEqual(1);
+
+            static Resource resource;
+
+            static Resource merged;
         }
 
         [Subject(typeof(Resource))]

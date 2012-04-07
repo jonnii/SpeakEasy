@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,8 @@ namespace Resticle
 
         private readonly string[] segmentNames;
 
+        private readonly List<Parameter> parameters = new List<Parameter>();
+
         public Resource(string path)
         {
             Path = path;
@@ -29,6 +32,31 @@ namespace Resticle
             get { return segmentNames.Length; }
         }
 
+        public bool HasSegments
+        {
+            get { return segmentNames.Any(); }
+        }
+
+        public IEnumerable<Parameter> Parameters
+        {
+            get { return parameters; }
+        }
+
+        public bool HasParameters
+        {
+            get { return parameters.Any(); }
+        }
+
+        public int NumParameters
+        {
+            get { return parameters.Count; }
+        }
+
+        public bool HasSegment(string name)
+        {
+            return segmentNames.Contains(name);
+        }
+
         private string[] ExtractSegments()
         {
             var segmentMatches = Regex.Matches(Path, ":([a-zA-Z-]+)");
@@ -39,19 +67,19 @@ namespace Resticle
                 .ToArray();
         }
 
-        public bool HasSegment(string name)
+        public void AddParameter(string name, object value)
         {
-            return segmentNames.Contains(name);
+            parameters.Add(new Parameter(name, value));
         }
 
-        public bool HasSegments
+        public bool HasParameter(string name)
         {
-            get { return segmentNames.Any(); }
+            return parameters.Any(p => p.Name == name);
         }
 
         public Resource Merge(object segments)
         {
-            if (!HasSegments)
+            if (!HasSegments && segments == null)
             {
                 return this;
             }
@@ -71,6 +99,24 @@ namespace Resticle
                 .GetProperties()
                 .ToDictionary(p => p.Name.ToLower());
 
+            var mergedResource = MergeUrlSegments(segments, properties);
+
+            return AddMergedParameters(mergedResource, segments, properties);
+        }
+
+        private Resource AddMergedParameters(Resource mergedResource, object segments, Dictionary<string, PropertyInfo> properties)
+        {
+            foreach (var property in properties.Values)
+            {
+                var propertyValue = property.GetValue(segments, new object[0]);
+                mergedResource.AddParameter(property.Name, propertyValue);
+            }
+
+            return mergedResource;
+        }
+
+        private Resource MergeUrlSegments(object segments, IDictionary<string, PropertyInfo> properties)
+        {
             var merged = Path;
 
             foreach (var segmentName in segmentNames)
@@ -84,6 +130,8 @@ namespace Resticle
                 var propertyValue = property.GetValue(segments, new object[0]);
 
                 merged = merged.Replace(":" + segmentName, propertyValue.ToString());
+
+                properties.Remove(segmentName);
             }
 
             return new Resource(merged);
