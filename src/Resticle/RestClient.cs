@@ -61,11 +61,35 @@ namespace Resticle
             return requestRunner.Run(request);
         }
 
+        public IRestResponse Post(object body, Resource resource)
+        {
+            var appended = Root.Append(resource);
+            var request = new PostRestRequest(appended, body);
+            return requestRunner.Run(request);
+        }
+
         public IRestResponse Post(object body, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
             var request = new PostRestRequest(resource, body);
             return requestRunner.Run(request);
+        }
+
+        public IRestResponse Post(FileUpload file, string relativeUrl, object segments = null)
+        {
+            return Post(new[] { file }, relativeUrl, segments);
+        }
+
+        public IRestResponse Post(FileUpload[] files, string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments, false);
+            var request = new PostRestRequest(resource, files);
+            return requestRunner.Run(request);
+        }
+
+        public IRestResponse Post(Resource resource)
+        {
+            return Post(resource, null);
         }
 
         public IRestResponse Post(string relativeUrl, object segments = null)
@@ -86,6 +110,18 @@ namespace Resticle
         {
             var resource = Root.Append(relativeUrl).Merge(segments);
             var request = new PutRestRequest(resource);
+            return requestRunner.Run(request);
+        }
+
+        public IRestResponse Put(FileUpload file, string relativeUrl, object segments = null)
+        {
+            return Put(new[] { file }, relativeUrl, segments);
+        }
+
+        public IRestResponse Put(FileUpload[] files, string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments, false);
+            var request = new PutRestRequest(resource, files);
             return requestRunner.Run(request);
         }
 

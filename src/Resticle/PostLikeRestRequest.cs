@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -17,7 +18,15 @@ namespace Resticle
             Body = body;
         }
 
-        public object Body { get; set; }
+        protected PostLikeRestRequest(Resource resource, IEnumerable<FileUpload> files)
+            : base(resource)
+        {
+            Files = files;
+        }
+
+        public object Body { get; private set; }
+
+        public IEnumerable<FileUpload> Files { get; private set; }
 
         public bool HasSerializableBody
         {

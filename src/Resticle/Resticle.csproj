@@ -40,6 +40,7 @@
     <Compile Include="Deserializers\JsonDeserializer.cs" />
     <Compile Include="Deserializers\NullDeserializer.cs" />
     <Compile Include="Deserializers\XmlDeserializer.cs" />
+    <Compile Include="FileUpload.cs" />
     <Compile Include="GetLikeRestRequest.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HeadRestRequest.cs" />

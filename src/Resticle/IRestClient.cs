@@ -30,10 +30,43 @@ namespace Resticle
         /// Executes an http post request
         /// </summary>
         /// <param name="body">An object that represents the body to post</param>
+        /// <param name="resource">The resource to post</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Post(object body, Resource resource);
+
+        /// <summary>
+        /// Executes an http post request
+        /// </summary>
+        /// <param name="body">An object that represents the body to post</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Post(object body, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http post request with a file upload
+        /// </summary>
+        /// <param name="file">The file to upload</param>
+        /// <param name="relativeUrl">The relative url to post to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Post(FileUpload file, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http post request with a file uploads
+        /// </summary>
+        /// <param name="files">The files to upload</param>
+        /// <param name="relativeUrl">The relative url to post to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Post(FileUpload[] files, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http post request without a body
+        /// </summary>
+        /// <param name="resource">The resource to post</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Post(Resource resource);
 
         /// <summary>
         /// Executes an http post request without a body
@@ -59,6 +92,24 @@ namespace Resticle
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable rest response</returns>
         IRestResponse Put(string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http put request with a file upload
+        /// </summary>
+        /// <param name="file">The file to upload</param>
+        /// <param name="relativeUrl">The relative url to put to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Put(FileUpload file, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http put request with a file uploads
+        /// </summary>
+        /// <param name="files">The files to upload</param>
+        /// <param name="relativeUrl">The relative url to put to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Put(FileUpload[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http delete request

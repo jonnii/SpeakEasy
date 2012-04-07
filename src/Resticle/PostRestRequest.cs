@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Resticle
 {
     public sealed class PostRestRequest : PostLikeRestRequest
@@ -10,6 +12,12 @@ namespace Resticle
 
         public PostRestRequest(Resource resource, object body)
             : base(resource, body)
+        {
+
+        }
+
+        public PostRestRequest(Resource resource, IEnumerable<FileUpload> files)
+            : base(resource, files)
         {
 
         }

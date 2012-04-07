@@ -1,4 +1,5 @@
-﻿using Machine.Fakes;
+﻿using System.Linq;
+using Machine.Fakes;
 using Machine.Specifications;
 
 using Resticle.Serializers;
@@ -91,6 +92,16 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestClient))]
+        public class when_posting_with_file : with_client
+        {
+            Because of = () =>
+                Subject.Post(new FileUpload("file.txt"), "companies");
+
+            It should_have_files = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Files.Any())));
+        }
+
+        [Subject(typeof(RestClient))]
         public class when_putting : with_client
         {
             Because of = () =>
@@ -128,6 +139,16 @@ namespace Resticle.Specifications
 
             It should_not_have_body_set = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Body == null)));
+        }
+
+        [Subject(typeof(RestClient))]
+        public class when_putting_with_file : with_client
+        {
+            Because of = () =>
+                Subject.Put(new FileUpload("file.txt"), "companies");
+
+            It should_have_files = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Files.Any())));
         }
 
         [Subject(typeof(RestClient))]

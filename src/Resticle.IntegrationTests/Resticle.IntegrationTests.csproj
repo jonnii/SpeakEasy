@@ -79,12 +79,14 @@
   <ItemGroup>
     <Compile Include="BasicHttpMethods.cs" />
     <Compile Include="BasicHttpMethodsWithXmlSerialization.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\Product.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ValidationError.cs" />
     <Compile Include="Parameters.cs" />
+    <Compile Include="UploadingFiles.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="WithApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
