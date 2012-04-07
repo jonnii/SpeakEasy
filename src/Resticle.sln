@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 11
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle", "Resticle\Resticle.csproj", "{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Examples", "Resticle.Examples\Resticle.Examples.csproj", "{D1866D82-2EAA-43E8-B601-27750B9AE693}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Specifications", "Resticle.Specifications\Resticle.Specifications.csproj", "{E598D539-CC35-49BC-BC3B-55C079E76BB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.IntegrationTests", "Resticle.IntegrationTests\Resticle.IntegrationTests.csproj", "{C91F769F-C10C-42F2-8354-1C4664CE9F2A}"
@@ -49,21 +47,6 @@ Global
 		{C91F769F-C10C-42F2-8354-1C4664CE9F2A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C91F769F-C10C-42F2-8354-1C4664CE9F2A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C91F769F-C10C-42F2-8354-1C4664CE9F2A}.Release|x86.ActiveCfg = Release|Any CPU
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|x86.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Debug|x86.Build.0 = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Default|Any CPU.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Default|Mixed Platforms.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Default|Mixed Platforms.Build.0 = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Default|x86.ActiveCfg = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Default|x86.Build.0 = Debug|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|Any CPU.ActiveCfg = Release|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|Mixed Platforms.Build.0 = Release|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|x86.ActiveCfg = Release|x86
-		{D1866D82-2EAA-43E8-B601-27750B9AE693}.Release|x86.Build.0 = Release|x86
 		{E598D539-CC35-49BC-BC3B-55C079E76BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E598D539-CC35-49BC-BC3B-55C079E76BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E598D539-CC35-49BC-BC3B-55C079E76BB2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
