@@ -138,5 +138,12 @@ namespace Resticle
             var request = new HeadRestRequest(resource);
             return requestRunner.Run(request);
         }
+
+        public IRestResponse Options(string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new OptionsRestRequest(resource);
+            return requestRunner.Run(request);
+        }
     }
 }

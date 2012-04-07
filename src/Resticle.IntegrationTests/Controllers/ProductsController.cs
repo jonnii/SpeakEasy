@@ -25,6 +25,12 @@ namespace Resticle.IntegrationTests.Controllers
             return new HttpResponseMessage();
         }
 
+        [AcceptVerbs("OPTIONS")]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage();
+        }
+
         public IEnumerable<Product> Get()
         {
             return products;

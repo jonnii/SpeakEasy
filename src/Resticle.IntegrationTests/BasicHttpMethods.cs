@@ -30,6 +30,14 @@ namespace Resticle.IntegrationTests
         }
 
         [Test]
+        public void ShouldGetOptions()
+        {
+            var success = client.Options("products").IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
         public void ShouldGetCollection()
         {
             var products = client.Get("products").On(HttpStatusCode.OK).Unwrap<List<Product>>();

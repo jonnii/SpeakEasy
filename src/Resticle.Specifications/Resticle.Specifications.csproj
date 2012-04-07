@@ -57,6 +57,7 @@
     <Compile Include="DeleteRestRequestSpecification.cs" />
     <Compile Include="GetRestRequestSpecification.cs" />
     <Compile Include="HeadRestRequestSpecification.cs" />
+    <Compile Include="OptionsRestRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
     <Compile Include="PostRestRequestSpecification.cs" />
     <Compile Include="PutRestRequestSpecification.cs" />
