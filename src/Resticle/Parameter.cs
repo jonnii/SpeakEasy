@@ -1,3 +1,5 @@
+using System;
+
 namespace Resticle
 {
     public class Parameter
@@ -14,7 +16,7 @@ namespace Resticle
 
         public string ToQueryString()
         {
-            return string.Concat(Name, "=", Value);
+            return string.Concat(Name, "=", Uri.EscapeUriString(Value.ToString()));
         }
     }
 }

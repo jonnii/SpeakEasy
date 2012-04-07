@@ -61,10 +61,13 @@ namespace Resticle.Specifications
         public class when_posting_with_body_and_no_segments : with_client
         {
             Because of = () =>
-                Subject.Post(new { Id = "body" }, "company/:id");
+                Subject.Post(new { Id = "body", Name = "company-name" }, "company/:id");
 
             It should_use_body_as_segments = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
+
+            It should_not_add_extra_body_properties_as_parameters = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => !p.Resource.HasParameters)));
         }
 
         [Subject(typeof(RestClient))]

@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Text;
 
@@ -18,9 +19,9 @@ namespace Resticle
 
         public object Body { get; set; }
 
-        public bool HasBody
+        public bool HasSerializableBody
         {
-            get { return Body != null; }
+            get { return Body != null || Resource.HasParameters; }
         }
 
         public override HttpWebRequest BuildWebRequest(ITransmission transmission)
@@ -28,14 +29,13 @@ namespace Resticle
             var baseRequest = base.BuildWebRequest(transmission);
             baseRequest.Method = GetHttpMethod();
 
-            if (HasBody)
+            if (HasSerializableBody)
             {
-                var serializer = transmission.DefaultSerializer;
-
-                var serialized = serializer.Serialize(Body);
+                var serialized = GetSerializedBody(transmission);
                 var bytes = Encoding.Default.GetBytes(serialized);
 
                 baseRequest.ContentLength = bytes.Length;
+
                 using (var stream = baseRequest.GetRequestStream())
                 {
                     stream.Write(bytes, 0, bytes.Length);
@@ -45,11 +45,35 @@ namespace Resticle
             return baseRequest;
         }
 
+        private string GetSerializedBody(ITransmission transmission)
+        {
+            if (Body != null)
+            {
+                var serializer = transmission.DefaultSerializer;
+                return serializer.Serialize(Body);
+            }
+
+            if (Resource.HasParameters)
+            {
+                return Resource.GetEncodedParameters();
+            }
+
+            throw new NotSupportedException(
+                "Something has gone wrong... trying to get serialized body of a request when the request has nothing worth serializing");
+        }
+
         protected abstract string GetHttpMethod();
 
-        public override string BuildRequestUrl(Resource resource)
+        protected override string BuildRequestUrl(Resource resource)
         {
             return resource.Path;
+        }
+
+        protected override string CalculateContentType(ITransmission transmission)
+        {
+            return Resource.HasParameters
+                ? "application/x-www-form-urlencoded"
+                : transmission.ContentType;
         }
     }
 }

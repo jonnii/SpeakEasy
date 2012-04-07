@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Resticle
 {
     public abstract class GetLikeRestRequest : RestRequest
@@ -7,15 +5,21 @@ namespace Resticle
         protected GetLikeRestRequest(Resource resource)
             : base(resource) { }
 
-        public override string BuildRequestUrl(Resource resource)
+        protected override string BuildRequestUrl(Resource resource)
         {
             if (!resource.HasParameters)
             {
                 return resource.Path;
             }
 
-            var queryString = string.Join("&", resource.Parameters.Select(p => p.ToQueryString()));
+            var queryString = resource.GetEncodedParameters();
+
             return string.Concat(resource.Path, "?", queryString);
+        }
+
+        protected override string CalculateContentType(ITransmission transmission)
+        {
+            return transmission.ContentType;
         }
     }
 }

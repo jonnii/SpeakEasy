@@ -77,7 +77,7 @@ namespace Resticle
             return parameters.Any(p => p.Name == name);
         }
 
-        public Resource Merge(object segments)
+        public Resource Merge(object segments, bool shouldMergeProperties = true)
         {
             if (!HasSegments && segments == null)
             {
@@ -100,6 +100,11 @@ namespace Resticle
                 .ToDictionary(p => p.Name.ToLower());
 
             var mergedResource = MergeUrlSegments(segments, properties);
+
+            if (!shouldMergeProperties)
+            {
+                return mergedResource;
+            }
 
             return AddMergedParameters(mergedResource, segments, properties);
         }
@@ -160,6 +165,11 @@ namespace Resticle
             result = Path.Replace(":" + methodName.ToLower(), parameter.ToString());
 
             return true;
+        }
+
+        public string GetEncodedParameters()
+        {
+            return string.Join("&", Parameters.Select(p => p.ToQueryString()));
         }
     }
 }

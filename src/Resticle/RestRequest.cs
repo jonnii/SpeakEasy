@@ -16,13 +16,15 @@ namespace Resticle
             var url = BuildRequestUrl(Resource);
             var request = (HttpWebRequest)WebRequest.Create(url);
 
-            request.ContentType = transmission.ContentType;
+            request.ContentType = CalculateContentType(transmission);
             request.ContentLength = 0;
             request.Accept = string.Join(", ", transmission.DeserializableMediaTypes);
 
             return request;
         }
 
-        public abstract string BuildRequestUrl(Resource resource);
+        protected abstract string BuildRequestUrl(Resource resource);
+
+        protected abstract string CalculateContentType(ITransmission transmission);
     }
 }
