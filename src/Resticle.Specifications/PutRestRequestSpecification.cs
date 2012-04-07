@@ -31,7 +31,7 @@ namespace Resticle.Specifications
         public class with_put_request : with_serializer
         {
             Establish context = () =>
-                request = new PutRestRequest("http://example.com/companies", null);
+                request = new PutRestRequest(new Resource("http://example.com/companies"), null);
 
             protected static PutRestRequest request;
         }

@@ -4,16 +4,16 @@ namespace Resticle
 {
     public abstract class RestRequest : IRestRequest
     {
-        protected RestRequest(string url)
+        protected RestRequest(Resource resource)
         {
-            Url = url;
+            Resource = resource;
         }
 
-        public string Url { get; private set; }
+        public Resource Resource { get; private set; }
 
         public virtual HttpWebRequest BuildWebRequest(ITransmission transmission)
         {
-            var request = (HttpWebRequest)WebRequest.Create(Url);
+            var request = (HttpWebRequest)WebRequest.Create(Resource.Path);
 
             request.ContentType = transmission.ContentType;
             request.ContentLength = 0;

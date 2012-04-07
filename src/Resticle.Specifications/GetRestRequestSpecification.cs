@@ -15,7 +15,7 @@ namespace Resticle.Specifications
                 webRequest = request.BuildWebRequest(transmission);
 
             It should_set_url = () =>
-                request.Url.ShouldEqual("http://example.com/companies");
+                request.Resource.Path.ShouldEqual("http://example.com/companies");
 
             It should_set_request_to_get_request = () =>
                 webRequest.Method.ShouldEqual("GET");
@@ -37,7 +37,7 @@ namespace Resticle.Specifications
         public class with_get_request : with_transmission
         {
             Establish context = () =>
-                request = new GetRestRequest("http://example.com/companies");
+                request = new GetRestRequest(new Resource("http://example.com/companies"));
 
             protected static GetRestRequest request;
         }

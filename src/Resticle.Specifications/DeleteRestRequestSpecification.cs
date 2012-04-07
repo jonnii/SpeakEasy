@@ -29,7 +29,7 @@ namespace Resticle.Specifications
         public class with_delete_request : with_serializer
         {
             Establish context = () =>
-                request = new DeleteRestRequest("http://example.com/companies");
+                request = new DeleteRestRequest(new Resource("http://example.com/companies"));
 
             protected static DeleteRestRequest request;
         }

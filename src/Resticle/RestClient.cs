@@ -34,52 +34,59 @@ namespace Resticle
 
         public Func<ISerializer> DefaultSerializer { get; set; }
 
+        public IRestResponse Get(Resource resource)
+        {
+            var appended = Root.Append(resource);
+            var request = new GetRestRequest(appended);
+            return requestRunner.Run(request);
+        }
+
         public IRestResponse Get(string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
-            var request = new GetRestRequest(url);
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new GetRestRequest(resource);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Post(object body, string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments ?? body);
-            var request = new PostRestRequest(url, body);
+            var resource = Root.Append(relativeUrl).Merge(segments ?? body);
+            var request = new PostRestRequest(resource, body);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Post(string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
-            var request = new PostRestRequest(url);
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new PostRestRequest(resource);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Put(object body, string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments ?? body);
-            var request = new PutRestRequest(url, body);
+            var resource = Root.Append(relativeUrl).Merge(segments ?? body);
+            var request = new PutRestRequest(resource, body);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Put(string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
-            var request = new PutRestRequest(url);
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new PutRestRequest(resource);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Delete(string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
-            var request = new DeleteRestRequest(url);
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new DeleteRestRequest(resource);
             return requestRunner.Run(request);
         }
 
         public IRestResponse Head(string relativeUrl, object segments = null)
         {
-            var url = Root.Append(relativeUrl).Merge(segments);
-            var request = new HeadRestRequest(url);
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new HeadRestRequest(resource);
             return requestRunner.Run(request);
         }
     }

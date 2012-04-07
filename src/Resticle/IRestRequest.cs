@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 
 namespace Resticle
@@ -10,9 +9,9 @@ namespace Resticle
     public interface IRestRequest
     {
         /// <summary>
-        /// The url that will be requested by this rest request
+        /// The resource that will be requested by this rest request
         /// </summary>
-        string Url { get; }
+        Resource Resource { get; }
 
         /// <summary>
         /// Creates a web request corresponding to this rest request

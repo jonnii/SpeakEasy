@@ -14,6 +14,13 @@ namespace Resticle
         /// <summary>
         /// Executes an http get request
         /// </summary>
+        /// <param name="resource">The resource to get</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Get(Resource resource);
+
+        /// <summary>
+        /// Executes an http get request
+        /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable rest response</returns>

@@ -68,9 +68,9 @@ namespace Resticle.Specifications
                 merged = resource.Merge(new { name = "company-name" });
 
             It should_merge_values_into_resource = () =>
-                merged.ShouldEqual("company/company-name");
+                merged.Path.ShouldEqual("company/company-name");
 
-            static string merged;
+            static Resource merged;
         }
 
         [Subject(typeof(Resource))]
@@ -80,9 +80,9 @@ namespace Resticle.Specifications
                 merged = resource.Merge(new { Name = "company-name" });
 
             It should_merge_values_into_resource = () =>
-                merged.ShouldEqual("company/company-name");
+                merged.Path.ShouldEqual("company/company-name");
 
-            static string merged;
+            static Resource merged;
         }
 
         [Subject(typeof(Resource))]
@@ -95,11 +95,11 @@ namespace Resticle.Specifications
                 merged = resource.Merge(null);
 
             It should_return_resource = () =>
-                merged.ShouldEqual("company");
+                merged.Path.ShouldEqual("company");
 
             static Resource resource;
 
-            static string merged;
+            static Resource merged;
         }
 
         [Subject(typeof(Resource))]

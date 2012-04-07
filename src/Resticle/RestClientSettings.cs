@@ -22,13 +22,15 @@ namespace Resticle
             }
         }
 
-        private readonly List<IDeserializer> deserializers = new List<IDeserializer>();
+        public RestClientSettings()
+        {
+            Deserializers = new List<IDeserializer>();
+        }
 
         public ISerializer DefaultSerializer { get; set; }
 
-        public List<IDeserializer> Deserializers
-        {
-            get { return deserializers; }
-        }
+        public IAuthenticator Authenticator { get; set; }
+
+        public List<IDeserializer> Deserializers { get; set; }
     }
 }

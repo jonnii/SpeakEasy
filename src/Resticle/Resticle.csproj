@@ -34,6 +34,8 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Authenticators\BasicAuthenticator.cs" />
+    <Compile Include="Authenticators\WindowsAuthenticator.cs" />
     <Compile Include="DeleteRestRequest.cs" />
     <Compile Include="Deserializers\JsonDeserializer.cs" />
     <Compile Include="Deserializers\NullDeserializer.cs" />
@@ -41,6 +43,7 @@
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HeadRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
+    <Compile Include="IAuthenticator.cs" />
     <Compile Include="IDeserializer.cs" />
     <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRequestRunner.cs" />
@@ -81,5 +84,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

@@ -29,7 +29,7 @@ namespace Resticle.Specifications
         public class with_head_request : with_serializer
         {
             Establish context = () =>
-                request = new HeadRestRequest("http://example.com/companies");
+                request = new HeadRestRequest(new Resource("http://example.com/companies"));
 
             protected static HeadRestRequest request;
         }

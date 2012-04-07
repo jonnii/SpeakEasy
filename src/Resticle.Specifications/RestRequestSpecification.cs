@@ -31,7 +31,7 @@ namespace Resticle.Specifications
 
                 webRequestGateway = An<IWebRequestGateway>();
 
-                request = new TestRestRequest("http://example.com/api/companies");
+                request = new TestRestRequest(new Resource("http://example.com/api/companies"));
             };
 
             protected static TestRestRequest request;
@@ -44,7 +44,7 @@ namespace Resticle.Specifications
 
     public class TestRestRequest : RestRequest
     {
-        public TestRestRequest(string url)
-            : base(url) { }
+        public TestRestRequest(Resource resource)
+            : base(resource) { }
     }
 }

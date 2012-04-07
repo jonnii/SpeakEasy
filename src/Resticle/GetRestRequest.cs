@@ -2,8 +2,8 @@ namespace Resticle
 {
     public class GetRestRequest : RestRequest
     {
-        public GetRestRequest(string url)
-            : base(url)
+        public GetRestRequest(Resource resource)
+            : base(resource)
         {
 
         }

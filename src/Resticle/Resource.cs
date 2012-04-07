@@ -49,11 +49,11 @@ namespace Resticle
             get { return segmentNames.Any(); }
         }
 
-        public string Merge(object segments)
+        public Resource Merge(object segments)
         {
             if (!HasSegments)
             {
-                return Path;
+                return this;
             }
 
             if (segments == null)
@@ -86,7 +86,7 @@ namespace Resticle
                 merged = merged.Replace(":" + segmentName, propertyValue.ToString());
             }
 
-            return merged;
+            return new Resource(merged);
         }
 
         public Resource Append(Resource resource)

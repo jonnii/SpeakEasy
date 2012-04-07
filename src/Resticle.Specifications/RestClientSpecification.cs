@@ -21,7 +21,7 @@ namespace Resticle.Specifications
                 Subject.Get("companies");
 
             It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://example.com/companies")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Resource.Path == "http://example.com/companies")));
         }
 
         [Subject(typeof(RestClient))]
@@ -31,7 +31,7 @@ namespace Resticle.Specifications
                 Subject.Get("company/:id", new { id = 5 });
 
             It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://example.com/company/5")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/5")));
         }
 
         [Subject(typeof(RestClient))]
@@ -44,7 +44,7 @@ namespace Resticle.Specifications
                 Subject.Get("user/:id", new { company = "acme", id = 5 });
 
             It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Url == "http://acme.example.com/api/user/5")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.Resource.Path == "http://acme.example.com/api/user/5")));
         }
 
         [Subject(typeof(RestClient))]
@@ -64,7 +64,7 @@ namespace Resticle.Specifications
                 Subject.Post(new { Id = "body" }, "company/:id");
 
             It should_use_body_as_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Url == "http://example.com/company/body")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
         }
 
         [Subject(typeof(RestClient))]
@@ -74,7 +74,7 @@ namespace Resticle.Specifications
                 Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments" });
 
             It should_use_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Url == "http://example.com/company/segments")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
         }
 
         [Subject(typeof(RestClient))]
@@ -104,7 +104,7 @@ namespace Resticle.Specifications
                 Subject.Put(new { Id = "body" }, "company/:id");
 
             It should_use_body_as_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Url == "http://example.com/company/body")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
         }
 
         [Subject(typeof(RestClient))]
@@ -114,7 +114,7 @@ namespace Resticle.Specifications
                 Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments" });
 
             It should_use_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Url == "http://example.com/company/segments")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRestRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
         }
 
         [Subject(typeof(RestClient))]
