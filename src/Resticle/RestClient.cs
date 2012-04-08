@@ -125,6 +125,32 @@ namespace Resticle
             return requestRunner.Run(request);
         }
 
+        public IRestResponse Patch(object body, string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
+            var request = new PatchRestRequest(resource, body);
+            return requestRunner.Run(request);
+        }
+
+        public IRestResponse Patch(string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new PatchRestRequest(resource);
+            return requestRunner.Run(request);
+        }
+
+        public IRestResponse Patch(FileUpload file, string relativeUrl, object segments = null)
+        {
+            return Patch(new[] { file }, relativeUrl, segments);
+        }
+
+        public IRestResponse Patch(FileUpload[] files, string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments, false);
+            var request = new PatchRestRequest(resource, files);
+            return requestRunner.Run(request);
+        }
+
         public IRestResponse Delete(string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments);

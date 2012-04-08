@@ -112,6 +112,41 @@ namespace Resticle
         IRestResponse Put(FileUpload[] files, string relativeUrl, object segments = null);
 
         /// <summary>
+        /// Executes an http patch request
+        /// </summary>
+        /// <param name="body">An object that represents the body to patch</param>
+        /// <param name="relativeUrl">The relative url to put to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Patch(object body, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http patch request without a body
+        /// </summary>
+        /// <param name="relativeUrl">The relative url to patch to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Patch(string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http patch request with a file upload
+        /// </summary>
+        /// <param name="file">The file to upload</param>
+        /// <param name="relativeUrl">The relative url to patch to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Patch(FileUpload file, string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Executes an http patch request with a file uploads
+        /// </summary>
+        /// <param name="files">The files to upload</param>
+        /// <param name="relativeUrl">The relative url to patch to</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable rest response</returns>
+        IRestResponse Patch(FileUpload[] files, string relativeUrl, object segments = null);
+
+        /// <summary>
         /// Executes an http delete request
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>

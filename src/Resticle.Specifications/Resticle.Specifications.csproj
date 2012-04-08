@@ -59,6 +59,7 @@
     <Compile Include="HeadRestRequestSpecification.cs" />
     <Compile Include="OptionsRestRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
+    <Compile Include="PatchRestRequestSpecification.cs" />
     <Compile Include="PostRestRequestSpecification.cs" />
     <Compile Include="PutRestRequestSpecification.cs" />
     <Compile Include="RequestRunnerSpecification.cs" />

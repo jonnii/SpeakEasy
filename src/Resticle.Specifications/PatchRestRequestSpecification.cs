@@ -4,16 +4,16 @@ using Machine.Specifications;
 
 namespace Resticle.Specifications
 {
-    public class PutRestRequestSpecification
+    public class PatchRestRequestSpecification
     {
         [Subject(typeof(PutRestRequest))]
-        public class when_building_web_request : with_put_request
+        public class when_building_web_request : with_patch_request
         {
             Because of = () =>
                 webRequest = request.BuildWebRequest(serializer);
 
             It should_have_put_method = () =>
-                webRequest.Method.ShouldEqual("PUT");
+                webRequest.Method.ShouldEqual("PATCH");
 
             static WebRequest webRequest;
         }
@@ -26,12 +26,12 @@ namespace Resticle.Specifications
             protected static ITransmissionSettings serializer;
         }
 
-        public class with_put_request : with_serializer
+        public class with_patch_request : with_serializer
         {
             Establish context = () =>
-                request = new PutRestRequest(new Resource("http://example.com/companies"), null);
+                request = new PatchRestRequest(new Resource("http://example.com/companies"), null);
 
-            protected static PutRestRequest request;
+            protected static PatchRestRequest request;
         }
     }
 }

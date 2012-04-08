@@ -151,6 +151,16 @@ namespace Resticle.IntegrationTests
         }
 
         [Test]
+        public void ShouldUpdateProductsWithPatch()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+
+            var success = client.Patch(product, "products/:id").IsOk();
+
+            Assert.That(success);
+        }
+
+        [Test]
         public void ShouldUpdatePersonWithErrors()
         {
             var product = new Product { Id = 1, Name = "", Category = "Cakes" };
