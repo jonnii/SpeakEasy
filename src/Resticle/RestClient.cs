@@ -23,8 +23,7 @@ namespace Resticle
         public static IRestClient Create(string rootUrl, RestClientSettings settings)
         {
             var transmissionSettings = new TransmissionSettings(
-                settings.DefaultSerializer,
-                settings.Deserializers);
+                settings.Serializers);
 
             var runner = new RequestRunner(transmissionSettings, new WebRequestGateway());
 

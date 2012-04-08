@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
-using Resticle.Deserializers;
+using Resticle.Serializers;
 
 namespace Resticle
 {
@@ -9,38 +9,35 @@ namespace Resticle
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private readonly ISerializer serializer;
+        private readonly IEnumerable<ISerializer> serializers;
 
-        private readonly IEnumerable<IDeserializer> deserializers;
-
-        public TransmissionSettings(ISerializer serializer, IEnumerable<IDeserializer> deserializers)
+        public TransmissionSettings(IEnumerable<ISerializer> serializers)
         {
-            this.serializer = serializer;
-            this.deserializers = deserializers;
+            this.serializers = serializers;
         }
 
         public ISerializer DefaultSerializer
         {
-            get { return serializer; }
+            get { return serializers.First(); }
         }
 
         public string DefaultSerializerContentType
         {
-            get { return DefaultSerializer.ContentType; }
+            get { return DefaultSerializer.MediaType; }
         }
 
         public IEnumerable<string> DeserializableMediaTypes
         {
-            get { return deserializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
+            get { return serializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
         }
 
-        public IDeserializer FindDeserializer(string contentType)
+        public ISerializer FindSerializer(string contentType)
         {
             Logger.Debug("Finding deserializer for {0}", contentType);
 
-            var deserializer = deserializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
+            var deserializer = serializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
 
-            return deserializer ?? new NullDeserializer(contentType);
+            return deserializer ?? new NullSerializer(contentType);
         }
 
         public string Serialize<T>(T body)

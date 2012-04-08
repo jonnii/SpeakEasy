@@ -34,7 +34,7 @@ namespace Resticle.Specifications
                 response.RequestedUrl.ShouldEqual(new Uri("http://example.com/companies"));
 
             It should_find_deserializer = () =>
-                The<ITransmissionSettings>().WasToldTo(t => t.FindDeserializer("application/json"));
+                The<ITransmissionSettings>().WasToldTo(t => t.FindSerializer("application/json"));
 
             static IHttpWebResponse webResponse;
 

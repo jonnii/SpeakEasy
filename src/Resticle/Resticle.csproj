@@ -37,16 +37,14 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
     <Compile Include="DeleteRestRequest.cs" />
-    <Compile Include="Deserializers\JsonDeserializer.cs" />
-    <Compile Include="Deserializers\NullDeserializer.cs" />
-    <Compile Include="Deserializers\XmlDeserializer.cs" />
+    <Compile Include="DeserializationSettings.cs" />
+    <Compile Include="Serializers\NullSerializer.cs" />
     <Compile Include="FileUpload.cs" />
     <Compile Include="GetLikeRestRequest.cs" />
     <Compile Include="GetRestRequest.cs" />
     <Compile Include="HeadRestRequest.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
     <Compile Include="IAuthenticator.cs" />
-    <Compile Include="IDeserializer.cs" />
     <Compile Include="IHttpWebResponse.cs" />
     <Compile Include="IRequestRunner.cs" />
     <Compile Include="IRestRequest.cs" />
@@ -71,7 +69,7 @@
     <Compile Include="RestClient.cs" />
     <Compile Include="RestResponse.cs" />
     <Compile Include="RestResponseHandler.cs" />
-    <Compile Include="Serializers\JsonSerializer.cs" />
+    <Compile Include="Serializers\JsonDotNetSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="WebRequestGateway.cs" />

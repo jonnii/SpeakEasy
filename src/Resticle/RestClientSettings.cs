@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-using Resticle.Deserializers;
+using System.Linq;
 using Resticle.Serializers;
 
 namespace Resticle
@@ -10,13 +11,10 @@ namespace Resticle
         {
             get
             {
-                var settings = new RestClientSettings
-                {
-                    DefaultSerializer = new JsonSerializer()
-                };
+                var settings = new RestClientSettings();
 
-                settings.Deserializers.Add(new JsonDeserializer());
-                settings.Deserializers.Add(new DotNetXmlDeserializer());
+                settings.Serializers.Add(new JsonDotNetSerializer());
+                settings.Serializers.Add(new DotNetXmlSerializer());
 
                 return settings;
             }
@@ -24,13 +22,26 @@ namespace Resticle
 
         public RestClientSettings()
         {
-            Deserializers = new List<IDeserializer>();
+            Serializers = new List<ISerializer>();
         }
-
-        public ISerializer DefaultSerializer { get; set; }
 
         public IAuthenticator Authenticator { get; set; }
 
-        public List<IDeserializer> Deserializers { get; set; }
+        public List<ISerializer> Serializers { get; set; }
+
+        public ISerializer DefaultSerializer
+        {
+            get { return Serializers.First(); }
+        }
+
+        public void Configure<T>(Action<T> configurationCallback)
+            where T : ISerializer
+        {
+            var serializers = Serializers.OfType<T>();
+            foreach (var serializer in serializers)
+            {
+                configurationCallback(serializer);
+            }
+        }
     }
 }

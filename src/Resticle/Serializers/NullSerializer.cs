@@ -1,15 +1,25 @@
 using System;
 using System.Collections.Generic;
 
-namespace Resticle.Deserializers
+namespace Resticle.Serializers
 {
-    public class NullDeserializer : IDeserializer
+    public class NullSerializer : ISerializer
     {
         private readonly string contentType;
 
-        public NullDeserializer(string contentType)
+        public NullSerializer(string contentType)
         {
             this.contentType = contentType;
+        }
+
+        public string MediaType
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string Serialize<T>(T t)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<string> SupportedMediaTypes
@@ -24,6 +34,11 @@ namespace Resticle.Deserializers
                 contentType);
 
             throw new NotSupportedException(message);
+        }
+
+        public T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
+        {
+            return Deserialize<T>(body);
         }
     }
 }

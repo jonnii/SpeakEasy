@@ -12,7 +12,7 @@ namespace Resticle.Specifications
         public class in_general : WithSubject<RestClient>
         {
             It should_default_to_json_serializer = () =>
-                Subject.DefaultSerializer().ShouldBeOfType<JsonSerializer>();
+                Subject.DefaultSerializer().ShouldBeOfType<JsonDotNetSerializer>();
         }
 
         [Subject(typeof(RestClient))]

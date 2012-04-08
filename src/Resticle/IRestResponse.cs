@@ -27,7 +27,7 @@ namespace Resticle
         /// <summary>
         /// The deserializer that will be used to deserialize the response
         /// </summary>
-        IDeserializer Deserializer { get; }
+        ISerializer Deserializer { get; }
 
         /// <summary>
         /// Executes the given action when the rest response status code matches the supplied status code.

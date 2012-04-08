@@ -10,7 +10,7 @@ namespace Resticle.Specifications
         {
             Establish context = () =>
             {
-                deserializer = An<IDeserializer>();
+                deserializer = An<ISerializer>();
 
                 The<IRestResponse>().WhenToldTo(r => r.Deserializer).Return(deserializer);
             };
@@ -21,7 +21,7 @@ namespace Resticle.Specifications
             It should_deserialize_with_deserializer = () =>
                 deserializer.WasToldTo(d => d.Deserialize<Company>(Param.IsAny<string>()));
 
-            static IDeserializer deserializer;
+            static ISerializer deserializer;
         }
 
         public class Company

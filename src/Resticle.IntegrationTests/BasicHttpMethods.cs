@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
-using Resticle.Deserializers;
 using Resticle.IntegrationTests.Controllers;
+using Resticle.Serializers;
 
 namespace Resticle.IntegrationTests
 {
@@ -18,7 +18,7 @@ namespace Resticle.IntegrationTests
 
             Assert.That(response.RequestedUrl.ToString(), Is.EqualTo("http://localhost:1337/api/products/1"));
             Assert.That(response.HttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Deserializer, Is.TypeOf<JsonDeserializer>());
+            Assert.That(response.Deserializer, Is.TypeOf<JsonDotNetSerializer>());
         }
 
         [Test]

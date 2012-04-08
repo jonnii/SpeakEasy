@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using NUnit.Framework;
-using Resticle.Deserializers;
 using Resticle.IntegrationTests.Controllers;
 using Resticle.Serializers;
 
@@ -14,9 +13,8 @@ namespace Resticle.IntegrationTests
         protected override IRestClient CreateClient()
         {
             var settings = RestClientSettings.Default;
-            settings.DefaultSerializer = new DotNetXmlSerializer();
-            settings.Deserializers.Clear();
-            settings.Deserializers.Add(new DotNetXmlDeserializer());
+            settings.Serializers.Clear();
+            settings.Serializers.Add(new DotNetXmlSerializer());
 
             return RestClient.Create("http://localhost:1337/api", settings);
         }
@@ -26,7 +24,7 @@ namespace Resticle.IntegrationTests
         {
             var response = client.Get("products/1");
 
-            Assert.That(response.Deserializer, Is.TypeOf<DotNetXmlDeserializer>());
+            Assert.That(response.Deserializer, Is.TypeOf<DotNetXmlSerializer>());
         }
 
         [Test]

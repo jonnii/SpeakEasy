@@ -15,5 +15,12 @@ namespace Resticle
 
             return deserializer.Deserialize<T>(response.Body);
         }
+
+        public T Unwrap<T>(DeserializationSettings deserializationSettings)
+        {
+            var deserializer = response.Deserializer;
+
+            return deserializer.Deserialize<T>(response.Body, deserializationSettings);
+        }
     }
 }

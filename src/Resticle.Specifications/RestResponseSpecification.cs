@@ -110,9 +110,9 @@ namespace Resticle.Specifications
         public class with_deserializer : WithFakes
         {
             Establish context = () =>
-                deserializer = An<IDeserializer>();
+                deserializer = An<ISerializer>();
 
-            protected static IDeserializer deserializer;
+            protected static ISerializer deserializer;
         }
 
         public class with_ok_response : with_deserializer

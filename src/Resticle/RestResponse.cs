@@ -5,7 +5,7 @@ namespace Resticle
 {
     public class RestResponse : IRestResponse
     {
-        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, IDeserializer deserializer)
+        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, ISerializer deserializer)
         {
             Deserializer = deserializer;
 
@@ -20,7 +20,7 @@ namespace Resticle
 
         public string Body { get; private set; }
 
-        public IDeserializer Deserializer { get; private set; }
+        public ISerializer Deserializer { get; private set; }
 
         public IRestResponse On(HttpStatusCode code, Action action)
         {

@@ -27,10 +27,10 @@ namespace Resticle
         string Serialize<T>(T body);
 
         /// <summary>
-        /// Finds a deserializer for the given content type
+        /// Finds a serializer for the given content type
         /// </summary>
         /// <param name="contentType">The content type to deserialize</param>
         /// <returns>A deserializer</returns>
-        IDeserializer FindDeserializer(string contentType);
+        ISerializer FindSerializer(string contentType);
     }
 }

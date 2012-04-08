@@ -29,7 +29,7 @@ namespace Resticle
 
         public IRestResponse CreateRestResponse(IHttpWebResponse webResponse)
         {
-            var deserializer = transmissionSettings.FindDeserializer(webResponse.ContentType);
+            var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
             var body = webResponse.ReadBody();
 
             return new RestResponse(

@@ -11,5 +11,13 @@ namespace Resticle
         /// <typeparam name="T">The type to deserialize</typeparam>
         /// <returns>The deserialized body</returns>
         T Unwrap<T>();
+
+        /// <summary>
+        /// Deserializes the body of a rest response as a given type.
+        /// </summary>
+        /// <param name="deserializationSettings">The settings used to deserialize the contents</param>
+        /// <typeparam name="T">The type to deserialize</typeparam>
+        /// <returns>The deserialized body</returns>
+        T Unwrap<T>(DeserializationSettings deserializationSettings);
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
-using Resticle.Deserializers;
+using Resticle.Serializers;
 
 namespace Resticle.Specifications
 {
@@ -24,47 +24,44 @@ namespace Resticle.Specifications
         public class when_finding_deserializer_for_content_type : with_transmission
         {
             Because of = () =>
-                deserializer = transmissionSettings.FindDeserializer("application/json");
+                deserializer = transmissionSettings.FindSerializer("application/json");
 
             It should_find_deserializer = () =>
                 deserializer.ShouldBeTheSameAs(firstDeserializer);
 
-            static IDeserializer deserializer;
+            static ISerializer deserializer;
         }
 
         [Subject(typeof(TransmissionSettings))]
         public class when_finding_deserializer_for_content_type_that_isnt_registered : with_transmission
         {
             Because of = () =>
-                deserializer = transmissionSettings.FindDeserializer("application/fribble");
+                deserializer = transmissionSettings.FindSerializer("application/fribble");
 
             It should_return_null_deserializer = () =>
-                deserializer.ShouldBeOfType<NullDeserializer>();
+                deserializer.ShouldBeOfType<NullSerializer>();
 
-            static IDeserializer deserializer;
+            static ISerializer deserializer;
         }
 
         public class with_transmission : WithFakes
         {
             Establish context = () =>
             {
-                serializer = An<ISerializer>();
-                firstDeserializer = An<IDeserializer>();
+                firstDeserializer = An<ISerializer>();
                 firstDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "application/json" });
 
-                secondDeserializer = An<IDeserializer>();
+                secondDeserializer = An<ISerializer>();
                 secondDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "text/xml", "application/json" });
 
-                transmissionSettings = new TransmissionSettings(serializer, new[] { firstDeserializer, secondDeserializer });
+                transmissionSettings = new TransmissionSettings(new[] { firstDeserializer, secondDeserializer });
             };
 
             protected static TransmissionSettings transmissionSettings;
 
-            protected static ISerializer serializer;
+            protected static ISerializer firstDeserializer;
 
-            protected static IDeserializer firstDeserializer;
-
-            protected static IDeserializer secondDeserializer;
+            protected static ISerializer secondDeserializer;
         }
     }
 }

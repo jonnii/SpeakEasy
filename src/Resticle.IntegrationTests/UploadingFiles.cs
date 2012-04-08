@@ -8,7 +8,7 @@ namespace Resticle.IntegrationTests
     [TestFixture]
     public class UploadingFiles : WithApi
     {
-        [Test]
+        [Test, Explicit("WIP")]
         public void ShouldUploadOneFile()
         {
             var fileNames = client.Post(new FileUpload("name"), "invoices/:id", new { id = 1234 })
@@ -17,7 +17,7 @@ namespace Resticle.IntegrationTests
             Assert.That(fileNames.Single(), Is.EqualTo("name"));
         }
 
-        [Test]
+        [Test, Explicit("WIP")]
         public void ShouldUploadMultipleFiles()
         {
             var files = new[] { new FileUpload("name"), new FileUpload("name") };

@@ -5,7 +5,7 @@ namespace Resticle
 {
     public class Serializer
     {
-        public static readonly Func<ISerializer> Json = () => new JsonSerializer();
+        public static readonly Func<ISerializer> Json = () => new JsonDotNetSerializer();
 
         public static readonly Func<ISerializer> Xml = () => new DotNetXmlSerializer();
     }

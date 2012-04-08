@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -6,9 +8,14 @@ namespace Resticle.Serializers
 {
     public class DotNetXmlSerializer : ISerializer
     {
-        public string ContentType
+        public string MediaType
         {
-            get { return "text/xml"; }
+            get { return SupportedMediaTypes.First(); }
+        }
+
+        public IEnumerable<string> SupportedMediaTypes
+        {
+            get { return new[] { "text/xml" }; }
         }
 
         public string Serialize<T>(T t)
@@ -19,6 +26,21 @@ namespace Resticle.Serializers
                 serializer.Serialize(writer, t);
                 return writer.ToString();
             }
+        }
+
+        public T Deserialize<T>(string body)
+        {
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var reader = new StringReader(body))
+            {
+                return (T)serializer.Deserialize(reader);
+            }
+        }
+
+        public T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
