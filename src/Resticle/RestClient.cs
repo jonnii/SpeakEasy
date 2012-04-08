@@ -1,5 +1,3 @@
-using System;
-
 namespace Resticle
 {
     public class RestClient : IRestClient
@@ -38,13 +36,9 @@ namespace Resticle
         public RestClient(IRequestRunner requestRunner)
         {
             this.requestRunner = requestRunner;
-
-            DefaultSerializer = Serializer.Json;
         }
 
         public Resource Root { get; set; }
-
-        public Func<ISerializer> DefaultSerializer { get; set; }
 
         public IRestResponse Get(Resource resource)
         {

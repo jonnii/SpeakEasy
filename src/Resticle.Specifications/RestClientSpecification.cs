@@ -2,19 +2,10 @@
 using Machine.Fakes;
 using Machine.Specifications;
 
-using Resticle.Serializers;
-
 namespace Resticle.Specifications
 {
     public class RestClientSpecification
     {
-        [Subject(typeof(RestClient))]
-        public class in_general : WithSubject<RestClient>
-        {
-            It should_default_to_json_serializer = () =>
-                Subject.DefaultSerializer().ShouldBeOfType<JsonDotNetSerializer>();
-        }
-
         [Subject(typeof(RestClient))]
         public class when_getting_collection_resource : with_client
         {

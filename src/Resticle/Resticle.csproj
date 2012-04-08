@@ -64,7 +64,6 @@
     <Compile Include="RestClientSettings.cs" />
     <Compile Include="RestException.cs" />
     <Compile Include="RestRequest.cs" />
-    <Compile Include="Serializer.cs" />
     <Compile Include="IRestClient.cs" />
     <Compile Include="IRestResponse.cs" />
     <Compile Include="IRestResponseHandler.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="RestResponseHandler.cs" />
     <Compile Include="Serializers\JsonDotNetSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
+    <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>

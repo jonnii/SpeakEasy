@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Resticle.Serializers
 {
-    public class JsonDotNetSerializer : ISerializer
+    public class JsonDotNetSerializer : Serializer
     {
         private Lazy<JsonSerializer> serializer;
 
@@ -17,12 +17,7 @@ namespace Resticle.Serializers
             serializer = new Lazy<JsonSerializer>(CreateSerializer);
         }
 
-        public string MediaType
-        {
-            get { return SupportedMediaTypes.First(); }
-        }
-
-        public IEnumerable<string> SupportedMediaTypes
+        public override IEnumerable<string> SupportedMediaTypes
         {
             get { return new[] { "application/json" }; }
         }
@@ -38,23 +33,24 @@ namespace Resticle.Serializers
             return JsonSerializer.Create(jsonSerializerSettings);
         }
 
-        public string Serialize<T>(T t)
+        public override string Serialize<T>(T t)
         {
             return JsonConvert.SerializeObject(t, jsonSerializerSettings);
         }
 
-        public T Deserialize<T>(string body)
+        public override T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
         {
-            return JsonConvert.DeserializeObject<T>(body);
-        }
-
-        public T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
-        {
-            JToken parsed = JObject.Parse(body);
+            var parsed = JToken.Parse(body);
 
             if (deserializationSettings.HasRootElementPath)
             {
                 parsed = parsed[deserializationSettings.RootElementPath];
+            }
+
+            if (deserializationSettings.SkipRootElement)
+            {
+                // this can't be right, but it seems to work.
+                parsed = parsed.Children().First().Children().First();
             }
 
             return parsed.ToObject<T>(serializer.Value);

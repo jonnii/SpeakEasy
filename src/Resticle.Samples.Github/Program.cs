@@ -10,13 +10,16 @@ namespace Resticle.Samples.Github
         public static void Main(string[] args)
         {
             var settings = RestClientSettings.Default;
-            settings.Configure<JsonDotNetSerializer>(
-                j => j.ConfigureSettings(s => s.ContractResolver = new GithubContractResolver()));
+            settings.Configure<JsonDotNetSerializer>(j =>
+            {
+                j.ConfigureSettings(s => s.ContractResolver = new GithubContractResolver());
+                j.DefaultDeserializationSettings = new DeserializationSettings { SkipRootElement = true };
+            });
 
             var client = RestClient.Create("http://github.com/api/v2/json", settings);
 
             var repositories = client.Get("repos/show/:user", new { user = "jonnii" }).OnOk()
-                .Unwrap<List<Repository>>(new DeserializationSettings { RootElementPath = "repositories" });
+                .Unwrap<List<Repository>>();
 
             foreach (var repository in repositories)
             {
@@ -28,7 +31,7 @@ namespace Resticle.Samples.Github
             }
 
             var commits = client.Get("commits/list/:user/:repository/:branch", new { user = "jonnii", repository = "resticle", branch = "master" })
-                .OnOk().Unwrap<List<Commit>>(new DeserializationSettings { RootElementPath = "commits" });
+                .OnOk().Unwrap<List<Commit>>();
 
             foreach (var commit in commits)
             {

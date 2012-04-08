@@ -6,7 +6,9 @@ namespace Resticle
     public interface IRestResponseHandler
     {
         /// <summary>
-        /// Deserializes the body of a rest response as a given type.
+        /// Deserializes the body of a rest response as a given type. This 
+        /// will use the default deserialization settings that are set on the 
+        /// serializer. To override them use an overload of this method.
         /// </summary>
         /// <typeparam name="T">The type to deserialize</typeparam>
         /// <returns>The deserialized body</returns>
