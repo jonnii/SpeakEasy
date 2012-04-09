@@ -1,5 +1,5 @@
-Resticle
-========
+HttpSpeak
+=========
 
 **PLEASE NOTE THIS IS A WORK IN PROGRESS**
 **IF YOU HAVE FEEDBACK PLEASE EMAIL ME**
@@ -31,9 +31,9 @@ Installation
 
 If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
 
-    install-package Resticle
+    install-package HttpSpeak
 
-Resticle has a dependency on Newtonsoft.Json.
+HttpSpeak has a dependency on Newtonsoft.Json and Nlog2.
 
 Examples
 --------
