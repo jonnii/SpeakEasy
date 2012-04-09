@@ -3,9 +3,9 @@ using System.Net;
 
 namespace HttpSpeak
 {
-    public class RestResponse : IRestResponse
+    public class HttpResponse : IHttpResponse
     {
-        public RestResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, ISerializer deserializer)
+        public HttpResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, ISerializer deserializer)
         {
             Deserializer = deserializer;
 
@@ -22,7 +22,7 @@ namespace HttpSpeak
 
         public ISerializer Deserializer { get; private set; }
 
-        public IRestResponse On(HttpStatusCode code, Action action)
+        public IHttpResponse On(HttpStatusCode code, Action action)
         {
             if (HttpStatusCode == code)
             {
@@ -32,14 +32,14 @@ namespace HttpSpeak
             return this;
         }
 
-        public IRestResponse On<T>(HttpStatusCode code, Action<T> action)
+        public IHttpResponse On<T>(HttpStatusCode code, Action<T> action)
         {
             if (!Is(code))
             {
                 var message = string.Format(
                     "Expected the status code to be {0} but was {1}", code, HttpStatusCode);
 
-                throw new RestException(message);
+                throw new HttpException(message);
             }
 
             var deserialied = Deserializer.Deserialize<T>(Body);
@@ -49,30 +49,30 @@ namespace HttpSpeak
             return this;
         }
 
-        public IRestResponseHandler On(HttpStatusCode code)
+        public IHttpResponseHandler On(HttpStatusCode code)
         {
-            return new RestResponseHandler(this);
+            return new HttpResponseHandler(this);
         }
 
-        public IRestResponseHandler OnOk()
+        public IHttpResponseHandler OnOk()
         {
             if (!IsOk())
             {
                 var message = string.Format(
-                    "Cannot get a rest response handler for Ok, because the status was {0}", HttpStatusCode);
+                    "Cannot get an http response handler for Ok, because the status was {0}", HttpStatusCode);
 
-                throw new RestException(message);
+                throw new HttpException(message);
             }
 
-            return new RestResponseHandler(this);
+            return new HttpResponseHandler(this);
         }
 
-        public IRestResponse OnOk(Action action)
+        public IHttpResponse OnOk(Action action)
         {
             return On(HttpStatusCode.OK, action);
         }
 
-        public IRestResponse OnOk<T>(Action<T> action)
+        public IHttpResponse OnOk<T>(Action<T> action)
         {
             return On(HttpStatusCode, action);
         }

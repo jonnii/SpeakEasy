@@ -4,9 +4,9 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class PutRestRequestSpecification
+    public class PutRequestSpecification
     {
-        [Subject(typeof(PutRestRequest))]
+        [Subject(typeof(PutRequest))]
         public class when_building_web_request : with_put_request
         {
             Because of = () =>
@@ -29,9 +29,9 @@ namespace HttpSpeak.Specifications
         public class with_put_request : with_serializer
         {
             Establish context = () =>
-                request = new PutRestRequest(new Resource("http://example.com/companies"), null);
+                request = new PutRequest(new Resource("http://example.com/companies"), null);
 
-            protected static PutRestRequest request;
+            protected static PutRequest request;
         }
     }
 }

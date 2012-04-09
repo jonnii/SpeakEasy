@@ -9,14 +9,14 @@ namespace HttpSpeak.Samples.Github
     {
         public static void Main(string[] args)
         {
-            var settings = RestClientSettings.Default;
+            var settings = HttpClientSettings.Default;
             settings.Configure<JsonDotNetSerializer>(j =>
             {
                 j.ConfigureSettings(s => s.ContractResolver = new GithubContractResolver());
                 j.DefaultDeserializationSettings = new DeserializationSettings { SkipRootElement = true };
             });
 
-            var client = RestClient.Create("http://github.com/api/v2/json", settings);
+            var client = HttpClient.Create("http://github.com/api/v2/json", settings);
 
             var repositories = client.Get("repos/show/:user", new { user = "jonnii" }).OnOk()
                 .Unwrap<List<Repository>>();

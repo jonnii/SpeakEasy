@@ -22,22 +22,22 @@ namespace HttpSpeak
             this.authenticator = authenticator;
         }
 
-        public IRestResponse Run(IRestRequest request)
+        public IHttpResponse Run(IHttpRequest request)
         {
             Logger.Debug("running request of type {0}", request.GetType().Name);
 
             authenticator.Authenticate(request);
 
             var webRequest = request.BuildWebRequest(transmissionSettings);
-            return webRequestGateway.Send(webRequest, CreateRestResponse);
+            return webRequestGateway.Send(webRequest, CreateHttpResponse);
         }
 
-        public IRestResponse CreateRestResponse(IHttpWebResponse webResponse)
+        public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse)
         {
             var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
             var body = webResponse.ReadBody();
 
-            return new RestResponse(
+            return new HttpResponse(
                 webResponse.ResponseUri,
                 webResponse.StatusCode,
                 body,

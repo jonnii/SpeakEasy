@@ -1,13 +1,13 @@
-﻿using System.Net;
+using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class RestRequestSpecification
+    public class HttpRequestSpecification
     {
-        [Subject(typeof(RestRequest))]
-        public class when_building_web_request : with_rest_request
+        [Subject(typeof(HttpRequest))]
+        public class when_building_web_request : with_request
         {
             Because of = () =>
                 webRequest = request.BuildWebRequest(transmissionSettings);
@@ -21,8 +21,8 @@ namespace HttpSpeak.Specifications
             static HttpWebRequest webRequest;
         }
 
-        [Subject(typeof(RestRequest))]
-        public class when_building_web_request_with_headers : with_rest_request
+        [Subject(typeof(HttpRequest))]
+        public class when_building_web_request_with_headers : with_request
         {
             Establish context = () =>
                 request.AddHeader("name", "value");
@@ -36,8 +36,8 @@ namespace HttpSpeak.Specifications
             static HttpWebRequest webRequest;
         }
 
-        [Subject(typeof(RestRequest))]
-        public class when_building_web_request_with_custom_user_agent : with_rest_request
+        [Subject(typeof(HttpRequest))]
+        public class when_building_web_request_with_custom_user_agent : with_request
         {
             Establish context = () =>
                 request.UserAgent = "custom user agent";
@@ -51,8 +51,8 @@ namespace HttpSpeak.Specifications
             static HttpWebRequest webRequest;
         }
 
-        [Subject(typeof(RestRequest))]
-        public class when_adding_header : with_rest_request
+        [Subject(typeof(HttpRequest))]
+        public class when_adding_header : with_request
         {
             Because of = () =>
                 request.AddHeader("header", "value");
@@ -61,7 +61,7 @@ namespace HttpSpeak.Specifications
                 request.NumHeaders.ShouldEqual(1);
         }
 
-        public class with_rest_request : WithFakes
+        public class with_request : WithFakes
         {
             Establish context = () =>
             {
@@ -71,20 +71,14 @@ namespace HttpSpeak.Specifications
 
                 webRequestGateway = An<IWebRequestGateway>();
 
-                request = new TestRestRequest(new Resource("http://example.com/api/companies"));
+                request = new TestHttpRequest(new Resource("http://example.com/api/companies"));
             };
 
-            protected static TestRestRequest request;
+            protected static TestHttpRequest request;
 
             protected static ITransmissionSettings transmissionSettings;
 
             protected static IWebRequestGateway webRequestGateway;
         }
-    }
-
-    public class TestRestRequest : GetLikeRestRequest
-    {
-        public TestRestRequest(Resource resource)
-            : base(resource) { }
     }
 }

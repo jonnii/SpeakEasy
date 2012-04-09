@@ -4,9 +4,9 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class GetRestRequestSpecification
+    public class GetRequestSpecification
     {
-        [Subject(typeof(GetRestRequest))]
+        [Subject(typeof(GetRequest))]
         public class when_building_web_request : with_get_request
         {
             Because of = () =>
@@ -24,7 +24,7 @@ namespace HttpSpeak.Specifications
             static WebRequest webRequest;
         }
 
-        [Subject(typeof(GetRestRequest))]
+        [Subject(typeof(GetRequest))]
         public class when_building_web_request_with_parameters : with_transmission
         {
             Establish context = () =>
@@ -33,7 +33,7 @@ namespace HttpSpeak.Specifications
                 resource.AddParameter("filter", "ftse");
                 resource.AddParameter("starred", true);
 
-                request = new GetRestRequest(resource);
+                request = new GetRequest(resource);
             };
 
             Because of = () =>
@@ -44,7 +44,7 @@ namespace HttpSpeak.Specifications
 
             static WebRequest webRequest;
 
-            static GetRestRequest request;
+            static GetRequest request;
         }
 
         public class with_transmission : WithFakes
@@ -58,9 +58,9 @@ namespace HttpSpeak.Specifications
         public class with_get_request : with_transmission
         {
             Establish context = () =>
-                request = new GetRestRequest(new Resource("http://example.com/companies"));
+                request = new GetRequest(new Resource("http://example.com/companies"));
 
-            protected static GetRestRequest request;
+            protected static GetRequest request;
         }
     }
 }

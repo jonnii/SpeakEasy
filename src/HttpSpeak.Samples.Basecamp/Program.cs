@@ -9,11 +9,11 @@ namespace HttpSpeak.Samples.Basecamp
     {
         public static void Main(string[] args)
         {
-            var settings = RestClientSettings.Default;
+            var settings = HttpClientSettings.Default;
             settings.Authenticator = new BasicAuthenticator("username", "password");
             settings.UserAgent = "HttpSpeak (username)";
 
-            var client = RestClient.Create("https://basecamp.com/1816438/api/v1/", settings);
+            var client = HttpClient.Create("https://basecamp.com/1816438/api/v1/", settings);
 
             var projects = client.Get("projects.json").OnOk().Unwrap<List<Project>>();
 

@@ -13,15 +13,15 @@ namespace HttpSpeak.Specifications
             Because of = () =>
                 Subject.Run(request);
 
-            It should_authenticate_rest_request = () =>
-                The<IAuthenticator>().WasToldTo(a => a.Authenticate(Param.IsAny<IRestRequest>()));
+            It should_authenticate_request = () =>
+                The<IAuthenticator>().WasToldTo(a => a.Authenticate(Param.IsAny<IHttpRequest>()));
 
             It should_execute_web_request = () =>
-                The<IWebRequestGateway>().WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), Subject.CreateRestResponse));
+                The<IWebRequestGateway>().WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), Subject.CreateHttpResponse));
         }
 
         [Subject(typeof(RequestRunner))]
-        public class when_creating_rest_response : with_request_runner
+        public class when_creating_response : with_request_runner
         {
             Establish context = () =>
             {
@@ -31,7 +31,7 @@ namespace HttpSpeak.Specifications
             };
 
             Because of = () =>
-                response = Subject.CreateRestResponse(webResponse);
+                response = Subject.CreateHttpResponse(webResponse);
 
             It should_have_response_url_corresponding_to_request = () =>
                 response.RequestedUrl.ShouldEqual(new Uri("http://example.com/companies"));
@@ -41,17 +41,17 @@ namespace HttpSpeak.Specifications
 
             static IHttpWebResponse webResponse;
 
-            static IRestResponse response;
+            static IHttpResponse response;
         }
 
         public class with_request_runner : WithSubject<RequestRunner>
         {
             Establish context = () =>
             {
-                request = An<IRestRequest>();
+                request = An<IHttpRequest>();
             };
 
-            protected static IRestRequest request;
+            protected static IHttpRequest request;
         }
     }
 }

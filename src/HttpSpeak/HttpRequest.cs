@@ -3,11 +3,11 @@ using System.Net;
 
 namespace HttpSpeak
 {
-    public abstract class RestRequest : IRestRequest
+    public abstract class HttpRequest : IHttpRequest
     {
         private readonly List<Header> headers = new List<Header>();
 
-        protected RestRequest(Resource resource)
+        protected HttpRequest(Resource resource)
         {
             Resource = resource;
         }

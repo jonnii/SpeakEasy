@@ -1,10 +1,10 @@
 namespace HttpSpeak
 {
-    public class RestResponseHandler : IRestResponseHandler
+    public class HttpResponseHandler : IHttpResponseHandler
     {
-        private readonly IRestResponse response;
+        private readonly IHttpResponse response;
 
-        public RestResponseHandler(IRestResponse response)
+        public HttpResponseHandler(IHttpResponse response)
         {
             this.response = response;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace HttpSpeak
 {
     /// <summary>
-    /// A serializer is used to turn an object into the body of a rest request.
+    /// A serializer is used to turn an object into the body of a http request.
     /// </summary>
     public interface ISerializer
     {
@@ -26,7 +26,7 @@ namespace HttpSpeak
         string Serialize<T>(T t);
 
         /// <summary>
-        /// Deserializes the body of a rest response and creates
+        /// Deserializes the body of a response and creates
         /// an instance of the given type
         /// </summary>
         /// <typeparam name="T">The type of instance to create</typeparam>
@@ -35,7 +35,7 @@ namespace HttpSpeak
         T Deserialize<T>(string body);
 
         /// <summary>
-        /// Deserializes the body of a rest response and creates
+        /// Deserializes the body of a response and creates
         /// an instance of the given type with custom deserialization settings
         /// </summary>
         /// <typeparam name="T">The type to deserialize</typeparam>

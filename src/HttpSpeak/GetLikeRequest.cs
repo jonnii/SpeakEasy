@@ -1,8 +1,8 @@
 namespace HttpSpeak
 {
-    public abstract class GetLikeRestRequest : RestRequest
+    public abstract class GetLikeRequest : HttpRequest
     {
-        protected GetLikeRestRequest(Resource resource)
+        protected GetLikeRequest(Resource resource)
             : base(resource) { }
 
         protected override string BuildRequestUrl(Resource resource)

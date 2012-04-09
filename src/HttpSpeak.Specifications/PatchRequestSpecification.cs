@@ -4,15 +4,15 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class PatchRestRequestSpecification
+    public class PatchRequestSpecification
     {
-        [Subject(typeof(PutRestRequest))]
+        [Subject(typeof(PatchRequest))]
         public class when_building_web_request : with_patch_request
         {
             Because of = () =>
                 webRequest = request.BuildWebRequest(serializer);
 
-            It should_have_put_method = () =>
+            It should_have_patch_method = () =>
                 webRequest.Method.ShouldEqual("PATCH");
 
             static WebRequest webRequest;
@@ -29,9 +29,9 @@ namespace HttpSpeak.Specifications
         public class with_patch_request : with_serializer
         {
             Establish context = () =>
-                request = new PatchRestRequest(new Resource("http://example.com/companies"), null);
+                request = new PatchRequest(new Resource("http://example.com/companies"), null);
 
-            protected static PatchRestRequest request;
+            protected static PatchRequest request;
         }
     }
 }

@@ -2,21 +2,21 @@ using System.Collections.Generic;
 
 namespace HttpSpeak
 {
-    public sealed class PutRestRequest : PostLikeRestRequest
+    public sealed class PatchRequest : PostLikeRequest
     {
-        public PutRestRequest(Resource resource)
+        public PatchRequest(Resource resource)
             : base(resource)
         {
 
         }
 
-        public PutRestRequest(Resource resource, object body)
+        public PatchRequest(Resource resource, object body)
             : base(resource, body)
         {
 
         }
 
-        public PutRestRequest(Resource resource, IEnumerable<FileUpload> files)
+        public PatchRequest(Resource resource, IEnumerable<FileUpload> files)
             : base(resource, files)
         {
 
@@ -24,7 +24,7 @@ namespace HttpSpeak
 
         protected override string GetHttpMethod()
         {
-            return "PUT";
+            return "PATCH";
         }
     }
 }

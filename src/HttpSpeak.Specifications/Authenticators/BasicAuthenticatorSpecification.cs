@@ -11,7 +11,7 @@ namespace HttpSpeak.Specifications.Authenticators
         {
             Establish context = () =>
             {
-                request = An<IRestRequest>();
+                request = An<IHttpRequest>();
                 authenticator = new BasicAuthenticator("username", "password");
             };
 
@@ -23,7 +23,7 @@ namespace HttpSpeak.Specifications.Authenticators
 
             static BasicAuthenticator authenticator;
 
-            static IRestRequest request;
+            static IHttpRequest request;
         }
     }
 }

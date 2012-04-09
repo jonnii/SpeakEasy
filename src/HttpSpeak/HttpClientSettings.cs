@@ -6,13 +6,13 @@ using HttpSpeak.Serializers;
 
 namespace HttpSpeak
 {
-    public class RestClientSettings
+    public class HttpClientSettings
     {
-        public static RestClientSettings Default
+        public static HttpClientSettings Default
         {
             get
             {
-                var settings = new RestClientSettings();
+                var settings = new HttpClientSettings();
 
                 settings.Serializers.Add(new JsonDotNetSerializer());
                 settings.Serializers.Add(new DotNetXmlSerializer());
@@ -21,7 +21,7 @@ namespace HttpSpeak
             }
         }
 
-        public RestClientSettings()
+        public HttpClientSettings()
         {
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();

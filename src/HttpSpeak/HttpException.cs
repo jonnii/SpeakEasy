@@ -4,23 +4,23 @@ using System.Runtime.Serialization;
 namespace HttpSpeak
 {
     [Serializable]
-    public class RestException : Exception
+    public class HttpException : Exception
     {
-        public RestException()
+        public HttpException()
         {
         }
 
-        public RestException(string message)
+        public HttpException(string message)
             : base(message)
         {
         }
 
-        public RestException(string message, Exception inner)
+        public HttpException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        protected RestException(SerializationInfo info, StreamingContext context)
+        protected HttpException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

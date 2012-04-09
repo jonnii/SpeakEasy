@@ -5,20 +5,20 @@ using System.Text;
 
 namespace HttpSpeak
 {
-    public abstract class PostLikeRestRequest : RestRequest
+    public abstract class PostLikeRequest : HttpRequest
     {
-        protected PostLikeRestRequest(Resource resource)
+        protected PostLikeRequest(Resource resource)
             : base(resource)
         {
         }
 
-        protected PostLikeRestRequest(Resource resource, object body)
+        protected PostLikeRequest(Resource resource, object body)
             : base(resource)
         {
             Body = body;
         }
 
-        protected PostLikeRestRequest(Resource resource, IEnumerable<FileUpload> files)
+        protected PostLikeRequest(Resource resource, IEnumerable<FileUpload> files)
             : base(resource)
         {
             Files = files;

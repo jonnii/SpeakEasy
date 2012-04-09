@@ -4,13 +4,13 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class RestClientSettingsSpecification
+    public class HttpClientSettingsSpecification
     {
-        [Subject(typeof(RestClientSettings))]
+        [Subject(typeof(HttpClientSettings))]
         public class in_general
         {
             Establish context = () =>
-                settings = new RestClientSettings();
+                settings = new HttpClientSettings();
 
             It should_have_null_authenticator = () =>
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
@@ -18,10 +18,10 @@ namespace HttpSpeak.Specifications
             It should_have_default_user_agent = () =>
                 settings.UserAgent.ShouldEqual("HttpSpeak");
 
-            static RestClientSettings settings;
+            static HttpClientSettings settings;
         }
 
-        [Subject(typeof(RestClientSettings))]
+        [Subject(typeof(HttpClientSettings))]
         public class default_settings_in_general : with_default_settings
         {
             It should_default_to_json_serializer = () =>
@@ -34,7 +34,7 @@ namespace HttpSpeak.Specifications
                 settings.Serializers.ShouldContain(d => d is DotNetXmlSerializer);
         }
 
-        [Subject(typeof(RestClientSettings))]
+        [Subject(typeof(HttpClientSettings))]
         public class when_customizing_serializer : with_default_settings
         {
             Because of = () =>
@@ -52,9 +52,9 @@ namespace HttpSpeak.Specifications
         public class with_default_settings
         {
             Establish context = () =>
-                settings = RestClientSettings.Default;
+                settings = HttpClientSettings.Default;
 
-            protected static RestClientSettings settings;
+            protected static HttpClientSettings settings;
         }
     }
 }

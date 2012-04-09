@@ -4,33 +4,33 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class PostRestRequestSpecification
+    public class PostRequestSpecification
     {
-        [Subject(typeof(PostRestRequest))]
+        [Subject(typeof(PostRequest))]
         public class in_general_without_body
         {
             Establish context = () =>
-                request = new PostRestRequest(new Resource("http://example.com/companies"), null);
+                request = new PostRequest(new Resource("http://example.com/companies"), null);
 
             It should_not_have_body = () =>
                 request.HasSerializableBody.ShouldBeFalse();
 
-            static PostRestRequest request;
+            static PostRequest request;
         }
 
-        [Subject(typeof(PostRestRequest))]
+        [Subject(typeof(PostRequest))]
         public class in_general_with_body : with_transmission
         {
             Establish context = () =>
-                request = new PostRestRequest(new Resource("http://example.com/companies"), "awesome sauce");
+                request = new PostRequest(new Resource("http://example.com/companies"), "awesome sauce");
 
             It should_have_body = () =>
                 request.HasSerializableBody.ShouldBeTrue();
 
-            static PostRestRequest request;
+            static PostRequest request;
         }
 
-        [Subject(typeof(PostRestRequest))]
+        [Subject(typeof(PostRequest))]
         public class in_general_with_parameters : with_transmission
         {
             Establish context = () =>
@@ -38,20 +38,20 @@ namespace HttpSpeak.Specifications
                 var resource = new Resource("http://example.com/companies");
                 resource.AddParameter("name", "bob");
 
-                request = new PostRestRequest(resource, null);
+                request = new PostRequest(resource, null);
             };
 
             It should_have_body = () =>
                 request.HasSerializableBody.ShouldBeTrue();
 
-            static PostRestRequest request;
+            static PostRequest request;
         }
 
-        [Subject(typeof(PostRestRequest))]
+        [Subject(typeof(PostRequest))]
         public class when_building_web_request_with_no_body : with_transmission
         {
             Establish context = () =>
-                request = new PostRestRequest(new Resource("http://example.com/companies"), null);
+                request = new PostRequest(new Resource("http://example.com/companies"), null);
 
             Because of = () =>
                 webRequest = request.BuildWebRequest(transmissionSettings);
@@ -64,10 +64,10 @@ namespace HttpSpeak.Specifications
 
             static WebRequest webRequest;
 
-            static PostRestRequest request;
+            static PostRequest request;
         }
 
-        [Subject(typeof(PostRestRequest))]
+        [Subject(typeof(PostRequest))]
         public class when_building_web_request_with_parameters : with_transmission
         {
             Establish context = () =>
@@ -76,7 +76,7 @@ namespace HttpSpeak.Specifications
                 resource.AddParameter("name", "bob");
                 resource.AddParameter("age", 26);
 
-                request = new PostRestRequest(resource, null);
+                request = new PostRequest(resource, null);
             };
 
             Because of = () =>
@@ -87,7 +87,7 @@ namespace HttpSpeak.Specifications
 
             static WebRequest webRequest;
 
-            static PostRestRequest request;
+            static PostRequest request;
         }
 
         public class with_transmission : WithFakes

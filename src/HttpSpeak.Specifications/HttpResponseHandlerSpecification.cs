@@ -3,16 +3,16 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class RestResponseHandlerSpecification
+    public class HttpResponseHandlerSpecification
     {
-        [Subject(typeof(RestResponseHandler))]
-        public class when_unwrapping : WithSubject<RestResponseHandler>
+        [Subject(typeof(HttpResponseHandler))]
+        public class when_unwrapping : WithSubject<HttpResponseHandler>
         {
             Establish context = () =>
             {
                 deserializer = An<ISerializer>();
 
-                The<IRestResponse>().WhenToldTo(r => r.Deserializer).Return(deserializer);
+                The<IHttpResponse>().WhenToldTo(r => r.Deserializer).Return(deserializer);
             };
 
             Because of = () =>

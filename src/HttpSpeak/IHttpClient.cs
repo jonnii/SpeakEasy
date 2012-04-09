@@ -1,13 +1,13 @@
 namespace HttpSpeak
 {
     /// <summary>
-    /// The IRestClient is your entry point into a restful API. The methods map to HttpMethods methods on the server (GET/PUT/POST/PATCH/DELETE etc...) and 
-    /// return a chainable rest response.
+    /// The IHttpClient is your entry point into an API that speaks http. The methods map to HttpMethods 
+    /// methods on the server (GET/PUT/POST/PATCH/DELETE etc...) and return a chainable http response.
     /// </summary>
-    public interface IRestClient
+    public interface IHttpClient
     {
         /// <summary>
-        /// The root resource for this rest client, all calls will be relative to this resource
+        /// The root resource for this http client, all calls will be relative to this resource
         /// </summary>
         Resource Root { get; }
 
@@ -15,24 +15,24 @@ namespace HttpSpeak
         /// Executes an http get request
         /// </summary>
         /// <param name="resource">The resource to get</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Get(Resource resource);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Get(Resource resource);
 
         /// <summary>
         /// Executes an http get request
         /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Get(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Get(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request
         /// </summary>
         /// <param name="body">An object that represents the body to post</param>
         /// <param name="resource">The resource to post</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(object body, Resource resource);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(object body, Resource resource);
 
         /// <summary>
         /// Executes an http post request
@@ -40,8 +40,8 @@ namespace HttpSpeak
         /// <param name="body">An object that represents the body to post</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(object body, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request with a file upload
@@ -49,8 +49,8 @@ namespace HttpSpeak
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(FileUpload file, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(FileUpload file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request with a file uploads
@@ -58,23 +58,23 @@ namespace HttpSpeak
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(FileUpload[] files, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(FileUpload[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request without a body
         /// </summary>
         /// <param name="resource">The resource to post</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(Resource resource);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(Resource resource);
 
         /// <summary>
         /// Executes an http post request without a body
         /// </summary>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Post(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Post(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request
@@ -82,16 +82,16 @@ namespace HttpSpeak
         /// <param name="body">An object that represents the body to put</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Put(object body, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Put(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request without a body
         /// </summary>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Put(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Put(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request with a file upload
@@ -99,8 +99,8 @@ namespace HttpSpeak
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Put(FileUpload file, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Put(FileUpload file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request with a file uploads
@@ -108,8 +108,8 @@ namespace HttpSpeak
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Put(FileUpload[] files, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Put(FileUpload[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request
@@ -117,16 +117,16 @@ namespace HttpSpeak
         /// <param name="body">An object that represents the body to patch</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Patch(object body, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Patch(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request without a body
         /// </summary>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Patch(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Patch(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request with a file upload
@@ -134,8 +134,8 @@ namespace HttpSpeak
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Patch(FileUpload file, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Patch(FileUpload file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request with a file uploads
@@ -143,32 +143,32 @@ namespace HttpSpeak
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Patch(FileUpload[] files, string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Patch(FileUpload[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http delete request
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Delete(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Delete(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http head request
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Head(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Head(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http options request
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable rest response</returns>
-        IRestResponse Options(string relativeUrl, object segments = null);
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Options(string relativeUrl, object segments = null);
     }
 }
 

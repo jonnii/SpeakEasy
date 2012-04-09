@@ -5,7 +5,7 @@ HttpSpeak
 **IF YOU HAVE FEEDBACK PLEASE EMAIL ME**
 **me@[mygithubusername].com**
 
-This is a super simple library to talk to restful web services, the kind you can easily create using
+This is a super simple library to talk to http web services, the kind you can easily create using
 ASP.net MVC WebApi or [insert your favourite web framework here]. It's heavily inspired 
 by [RestSharp](http://restsharp.org) and therefore licensed the same. It exists primarily to scratch 
 an itch I had that RestSharp couldn't and if you find it useful then great!
@@ -41,7 +41,7 @@ Examples
 Enough chat, lets see what it looks like:
 
     // create a client
-    var client = new RestClient("http://example.com/api");
+    var client = HttpClient.Create("http://example.com/api");
     
     // get some companies!
     var companies = client.Get("companies").OnOK().As<List<Company>>();

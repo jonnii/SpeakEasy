@@ -15,12 +15,12 @@ namespace HttpSpeak.Authenticators
             this.password = password;
         }
 
-        public void Authenticate(IRestRequest restRequest)
+        public void Authenticate(IHttpRequest httpRequest)
         {
             var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Concat(username, ":", password)));
             var authorizationHeader = string.Concat("Basic ", token);
 
-            restRequest.AddHeader("Authorization", authorizationHeader);
+            httpRequest.AddHeader("Authorization", authorizationHeader);
         }
     }
 }

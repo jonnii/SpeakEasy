@@ -62,22 +62,23 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
-    <Compile Include="DeleteRestRequestSpecification.cs" />
-    <Compile Include="GetRestRequestSpecification.cs" />
-    <Compile Include="HeadRestRequestSpecification.cs" />
-    <Compile Include="OptionsRestRequestSpecification.cs" />
+    <Compile Include="DeleteRequestSpecification.cs" />
+    <Compile Include="GetRequestSpecification.cs" />
+    <Compile Include="HeadRequestSpecification.cs" />
+    <Compile Include="HttpRequestSpecification.cs" />
+    <Compile Include="OptionsRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
-    <Compile Include="PatchRestRequestSpecification.cs" />
-    <Compile Include="PostRestRequestSpecification.cs" />
-    <Compile Include="PutRestRequestSpecification.cs" />
+    <Compile Include="PatchRequestSpecification.cs" />
+    <Compile Include="PostRequestSpecification.cs" />
+    <Compile Include="PutRequestSpecification.cs" />
     <Compile Include="RequestRunnerSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestClientSettingsSpecification.cs" />
-    <Compile Include="RestClientSpecification.cs" />
-    <Compile Include="RestRequestSpecification.cs" />
-    <Compile Include="RestResponseHandlerSpecification.cs" />
-    <Compile Include="RestResponseSpecification.cs" />
+    <Compile Include="HttpClientSettingsSpecification.cs" />
+    <Compile Include="HttpClientSpecification.cs" />
+    <Compile Include="TestHttpRequest.cs" />
+    <Compile Include="HttpResponseHandlerSpecification.cs" />
+    <Compile Include="HttpResponseSpecification.cs" />
     <Compile Include="Serializers\JsonDotNetSerializerSpecification.cs" />
     <Compile Include="TransmissionSpecification.cs" />
   </ItemGroup>

@@ -2,9 +2,9 @@ using System.Net;
 
 namespace HttpSpeak
 {
-    public sealed class OptionsRestRequest : GetLikeRestRequest
+    public sealed class OptionsRequest : GetLikeRequest
     {
-        public OptionsRestRequest(Resource resource)
+        public OptionsRequest(Resource resource)
             : base(resource)
         {
 

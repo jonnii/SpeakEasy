@@ -5,9 +5,9 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class RestResponseSpecification
+    public class HttpResponseSpecification
     {
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class in_general_with_ok_response : with_ok_response
         {
             It should_indicate_when_ok = () =>
@@ -17,7 +17,7 @@ namespace HttpSpeak.Specifications
                 response.Is(HttpStatusCode.BadRequest).ShouldBeFalse();
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_with_correct_status_and_typed_callback : with_ok_response
         {
             Because of = () =>
@@ -32,7 +32,7 @@ namespace HttpSpeak.Specifications
             static bool called;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_correct_status_and_typed_callback : with_ok_response
         {
             Because of = () =>
@@ -47,7 +47,7 @@ namespace HttpSpeak.Specifications
             static bool called;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_correct_status_code : with_ok_response
         {
             Because of = () =>
@@ -56,22 +56,22 @@ namespace HttpSpeak.Specifications
             It should_return_handler = () =>
                 handler.ShouldNotBeNull();
 
-            static IRestResponseHandler handler;
+            static IHttpResponseHandler handler;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_incorrect_status_code : with_created_response
         {
             Because of = () =>
                 exception = Catch.Exception(() => response.OnOk());
 
             It should_return_handler = () =>
-                exception.ShouldBeOfType<RestException>();
+                exception.ShouldBeOfType<HttpException>();
 
             static Exception exception;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_with_correct_status_code_and_callback : with_ok_response
         {
             Because of = () =>
@@ -83,7 +83,7 @@ namespace HttpSpeak.Specifications
             static bool called;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_with_incorrect_status_code_and_callback : with_ok_response
         {
             Because of = () =>
@@ -95,7 +95,7 @@ namespace HttpSpeak.Specifications
             static bool called;
         }
 
-        [Subject(typeof(RestResponse))]
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_callback : with_ok_response
         {
             Because of = () =>
@@ -118,17 +118,17 @@ namespace HttpSpeak.Specifications
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = new RestResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, "body", deserializer);
+                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, "body", deserializer);
 
-            protected static RestResponse response;
+            protected static HttpResponse response;
         }
 
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = new RestResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, "body", deserializer);
+                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, "body", deserializer);
 
-            protected static RestResponse response;
+            protected static HttpResponse response;
         }
 
         public class Person { }

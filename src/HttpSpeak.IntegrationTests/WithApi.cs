@@ -23,7 +23,7 @@ namespace HttpSpeak.IntegrationTests
             return ApiServer.Value;
         }
 
-        protected IRestClient client;
+        protected IHttpClient client;
 
         protected HttpSelfHostServer server;
 
@@ -34,9 +34,9 @@ namespace HttpSpeak.IntegrationTests
             client = CreateClient();
         }
 
-        protected virtual IRestClient CreateClient()
+        protected virtual IHttpClient CreateClient()
         {
-            return RestClient.Create("http://localhost:1337/api");
+            return HttpClient.Create("http://localhost:1337/api");
         }
     }
 }

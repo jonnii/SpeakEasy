@@ -6,13 +6,13 @@
     <title>HttpSpeak</title>
     <authors>Jonathan Goldman</authors>
     <owners>Jonathan Goldman</owners>
-    <summary>Simple rest library</summary>
+    <summary>Simple http library</summary>
     <description>HttpSpeak is a library that makes talking to http webservices easy.</description>
     <language>en-US</language>
     <projectUrl>http://github.com/jonnii/httpspeak</projectUrl>
     <licenseUrl>https://github.com/jonnii/httpspeak/blob/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <tags>http rest web</tags>
+    <tags>http web api rest</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="4.5.1" />
       <dependency id="NLog" version="2.0.0.2000" />

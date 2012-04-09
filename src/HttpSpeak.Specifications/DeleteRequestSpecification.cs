@@ -4,9 +4,9 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class DeleteRestRequestSpecification
+    public class DeleteRequestSpecification
     {
-        [Subject(typeof(DeleteRestRequest))]
+        [Subject(typeof(DeleteRequest))]
         public class when_building_web_request : with_delete_request
         {
             Because of = () =>
@@ -29,9 +29,9 @@ namespace HttpSpeak.Specifications
         public class with_delete_request : with_serializer
         {
             Establish context = () =>
-                request = new DeleteRestRequest(new Resource("http://example.com/companies"));
+                request = new DeleteRequest(new Resource("http://example.com/companies"));
 
-            protected static DeleteRestRequest request;
+            protected static DeleteRequest request;
         }
     }
 }

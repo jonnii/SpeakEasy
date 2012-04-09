@@ -4,9 +4,9 @@ using Machine.Specifications;
 
 namespace HttpSpeak.Specifications
 {
-    public class OptionsRestRequestSpecification
+    public class OptionsRequestSpecification
     {
-        [Subject(typeof(OptionsRestRequest))]
+        [Subject(typeof(OptionsRequest))]
         public class when_building_web_request : with_options_request
         {
             Because of = () =>
@@ -29,9 +29,9 @@ namespace HttpSpeak.Specifications
         public class with_options_request : with_serializer
         {
             Establish context = () =>
-                request = new OptionsRestRequest(new Resource("http://example.com/companies"));
+                request = new OptionsRequest(new Resource("http://example.com/companies"));
 
-            protected static OptionsRestRequest request;
+            protected static OptionsRequest request;
         }
     }
 }

@@ -2,21 +2,21 @@ using System.Collections.Generic;
 
 namespace HttpSpeak
 {
-    public sealed class PostRestRequest : PostLikeRestRequest
+    public sealed class PostRequest : PostLikeRequest
     {
-        public PostRestRequest(Resource resource)
+        public PostRequest(Resource resource)
             : base(resource)
         {
 
         }
 
-        public PostRestRequest(Resource resource, object body)
+        public PostRequest(Resource resource, object body)
             : base(resource, body)
         {
 
         }
 
-        public PostRestRequest(Resource resource, IEnumerable<FileUpload> files)
+        public PostRequest(Resource resource, IEnumerable<FileUpload> files)
             : base(resource, files)
         {
 

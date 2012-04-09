@@ -1,16 +1,16 @@
 namespace HttpSpeak
 {
     /// <summary>
-    /// The request runner is responsible for taking a rest request and
+    /// The request runner is responsible for taking a http request and
     /// running it
     /// </summary>
     public interface IRequestRunner
     {
         /// <summary>
-        /// Runs a rest request
+        /// Runs a http request
         /// </summary>
         /// <param name="request">The request to run</param>
-        /// <returns>The rest response</returns>
-        IRestResponse Run(IRestRequest request);
+        /// <returns>A new response</returns>
+        IHttpResponse Run(IHttpRequest request);
     }
 }

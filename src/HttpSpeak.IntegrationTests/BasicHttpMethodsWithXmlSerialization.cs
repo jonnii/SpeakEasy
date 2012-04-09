@@ -10,13 +10,13 @@ namespace HttpSpeak.IntegrationTests
     [TestFixture]
     public class BasicHttpMethodsWithXmlSerialization : WithApi
     {
-        protected override IRestClient CreateClient()
+        protected override IHttpClient CreateClient()
         {
-            var settings = RestClientSettings.Default;
+            var settings = HttpClientSettings.Default;
             settings.Serializers.Clear();
             settings.Serializers.Add(new DotNetXmlSerializer());
 
-            return RestClient.Create("http://localhost:1337/api", settings);
+            return HttpClient.Create("http://localhost:1337/api", settings);
         }
 
         [Test]

@@ -2,9 +2,9 @@ using System.Net;
 
 namespace HttpSpeak
 {
-    public sealed class HeadRestRequest : GetLikeRestRequest
+    public sealed class DeleteRequest : GetLikeRequest
     {
-        public HeadRestRequest(Resource resource)
+        public DeleteRequest(Resource resource)
             : base(resource)
         {
 
@@ -14,7 +14,7 @@ namespace HttpSpeak
         {
             var baseRequest = base.BuildWebRequest(transmissionSettings);
 
-            baseRequest.Method = "HEAD";
+            baseRequest.Method = "DELETE";
 
             return baseRequest;
         }
