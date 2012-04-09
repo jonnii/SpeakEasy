@@ -26,7 +26,7 @@ namespace HttpSpeak
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
 
-            UserAgent = "Resticle";
+            UserAgent = "HttpSpeak";
         }
 
         public IAuthenticator Authenticator { get; set; }

@@ -16,7 +16,7 @@ namespace HttpSpeak.Specifications
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
 
             It should_have_default_user_agent = () =>
-                settings.UserAgent.ShouldEqual("Resticle");
+                settings.UserAgent.ShouldEqual("HttpSpeak");
 
             static RestClientSettings settings;
         }

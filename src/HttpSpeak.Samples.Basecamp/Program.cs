@@ -11,7 +11,7 @@ namespace HttpSpeak.Samples.Basecamp
         {
             var settings = RestClientSettings.Default;
             settings.Authenticator = new BasicAuthenticator("username", "password");
-            settings.UserAgent = "Resticle (username)";
+            settings.UserAgent = "HttpSpeak (username)";
 
             var client = RestClient.Create("https://basecamp.com/1816438/api/v1/", settings);
 
