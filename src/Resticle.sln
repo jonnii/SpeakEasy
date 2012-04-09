@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 11
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle", "Resticle\Resticle.csproj", "{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSpeak", "Resticle\HttpSpeak.csproj", "{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Specifications", "Resticle.Specifications\Resticle.Specifications.csproj", "{E598D539-CC35-49BC-BC3B-55C079E76BB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSpeak.Specifications", "Resticle.Specifications\HttpSpeak.Specifications.csproj", "{E598D539-CC35-49BC-BC3B-55C079E76BB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.IntegrationTests", "Resticle.IntegrationTests\Resticle.IntegrationTests.csproj", "{C91F769F-C10C-42F2-8354-1C4664CE9F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSpeak.IntegrationTests", "Resticle.IntegrationTests\HttpSpeak.IntegrationTests.csproj", "{C91F769F-C10C-42F2-8354-1C4664CE9F2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1E4DC580-C87E-482E-8FAA-6815F6D263E9}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5B4F3026
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Samples.Github", "Resticle.Samples.Github\Resticle.Samples.Github.csproj", "{65A793C9-C00F-49D2-AE0C-B56CD15DA965}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSpeak.Samples.Github", "Resticle.Samples.Github\HttpSpeak.Samples.Github.csproj", "{65A793C9-C00F-49D2-AE0C-B56CD15DA965}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resticle.Samples.Basecamp", "Resticle.Samples.Basecamp\Resticle.Samples.Basecamp.csproj", "{A540670C-990D-4D32-BA40-F62902ACD07D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpSpeak.Samples.Basecamp", "Resticle.Samples.Basecamp\HttpSpeak.Samples.Basecamp.csproj", "{A540670C-990D-4D32-BA40-F62902ACD07D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

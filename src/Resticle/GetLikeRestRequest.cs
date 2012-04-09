@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     public abstract class GetLikeRestRequest : RestRequest
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// Transmission settings covers everything related to serialization and deserialization

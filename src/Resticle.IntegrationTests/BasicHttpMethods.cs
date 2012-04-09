@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using HttpSpeak.IntegrationTests.Controllers;
+using HttpSpeak.Serializers;
 using NUnit.Framework;
-using Resticle.IntegrationTests.Controllers;
-using Resticle.Serializers;
 
-namespace Resticle.IntegrationTests
+namespace HttpSpeak.IntegrationTests
 {
     [TestFixture]
     public class BasicHttpMethods : WithApi

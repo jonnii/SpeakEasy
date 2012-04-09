@@ -7,8 +7,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Resticle</RootNamespace>
-    <AssemblyName>Resticle</AssemblyName>
+    <RootNamespace>HttpSpeak</RootNamespace>
+    <AssemblyName>HttpSpeak</AssemblyName>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\targets\resticle\</OutputPath>
+    <OutputPath>..\..\targets\httpspeak\</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

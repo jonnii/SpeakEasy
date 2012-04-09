@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     public class RestClient : IRestClient
     {

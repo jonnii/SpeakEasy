@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Resticle.Serializers
+namespace HttpSpeak.Serializers
 {
     public abstract class Serializer : ISerializer
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Resticle.IntegrationTests
+namespace HttpSpeak.IntegrationTests
 {
     [Serializable]
     public class ValidationException : Exception

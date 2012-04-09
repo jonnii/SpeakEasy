@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Resticle.Authenticators
+namespace HttpSpeak.Authenticators
 {
     public class BasicAuthenticator : IAuthenticator
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// A simple wrapper around an HttpWebResponse

@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mime;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class HttpWebResponseWrapper : IHttpWebResponse
     {

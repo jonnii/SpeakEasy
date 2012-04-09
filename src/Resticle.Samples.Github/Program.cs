@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Resticle.Samples.Github.Models;
-using Resticle.Serializers;
+using HttpSpeak.Samples.Github.Models;
+using HttpSpeak.Serializers;
 
-namespace Resticle.Samples.Github
+namespace HttpSpeak.Samples.Github
 {
     public class Program
     {

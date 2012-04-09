@@ -1,4 +1,4 @@
-namespace Resticle.IntegrationTests.Controllers
+namespace HttpSpeak.IntegrationTests.Controllers
 {
     public class ValidationError
     {

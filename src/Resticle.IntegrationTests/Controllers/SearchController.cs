@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Resticle.IntegrationTests.Controllers
+namespace HttpSpeak.IntegrationTests.Controllers
 {
     public class SearchController : ApiController
     {

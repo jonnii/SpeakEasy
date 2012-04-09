@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Resticle.Serializers
+namespace HttpSpeak.Serializers
 {
     public class NullSerializer : ISerializer
     {

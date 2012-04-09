@@ -4,36 +4,47 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{65A793C9-C00F-49D2-AE0C-B56CD15DA965}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E598D539-CC35-49BC-BC3B-55C079E76BB2}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Resticle.Samples.Github</RootNamespace>
-    <AssemblyName>Resticle.Samples.Github</AssemblyName>
+    <RootNamespace>HttpSpeak.Specifications</RootNamespace>
+    <AssemblyName>HttpSpeak.Specifications</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\targets\specifications\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>169</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\targets\specifications\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Fakes">
+      <HintPath>..\packages\Machine.Fakes.0.3.3\lib\Machine.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Fakes.Adapters.Moq">
+      <HintPath>..\packages\Machine.Fakes.Moq.0.3.3\lib\Machine.Fakes.Adapters.Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\packages\Machine.Specifications.0.5.2.0\lib\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.1\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -47,14 +58,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GithubContractResolver.cs" />
-    <Compile Include="Models\Commit.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
+    <Compile Include="DeleteRestRequestSpecification.cs" />
+    <Compile Include="GetRestRequestSpecification.cs" />
+    <Compile Include="HeadRestRequestSpecification.cs" />
+    <Compile Include="OptionsRestRequestSpecification.cs" />
+    <Compile Include="ParameterSpecification.cs" />
+    <Compile Include="PatchRestRequestSpecification.cs" />
+    <Compile Include="PostRestRequestSpecification.cs" />
+    <Compile Include="PutRestRequestSpecification.cs" />
+    <Compile Include="RequestRunnerSpecification.cs" />
+    <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\Repository.cs" />
+    <Compile Include="RestClientSettingsSpecification.cs" />
+    <Compile Include="RestClientSpecification.cs" />
+    <Compile Include="RestRequestSpecification.cs" />
+    <Compile Include="RestResponseHandlerSpecification.cs" />
+    <Compile Include="RestResponseSpecification.cs" />
+    <Compile Include="Serializers\JsonDotNetSerializerSpecification.cs" />
+    <Compile Include="TransmissionSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

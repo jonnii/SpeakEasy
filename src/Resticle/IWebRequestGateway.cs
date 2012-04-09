@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// The web request gateway is responsible for sending a web request

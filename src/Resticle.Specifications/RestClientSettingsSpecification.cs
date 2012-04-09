@@ -1,8 +1,8 @@
+using HttpSpeak.Authenticators;
+using HttpSpeak.Serializers;
 using Machine.Specifications;
-using Resticle.Authenticators;
-using Resticle.Serializers;
 
-namespace Resticle.Specifications
+namespace HttpSpeak.Specifications
 {
     public class RestClientSettingsSpecification
     {

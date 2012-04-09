@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class Resource : DynamicObject
     {

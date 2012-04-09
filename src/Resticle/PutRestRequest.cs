@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public sealed class PutRestRequest : PostLikeRestRequest
     {

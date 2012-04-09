@@ -1,4 +1,4 @@
-namespace Resticle.Samples.Basecamp.Models
+namespace HttpSpeak.Samples.Basecamp.Models
 {
     public class Person
     {

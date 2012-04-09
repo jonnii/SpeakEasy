@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Resticle.Authenticators;
-using Resticle.Samples.Basecamp.Models;
+using HttpSpeak.Authenticators;
+using HttpSpeak.Samples.Basecamp.Models;
 
-namespace Resticle.Samples.Basecamp
+namespace HttpSpeak.Samples.Basecamp
 {
     public class Program
     {

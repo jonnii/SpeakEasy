@@ -1,6 +1,6 @@
 using System;
 
-namespace Resticle.Samples.Github.Models
+namespace HttpSpeak.Samples.Github.Models
 {
     public class Repository
     {

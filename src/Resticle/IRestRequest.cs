@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// A rest request represents one http interaction with

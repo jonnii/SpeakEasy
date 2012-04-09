@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public sealed class DeleteRestRequest : GetLikeRestRequest
     {

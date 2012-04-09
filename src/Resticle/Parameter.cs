@@ -1,6 +1,6 @@
 using System;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class Parameter
     {

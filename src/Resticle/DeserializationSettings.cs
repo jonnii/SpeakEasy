@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// Deserialization settings are used to customize the deserializers

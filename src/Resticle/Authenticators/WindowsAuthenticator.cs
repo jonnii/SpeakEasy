@@ -1,4 +1,4 @@
-namespace Resticle.Authenticators
+namespace HttpSpeak.Authenticators
 {
     public class WindowsAuthenticator : IAuthenticator
     {

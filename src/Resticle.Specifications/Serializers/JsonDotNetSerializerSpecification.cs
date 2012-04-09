@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using HttpSpeak.Serializers;
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using Resticle.Serializers;
 
-namespace Resticle.Specifications.Serializers
+namespace HttpSpeak.Specifications.Serializers
 {
     public class JsonDotNetSerializerSpecification
     {

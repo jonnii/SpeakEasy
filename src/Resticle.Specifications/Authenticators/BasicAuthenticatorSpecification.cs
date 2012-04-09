@@ -1,8 +1,8 @@
-﻿using Machine.Fakes;
+﻿using HttpSpeak.Authenticators;
+using Machine.Fakes;
 using Machine.Specifications;
-using Resticle.Authenticators;
 
-namespace Resticle.Specifications.Authenticators
+namespace HttpSpeak.Specifications.Authenticators
 {
     public class BasicAuthenticatorSpecification
     {

@@ -2,7 +2,7 @@
 using Machine.Fakes;
 using Machine.Specifications;
 
-namespace Resticle.Specifications
+namespace HttpSpeak.Specifications
 {
     public class PostRestRequestSpecification
     {

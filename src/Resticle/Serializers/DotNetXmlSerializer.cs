@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace Resticle.Serializers
+namespace HttpSpeak.Serializers
 {
     public class DotNetXmlSerializer : ISerializer
     {

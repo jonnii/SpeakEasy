@@ -3,7 +3,7 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using NUnit.Framework;
 
-namespace Resticle.IntegrationTests
+namespace HttpSpeak.IntegrationTests
 {
     public class WithApi
     {

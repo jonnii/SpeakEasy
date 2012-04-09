@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using HttpSpeak.Serializers;
 using NLog;
-using Resticle.Serializers;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class TransmissionSettings : ITransmissionSettings
     {

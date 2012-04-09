@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 
-namespace Resticle.IntegrationTests
+namespace HttpSpeak.IntegrationTests
 {
     [TestFixture]
     public class QueryStringAndFormParameters : WithApi

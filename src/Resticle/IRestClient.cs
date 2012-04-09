@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// The IRestClient is your entry point into a restful API. The methods map to HttpMethods methods on the server (GET/PUT/POST/PATCH/DELETE etc...) and 

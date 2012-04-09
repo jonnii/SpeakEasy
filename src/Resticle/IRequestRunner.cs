@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// The request runner is responsible for taking a rest request and

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Resticle
+namespace HttpSpeak
 {
     [Serializable]
     public class RestException : Exception

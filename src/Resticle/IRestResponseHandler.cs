@@ -1,4 +1,4 @@
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// A rest response handler exposes a rest response matching a specific http status code.

@@ -1,6 +1,6 @@
 using NLog;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class RequestRunner : IRequestRunner
     {

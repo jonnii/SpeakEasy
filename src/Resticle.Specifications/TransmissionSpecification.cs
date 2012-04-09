@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HttpSpeak.Serializers;
 using Machine.Fakes;
 using Machine.Specifications;
-using Resticle.Serializers;
 
-namespace Resticle.Specifications
+namespace HttpSpeak.Specifications
 {
     public class TransmissionSpecification
     {

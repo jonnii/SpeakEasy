@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace Resticle
+namespace HttpSpeak
 {
     /// <summary>
     /// A chainable rest response which gives you access to all the data available

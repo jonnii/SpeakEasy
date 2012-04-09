@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Resticle.Authenticators;
-using Resticle.Serializers;
+using HttpSpeak.Authenticators;
+using HttpSpeak.Serializers;
 
-namespace Resticle
+namespace HttpSpeak
 {
     public class RestClientSettings
     {

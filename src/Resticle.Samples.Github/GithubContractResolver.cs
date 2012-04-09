@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Serialization;
 
-namespace Resticle.Samples.Github
+namespace HttpSpeak.Samples.Github
 {
     public class GithubContractResolver : DefaultContractResolver
     {
