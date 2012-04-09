@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Resticle.Authenticators;
 using Resticle.Serializers;
 
 namespace Resticle
@@ -23,6 +24,9 @@ namespace Resticle
         public RestClientSettings()
         {
             Serializers = new List<ISerializer>();
+            Authenticator = new NullAuthenticator();
+
+            UserAgent = "Resticle";
         }
 
         public IAuthenticator Authenticator { get; set; }
@@ -33,6 +37,8 @@ namespace Resticle
         {
             get { return Serializers.First(); }
         }
+
+        public string UserAgent { get; set; }
 
         public void Configure<T>(Action<T> configurationCallback)
             where T : ISerializer

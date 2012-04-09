@@ -1,10 +1,26 @@
 using Machine.Specifications;
+using Resticle.Authenticators;
 using Resticle.Serializers;
 
 namespace Resticle.Specifications
 {
     public class RestClientSettingsSpecification
     {
+        [Subject(typeof(RestClientSettings))]
+        public class in_general
+        {
+            Establish context = () =>
+                settings = new RestClientSettings();
+
+            It should_have_null_authenticator = () =>
+                settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
+
+            It should_have_default_user_agent = () =>
+                settings.UserAgent.ShouldEqual("Resticle");
+
+            static RestClientSettings settings;
+        }
+
         [Subject(typeof(RestClientSettings))]
         public class default_settings_in_general : with_default_settings
         {

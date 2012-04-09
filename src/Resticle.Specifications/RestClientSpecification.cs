@@ -17,6 +17,19 @@ namespace Resticle.Specifications
         }
 
         [Subject(typeof(RestClient))]
+        public class when_getting_collection_resource_with_custom_user_agent : with_client
+        {
+            Establish context = () =>
+                Subject.Settings.UserAgent = "custom user agent";
+
+            Because of = () =>
+                Subject.Get("companies");
+
+            It should_send_request = () =>
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRestRequest>.Matches(p => p.UserAgent == "custom user agent")));
+        }
+
+        [Subject(typeof(RestClient))]
         public class when_getting_specific_resource : with_client
         {
             Because of = () =>

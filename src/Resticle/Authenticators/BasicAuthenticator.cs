@@ -1,4 +1,7 @@
-﻿namespace Resticle.Authenticators
+﻿using System;
+using System.Text;
+
+namespace Resticle.Authenticators
 {
     public class BasicAuthenticator : IAuthenticator
     {
@@ -14,6 +17,10 @@
 
         public void Authenticate(IRestRequest restRequest)
         {
+            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Concat(username, ":", password)));
+            var authorizationHeader = string.Concat("Basic ", token);
+
+            restRequest.AddHeader("Authorization", authorizationHeader);
         }
     }
 }

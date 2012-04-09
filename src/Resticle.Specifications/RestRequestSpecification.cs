@@ -21,6 +21,46 @@ namespace Resticle.Specifications
             static HttpWebRequest webRequest;
         }
 
+        [Subject(typeof(RestRequest))]
+        public class when_building_web_request_with_headers : with_rest_request
+        {
+            Establish context = () =>
+                request.AddHeader("name", "value");
+
+            Because of = () =>
+                webRequest = request.BuildWebRequest(transmissionSettings);
+
+            It should_add_header_to_web_request = () =>
+                webRequest.Headers["name"].ShouldEqual("value");
+
+            static HttpWebRequest webRequest;
+        }
+
+        [Subject(typeof(RestRequest))]
+        public class when_building_web_request_with_custom_user_agent : with_rest_request
+        {
+            Establish context = () =>
+                request.UserAgent = "custom user agent";
+
+            Because of = () =>
+                webRequest = request.BuildWebRequest(transmissionSettings);
+
+            It should_add_header_to_web_request = () =>
+                webRequest.UserAgent.ShouldEqual("custom user agent");
+
+            static HttpWebRequest webRequest;
+        }
+
+        [Subject(typeof(RestRequest))]
+        public class when_adding_header : with_rest_request
+        {
+            Because of = () =>
+                request.AddHeader("header", "value");
+
+            It should_add_header = () =>
+                request.NumHeaders.ShouldEqual(1);
+        }
+
         public class with_rest_request : WithFakes
         {
             Establish context = () =>

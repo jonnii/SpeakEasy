@@ -13,6 +13,9 @@ namespace Resticle.Specifications
             Because of = () =>
                 Subject.Run(request);
 
+            It should_authenticate_rest_request = () =>
+                The<IAuthenticator>().WasToldTo(a => a.Authenticate(Param.IsAny<IRestRequest>()));
+
             It should_execute_web_request = () =>
                 The<IWebRequestGateway>().WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), Subject.CreateRestResponse));
         }

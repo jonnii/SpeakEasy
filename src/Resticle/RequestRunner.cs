@@ -10,20 +10,25 @@ namespace Resticle
 
         private readonly IWebRequestGateway webRequestGateway;
 
+        private readonly IAuthenticator authenticator;
+
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
-            IWebRequestGateway webRequestGateway)
+            IWebRequestGateway webRequestGateway,
+            IAuthenticator authenticator)
         {
             this.transmissionSettings = transmissionSettings;
             this.webRequestGateway = webRequestGateway;
+            this.authenticator = authenticator;
         }
 
         public IRestResponse Run(IRestRequest request)
         {
             Logger.Debug("running request of type {0}", request.GetType().Name);
 
-            var webRequest = request.BuildWebRequest(transmissionSettings);
+            authenticator.Authenticate(request);
 
+            var webRequest = request.BuildWebRequest(transmissionSettings);
             return webRequestGateway.Send(webRequest, CreateRestResponse);
         }
 
