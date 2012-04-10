@@ -65,14 +65,14 @@ namespace HttpSpeak
         public IHttpResponse Post(object body, Resource resource)
         {
             var appended = Root.Append(resource);
-            var request = new PostRequest(appended, new ObjectBody(body));
+            var request = new PostRequest(appended, new ObjectRequestBody(body));
             return Run(request);
         }
 
         public IHttpResponse Post(object body, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PostRequest(resource, new ObjectBody(body));
+            var request = new PostRequest(resource, new ObjectRequestBody(body));
             return Run(request);
         }
 
@@ -103,7 +103,7 @@ namespace HttpSpeak
         public IHttpResponse Put(object body, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PutRequest(resource, new ObjectBody(body));
+            var request = new PutRequest(resource, new ObjectRequestBody(body));
             return Run(request);
         }
 
@@ -129,7 +129,7 @@ namespace HttpSpeak
         public IHttpResponse Patch(object body, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PatchRequest(resource, new ObjectBody(body));
+            var request = new PatchRequest(resource, new ObjectRequestBody(body));
             return Run(request);
         }
 

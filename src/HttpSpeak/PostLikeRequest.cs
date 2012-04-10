@@ -7,7 +7,7 @@ namespace HttpSpeak
         protected PostLikeRequest(Resource resource)
             : base(resource)
         {
-            Body = new NullRequestBody(resource);
+            Body = new DefaultRequestBody(resource);
         }
 
         protected PostLikeRequest(Resource resource, IRequestBody body)
@@ -23,15 +23,16 @@ namespace HttpSpeak
             var baseRequest = base.BuildWebRequest(transmissionSettings);
             baseRequest.Method = GetHttpMethod();
 
-            var bytes = Body.SerializeToByteArray(transmissionSettings);
+            var serializedBody = Body.Serialize(transmissionSettings);
 
-            if (bytes.Length > 0)
+            baseRequest.ContentType = serializedBody.ContentType;
+            baseRequest.ContentLength = serializedBody.ContentLength;
+
+            if (serializedBody.HasContent)
             {
-                baseRequest.ContentLength = bytes.Length;
-
                 using (var stream = baseRequest.GetRequestStream())
                 {
-                    stream.Write(bytes, 0, bytes.Length);
+                    serializedBody.WriteTo(stream);
                 }
             }
 
@@ -43,13 +44,6 @@ namespace HttpSpeak
         protected override string BuildRequestUrl(Resource resource)
         {
             return resource.Path;
-        }
-
-        protected override string CalculateContentType(ITransmissionSettings transmissionSettings)
-        {
-            return Resource.HasParameters
-                ? "application/x-www-form-urlencoded"
-                : transmissionSettings.DefaultSerializerContentType;
         }
     }
 }

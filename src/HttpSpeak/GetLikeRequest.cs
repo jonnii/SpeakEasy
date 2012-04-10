@@ -1,9 +1,14 @@
+using System.Net;
+
 namespace HttpSpeak
 {
     public abstract class GetLikeRequest : HttpRequest
     {
         protected GetLikeRequest(Resource resource)
-            : base(resource) { }
+            : base(resource)
+        {
+
+        }
 
         protected override string BuildRequestUrl(Resource resource)
         {
@@ -17,9 +22,13 @@ namespace HttpSpeak
             return string.Concat(resource.Path, "?", queryString);
         }
 
-        protected override string CalculateContentType(ITransmissionSettings transmissionSettings)
+        public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
-            return transmissionSettings.DefaultSerializerContentType;
+            var baseRequest = base.BuildWebRequest(transmissionSettings);
+
+            baseRequest.ContentType = transmissionSettings.DefaultSerializerContentType;
+
+            return baseRequest;
         }
     }
 }

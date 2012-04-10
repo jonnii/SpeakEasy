@@ -13,7 +13,7 @@ namespace HttpSpeak.Specifications
                 request = new PostRequest(new Resource("http://example.com/companies"));
 
             It should_have_null_body = () =>
-                request.Body.ShouldBeOfType<NullRequestBody>();
+                request.Body.ShouldBeOfType<DefaultRequestBody>();
 
             static PostRequest request;
         }

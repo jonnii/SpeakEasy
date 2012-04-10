@@ -9,9 +9,9 @@ namespace HttpSpeak
             this.files = files;
         }
 
-        public byte[] SerializeToByteArray(ITransmissionSettings transmissionSettings)
+        public ISerializedBody Serialize(ITransmissionSettings transmissionSettings)
         {
-            return new byte[0];
+            throw new System.NotImplementedException();
         }
     }
 }

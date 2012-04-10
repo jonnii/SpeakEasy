@@ -92,7 +92,7 @@ namespace HttpSpeak.Specifications
                 Subject.Post("companies");
 
             It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body is NullRequestBody)));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body is DefaultRequestBody)));
         }
 
         [Subject(typeof(HttpClient))]
@@ -142,7 +142,7 @@ namespace HttpSpeak.Specifications
                 Subject.Put("companies");
 
             It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body is NullRequestBody)));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body is DefaultRequestBody)));
         }
 
         [Subject(typeof(HttpClient))]

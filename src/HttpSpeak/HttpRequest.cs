@@ -36,7 +36,6 @@ namespace HttpSpeak
 
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
-            request.ContentType = CalculateContentType(transmissionSettings);
             request.ContentLength = 0;
 
             if (!string.IsNullOrEmpty(UserAgent))
@@ -58,7 +57,5 @@ namespace HttpSpeak
         }
 
         protected abstract string BuildRequestUrl(Resource resource);
-
-        protected abstract string CalculateContentType(ITransmissionSettings transmissionSettings);
     }
 }
