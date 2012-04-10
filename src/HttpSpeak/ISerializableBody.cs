@@ -2,7 +2,7 @@ using System.IO;
 
 namespace HttpSpeak
 {
-    public interface ISerializedBody
+    public interface ISerializableBody
     {
         string ContentType { get; }
 

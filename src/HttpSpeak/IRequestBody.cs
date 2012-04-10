@@ -7,6 +7,6 @@ namespace HttpSpeak
         /// </summary>
         /// <param name="transmissionSettings">The transmission settings</param>
         /// <returns>A byte array with the contents of this body</returns>
-        ISerializedBody Serialize(ITransmissionSettings transmissionSettings);
+        ISerializableBody Serialize(ITransmissionSettings transmissionSettings);
     }
 }

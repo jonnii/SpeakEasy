@@ -16,12 +16,12 @@ namespace HttpSpeak
             get { return string.Empty; }
         }
 
-        public ISerializedBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
         {
-            var serialized = transmissionSettings.Serialize(body);;
-            var content = Encoding.Default.GetBytes(serialized);
+            var serialized = transmissionSettings.Serialize(body);
+            var content = Encoding.UTF8.GetBytes(serialized);
 
-            return new SerializedBody(transmissionSettings.DefaultSerializerContentType, content);
+            return new SerializableByteArray(transmissionSettings.DefaultSerializerContentType, content);
         }
     }
 }

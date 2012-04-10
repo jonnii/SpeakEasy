@@ -99,7 +99,7 @@ namespace HttpSpeak.Specifications
         public class when_posting_with_file : with_client
         {
             Because of = () =>
-                Subject.Post(new FileUpload("file.txt"), "companies");
+                Subject.Post(An<IFile>(), "companies");
 
             It should_have_files = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
@@ -149,7 +149,7 @@ namespace HttpSpeak.Specifications
         public class when_putting_with_file : with_client
         {
             Because of = () =>
-                Subject.Put(new FileUpload("file.txt"), "companies");
+                Subject.Put(An<IFile>(), "companies");
 
             It should_have_files = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body is FileUploadBody)));

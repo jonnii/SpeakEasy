@@ -2,9 +2,9 @@ using System.IO;
 
 namespace HttpSpeak
 {
-    public class SerializedBody : ISerializedBody
+    public class SerializableByteArray : ISerializableBody
     {
-        public SerializedBody(string contentType, byte[] bytes)
+        public SerializableByteArray(string contentType, byte[] bytes)
         {
             ContentType = contentType;
             Content = bytes;

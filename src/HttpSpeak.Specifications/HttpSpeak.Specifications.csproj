@@ -63,6 +63,7 @@
     </Compile>
     <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
     <Compile Include="DeleteRequestSpecification.cs" />
+    <Compile Include="FileUploadBodySpecification.cs" />
     <Compile Include="GetRequestSpecification.cs" />
     <Compile Include="HeadRequestSpecification.cs" />
     <Compile Include="HttpRequestSpecification.cs" />

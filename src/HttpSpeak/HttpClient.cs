@@ -76,15 +76,15 @@ namespace HttpSpeak
             return Run(request);
         }
 
-        public IHttpResponse Post(FileUpload file, string relativeUrl, object segments = null)
+        public IHttpResponse Post(IFile file, string relativeUrl, object segments = null)
         {
             return Post(new[] { file }, relativeUrl, segments);
         }
 
-        public IHttpResponse Post(FileUpload[] files, string relativeUrl, object segments = null)
+        public IHttpResponse Post(IFile[] files, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PostRequest(resource, new FileUploadBody(files));
+            var request = new PostRequest(resource, new FileUploadBody(resource, files));
             return Run(request);
         }
 
@@ -114,15 +114,15 @@ namespace HttpSpeak
             return Run(request);
         }
 
-        public IHttpResponse Put(FileUpload file, string relativeUrl, object segments = null)
+        public IHttpResponse Put(IFile file, string relativeUrl, object segments = null)
         {
             return Put(new[] { file }, relativeUrl, segments);
         }
 
-        public IHttpResponse Put(FileUpload[] files, string relativeUrl, object segments = null)
+        public IHttpResponse Put(IFile[] files, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PutRequest(resource, new FileUploadBody(files));
+            var request = new PutRequest(resource, new FileUploadBody(resource, files));
             return Run(request);
         }
 
@@ -140,15 +140,15 @@ namespace HttpSpeak
             return Run(request);
         }
 
-        public IHttpResponse Patch(FileUpload file, string relativeUrl, object segments = null)
+        public IHttpResponse Patch(IFile file, string relativeUrl, object segments = null)
         {
             return Patch(new[] { file }, relativeUrl, segments);
         }
 
-        public IHttpResponse Patch(FileUpload[] files, string relativeUrl, object segments = null)
+        public IHttpResponse Patch(IFile[] files, string relativeUrl, object segments = null)
         {
             var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PatchRequest(resource, new FileUploadBody(files));
+            var request = new PatchRequest(resource, new FileUploadBody(resource, files));
             return Run(request);
         }
 

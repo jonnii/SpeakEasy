@@ -11,17 +11,17 @@ namespace HttpSpeak
             this.resource = resource;
         }
 
-        public ISerializedBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
         {
             if (resource.HasParameters)
             {
                 var parameters = resource.GetEncodedParameters();
-                var content = Encoding.Default.GetBytes(parameters);
+                var content = Encoding.UTF8.GetBytes(parameters);
 
-                return new SerializedBody("application/x-www-form-urlencoded", content);
+                return new SerializableByteArray("application/x-www-form-urlencoded", content);
             }
 
-            return new SerializedBody(transmissionSettings.DefaultSerializerContentType, new byte[0]);
+            return new SerializableByteArray(transmissionSettings.DefaultSerializerContentType, new byte[0]);
         }
     }
 }

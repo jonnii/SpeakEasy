@@ -2,16 +2,19 @@ namespace HttpSpeak
 {
     public class FileUploadBody : IRequestBody
     {
-        private readonly FileUpload[] files;
+        private readonly Resource resource;
 
-        public FileUploadBody(FileUpload[] files)
+        private readonly IFile[] files;
+
+        public FileUploadBody(Resource resource, IFile[] files)
         {
+            this.resource = resource;
             this.files = files;
         }
 
-        public ISerializedBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
         {
-            throw new System.NotImplementedException();
+            return new MultipartMimeDocumentBody(resource, files);
         }
     }
 }
