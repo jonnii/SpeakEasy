@@ -157,6 +157,11 @@ namespace HttpSpeak
             return Append(new Resource(resource));
         }
 
+        public string GetEncodedParameters()
+        {
+            return string.Join("&", Parameters.Select(p => p.ToQueryString()));
+        }
+ 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
             var methodName = binder.Name;
@@ -165,11 +170,6 @@ namespace HttpSpeak
             result = Path.Replace(":" + methodName.ToLower(), parameter.ToString());
 
             return true;
-        }
-
-        public string GetEncodedParameters()
-        {
-            return string.Join("&", Parameters.Select(p => p.ToQueryString()));
         }
     }
 }

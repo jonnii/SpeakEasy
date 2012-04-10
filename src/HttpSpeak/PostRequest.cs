@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace HttpSpeak
 {
     public sealed class PostRequest : PostLikeRequest
@@ -10,14 +8,8 @@ namespace HttpSpeak
 
         }
 
-        public PostRequest(Resource resource, object body)
+        public PostRequest(Resource resource, IRequestBody body)
             : base(resource, body)
-        {
-
-        }
-
-        public PostRequest(Resource resource, IEnumerable<FileUpload> files)
-            : base(resource, files)
         {
 
         }

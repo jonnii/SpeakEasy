@@ -92,7 +92,7 @@ namespace HttpSpeak.Specifications
                 Subject.Post("companies");
 
             It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body == null)));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body is NullRequestBody)));
         }
 
         [Subject(typeof(HttpClient))]
@@ -102,7 +102,7 @@ namespace HttpSpeak.Specifications
                 Subject.Post(new FileUpload("file.txt"), "companies");
 
             It should_have_files = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Files.Any())));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
         }
 
         [Subject(typeof(HttpClient))]
@@ -142,7 +142,7 @@ namespace HttpSpeak.Specifications
                 Subject.Put("companies");
 
             It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body == null)));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body is NullRequestBody)));
         }
 
         [Subject(typeof(HttpClient))]
@@ -152,7 +152,7 @@ namespace HttpSpeak.Specifications
                 Subject.Put(new FileUpload("file.txt"), "companies");
 
             It should_have_files = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Files.Any())));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<PutRequest>.Matches(p => p.Body is FileUploadBody)));
         }
 
         [Subject(typeof(HttpClient))]

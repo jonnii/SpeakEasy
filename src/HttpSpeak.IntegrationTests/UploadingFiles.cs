@@ -8,7 +8,7 @@ namespace HttpSpeak.IntegrationTests
     [TestFixture]
     public class UploadingFiles : WithApi
     {
-        [Test, Explicit("WIP")]
+        [Test]
         public void ShouldUploadOneFile()
         {
             var fileNames = client.Post(new FileUpload("name"), "invoices/:id", new { id = 1234 })

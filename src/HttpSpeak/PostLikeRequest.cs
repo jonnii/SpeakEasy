@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace HttpSpeak
 {
@@ -10,39 +7,26 @@ namespace HttpSpeak
         protected PostLikeRequest(Resource resource)
             : base(resource)
         {
+            Body = new NullRequestBody(resource);
         }
 
-        protected PostLikeRequest(Resource resource, object body)
+        protected PostLikeRequest(Resource resource, IRequestBody body)
             : base(resource)
         {
             Body = body;
         }
 
-        protected PostLikeRequest(Resource resource, IEnumerable<FileUpload> files)
-            : base(resource)
-        {
-            Files = files;
-        }
-
-        public object Body { get; private set; }
-
-        public IEnumerable<FileUpload> Files { get; private set; }
-
-        public bool HasSerializableBody
-        {
-            get { return Body != null || Resource.HasParameters; }
-        }
+        public IRequestBody Body { get; private set; }
 
         public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
             var baseRequest = base.BuildWebRequest(transmissionSettings);
             baseRequest.Method = GetHttpMethod();
 
-            if (HasSerializableBody)
-            {
-                var serialized = GetSerializedBody(transmissionSettings);
-                var bytes = Encoding.Default.GetBytes(serialized);
+            var bytes = Body.SerializeToByteArray(transmissionSettings);
 
+            if (bytes.Length > 0)
+            {
                 baseRequest.ContentLength = bytes.Length;
 
                 using (var stream = baseRequest.GetRequestStream())
@@ -52,22 +36,6 @@ namespace HttpSpeak
             }
 
             return baseRequest;
-        }
-
-        private string GetSerializedBody(ITransmissionSettings transmissionSettings)
-        {
-            if (Body != null)
-            {
-                return transmissionSettings.Serialize(Body);
-            }
-
-            if (Resource.HasParameters)
-            {
-                return Resource.GetEncodedParameters();
-            }
-
-            throw new NotSupportedException(
-                "Something has gone wrong... trying to get serialized body of a request when the request has nothing worth serializing");
         }
 
         protected abstract string GetHttpMethod();

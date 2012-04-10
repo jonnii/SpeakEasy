@@ -29,7 +29,7 @@ namespace HttpSpeak.Specifications
         public class with_put_request : with_serializer
         {
             Establish context = () =>
-                request = new PutRequest(new Resource("http://example.com/companies"), null);
+                request = new PutRequest(new Resource("http://example.com/companies"));
 
             protected static PutRequest request;
         }

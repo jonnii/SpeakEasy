@@ -10,39 +10,10 @@ namespace HttpSpeak.Specifications
         public class in_general_without_body
         {
             Establish context = () =>
-                request = new PostRequest(new Resource("http://example.com/companies"), null);
+                request = new PostRequest(new Resource("http://example.com/companies"));
 
-            It should_not_have_body = () =>
-                request.HasSerializableBody.ShouldBeFalse();
-
-            static PostRequest request;
-        }
-
-        [Subject(typeof(PostRequest))]
-        public class in_general_with_body : with_transmission
-        {
-            Establish context = () =>
-                request = new PostRequest(new Resource("http://example.com/companies"), "awesome sauce");
-
-            It should_have_body = () =>
-                request.HasSerializableBody.ShouldBeTrue();
-
-            static PostRequest request;
-        }
-
-        [Subject(typeof(PostRequest))]
-        public class in_general_with_parameters : with_transmission
-        {
-            Establish context = () =>
-            {
-                var resource = new Resource("http://example.com/companies");
-                resource.AddParameter("name", "bob");
-
-                request = new PostRequest(resource, null);
-            };
-
-            It should_have_body = () =>
-                request.HasSerializableBody.ShouldBeTrue();
+            It should_have_null_body = () =>
+                request.Body.ShouldBeOfType<NullRequestBody>();
 
             static PostRequest request;
         }
@@ -51,7 +22,7 @@ namespace HttpSpeak.Specifications
         public class when_building_web_request_with_no_body : with_transmission
         {
             Establish context = () =>
-                request = new PostRequest(new Resource("http://example.com/companies"), null);
+                request = new PostRequest(new Resource("http://example.com/companies"));
 
             Because of = () =>
                 webRequest = request.BuildWebRequest(transmissionSettings);
@@ -76,7 +47,7 @@ namespace HttpSpeak.Specifications
                 resource.AddParameter("name", "bob");
                 resource.AddParameter("age", 26);
 
-                request = new PostRequest(resource, null);
+                request = new PostRequest(resource);
             };
 
             Because of = () =>
