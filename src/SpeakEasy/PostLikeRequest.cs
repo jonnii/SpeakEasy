@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Net;
 
 namespace SpeakEasy
@@ -26,10 +28,23 @@ namespace SpeakEasy
             var serializedBody = Body.Serialize(transmissionSettings);
 
             baseRequest.ContentType = serializedBody.ContentType;
-            baseRequest.ContentLength = serializedBody.ContentLength;
+            if (serializedBody.ContentLength != -1)
+            {
+                baseRequest.ContentLength = serializedBody.ContentLength;
+            }
 
             if (serializedBody.HasContent)
             {
+                var memoryStream = new MemoryStream();
+                serializedBody.WriteTo(memoryStream);
+
+                memoryStream.Position = 0;
+
+                var reader = new StreamReader(memoryStream);
+                var debug = reader.ReadToEnd();
+
+                Console.WriteLine(debug);
+
                 using (var stream = baseRequest.GetRequestStream())
                 {
                     serializedBody.WriteTo(stream);

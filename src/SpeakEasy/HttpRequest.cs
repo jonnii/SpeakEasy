@@ -36,7 +36,6 @@ namespace SpeakEasy
 
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
-            request.ContentLength = 0;
 
             if (!string.IsNullOrEmpty(UserAgent))
             {

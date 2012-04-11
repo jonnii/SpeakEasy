@@ -7,7 +7,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
 {
     public class InvoicesController : ApiController
     {
-        public HttpResponseMessage<IEnumerable<string>> Post(int id)
+        public HttpResponseMessage<IEnumerable<string>> Post(HttpRequestMessage message)
         {
             if (!Request.Content.IsMimeMultipartContent("form-data"))
             {

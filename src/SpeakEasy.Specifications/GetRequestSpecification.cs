@@ -18,9 +18,6 @@ namespace SpeakEasy.Specifications
             It should_set_request_to_get_request = () =>
                 webRequest.Method.ShouldEqual("GET");
 
-            It should_set_content_length_to_zero = () =>
-                webRequest.ContentLength.ShouldEqual(0);
-
             static WebRequest webRequest;
         }
 

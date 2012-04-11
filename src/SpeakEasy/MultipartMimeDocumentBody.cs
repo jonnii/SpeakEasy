@@ -10,6 +10,8 @@ namespace SpeakEasy
 
         private const string MimeBoundary = "-----------------------------16346778432123";
 
+        private static readonly Encoding DefaultEncoding = new UTF8Encoding(false);
+
         private readonly Resource resource;
 
         private readonly IFile[] files;
@@ -27,7 +29,7 @@ namespace SpeakEasy
 
         public int ContentLength
         {
-            get { return 0; }
+            get { return -1; }
         }
 
         public bool HasContent
@@ -40,7 +42,7 @@ namespace SpeakEasy
             foreach (var parameter in resource.Parameters)
             {
                 var mimeParameter = string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
-                var encoded = Encoding.UTF8.GetBytes(mimeParameter);
+                var encoded = DefaultEncoding.GetBytes(mimeParameter);
 
                 stream.Write(encoded, 0, encoded.Length);
             }
@@ -50,17 +52,17 @@ namespace SpeakEasy
                 var fileHeader = string.Format("--{0}{4}Content-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"{4}Content-Type: {3}{4}{4}",
                     MimeBoundary, file.Name, file.FileName, file.ContentType ?? "application/octet-stream", Crlf);
 
-                var encoded = Encoding.UTF8.GetBytes(fileHeader);
+                var encoded = DefaultEncoding.GetBytes(fileHeader);
 
                 stream.Write(encoded, 0, encoded.Length);
 
                 file.WriteTo(stream);
 
-                var crlf = Encoding.UTF8.GetBytes(Crlf);
+                var crlf = DefaultEncoding.GetBytes(Crlf);
                 stream.Write(crlf, 0, crlf.Length);
             }
 
-            var footer = Encoding.UTF8.GetBytes(string.Format("--{0}--{1}", MimeBoundary, Crlf));
+            var footer = DefaultEncoding.GetBytes(string.Format("--{0}--{1}", MimeBoundary, Crlf));
             stream.Write(footer, 0, footer.Length);
         }
     }
