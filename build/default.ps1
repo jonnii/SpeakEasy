@@ -12,7 +12,7 @@ task Package -depends Test {
 	cp ..\build\package.nuspec ..\targets\packages
 
 	mkdir ..\targets\packages\lib\net40
-	cp ..\targets\httpspeak\HttpSpeak.* ..\targets\packages\lib\net40
+	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net40
 
 	..\src\.nuget\nuget.exe pack -outputdirectory .\targets\packages ..\targets\packages\package.nuspec 
 }

@@ -11,7 +11,7 @@ namespace SpeakEasy.Samples.Basecamp
         {
             var settings = HttpClientSettings.Default;
             settings.Authenticator = new BasicAuthenticator("username", "password");
-            settings.UserAgent = "HttpSpeak (username)";
+            settings.UserAgent = "SpeakEasy (username)";
 
             var client = HttpClient.Create("https://basecamp.com/1816438/api/v1/", settings);
 

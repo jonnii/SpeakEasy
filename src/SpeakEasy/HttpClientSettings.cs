@@ -26,7 +26,7 @@ namespace SpeakEasy
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
 
-            UserAgent = "HttpSpeak";
+            UserAgent = "SpeakEasy";
         }
 
         public IAuthenticator Authenticator { get; set; }

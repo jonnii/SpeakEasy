@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>HttpSpeak</id>
+    <id>SpeakEasy</id>
     <version>0.0.0.1</version>
-    <title>HttpSpeak</title>
+    <title>SpeakEasy</title>
     <authors>Jonathan Goldman</authors>
     <owners>Jonathan Goldman</owners>
     <summary>Simple http library</summary>
-    <description>HttpSpeak is a library that makes talking to http webservices easy.</description>
+    <description>SpeakEasy is a library that makes talking to http webservices easy.</description>
     <language>en-US</language>
-    <projectUrl>http://github.com/jonnii/httpspeak</projectUrl>
-    <licenseUrl>https://github.com/jonnii/httpspeak/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://github.com/jonnii/speakeasy</projectUrl>
+    <licenseUrl>https://github.com/jonnii/speakeasy/blob/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>http web api rest</tags>
     <dependencies>

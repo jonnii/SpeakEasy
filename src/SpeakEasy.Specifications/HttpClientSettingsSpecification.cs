@@ -16,7 +16,7 @@ namespace SpeakEasy.Specifications
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
 
             It should_have_default_user_agent = () =>
-                settings.UserAgent.ShouldEqual("HttpSpeak");
+                settings.UserAgent.ShouldEqual("SpeakEasy");
 
             static HttpClientSettings settings;
         }

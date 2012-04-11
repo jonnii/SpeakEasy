@@ -59,9 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttpSpeak\HttpSpeak.csproj">
+    <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj">
       <Project>{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}</Project>
-      <Name>HttpSpeak</Name>
+      <Name>SpeakEasy</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

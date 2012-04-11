@@ -4,10 +4,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyDescription("HttpSpeak... making http easy!")]
+[assembly: AssemblyDescription("SpeakEasy... making http easy!")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://github.com/jonnii/httpspeak")]
-[assembly: AssemblyProduct("HttpSpeak")]
+[assembly: AssemblyCompany("http://github.com/jonnii/speakeasy")]
+[assembly: AssemblyProduct("SpeakEasy")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

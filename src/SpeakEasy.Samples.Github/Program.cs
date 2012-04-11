@@ -30,7 +30,7 @@ namespace SpeakEasy.Samples.Github
                 Console.WriteLine(repository.PushedAt);
             }
 
-            var commits = client.Get("commits/list/:user/:repository/:branch", new { user = "jonnii", repository = "httpspeak", branch = "master" })
+            var commits = client.Get("commits/list/:user/:repository/:branch", new { user = "jonnii", repository = "SpeakEasy", branch = "master" })
                 .OnOk().Unwrap<List<Commit>>();
 
             foreach (var commit in commits)

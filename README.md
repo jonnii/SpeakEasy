@@ -1,4 +1,4 @@
-HttpSpeak
+SpeakEasy
 =========
 
 **PLEASE NOTE THIS IS A WORK IN PROGRESS**
@@ -31,9 +31,9 @@ Installation
 
 If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
 
-    install-package HttpSpeak
+    install-package SpeakEasy
 
-HttpSpeak has a dependency on Newtonsoft.Json and Nlog2.
+SpeakEasy has a dependency on Newtonsoft.Json and Nlog2.
 
 Examples
 --------
