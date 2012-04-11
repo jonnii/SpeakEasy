@@ -69,3 +69,5 @@ Enough chat, lets see what it looks like:
     var company = Resource.Create("company/:id");
     var response = await client.Put(new { Name = "Awesome Startup"}, company.Id("1234"));
     var foo = ???
+
+There are also sample projects for basecamp and github, which will demonstrate the library being used against real life apis.
