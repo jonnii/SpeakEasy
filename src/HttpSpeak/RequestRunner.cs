@@ -1,6 +1,6 @@
 using NLog;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
     {

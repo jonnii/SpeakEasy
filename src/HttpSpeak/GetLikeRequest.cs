@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public abstract class GetLikeRequest : HttpRequest
     {

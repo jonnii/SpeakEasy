@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HttpSpeak.Samples.Basecamp.Models
+namespace SpeakEasy.Samples.Basecamp.Models
 {
     public class Project
     {

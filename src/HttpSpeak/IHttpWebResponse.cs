@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// A simple wrapper around an HttpWebResponse

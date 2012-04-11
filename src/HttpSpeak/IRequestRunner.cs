@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// The request runner is responsible for taking a http request and

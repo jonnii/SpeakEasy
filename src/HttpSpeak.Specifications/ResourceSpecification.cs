@@ -1,7 +1,7 @@
 ﻿using System;
 using Machine.Specifications;
 
-namespace HttpSpeak.Specifications
+namespace SpeakEasy.Specifications
 {
     public class ResourceSpecification
     {

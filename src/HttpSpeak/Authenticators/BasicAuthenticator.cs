@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace HttpSpeak.Authenticators
+namespace SpeakEasy.Authenticators
 {
     public class BasicAuthenticator : IAuthenticator
     {

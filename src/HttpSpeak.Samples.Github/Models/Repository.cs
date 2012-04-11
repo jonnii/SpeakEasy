@@ -1,6 +1,6 @@
 using System;
 
-namespace HttpSpeak.Samples.Github.Models
+namespace SpeakEasy.Samples.Github.Models
 {
     public class Repository
     {

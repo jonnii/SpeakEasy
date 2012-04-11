@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class MultipartMimeDocumentBody : ISerializableBody
     {

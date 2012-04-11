@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HttpSpeak.Serializers;
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak.Specifications
+namespace SpeakEasy.Specifications
 {
     public class TransmissionSpecification
     {

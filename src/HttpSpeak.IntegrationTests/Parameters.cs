@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 
-namespace HttpSpeak.IntegrationTests
+namespace SpeakEasy.IntegrationTests
 {
     [TestFixture]
     public class QueryStringAndFormParameters : WithApi

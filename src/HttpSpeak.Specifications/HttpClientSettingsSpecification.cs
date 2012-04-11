@@ -1,8 +1,8 @@
-using HttpSpeak.Authenticators;
-using HttpSpeak.Serializers;
 using Machine.Specifications;
+using SpeakEasy.Authenticators;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak.Specifications
+namespace SpeakEasy.Specifications
 {
     public class HttpClientSettingsSpecification
     {

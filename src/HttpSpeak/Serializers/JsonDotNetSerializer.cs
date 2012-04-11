@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace HttpSpeak.Serializers
+namespace SpeakEasy.Serializers
 {
     public class JsonDotNetSerializer : Serializer
     {

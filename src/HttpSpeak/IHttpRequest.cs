@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// An http request represents one http interaction with

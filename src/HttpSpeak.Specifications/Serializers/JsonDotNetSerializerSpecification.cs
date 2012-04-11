@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using HttpSpeak.Serializers;
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak.Specifications.Serializers
+namespace SpeakEasy.Specifications.Serializers
 {
     public class JsonDotNetSerializerSpecification
     {

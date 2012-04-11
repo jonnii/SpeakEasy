@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HttpSpeak.Samples.Github.Models;
-using HttpSpeak.Serializers;
+using SpeakEasy.Samples.Github.Models;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak.Samples.Github
+namespace SpeakEasy.Samples.Github
 {
     public class Program
     {

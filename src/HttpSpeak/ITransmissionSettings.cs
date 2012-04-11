@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// Transmission settings covers everything related to serialization and deserialization

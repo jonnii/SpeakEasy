@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
-namespace HttpSpeak.Serializers
+namespace SpeakEasy.Serializers
 {
     public class DotNetXmlSerializer : ISerializer
     {

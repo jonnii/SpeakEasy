@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace HttpSpeak.IntegrationTests.Controllers
+namespace SpeakEasy.IntegrationTests.Controllers
 {
     public class SearchController : ApiController
     {

@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class FileUploadBody : IRequestBody
     {

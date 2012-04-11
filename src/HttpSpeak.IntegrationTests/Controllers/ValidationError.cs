@@ -1,4 +1,4 @@
-namespace HttpSpeak.IntegrationTests.Controllers
+namespace SpeakEasy.IntegrationTests.Controllers
 {
     public class ValidationError
     {

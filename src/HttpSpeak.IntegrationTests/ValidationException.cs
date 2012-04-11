@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace HttpSpeak.IntegrationTests
+namespace SpeakEasy.IntegrationTests
 {
     [Serializable]
     public class ValidationException : Exception

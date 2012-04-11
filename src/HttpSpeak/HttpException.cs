@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     [Serializable]
     public class HttpException : Exception

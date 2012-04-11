@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// A response handler exposes a response matching a specific http status code.

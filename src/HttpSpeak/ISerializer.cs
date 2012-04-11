@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// A serializer is used to turn an object into the body of a http request.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HttpSpeak.Authenticators;
-using HttpSpeak.Samples.Basecamp.Models;
+using SpeakEasy.Authenticators;
+using SpeakEasy.Samples.Basecamp.Models;
 
-namespace HttpSpeak.Samples.Basecamp
+namespace SpeakEasy.Samples.Basecamp
 {
     public class Program
     {

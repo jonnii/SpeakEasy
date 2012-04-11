@@ -1,4 +1,4 @@
-﻿namespace HttpSpeak.Specifications
+﻿namespace SpeakEasy.Specifications
 {
     public class TestHttpRequest : GetLikeRequest
     {

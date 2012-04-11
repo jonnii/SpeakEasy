@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// Deserialization settings are used to customize the deserializers

@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// The IHttpClient is your entry point into an API that speaks http. The methods map to HttpMethods 

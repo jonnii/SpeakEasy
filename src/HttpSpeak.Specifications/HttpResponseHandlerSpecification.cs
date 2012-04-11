@@ -1,7 +1,7 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
 
-namespace HttpSpeak.Specifications
+namespace SpeakEasy.Specifications
 {
     public class HttpResponseHandlerSpecification
     {

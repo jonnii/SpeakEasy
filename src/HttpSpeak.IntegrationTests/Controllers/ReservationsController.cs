@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 
-namespace HttpSpeak.IntegrationTests.Controllers
+namespace SpeakEasy.IntegrationTests.Controllers
 {
     public class ReservationsController : ApiController
     {

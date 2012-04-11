@@ -3,7 +3,7 @@ using System.Web.Http;
 using System.Web.Http.SelfHost;
 using NUnit.Framework;
 
-namespace HttpSpeak.IntegrationTests
+namespace SpeakEasy.IntegrationTests
 {
     public class WithApi
     {

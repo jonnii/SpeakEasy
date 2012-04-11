@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using HttpSpeak.Serializers;
 using NLog;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class TransmissionSettings : ITransmissionSettings
     {

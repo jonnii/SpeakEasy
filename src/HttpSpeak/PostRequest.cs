@@ -1,4 +1,4 @@
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public sealed class PostRequest : PostLikeRequest
     {

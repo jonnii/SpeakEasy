@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class FileUpload : IFile
     {

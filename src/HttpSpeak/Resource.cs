@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class Resource : DynamicObject
     {

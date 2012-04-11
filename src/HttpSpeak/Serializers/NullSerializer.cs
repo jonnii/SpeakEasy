@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HttpSpeak.Serializers
+namespace SpeakEasy.Serializers
 {
     public class NullSerializer : ISerializer
     {

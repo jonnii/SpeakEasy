@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mime;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class HttpWebResponseWrapper : IHttpWebResponse
     {

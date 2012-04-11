@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using HttpSpeak.IntegrationTests.Controllers;
-using HttpSpeak.Serializers;
 using NUnit.Framework;
+using SpeakEasy.IntegrationTests.Controllers;
+using SpeakEasy.Serializers;
 
-namespace HttpSpeak.IntegrationTests
+namespace SpeakEasy.IntegrationTests
 {
     [TestFixture]
     public class BasicHttpMethodsWithXmlSerialization : WithApi

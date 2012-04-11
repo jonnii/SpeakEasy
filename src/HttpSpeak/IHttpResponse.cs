@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// A chainable http response which gives you access to all the data available

@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Serialization;
 
-namespace HttpSpeak.Samples.Github
+namespace SpeakEasy.Samples.Github
 {
     public class GithubContractResolver : DefaultContractResolver
     {

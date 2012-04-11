@@ -1,4 +1,4 @@
-namespace HttpSpeak.Authenticators
+namespace SpeakEasy.Authenticators
 {
     public class WindowsAuthenticator : IAuthenticator
     {

@@ -1,8 +1,8 @@
-﻿using HttpSpeak.Authenticators;
-using Machine.Fakes;
+﻿using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Authenticators;
 
-namespace HttpSpeak.Specifications.Authenticators
+namespace SpeakEasy.Specifications.Authenticators
 {
     public class BasicAuthenticatorSpecification
     {

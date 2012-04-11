@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     /// <summary>
     /// The web request gateway is responsible for sending a web request

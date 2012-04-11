@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public abstract class HttpRequest : IHttpRequest
     {

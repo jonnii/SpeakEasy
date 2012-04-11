@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class DefaultRequestBody : IRequestBody
     {

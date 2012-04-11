@@ -1,6 +1,6 @@
 using System;
 
-namespace HttpSpeak
+namespace SpeakEasy
 {
     public class Parameter
     {
