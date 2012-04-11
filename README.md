@@ -31,7 +31,11 @@ Installation
 
 If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
 
+	# install the stable version
     install-package SpeakEasy
+	
+	# install the pre-release version
+	install-package SpeakEasy -pre
 
 SpeakEasy has a dependency on Newtonsoft.Json and Nlog2.
 
