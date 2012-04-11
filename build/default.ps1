@@ -14,7 +14,13 @@ task Package -depends Test {
 	mkdir ..\targets\packages\lib\net40
 	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net40
 
-	..\src\.nuget\nuget.exe pack -outputdirectory .\targets\packages ..\targets\packages\package.nuspec 
+	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"
+}
+
+task Publish -depends Package {
+	$package = gci .\..\targets\packages\*.nupkg | select -first 1
+	
+	..\src\.nuget\nuget.exe Push $package.fullname
 }
 
 task Test -depends Compile, Clean { 
