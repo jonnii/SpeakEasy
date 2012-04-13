@@ -25,6 +25,49 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(MultipartMimeDocumentBody))]
+        public class when_formatting_file : with_body
+        {
+            Establish context = () =>
+            {
+                file = An<IFile>();
+                file.WhenToldTo(f => f.Name).Return("file-upload");
+                file.WhenToldTo(f => f.FileName).Return("test.txt");
+                file.WhenToldTo(f => f.ContentType).Return("text/plain");
+            };
+
+            Because of = () =>
+                header = body.GetFileHeader(file);
+
+            It should_format_header = () =>
+                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: text/plain\r\n");
+
+            static IFile file;
+
+            static string header;
+        }
+
+        [Subject(typeof(MultipartMimeDocumentBody))]
+        public class when_formatting_file_without_content_type : with_body
+        {
+            Establish context = () =>
+            {
+                file = An<IFile>();
+                file.WhenToldTo(f => f.Name).Return("file-upload");
+                file.WhenToldTo(f => f.FileName).Return("test.txt");
+            };
+
+            Because of = () =>
+                header = body.GetFileHeader(file);
+
+            It should_format_header = () =>
+                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n");
+
+            static IFile file;
+
+            static string header;
+        }
+
+        [Subject(typeof(MultipartMimeDocumentBody))]
         public class when_formatting_footer : with_body
         {
             Because of = () =>

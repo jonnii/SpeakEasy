@@ -46,29 +46,53 @@ namespace SpeakEasy
         {
             foreach (var parameter in resource.Parameters)
             {
-                var formattedParameter = GetFormattedParameter(parameter);
-
-                var encoded = DefaultEncoding.GetBytes(formattedParameter);
-                stream.Write(encoded, 0, encoded.Length);
+                WriteParameter(stream, parameter);
             }
 
             foreach (var file in files)
             {
-                var fileHeader = string.Format("--{0}{4}Content-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"{4}Content-Type: {3}{4}{4}",
-                    MimeBoundary, file.Name, file.FileName, file.ContentType ?? "application/octet-stream", Crlf);
-
-                var encoded = DefaultEncoding.GetBytes(fileHeader);
-
-                stream.Write(encoded, 0, encoded.Length);
-
-                file.WriteTo(stream);
-
-                var crlf = DefaultEncoding.GetBytes(Crlf);
-                stream.Write(crlf, 0, crlf.Length);
+                WriteFile(stream, file);
             }
 
+            WriteFooter(stream);
+        }
+
+        private void WriteFooter(Stream stream)
+        {
             var footer = DefaultEncoding.GetBytes(GetFooter());
             stream.Write(footer, 0, footer.Length);
+        }
+
+        private void WriteParameter(Stream stream, Parameter parameter)
+        {
+            var formattedParameter = GetFormattedParameter(parameter);
+
+            var encoded = DefaultEncoding.GetBytes(formattedParameter);
+            stream.Write(encoded, 0, encoded.Length);
+        }
+
+        private void WriteFile(Stream stream, IFile file)
+        {
+            var fileHeader = GetFileHeader(file);
+
+            var encoded = DefaultEncoding.GetBytes(fileHeader);
+            stream.Write(encoded, 0, encoded.Length);
+
+            file.WriteTo(stream);
+
+            var crlf = DefaultEncoding.GetBytes(Crlf);
+            stream.Write(crlf, 0, crlf.Length);
+        }
+
+        public string GetFileHeader(IFile file)
+        {
+            return string.Format(
+                "--{0}{4}Content-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"{4}Content-Type: {3}{4}",
+                MimeBoundary,
+                file.Name,
+                file.FileName,
+                file.ContentType ?? "application/octet-stream",
+                Crlf);
         }
 
         public string GetFooter()
