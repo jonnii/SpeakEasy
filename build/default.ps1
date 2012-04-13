@@ -4,7 +4,7 @@ properties {
 
 task default -depends Package
 
-task Package -depends Test {
+task PreparePackage -depends Test {
 	$packagesDirectory = '..\targets\packages'
 	
 	if (Test-Path -path $packagesDirectory)
@@ -17,7 +17,9 @@ task Package -depends Test {
 
 	mkdir ..\targets\packages\lib\net40
 	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net40
+}
 
+task PackagePre -depends PreparePackage {
 	# update nuspec package
 	$version = get-content ..\VERSION
 	$when = (get-date).ToString("yyyyMMddHHmmss")
@@ -28,13 +30,29 @@ task Package -depends Test {
 	
 	mv ..\targets\packages\package.nuspec.tmp ..\targets\packages\package.nuspec -force
 
-
 	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"
+}
+
+task Package -depends PreparePackage {
+	# update nuspec package
+	$version = get-content ..\VERSION
+	$packageVersion = "$version"
+
+	get-content ..\targets\packages\package.nuspec | 
+        %{$_ -replace '0.0.0.1', $packageVersion } > ..\targets\packages\package.nuspec.tmp
+	
+	mv ..\targets\packages\package.nuspec.tmp ..\targets\packages\package.nuspec -force
+
+	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"	
 }
 
 task Publish -depends Package {
 	$package = gci .\..\targets\packages\*.nupkg | select -first 1
-	
+	..\src\.nuget\nuget.exe Push $package.fullname
+}
+
+task PublishPre -depends PackagePre {
+	$package = gci .\..\targets\packages\*.nupkg | select -first 1
 	..\src\.nuget\nuget.exe Push $package.fullname
 }
 
