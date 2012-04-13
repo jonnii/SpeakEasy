@@ -8,7 +8,7 @@ namespace SpeakEasy.IntegrationTests
     [TestFixture]
     public class UploadingFiles : WithApi
     {
-        [Test, Explicit("WIP")]
+        [Test]
         public void ShouldUploadOneFile()
         {
             var file = new FileUpload("name", "filename", new byte[] { 0xDE });

@@ -68,6 +68,7 @@
     <Compile Include="GetRequestSpecification.cs" />
     <Compile Include="HeadRequestSpecification.cs" />
     <Compile Include="HttpRequestSpecification.cs" />
+    <Compile Include="MultipartMimeDocumentBodySpecification.cs" />
     <Compile Include="OptionsRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
     <Compile Include="PatchRequestSpecification.cs" />

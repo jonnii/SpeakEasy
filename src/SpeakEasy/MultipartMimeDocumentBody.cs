@@ -8,7 +8,7 @@ namespace SpeakEasy
     {
         private const string Crlf = "\r\n";
 
-        private const string MimeBoundary = "-----------------------------16346778432123";
+        private const string MimeBoundary = "---------------------------29772313742745";
 
         private static readonly Encoding DefaultEncoding = new UTF8Encoding(false);
 
@@ -37,13 +37,18 @@ namespace SpeakEasy
             get { return files.Any(); }
         }
 
+        public string GetFormattedParameter(Parameter parameter)
+        {
+            return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
+        }
+
         public void WriteTo(Stream stream)
         {
             foreach (var parameter in resource.Parameters)
             {
-                var mimeParameter = string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
-                var encoded = DefaultEncoding.GetBytes(mimeParameter);
+                var formattedParameter = GetFormattedParameter(parameter);
 
+                var encoded = DefaultEncoding.GetBytes(formattedParameter);
                 stream.Write(encoded, 0, encoded.Length);
             }
 
@@ -62,8 +67,13 @@ namespace SpeakEasy
                 stream.Write(crlf, 0, crlf.Length);
             }
 
-            var footer = DefaultEncoding.GetBytes(string.Format("--{0}--{1}", MimeBoundary, Crlf));
+            var footer = DefaultEncoding.GetBytes(GetFooter());
             stream.Write(footer, 0, footer.Length);
+        }
+
+        public string GetFooter()
+        {
+            return string.Format("--{0}--{1}", MimeBoundary, Crlf);
         }
     }
 }
