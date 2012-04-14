@@ -109,6 +109,42 @@ namespace SpeakEasy.Specifications
             static bool called;
         }
 
+        [Subject(typeof(HttpResponse))]
+        public class when_getting_header : with_ok_response
+        {
+            Because of = () =>
+                header = response.GetHeaderValue("awesome-header");
+
+            It should_get_header_value = () =>
+                header.ShouldEqual("value");
+
+            static string header;
+        }
+
+        [Subject(typeof(HttpResponse))]
+        public class when_getting_header_with_different_case : with_ok_response
+        {
+            Because of = () =>
+                header = response.GetHeaderValue("AWESOME-HEADER");
+
+            It should_get_header_value = () =>
+                header.ShouldEqual("value");
+
+            static string header;
+        }
+
+        [Subject(typeof(HttpResponse))]
+        public class when_getting_non_existant_header : with_ok_response
+        {
+            Because of = () =>
+                header = Catch.Exception(() => response.GetHeaderValue("fribble"));
+
+            It should_throw_exception = () =>
+                header.ShouldBeOfType<ArgumentException>();
+
+            static Exception header;
+        }
+
         public class with_deserializer : WithFakes
         {
             Establish context = () =>
@@ -116,6 +152,16 @@ namespace SpeakEasy.Specifications
                 deserializer = An<ISerializer>();
                 bodyStream = new MemoryStream(Encoding.Default.GetBytes("lollipops"));
             };
+
+            protected static HttpResponse CreateResponse(HttpStatusCode code)
+            {
+                var headers = new[]
+                {
+                    new Header("awesome-header", "value")
+                };
+
+                return new HttpResponse(deserializer, bodyStream, code, new Uri("http://example.com/companies"), headers, "contentType");
+            }
 
             protected static ISerializer deserializer;
 
@@ -125,7 +171,7 @@ namespace SpeakEasy.Specifications
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.OK, bodyStream);
+                response = CreateResponse(HttpStatusCode.OK);
 
             protected static HttpResponse response;
         }
@@ -133,7 +179,7 @@ namespace SpeakEasy.Specifications
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.Created, bodyStream);
+                response = CreateResponse(HttpStatusCode.Created);
 
             protected static HttpResponse response;
         }

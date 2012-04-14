@@ -66,6 +66,7 @@
     <Compile Include="DeleteRequestSpecification.cs" />
     <Compile Include="FileUploadBodySpecification.cs" />
     <Compile Include="GetRequestSpecification.cs" />
+    <Compile Include="HeaderSpecification.cs" />
     <Compile Include="HeadRequestSpecification.cs" />
     <Compile Include="HttpRequestSpecification.cs" />
     <Compile Include="MultipartMimeDocumentBodySpecification.cs" />

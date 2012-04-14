@@ -51,7 +51,18 @@ namespace SpeakEasy
 
         public IFile AsFile()
         {
-            return new FileDownload("filename", "name", "contenttype", response.Body);
+            var disposition = response.GetHeader("Content-Disposition");
+
+            var parsedHeader = disposition.Parse();
+
+            var name = parsedHeader.GetParameter("name");
+            var fileName = parsedHeader.GetParameter("filename");
+
+            return new FileDownload(
+                name,
+                fileName,
+                response.ContentType,
+                response.Body);
         }
     }
 }

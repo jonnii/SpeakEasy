@@ -52,6 +52,7 @@
     <Compile Include="ISerializableBody.cs" />
     <Compile Include="MultipartMimeDocumentBody.cs" />
     <Compile Include="ObjectRequestBody.cs" />
+    <Compile Include="ParsedHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableByteArray.cs" />
     <Compile Include="Serializers\NullSerializer.cs" />

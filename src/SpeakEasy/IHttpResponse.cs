@@ -21,6 +21,11 @@ namespace SpeakEasy
         HttpStatusCode HttpStatusCode { get; }
 
         /// <summary>
+        /// The http headers on this http response
+        /// </summary>
+        Header[] Headers { get; }
+
+        /// <summary>
         /// The body of the response
         /// </summary>
         Stream Body { get; }
@@ -29,6 +34,11 @@ namespace SpeakEasy
         /// The deserializer that will be used to deserialize the response
         /// </summary>
         ISerializer Deserializer { get; }
+
+        /// <summary>
+        /// The content type of the response
+        /// </summary>
+        string ContentType { get; }
 
         /// <summary>
         /// Executes the given action when the response status code matches the supplied status code.
@@ -91,5 +101,19 @@ namespace SpeakEasy
         /// </summary>
         /// <returns>True if the response status code is OK (200)</returns>
         bool IsOk();
+
+        /// <summary>
+        /// Gets the the header with the given name
+        /// </summary>
+        /// <param name="name">The name of the header to get</param>
+        /// <returns>The header</returns>
+        Header GetHeader(string name);
+
+        /// <summary>
+        /// Gets the value of the header with the given name
+        /// </summary>
+        /// <param name="name">The name of the header to get</param>
+        /// <returns>The header value</returns>
+        string GetHeaderValue(string name);
     }
 }

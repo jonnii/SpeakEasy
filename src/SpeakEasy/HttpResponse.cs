@@ -1,27 +1,30 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace SpeakEasy
 {
     public class HttpResponse : IHttpResponse
     {
-        public HttpResponse(
-            ISerializer deserializer,
-            Uri requestUrl,
-            HttpStatusCode httpStatusCode,
-            Stream body)
+        public HttpResponse(ISerializer deserializer, Stream body, HttpStatusCode httpStatusCode, Uri requestUrl, Header[] headers, string contentType)
         {
             Deserializer = deserializer;
 
             RequestedUrl = requestUrl;
             HttpStatusCode = httpStatusCode;
+            Headers = headers;
+            ContentType = contentType;
             Body = body;
         }
 
         public Uri RequestedUrl { get; private set; }
 
         public HttpStatusCode HttpStatusCode { get; private set; }
+
+        public Header[] Headers { get; private set; }
+
+        public string ContentType { get; private set; }
 
         public Stream Body { get; private set; }
 
@@ -90,6 +93,28 @@ namespace SpeakEasy
         public bool IsOk()
         {
             return Is(HttpStatusCode.OK);
+        }
+
+        public Header GetHeader(string name)
+        {
+            var header = Headers.FirstOrDefault(h => h.Name == name.ToLowerInvariant());
+
+            if (header == null)
+            {
+                var message = string.Format(
+                    "Could not find a header with the name {0}", name);
+
+                throw new ArgumentException(message);
+            }
+
+            return header;
+        }
+
+        public string GetHeaderValue(string name)
+        {
+            var header = GetHeader(name);
+
+            return header.Value;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 
@@ -37,6 +38,15 @@ namespace SpeakEasy
         public string MediaType
         {
             get { return new ContentType(response.ContentType).MediaType; }
+        }
+
+        public Header[] Headers
+        {
+            get
+            {
+                var headerNames = response.Headers.AllKeys;
+                return headerNames.Select(n => new Header(n.ToLowerInvariant(), response.Headers[n])).ToArray();
+            }
         }
 
         public Stream ReadBody()

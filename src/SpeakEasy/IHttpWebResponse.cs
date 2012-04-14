@@ -20,6 +20,11 @@ namespace SpeakEasy
         HttpStatusCode StatusCode { get; }
 
         /// <summary>
+        /// The headers that came back as part of this response
+        /// </summary>
+        Header[] Headers { get; }
+
+        /// <summary>
         /// Indicates whether or not the web response has content
         /// </summary>
         bool HasContent { get; }

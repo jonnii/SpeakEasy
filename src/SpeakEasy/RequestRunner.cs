@@ -39,9 +39,11 @@ namespace SpeakEasy
 
             return new HttpResponse(
                 deserializer,
-                webResponse.ResponseUri,
+                body,
                 webResponse.StatusCode,
-                body);
+                webResponse.ResponseUri,
+                webResponse.Headers,
+                webResponse.ContentType);
         }
     }
 }
