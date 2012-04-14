@@ -6,7 +6,11 @@ namespace SpeakEasy
 {
     public class HttpResponse : IHttpResponse
     {
-        public HttpResponse(Uri requestUrl, HttpStatusCode httpStatusCode, Stream body, ISerializer deserializer)
+        public HttpResponse(
+            ISerializer deserializer,
+            Uri requestUrl,
+            HttpStatusCode httpStatusCode,
+            Stream body)
         {
             Deserializer = deserializer;
 

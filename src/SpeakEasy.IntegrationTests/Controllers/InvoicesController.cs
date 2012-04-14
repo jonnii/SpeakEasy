@@ -18,7 +18,8 @@ namespace SpeakEasy.IntegrationTests.Controllers
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
             {
-                FileName = "foo.txt"
+                FileName = "foo.txt",
+                Name = "name",
             };
 
             return response;

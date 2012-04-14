@@ -38,10 +38,10 @@ namespace SpeakEasy
             var body = webResponse.ReadBody();
 
             return new HttpResponse(
+                deserializer,
                 webResponse.ResponseUri,
                 webResponse.StatusCode,
-                body,
-                deserializer);
+                body);
         }
     }
 }

@@ -125,7 +125,7 @@ namespace SpeakEasy.Specifications
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, bodyStream, deserializer);
+                response = new HttpResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.OK, bodyStream);
 
             protected static HttpResponse response;
         }
@@ -133,7 +133,7 @@ namespace SpeakEasy.Specifications
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, bodyStream, deserializer);
+                response = new HttpResponse(deserializer, new Uri("http://example.com/companies"), HttpStatusCode.Created, bodyStream);
 
             protected static HttpResponse response;
         }

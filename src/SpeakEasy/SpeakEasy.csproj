@@ -42,6 +42,8 @@
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
     <Compile Include="DeleteRequest.cs" />
     <Compile Include="DeserializationSettings.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="FileDownload.cs" />
     <Compile Include="FileUploadBody.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="IFile.cs" />

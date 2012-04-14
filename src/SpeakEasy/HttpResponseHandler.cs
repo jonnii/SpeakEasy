@@ -1,4 +1,5 @@
 using System.IO;
+using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
@@ -27,7 +28,17 @@ namespace SpeakEasy
 
         public byte[] AsByteArray()
         {
-            return null;
+            return AsByteArray(16 * 1024);
+        }
+
+        public byte[] AsByteArray(int bufferSize)
+        {
+            var body = response.Body;
+
+            var memoryStream = body as MemoryStream;
+            return memoryStream != null
+                ? memoryStream.ToArray()
+                : body.ReadAsByteArray(bufferSize);
         }
 
         public string AsString()
@@ -36,6 +47,11 @@ namespace SpeakEasy
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        public IFile AsFile()
+        {
+            return new FileDownload("filename", "name", "contenttype", response.Body);
         }
     }
 }
