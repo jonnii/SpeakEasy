@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace SpeakEasy
 {
     public class HttpResponseHandler : IHttpResponseHandler
@@ -9,18 +11,31 @@ namespace SpeakEasy
             this.response = response;
         }
 
-        public T Unwrap<T>()
+        public T As<T>()
         {
             var deserializer = response.Deserializer;
 
             return deserializer.Deserialize<T>(response.Body);
         }
 
-        public T Unwrap<T>(DeserializationSettings deserializationSettings)
+        public T As<T>(DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
             return deserializer.Deserialize<T>(response.Body, deserializationSettings);
+        }
+
+        public byte[] AsByteArray()
+        {
+            return null;
+        }
+
+        public string AsString()
+        {
+            using (var reader = new StreamReader(response.Body))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }

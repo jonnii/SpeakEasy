@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 
 namespace SpeakEasy
@@ -37,6 +38,6 @@ namespace SpeakEasy
         /// Reads the body of the http web response
         /// </summary>
         /// <returns>A string representation of the body</returns>
-        string ReadBody();
+        Stream ReadBody();
     }
 }

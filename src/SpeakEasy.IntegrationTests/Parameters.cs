@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,7 +14,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var response = client.Get("search", new { filter = "c" });
 
-            var products = response.OnOk().Unwrap<IEnumerable<string>>();
+            var products = response.OnOk().As<IEnumerable<string>>();
 
             Assert.That(products.First(), Is.EqualTo("cake"));
         }
@@ -23,7 +24,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var response = client.Get("search/:category", new { category = "top100", filter = "c" });
 
-            var products = response.OnOk().Unwrap<IEnumerable<string>>();
+            var products = response.OnOk().As<IEnumerable<string>>();
 
             Assert.That(products.First(), Is.EqualTo("cake"));
         }
@@ -33,7 +34,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var response = client.Post("search", new { username = "bob" });
 
-            var user = response.On(HttpStatusCode.Created).Unwrap<string>();
+            var user = response.On(HttpStatusCode.Created).As<string>();
 
             Assert.That(user, Is.EqualTo("bob"));
         }

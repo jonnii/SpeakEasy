@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Net;
+using System.Text;
 using Machine.Fakes;
 using Machine.Specifications;
 
@@ -24,7 +26,7 @@ namespace SpeakEasy.Specifications
                 response.On(HttpStatusCode.OK, (Person p) => { called = true; });
 
             It should_deserialize_person = () =>
-                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<string>()));
+                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
 
             It should_call_callback = () =>
                 called.ShouldBeTrue();
@@ -39,7 +41,7 @@ namespace SpeakEasy.Specifications
                 response.OnOk((Person p) => { called = true; });
 
             It should_deserialize_person = () =>
-                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<string>()));
+                deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
 
             It should_call_callback = () =>
                 called.ShouldBeTrue();
@@ -110,15 +112,20 @@ namespace SpeakEasy.Specifications
         public class with_deserializer : WithFakes
         {
             Establish context = () =>
+            {
                 deserializer = An<ISerializer>();
+                bodyStream = new MemoryStream(Encoding.Default.GetBytes("lollipops"));
+            };
 
             protected static ISerializer deserializer;
+
+            protected static Stream bodyStream;
         }
 
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, "body", deserializer);
+                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.OK, bodyStream, deserializer);
 
             protected static HttpResponse response;
         }
@@ -126,7 +133,7 @@ namespace SpeakEasy.Specifications
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, "body", deserializer);
+                response = new HttpResponse(new Uri("http://example.com/companies"), HttpStatusCode.Created, bodyStream, deserializer);
 
             protected static HttpResponse response;
         }

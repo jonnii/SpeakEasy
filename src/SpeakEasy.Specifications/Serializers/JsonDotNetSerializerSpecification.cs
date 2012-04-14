@@ -32,7 +32,7 @@ namespace SpeakEasy.Specifications.Serializers
                 json = JsonConvert.SerializeObject(new[] { "a", "b", "c" });
 
             Because of = () =>
-                deserialized = Subject.Deserialize<List<string>>(json);
+                deserialized = Subject.DeserializeString<List<string>>(json);
 
             It should_deserialize_items_when_array = () =>
                 deserialized.Count.ShouldEqual(3);
@@ -49,7 +49,7 @@ namespace SpeakEasy.Specifications.Serializers
                 json = JsonConvert.SerializeObject(new { name = "fred", age = 30 });
 
             Because of = () =>
-                deserialized = Subject.Deserialize<object>(json);
+                deserialized = Subject.DeserializeString<object>(json);
 
             It should_deserialize_items_when_array = () =>
                 ((string)deserialized.name).ShouldEqual("fred");
@@ -66,7 +66,7 @@ namespace SpeakEasy.Specifications.Serializers
                 json = JsonConvert.SerializeObject(new { root = new { name = "fred", age = 30 } });
 
             Because of = () =>
-                deserialized = Subject.Deserialize<object>(json, new DeserializationSettings { RootElementPath = "root" });
+                deserialized = Subject.DeserializeString<object>(json, new DeserializationSettings { RootElementPath = "root" });
 
             It should_deserialize_items_when_array = () =>
                 ((string)deserialized.name).ShouldEqual("fred");
@@ -83,7 +83,7 @@ namespace SpeakEasy.Specifications.Serializers
                 json = JsonConvert.SerializeObject(new { root = new { name = "fred", age = 30 } });
 
             Because of = () =>
-                deserialized = Subject.Deserialize<object>(json, new DeserializationSettings { SkipRootElement = true });
+                deserialized = Subject.DeserializeString<object>(json, new DeserializationSettings { SkipRootElement = true });
 
             It should_skip_root_element = () =>
                 ((string)deserialized.name).ShouldEqual("fred");

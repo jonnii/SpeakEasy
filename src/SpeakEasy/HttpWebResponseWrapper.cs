@@ -39,7 +39,7 @@ namespace SpeakEasy
             get { return new ContentType(response.ContentType).MediaType; }
         }
 
-        public string ReadBody()
+        public Stream ReadBody()
         {
             using (var responseStream = response.GetResponseStream())
             {
@@ -48,10 +48,12 @@ namespace SpeakEasy
                     throw new NotSupportedException("The body of the response stream could not be read.");
                 }
 
-                using (var streamReader = new StreamReader(responseStream))
-                {
-                    return streamReader.ReadToEnd();
-                }
+                var responseCopy = new MemoryStream();
+                responseStream.CopyTo(responseCopy);
+
+                responseCopy.Position = 0;
+
+                return responseCopy;
             }
         }
     }

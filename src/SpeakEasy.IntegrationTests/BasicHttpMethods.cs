@@ -40,7 +40,7 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetCollection()
         {
-            var products = client.Get("products").On(HttpStatusCode.OK).Unwrap<List<Product>>();
+            var products = client.Get("products").On(HttpStatusCode.OK).As<List<Product>>();
 
             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         }
@@ -48,7 +48,7 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetCollectionShort()
         {
-            var products = client.Get("products").OnOk().Unwrap<List<Product>>();
+            var products = client.Get("products").OnOk().As<List<Product>>();
 
             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         }
@@ -56,7 +56,7 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetProduct()
         {
-            var product = client.Get("products/1").OnOk().Unwrap<Product>();
+            var product = client.Get("products/1").OnOk().As<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -64,7 +64,7 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetProductWithSegments()
         {
-            var product = client.Get("products/:id", new { id = 1 }).OnOk().Unwrap<Product>();
+            var product = client.Get("products/:id", new { id = 1 }).OnOk().As<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -74,7 +74,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var resource = new Resource("products/:id");
 
-            var product = client.Get(resource.Merge(new { id = 1 })).OnOk().Unwrap<Product>();
+            var product = client.Get(resource.Merge(new { id = 1 })).OnOk().As<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }
@@ -84,7 +84,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var resource = Resource.Create("products/:id");
 
-            var product = client.Get(resource.Id(1)).OnOk().Unwrap<Product>();
+            var product = client.Get(resource.Id(1)).OnOk().As<Product>();
 
             Assert.That(product.Id, Is.EqualTo(1));
         }

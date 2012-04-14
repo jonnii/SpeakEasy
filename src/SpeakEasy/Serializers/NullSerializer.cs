@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SpeakEasy.Serializers
 {
@@ -27,7 +28,7 @@ namespace SpeakEasy.Serializers
             get { return new string[0]; }
         }
 
-        public T Deserialize<T>(string body)
+        public T Deserialize<T>(Stream body)
         {
             var message = string.Format(
                 "Could not find a deserializer that supports the content type {0}",
@@ -36,7 +37,7 @@ namespace SpeakEasy.Serializers
             throw new NotSupportedException(message);
         }
 
-        public T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
+        public T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings)
         {
             return Deserialize<T>(body);
         }

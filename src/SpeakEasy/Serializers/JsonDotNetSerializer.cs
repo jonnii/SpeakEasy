@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SpeakEasy.Serializers
 {
-    public class JsonDotNetSerializer : Serializer
+    public class JsonDotNetSerializer : StringBasedSerializer
     {
         private Lazy<JsonSerializer> serializer;
 
@@ -38,7 +38,7 @@ namespace SpeakEasy.Serializers
             return JsonConvert.SerializeObject(t, jsonSerializerSettings);
         }
 
-        public override T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
+        public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)
         {
             var parsed = JToken.Parse(body);
 

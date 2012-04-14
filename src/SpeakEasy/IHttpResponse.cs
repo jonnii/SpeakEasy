@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 
 namespace SpeakEasy
@@ -22,7 +23,7 @@ namespace SpeakEasy
         /// <summary>
         /// The body of the response
         /// </summary>
-        string Body { get; }
+        Stream Body { get; }
 
         /// <summary>
         /// The deserializer that will be used to deserialize the response

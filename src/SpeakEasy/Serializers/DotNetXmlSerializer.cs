@@ -1,24 +1,18 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
 namespace SpeakEasy.Serializers
 {
-    public class DotNetXmlSerializer : ISerializer
+    public class DotNetXmlSerializer : StringBasedSerializer
     {
-        public string MediaType
-        {
-            get { return SupportedMediaTypes.First(); }
-        }
-
-        public IEnumerable<string> SupportedMediaTypes
+        public override IEnumerable<string> SupportedMediaTypes
         {
             get { return new[] { "text/xml" }; }
         }
 
-        public string Serialize<T>(T t)
+        public override string Serialize<T>(T t)
         {
             using (var writer = new StringWriterWithEncoding(Encoding.UTF8))
             {
@@ -28,7 +22,7 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public T Deserialize<T>(string body)
+        public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)
         {
             var serializer = new XmlSerializer(typeof(T));
 
@@ -36,11 +30,6 @@ namespace SpeakEasy.Serializers
             {
                 return (T)serializer.Deserialize(reader);
             }
-        }
-
-        public T Deserialize<T>(string body, DeserializationSettings deserializationSettings)
-        {
-            throw new System.NotImplementedException();
         }
 
         /// <summary>

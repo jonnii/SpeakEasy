@@ -40,7 +40,7 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetCollection()
         {
-            var products = client.Get("products").On(HttpStatusCode.OK).Unwrap<List<Product>>();
+            var products = client.Get("products").On(HttpStatusCode.OK).As<List<Product>>();
 
             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 
 namespace SpeakEasy
 {
@@ -32,7 +33,7 @@ namespace SpeakEasy
         /// <typeparam name="T">The type of instance to create</typeparam>
         /// <param name="body">The body to deserialize</param>
         /// <returns>An instance of type T</returns>
-        T Deserialize<T>(string body);
+        T Deserialize<T>(Stream body);
 
         /// <summary>
         /// Deserializes the body of a response and creates
@@ -42,6 +43,6 @@ namespace SpeakEasy
         /// <param name="body">The body of the message to deserialize</param>
         /// <param name="deserializationSettings">The custom deserialization settings</param>
         /// <returns>A instance of type T</returns>
-        T Deserialize<T>(string body, DeserializationSettings deserializationSettings);
+        T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings);
     }
 }

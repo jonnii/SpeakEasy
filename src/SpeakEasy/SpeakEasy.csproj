@@ -85,6 +85,7 @@
     <Compile Include="Serializers\JsonDotNetSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
     <Compile Include="Serializers\Serializer.cs" />
+    <Compile Include="Serializers\StringBasedSerializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>

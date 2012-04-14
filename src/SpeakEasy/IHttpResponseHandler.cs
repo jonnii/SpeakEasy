@@ -12,7 +12,7 @@ namespace SpeakEasy
         /// </summary>
         /// <typeparam name="T">The type to deserialize</typeparam>
         /// <returns>The deserialized body</returns>
-        T Unwrap<T>();
+        T As<T>();
 
         /// <summary>
         /// Deserializes the body of a response as a given type.
@@ -20,6 +20,18 @@ namespace SpeakEasy
         /// <param name="deserializationSettings">The settings used to deserialize the contents</param>
         /// <typeparam name="T">The type to deserialize</typeparam>
         /// <returns>The deserialized body</returns>
-        T Unwrap<T>(DeserializationSettings deserializationSettings);
+        T As<T>(DeserializationSettings deserializationSettings);
+
+        /// <summary>
+        /// Gets the contents of this http response as a byte array.
+        /// </summary>
+        /// <returns>A byte array with the contents of the response handler</returns>
+        byte[] AsByteArray();
+
+        /// <summary>
+        /// Gets the contents of this http response as a string
+        /// </summary>
+        /// <returns>The string representation of the response</returns>
+        string AsString();
     }
 }

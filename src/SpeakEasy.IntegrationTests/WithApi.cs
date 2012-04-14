@@ -10,6 +10,9 @@ namespace SpeakEasy.IntegrationTests
         private static readonly Lazy<HttpSelfHostServer> ApiServer = new Lazy<HttpSelfHostServer>(() =>
         {
             var config = new HttpSelfHostConfiguration("http://localhost:1337");
+
+            //config.Formatters.Insert(0, new MultiFormDataMediaTypeFormatter());
+
             config.Routes.MapHttpRoute("api", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.Routes.MapHttpRoute("reservations_api", "api/products/{productId}/{controller}/{id}", new { id = RouteParameter.Optional });
 

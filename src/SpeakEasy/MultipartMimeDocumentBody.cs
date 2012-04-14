@@ -29,7 +29,7 @@ namespace SpeakEasy
 
         public int ContentLength
         {
-            get { return -1; }
+            get { return 0; }
         }
 
         public bool HasContent

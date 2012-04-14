@@ -19,7 +19,7 @@ namespace SpeakEasy.Samples.Github
             var client = HttpClient.Create("http://github.com/api/v2/json", settings);
 
             var repositories = client.Get("repos/show/:user", new { user = "jonnii" }).OnOk()
-                .Unwrap<List<Repository>>();
+                .As<List<Repository>>();
 
             foreach (var repository in repositories)
             {
@@ -31,7 +31,7 @@ namespace SpeakEasy.Samples.Github
             }
 
             var commits = client.Get("commits/list/:user/:repository/:branch", new { user = "jonnii", repository = "SpeakEasy", branch = "master" })
-                .OnOk().Unwrap<List<Commit>>();
+                .OnOk().As<List<Commit>>();
 
             foreach (var commit in commits)
             {

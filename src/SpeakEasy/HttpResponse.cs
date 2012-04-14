@@ -1,11 +1,12 @@
 using System;
+using System.IO;
 using System.Net;
 
 namespace SpeakEasy
 {
     public class HttpResponse : IHttpResponse
     {
-        public HttpResponse(Uri requestUrl, HttpStatusCode httpStatusCode, string body, ISerializer deserializer)
+        public HttpResponse(Uri requestUrl, HttpStatusCode httpStatusCode, Stream body, ISerializer deserializer)
         {
             Deserializer = deserializer;
 
@@ -18,7 +19,7 @@ namespace SpeakEasy
 
         public HttpStatusCode HttpStatusCode { get; private set; }
 
-        public string Body { get; private set; }
+        public Stream Body { get; private set; }
 
         public ISerializer Deserializer { get; private set; }
 
