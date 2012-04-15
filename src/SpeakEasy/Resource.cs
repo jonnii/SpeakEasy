@@ -171,5 +171,13 @@ namespace SpeakEasy
 
             return true;
         }
+
+        public override string ToString()
+        {
+            var formattedParameters = parameters.Select(s => s.ToQueryString()).ToList();
+            var parameterList = formattedParameters.Any() ? string.Join(", ", formattedParameters) : "none";
+
+            return string.Format("[Resource Path={0}, Parameters={1}]", Path, parameterList);
+        }
     }
 }

@@ -18,5 +18,10 @@ namespace SpeakEasy
         {
             return "PUT";
         }
+
+        public override string ToString()
+        {
+            return string.Format("[PutRequest {0}]", Resource);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 using NUnit.Framework;
+using SpeakEasy.Loggers;
 
 namespace SpeakEasy.IntegrationTests
 {
@@ -39,7 +40,10 @@ namespace SpeakEasy.IntegrationTests
 
         protected virtual IHttpClient CreateClient()
         {
-            return HttpClient.Create(ApiUrl);
+            var settings = HttpClientSettings.Default;
+            settings.Logger = new ConsoleLogger();
+
+            return HttpClient.Create(ApiUrl, settings);
         }
     }
 }

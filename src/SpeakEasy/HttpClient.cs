@@ -1,5 +1,6 @@
 using System;
 using SpeakEasy.Extensions;
+using SpeakEasy.Loggers;
 
 namespace SpeakEasy
 {
@@ -34,7 +35,8 @@ namespace SpeakEasy
             return new HttpClient(runner)
             {
                 Root = new Resource(rootUrl),
-                Settings = settings
+                Settings = settings,
+                Logger = settings.Logger
             };
         }
 
@@ -45,11 +47,14 @@ namespace SpeakEasy
             this.requestRunner = requestRunner;
 
             Settings = new HttpClientSettings();
+            Logger = NullLogger.Instance;
         }
 
         public event EventHandler<BeforeRequestEventArgs> BeforeRequest;
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
+
+        public ILogger Logger { get; set; }
 
         public Resource Root { get; set; }
 
@@ -190,13 +195,23 @@ namespace SpeakEasy
         {
             request.UserAgent = Settings.UserAgent;
 
-            BeforeRequest.Raise(this, new BeforeRequestEventArgs(request));
-
+            OnBeforeRequest(request);
             var response = requestRunner.Run(request);
-
-            AfterRequest.Raise(this, new AfterRequestEventArgs(request, response));
+            OnAfterRequest(request, response);
 
             return response;
+        }
+
+        private void OnBeforeRequest(IHttpRequest request)
+        {
+            Logger.BeforeRequest(request);
+            BeforeRequest.Raise(this, new BeforeRequestEventArgs(request));
+        }
+
+        private void OnAfterRequest(IHttpRequest request, IHttpResponse response)
+        {
+            AfterRequest.Raise(this, new AfterRequestEventArgs(request, response));
+            Logger.AfterRequest(request, response);
         }
     }
 }

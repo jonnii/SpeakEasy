@@ -18,5 +18,10 @@ namespace SpeakEasy
 
             return baseRequest;
         }
+
+        public override string ToString()
+        {
+            return string.Format("[HeadRequest {0}]", Resource);
+        }
     }
 }

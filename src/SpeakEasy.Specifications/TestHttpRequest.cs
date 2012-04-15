@@ -4,5 +4,10 @@
     {
         public TestHttpRequest(Resource resource)
             : base(resource) { }
+
+        public override string ToString()
+        {
+            return "[TestRequest]";
+        }
     }
 }

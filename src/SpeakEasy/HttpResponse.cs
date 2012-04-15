@@ -116,5 +116,14 @@ namespace SpeakEasy
 
             return header.Value;
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "[HttpResponse StatusCode={0}, ContentType={1}, RequestedUrl={2}]",
+                HttpStatusCode,
+                ContentType,
+                RequestedUrl);
+        }
     }
 }

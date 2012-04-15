@@ -18,5 +18,10 @@ namespace SpeakEasy
         {
             return "PATCH";
         }
+
+        public override string ToString()
+        {
+            return string.Format("[PatchRequest {0}]", Resource);
+        }
     }
 }

@@ -59,5 +59,7 @@ namespace SpeakEasy
         }
 
         protected abstract string BuildRequestUrl(Resource resource);
+
+        public abstract override string ToString();
     }
 }

@@ -18,5 +18,10 @@ namespace SpeakEasy
         {
             return "POST";
         }
+
+        public override string ToString()
+        {
+            return string.Format("[PostRequest {0}]", Resource);
+        }
     }
 }

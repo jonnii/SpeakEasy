@@ -5,6 +5,8 @@ namespace SpeakEasy
     /// </summary>
     public interface ILogger
     {
+        void BeforeRequest(IHttpRequest request);
 
+        void AfterRequest(IHttpRequest request, IHttpResponse response);
     }
 }

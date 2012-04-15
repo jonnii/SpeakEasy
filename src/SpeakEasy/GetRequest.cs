@@ -7,5 +7,10 @@ namespace SpeakEasy
         {
 
         }
+
+        public override string ToString()
+        {
+            return string.Format("[GetRequest {0}]", Resource);
+        }
     }
 }
