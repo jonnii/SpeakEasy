@@ -61,6 +61,21 @@ namespace SpeakEasy.Specifications
                 request.NumHeaders.ShouldEqual(1);
         }
 
+        [Subject(typeof(HttpRequest))]
+        public class when_building_web_request_with_credentials : with_request
+        {
+            Establish context = () =>
+                request.Credentials = CredentialCache.DefaultCredentials;
+
+            Because of = () =>
+                webRequest = request.BuildWebRequest(transmissionSettings);
+
+            It should_set_credentials_on_web_request = () =>
+                webRequest.Credentials.ShouldNotBeNull();
+
+            static HttpWebRequest webRequest;
+        }
+
         public class with_request : WithFakes
         {
             Establish context = () =>

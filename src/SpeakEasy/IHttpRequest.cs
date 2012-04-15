@@ -30,6 +30,11 @@ namespace SpeakEasy
         IEnumerable<Header> Headers { get; }
 
         /// <summary>
+        /// The windows credentials on this http request
+        /// </summary>
+        ICredentials Credentials { get; set; }
+
+        /// <summary>
         /// Creates a web request corresponding to this http request
         /// </summary>
         /// <param name="transmissionSettings">The current transmissionSettings</param>

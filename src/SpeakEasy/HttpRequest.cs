@@ -26,6 +26,8 @@ namespace SpeakEasy
             get { return headers; }
         }
 
+        public ICredentials Credentials { get; set; }
+
         public virtual HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
             var url = BuildRequestUrl(Resource);
@@ -36,6 +38,7 @@ namespace SpeakEasy
 
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+            request.Credentials = Credentials;
 
             if (!string.IsNullOrEmpty(UserAgent))
             {

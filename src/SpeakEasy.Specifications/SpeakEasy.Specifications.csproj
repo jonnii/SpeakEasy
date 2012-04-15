@@ -63,6 +63,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
+    <Compile Include="Authenticators\WindowsAuthenticatorSpecification.cs" />
     <Compile Include="DeleteRequestSpecification.cs" />
     <Compile Include="FileUploadBodySpecification.cs" />
     <Compile Include="GetRequestSpecification.cs" />
