@@ -64,10 +64,10 @@ namespace SpeakEasy
         {
             var disposition = response.GetHeader("Content-Disposition");
 
-            var parsedHeader = disposition.Parse();
+            var parsedHeader = disposition.ParseValue();
 
-            var name = parsedHeader.GetParameter("name");
-            var fileName = parsedHeader.GetParameter("filename");
+            var name = parsedHeader.GetParameter("attachment", "name");
+            var fileName = parsedHeader.GetParameter("attachment", "filename");
 
             return new FileDownload(
                 name,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
@@ -13,17 +12,17 @@ namespace SpeakEasy.Specifications
                 header = new Header("Content-Type", "application/json");
 
             Because of = () =>
-                parsed = header.Parse();
+                parsed = header.ParseValue();
 
-            It should_have_same_name_as_original_header = () =>
-                parsed.Name.ShouldEqual("Content-Type");
+            It should_have_single_key = () =>
+                parsed.Keys.Count().ShouldEqual(1);
 
-            It should_have_same_value_as_original_header = () =>
-                parsed.Value.ShouldEqual("application/json");
+            It should_have_value_as_keyk = () =>
+                parsed.Keys.ElementAt(0).ShouldEqual("application/json");
 
             static Header header;
 
-            static ParsedHeader parsed;
+            static ParsedHeaderValue parsed;
         }
 
         [Subject(typeof(Header))]
@@ -33,40 +32,46 @@ namespace SpeakEasy.Specifications
                 header = new Header("Content-Disposition", "attachment; filename=foo.txt; name=fribble");
 
             Because of = () =>
-                parsed = header.Parse();
+                parsed = header.ParseValue();
+
+            It should_have_key_for_attachment = () =>
+                parsed.Keys.Single().ShouldEqual("attachment");
+
+            It should_get_parameters_for_key = () =>
+                parsed.GetParameters("attachment").Count().ShouldEqual(2);
 
             It should_have_filename_parameter = () =>
-                parsed.GetParameter("filename").ShouldEqual("foo.txt");
+                parsed.GetParameter("attachment", "filename").ShouldEqual("foo.txt");
 
             It should_have_name_parameter = () =>
-                parsed.GetParameter("name").ShouldEqual("fribble");
-
-            It should_have_key = () =>
-                parsed.Value.ShouldEqual("attachment");
+                parsed.GetParameter("attachment", "name").ShouldEqual("fribble");
 
             static Header header;
 
-            static ParsedHeader parsed;
+            static ParsedHeaderValue parsed;
         }
-    }
 
-    public class ParsedHeaderSpecification
-    {
-        [Subject(typeof(ParsedHeader))]
-        public class when_getting_unknown_parameter
+        [Subject(typeof(Header))]
+        public class when_parsing_link_header
         {
             Establish context = () =>
-                header = new ParsedHeader("name", "raw value", new Dictionary<string, string> { { "parameter", "value" } });
+                header = new Header("Link", "<https://api.github.com/gists?page=2>; rel=\"next\", <https://api.github.com/gists?page=22817>; rel=\"last\"");
 
             Because of = () =>
-                exception = Catch.Exception(() => header.GetParameter("unknown"));
+                parsed = header.ParseValue();
 
-            It should_throw_exception = () =>
-                exception.ShouldBeOfType<ArgumentException>();
+            It should_have_keys_for_each_url = () =>
+            {
+                parsed.Keys.First().ShouldEqual("<https://api.github.com/gists?page=2>");
+                parsed.Keys.Last().ShouldEqual("<https://api.github.com/gists?page=22817>");
+            };
 
-            static ParsedHeader header;
+            It should_have_parameter_for_url = () =>
+                parsed.GetParameters("<https://api.github.com/gists?page=2>").First().Name.ShouldEqual("rel");
 
-            static Exception exception;
+            static Header header;
+
+            static ParsedHeaderValue parsed;
         }
     }
 }

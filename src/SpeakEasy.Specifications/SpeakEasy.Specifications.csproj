@@ -73,6 +73,7 @@
     <Compile Include="MultipartMimeDocumentBodySpecification.cs" />
     <Compile Include="OptionsRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
+    <Compile Include="ParsedHeaderSpecification.cs" />
     <Compile Include="PatchRequestSpecification.cs" />
     <Compile Include="PostRequestSpecification.cs" />
     <Compile Include="PutRequestSpecification.cs" />
