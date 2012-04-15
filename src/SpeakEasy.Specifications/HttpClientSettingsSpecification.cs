@@ -17,7 +17,7 @@ namespace SpeakEasy.Specifications
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
 
             It should_have_null_logger = () =>
-                settings.Authenticator.ShouldBeOfType<NullLogger>();
+                settings.Logger.ShouldBeOfType<NullLogger>();
 
             It should_have_default_user_agent = () =>
                 settings.UserAgent.ShouldEqual("SpeakEasy");
