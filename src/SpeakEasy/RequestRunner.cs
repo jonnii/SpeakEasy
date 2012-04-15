@@ -1,11 +1,7 @@
-using NLog;
-
 namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         private readonly ITransmissionSettings transmissionSettings;
 
         private readonly IWebRequestGateway webRequestGateway;
@@ -24,8 +20,6 @@ namespace SpeakEasy
 
         public IHttpResponse Run(IHttpRequest request)
         {
-            Logger.Debug("running request of type {0}", request.GetType().Name);
-
             authenticator.Authenticate(request);
 
             var webRequest = request.BuildWebRequest(transmissionSettings);

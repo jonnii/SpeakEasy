@@ -37,7 +37,7 @@ If you aren't using nuget, then shame on you. If you are, then installation is a
 	# install the pre-release version
 	install-package SpeakEasy -pre
 
-SpeakEasy has a dependency on Newtonsoft.Json and Nlog2.
+SpeakEasy has a dependency on Newtonsoft.Json.
 
 Examples
 --------

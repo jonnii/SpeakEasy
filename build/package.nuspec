@@ -15,7 +15,6 @@
     <tags>http web api rest</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="4.5.1" />
-      <dependency id="NLog" version="2.0.0.2000" />
     </dependencies>
   </metadata>
 </package>

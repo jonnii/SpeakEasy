@@ -82,6 +82,9 @@ task UpdateAssemblyInfo {
 
 task Compile -depends Clean,UpdateAssemblyInfo { 
   # call msbuild
+  # /p:TargetFrameworkVersion=4.0
+  # /p:TargetFrameworkVersion=Silverlight
+
   $options = "/p:Configuration=Release"
   $msbuild = "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
   

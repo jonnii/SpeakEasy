@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using NLog;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
 {
     public class TransmissionSettings : ITransmissionSettings
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
         private readonly IEnumerable<ISerializer> serializers;
 
         public TransmissionSettings(IEnumerable<ISerializer> serializers)
@@ -33,8 +30,6 @@ namespace SpeakEasy
 
         public ISerializer FindSerializer(string contentType)
         {
-            Logger.Debug("Finding deserializer for {0}", contentType);
-
             var deserializer = serializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
 
             return deserializer ?? new NullSerializer(contentType);
