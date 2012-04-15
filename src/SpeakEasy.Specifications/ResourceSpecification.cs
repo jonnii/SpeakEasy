@@ -18,6 +18,18 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(Resource))]
+        public class when_creating_with_trailing_slash
+        {
+            Establish context = () =>
+                resource = new Resource("http://example.com/");
+
+            It should_trim_leading_slash = () =>
+                resource.Path.ShouldEqual("http://example.com");
+
+            static Resource resource;
+        }
+
+        [Subject(typeof(Resource))]
         public class when_adding_parameters
         {
             Establish context = () =>
@@ -60,6 +72,40 @@ namespace SpeakEasy.Specifications
 
             Because of = () =>
                 appended = root.Append(new Resource("api/companies"));
+
+            It should_create_appended_resource = () =>
+                appended.Path.ShouldEqual("http://example.com/api/companies");
+
+            static Resource root;
+
+            static Resource appended;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_appending_resources_with_leading_slash
+        {
+            Establish context = () =>
+                root = new Resource("http://example.com");
+
+            Because of = () =>
+                appended = root.Append(new Resource("/api/companies"));
+
+            It should_create_appended_resource = () =>
+                appended.Path.ShouldEqual("http://example.com/api/companies");
+
+            static Resource root;
+
+            static Resource appended;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_appending_resources_with_leading_and_trailing_slashes
+        {
+            Establish context = () =>
+                root = new Resource("http://example.com/");
+
+            Because of = () =>
+                appended = root.Append(new Resource("/api/companies"));
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");

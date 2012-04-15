@@ -23,6 +23,7 @@ namespace SpeakEasy
             authenticator.Authenticate(request);
 
             var webRequest = request.BuildWebRequest(transmissionSettings);
+            
             return webRequestGateway.Send(webRequest, CreateHttpResponse);
         }
 

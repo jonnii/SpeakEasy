@@ -40,6 +40,11 @@ namespace SpeakEasy
 
         public string UserAgent { get; set; }
 
+        public bool HasAuthenticator
+        {
+            get { return Authenticator != null; }
+        }
+
         public void Configure<T>(Action<T> configurationCallback)
             where T : ISerializer
         {
@@ -48,6 +53,11 @@ namespace SpeakEasy
             {
                 configurationCallback(serializer);
             }
+        }
+
+        public void AddAfterRequestCallback(Action<IHttpResponse> callback)
+        {
+            throw new NotImplementedException();
         }
     }
 }

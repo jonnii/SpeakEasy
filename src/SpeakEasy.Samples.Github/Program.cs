@@ -16,9 +16,9 @@ namespace SpeakEasy.Samples.Github
                 j.DefaultDeserializationSettings = new DeserializationSettings { SkipRootElement = true };
             });
 
-            var client = HttpClient.Create("http://github.com/api/v2/json", settings);
+            var client = HttpClient.Create(" https://api.github.com", settings);
 
-            var repositories = client.Get("repos/show/:user", new { user = "jonnii" }).OnOk()
+            var repositories = client.Get("/users/:user/repos", new { user = "jonnii" }).OnOk()
                 .As<List<Repository>>();
 
             foreach (var repository in repositories)

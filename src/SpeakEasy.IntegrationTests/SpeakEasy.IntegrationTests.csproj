@@ -89,7 +89,6 @@
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\ValidationError.cs" />
-    <Compile Include="MultiFormDataMediaTypeFormatter.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="UploadingDownloadingFiles.cs" />
     <Compile Include="ValidationException.cs" />

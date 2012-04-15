@@ -40,20 +40,30 @@ namespace SpeakEasy.Serializers
 
         public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)
         {
-            var parsed = JToken.Parse(body);
-
-            if (deserializationSettings.HasRootElementPath)
+            try
             {
-                parsed = parsed[deserializationSettings.RootElementPath];
-            }
+                var parsed = JToken.Parse(body);
 
-            if (deserializationSettings.SkipRootElement)
+                if (deserializationSettings.HasRootElementPath)
+                {
+                    parsed = parsed[deserializationSettings.RootElementPath];
+                }
+
+                if (deserializationSettings.SkipRootElement)
+                {
+                    // this can't be right, but it seems to work.
+                    parsed = parsed.Children().First().Children().First();
+                }
+
+                return parsed.ToObject<T>(serializer.Value);
+            }
+            catch (JsonSerializationException e)
             {
-                // this can't be right, but it seems to work.
-                parsed = parsed.Children().First().Children().First();
+                throw new SerializerException("Something went wrong while trying to deserialize a json response", e)
+                {
+                    Body = body
+                };
             }
-
-            return parsed.ToObject<T>(serializer.Value);
         }
     }
 }

@@ -1,3 +1,6 @@
+using System;
+using SpeakEasy.Extensions;
+
 namespace SpeakEasy
 {
     public class HttpClient : IHttpClient
@@ -44,7 +47,16 @@ namespace SpeakEasy
             Settings = new HttpClientSettings();
         }
 
+        public event EventHandler<BeforeRequestEventArgs> BeforeRequest;
+
+        public event EventHandler<AfterRequestEventArgs> AfterRequest;
+
         public Resource Root { get; set; }
+
+        public bool IsAuthenticated
+        {
+            get { return Settings.HasAuthenticator; }
+        }
 
         public HttpClientSettings Settings { get; set; }
 
@@ -178,7 +190,13 @@ namespace SpeakEasy
         {
             request.UserAgent = Settings.UserAgent;
 
-            return requestRunner.Run(request);
+            BeforeRequest.Raise(this, new BeforeRequestEventArgs(request));
+
+            var response = requestRunner.Run(request);
+
+            AfterRequest.Raise(this, new AfterRequestEventArgs(request, response));
+
+            return response;
         }
     }
 }

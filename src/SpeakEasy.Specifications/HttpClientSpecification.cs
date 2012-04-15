@@ -8,11 +8,27 @@ namespace SpeakEasy.Specifications
         [Subject(typeof(HttpClient))]
         public class when_getting_collection_resource : with_client
         {
+            Establish context = () =>
+            {
+                Subject.BeforeRequest += delegate { beforeCalled = true; };
+                Subject.AfterRequest += delegate { afterCalled = true; };
+            };
+
             Because of = () =>
                 Subject.Get("companies");
 
             It should_send_request = () =>
                 The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies")));
+
+            It should_raise_before_request_event_args = () =>
+                beforeCalled.ShouldBeTrue();
+
+            It should_raise_after_request_event_args = () =>
+                afterCalled.ShouldBeTrue();
+
+            static bool beforeCalled;
+
+            static bool afterCalled;
         }
 
         [Subject(typeof(HttpClient))]

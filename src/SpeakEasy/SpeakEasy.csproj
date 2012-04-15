@@ -37,15 +37,18 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AfterRequestEventArgs.cs" />
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
     <Compile Include="DeleteRequest.cs" />
     <Compile Include="DeserializationSettings.cs" />
+    <Compile Include="Extensions\RaiseExtensions.cs" />
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="FileDownload.cs" />
     <Compile Include="FileUploadBody.cs" />
     <Compile Include="Header.cs" />
+    <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="IRequestBody.cs" />
     <Compile Include="DefaultRequestBody.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="ParsedHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializableByteArray.cs" />
+    <Compile Include="SerializerException.cs" />
     <Compile Include="Serializers\NullSerializer.cs" />
     <Compile Include="FileUpload.cs" />
     <Compile Include="GetLikeRequest.cs" />

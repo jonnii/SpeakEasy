@@ -1,3 +1,5 @@
+using System;
+
 namespace SpeakEasy
 {
     /// <summary>
@@ -7,9 +9,24 @@ namespace SpeakEasy
     public interface IHttpClient
     {
         /// <summary>
+        /// An event that is raised before each request is run
+        /// </summary>
+        event EventHandler<BeforeRequestEventArgs> BeforeRequest;
+
+        /// <summary>
+        /// An event that is raised after each request is s
+        /// </summary>
+        event EventHandler<AfterRequestEventArgs> AfterRequest;
+
+        /// <summary>
         /// The root resource for this http client, all calls will be relative to this resource
         /// </summary>
         Resource Root { get; }
+
+        /// <summary>
+        /// Indicates whether or not this http client is authenticated
+        /// </summary>
+        bool IsAuthenticated { get; }
 
         /// <summary>
         /// Executes an http get request

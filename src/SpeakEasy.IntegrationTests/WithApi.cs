@@ -7,11 +7,11 @@ namespace SpeakEasy.IntegrationTests
 {
     public class WithApi
     {
+        public static string ApiUrl = "http://localhost:1337/api";
+
         private static readonly Lazy<HttpSelfHostServer> ApiServer = new Lazy<HttpSelfHostServer>(() =>
         {
             var config = new HttpSelfHostConfiguration("http://localhost:1337");
-
-            //config.Formatters.Insert(0, new MultiFormDataMediaTypeFormatter());
 
             config.Routes.MapHttpRoute("api", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.Routes.MapHttpRoute("reservations_api", "api/products/{productId}/{controller}/{id}", new { id = RouteParameter.Optional });
@@ -39,7 +39,7 @@ namespace SpeakEasy.IntegrationTests
 
         protected virtual IHttpClient CreateClient()
         {
-            return HttpClient.Create("http://localhost:1337/api");
+            return HttpClient.Create(ApiUrl);
         }
     }
 }

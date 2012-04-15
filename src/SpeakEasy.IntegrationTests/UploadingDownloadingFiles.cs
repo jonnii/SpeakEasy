@@ -46,7 +46,7 @@ namespace SpeakEasy.IntegrationTests
             Assert.That(contentsAsString, Is.EqualTo("file contents"));
         }
 
-        [Test]
+        [Test, Explicit("WIP")]
         public void ShouldUploadOneFile()
         {
             var file = new FileUpload("name", "filename", new byte[] { 0xDE });

@@ -20,7 +20,7 @@ namespace SpeakEasy
 
         public Resource(string path)
         {
-            Path = path;
+            Path = path.TrimEnd('/');
 
             segmentNames = ExtractSegments();
         }
@@ -145,7 +145,7 @@ namespace SpeakEasy
         public Resource Append(Resource resource)
         {
             var combined =
-                Path.EndsWith("/")
+                resource.Path.StartsWith("/")
                     ? string.Concat(Path, resource.Path)
                     : string.Concat(Path, "/", resource.Path);
 
@@ -161,7 +161,7 @@ namespace SpeakEasy
         {
             return string.Join("&", Parameters.Select(p => p.ToQueryString()));
         }
- 
+
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
             var methodName = binder.Name;
