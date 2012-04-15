@@ -51,9 +51,12 @@
     <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="HeaderParser.cs" />
     <Compile Include="IFile.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="IRequestBody.cs" />
     <Compile Include="DefaultRequestBody.cs" />
     <Compile Include="ISerializableBody.cs" />
+    <Compile Include="Loggers\ConsoleLogger.cs" />
+    <Compile Include="Loggers\NullLogger.cs" />
     <Compile Include="MultipartMimeDocumentBody.cs" />
     <Compile Include="ObjectRequestBody.cs" />
     <Compile Include="ParsedHeaderValue.cs" />

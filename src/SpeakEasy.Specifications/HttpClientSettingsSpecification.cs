@@ -1,5 +1,6 @@
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
+using SpeakEasy.Loggers;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
@@ -14,6 +15,9 @@ namespace SpeakEasy.Specifications
 
             It should_have_null_authenticator = () =>
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
+
+            It should_have_null_logger = () =>
+                settings.Authenticator.ShouldBeOfType<NullLogger>();
 
             It should_have_default_user_agent = () =>
                 settings.UserAgent.ShouldEqual("SpeakEasy");
