@@ -1,3 +1,5 @@
+using System;
+
 namespace SpeakEasy
 {
     /// <summary>
@@ -5,6 +7,11 @@ namespace SpeakEasy
     /// </summary>
     public interface IHttpResponseHandler
     {
+        /// <summary>
+        /// The response that created this response handler
+        /// </summary>
+        IHttpResponse Response { get; }
+
         /// <summary>
         /// Deserializes the body of a response as a given type. This 
         /// will use the default deserialization settings that are set on the 
@@ -21,6 +28,14 @@ namespace SpeakEasy
         /// <typeparam name="T">The type to deserialize</typeparam>
         /// <returns>The deserialized body</returns>
         T As<T>(DeserializationSettings deserializationSettings);
+
+        /// <summary>
+        /// Deserializes the body of the response using a function
+        /// </summary>
+        /// <typeparam name="T">The type of object to create</typeparam>
+        /// <param name="constructor">The constructor function to create the response object with</param>
+        /// <returns></returns>
+        T As<T>(Func<IHttpResponseHandler, T> constructor);
 
         /// <summary>
         /// Gets the contents of this http response as a byte array with

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using SpeakEasy.Extensions;
 
@@ -12,6 +13,11 @@ namespace SpeakEasy
             this.response = response;
         }
 
+        public IHttpResponse Response
+        {
+            get { return response; }
+        }
+
         public T As<T>()
         {
             var deserializer = response.Deserializer;
@@ -24,6 +30,11 @@ namespace SpeakEasy
             var deserializer = response.Deserializer;
 
             return deserializer.Deserialize<T>(response.Body, deserializationSettings);
+        }
+
+        public T As<T>(Func<IHttpResponseHandler, T> constructor)
+        {
+            return constructor(this);
         }
 
         public byte[] AsByteArray()

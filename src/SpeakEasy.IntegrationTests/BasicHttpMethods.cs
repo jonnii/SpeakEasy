@@ -46,6 +46,14 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test]
+        public void ShouldGetCollectionWithCustomConstructor()
+        {
+            var products = client.Get("products").On(HttpStatusCode.OK).As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
+
+            Assert.That(products.Any(p => p.Name == "Vanilla Cake"));
+        }
+
+        [Test]
         public void ShouldGetCollectionShort()
         {
             var products = client.Get("products").OnOk().As<List<Product>>();
