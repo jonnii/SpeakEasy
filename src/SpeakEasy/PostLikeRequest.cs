@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Net;
 
 namespace SpeakEasy
@@ -35,16 +33,6 @@ namespace SpeakEasy
 
             if (serializedBody.HasContent)
             {
-                var memoryStream = new MemoryStream();
-                serializedBody.WriteTo(memoryStream);
-
-                memoryStream.Position = 0;
-
-                var reader = new StreamReader(memoryStream);
-                var debug = reader.ReadToEnd();
-
-                Console.WriteLine(debug);
-
                 using (var stream = baseRequest.GetRequestStream())
                 {
                     serializedBody.WriteTo(stream);
