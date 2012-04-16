@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace SpeakEasy
 {
-    public class Resource : DynamicObject
+    public class Resource 
     {
-        public static dynamic Create(string path)
-        {
-            return new Resource(path);
-        }
-
         private readonly string[] segmentNames;
 
         private readonly List<Parameter> parameters = new List<Parameter>();
@@ -161,16 +155,6 @@ namespace SpeakEasy
         {
             var encodableParameters = Parameters.Where(p => p.HasValue).Select(p => p.ToQueryString());
             return string.Join("&", encodableParameters);
-        }
-
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            var methodName = binder.Name;
-            var parameter = args[0];
-
-            result = Path.Replace(":" + methodName.ToLower(), parameter.ToString());
-
-            return true;
         }
 
         public override string ToString()

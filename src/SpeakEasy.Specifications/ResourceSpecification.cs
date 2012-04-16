@@ -224,23 +224,6 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(Resource))]
-        public class when_calling_methods_on_dynamic_resources
-        {
-            Establish context = () =>
-                resource = Resource.Create("companies/:id");
-
-            Because of = () =>
-                 url = resource.Id("ibm");
-
-            It should_format_url = () =>
-                url.ShouldEqual("companies/ibm");
-
-            static dynamic resource;
-
-            static string url;
-        }
-
-        [Subject(typeof(Resource))]
         public class when_getting_encoded_parameters
         {
             Establish context = () =>

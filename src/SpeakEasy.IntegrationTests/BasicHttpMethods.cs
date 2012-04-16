@@ -88,16 +88,6 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test]
-        public void ShouldGetProductWithDynamicResource()
-        {
-            var resource = Resource.Create("products/:id");
-
-            var product = client.Get(resource.Id(1)).OnOk().As<Product>();
-
-            Assert.That(product.Id, Is.EqualTo(1));
-        }
-
-        [Test]
         public void ShouldCreateNewProduct()
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
