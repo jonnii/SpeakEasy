@@ -49,14 +49,6 @@ namespace SpeakEasy
         /// Executes an http post request
         /// </summary>
         /// <param name="body">An object that represents the body to post</param>
-        /// <param name="resource">The resource to post</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(object body, Resource resource);
-
-        /// <summary>
-        /// Executes an http post request
-        /// </summary>
-        /// <param name="body">An object that represents the body to post</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
