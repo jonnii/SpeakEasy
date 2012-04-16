@@ -37,6 +37,7 @@ namespace SpeakEasy
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
             Logger = new NullLogger();
+            NamingConvention = new DefaultNamingConvention();
 
             UserAgent = "SpeakEasy";
         }
@@ -76,6 +77,11 @@ namespace SpeakEasy
         {
             get { return Authenticator != null; }
         }
+
+        /// <summary>
+        /// The naming convention to use when converting segments to query string parameters
+        /// </summary>
+        public INamingConvention NamingConvention { get; set; }
 
         /// <summary>
         /// Configures the give serializer

@@ -42,6 +42,7 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="DefaultNamingConvention.cs" />
     <Compile Include="DeleteRequest.cs" />
     <Compile Include="DeserializationSettings.cs" />
     <Compile Include="Extensions\RaiseExtensions.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="IAsyncHttpRequest.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="ILogger.cs" />
+    <Compile Include="INamingConvention.cs" />
     <Compile Include="IRequestBody.cs" />
     <Compile Include="DefaultRequestBody.cs" />
     <Compile Include="ISerializableBody.cs" />

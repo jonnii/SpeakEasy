@@ -19,6 +19,9 @@ namespace SpeakEasy.Specifications
             It should_have_null_logger = () =>
                 settings.Logger.ShouldBeOfType<NullLogger>();
 
+            It should_have_default_naming_convention = () =>
+                settings.NamingConvention.ShouldBeOfType<DefaultNamingConvention>();
+
             It should_have_default_user_agent = () =>
                 settings.UserAgent.ShouldEqual("SpeakEasy");
 
