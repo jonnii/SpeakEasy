@@ -35,6 +35,18 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(HttpResponse))]
+        public class when_on_with_incorrect_status_and_typed_callback : with_ok_response
+        {
+            Because of = () =>
+                response.On(HttpStatusCode.Created, (Person p) => { called = true; });
+
+            It should_call_callback = () =>
+                called.ShouldBeFalse();
+
+            static bool called;
+        }
+
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_correct_status_and_typed_callback : with_ok_response
         {
             Because of = () =>

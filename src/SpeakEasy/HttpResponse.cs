@@ -32,7 +32,7 @@ namespace SpeakEasy
 
         public IHttpResponse On(HttpStatusCode code, Action action)
         {
-            if (HttpStatusCode == code)
+            if (Is(code))
             {
                 action();
             }
@@ -42,17 +42,11 @@ namespace SpeakEasy
 
         public IHttpResponse On<T>(HttpStatusCode code, Action<T> action)
         {
-            if (!Is(code))
+            if (Is(code))
             {
-                var message = string.Format(
-                    "Expected the status code to be {0} but was {1}", code, HttpStatusCode);
-
-                throw new HttpException(message);
+                var deserialied = Deserializer.Deserialize<T>(Body);
+                action(deserialied);
             }
-
-            var deserialied = Deserializer.Deserialize<T>(Body);
-
-            action(deserialied);
 
             return this;
         }

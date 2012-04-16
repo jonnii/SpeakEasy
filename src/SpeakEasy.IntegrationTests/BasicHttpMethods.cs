@@ -108,6 +108,19 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test]
+        public void ShouldCreateNewProductShortWithtErrorHandling()
+        {
+            var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+
+            var response = client.Post(product, "products");
+
+            response.On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); });
+            var success = response.Is(HttpStatusCode.Created);
+
+            Assert.That(success);
+        }
+
+        [Test]
         public void ShouldCreateNewProductWithErrors()
         {
             var product = new Product { Name = "Canoli", Category = "" };
