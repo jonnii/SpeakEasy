@@ -190,6 +190,21 @@ namespace SpeakEasy
             return Run(request);
         }
 
+        public IAsyncHttpRequest GetAsync(string relativeUrl, object segments = null)
+        {
+            var resource = Root.Append(relativeUrl).Merge(segments);
+            var request = new GetRequest(resource);
+            return RunAsync(request);
+        }
+
+        private IAsyncHttpRequest RunAsync<T>(T request)
+            where T : IHttpRequest
+        {
+            request.UserAgent = Settings.UserAgent;
+
+            return new AsyncHttpRequest<T>(requestRunner, request);
+        }
+
         private IHttpResponse Run<T>(T request)
             where T : IHttpRequest
         {

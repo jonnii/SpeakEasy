@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -42,6 +43,14 @@ namespace SpeakEasy
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
         IHttpResponse Get(string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Gets an asynchronous http request
+        /// </summary>
+        /// <param name="relativeUrl">The relative url to get</param>
+        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <returns>A chainable asynchronous http request</returns>
+        IAsyncHttpRequest GetAsync(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request

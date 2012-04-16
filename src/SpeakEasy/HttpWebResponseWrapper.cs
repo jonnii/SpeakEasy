@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mime;
 
 namespace SpeakEasy
 {
@@ -33,11 +32,6 @@ namespace SpeakEasy
         public string ContentType
         {
             get { return response.ContentType; }
-        }
-
-        public string MediaType
-        {
-            get { return new ContentType(response.ContentType).MediaType; }
         }
 
         public Header[] Headers

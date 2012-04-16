@@ -35,11 +35,6 @@ namespace SpeakEasy
         string ContentType { get; }
 
         /// <summary>
-        /// The media type of the web response
-        /// </summary>
-        string MediaType { get; }
-
-        /// <summary>
         /// Reads the body of the http web response
         /// </summary>
         /// <returns>A string representation of the body</returns>
