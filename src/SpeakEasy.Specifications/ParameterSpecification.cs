@@ -37,5 +37,22 @@ namespace SpeakEasy.Specifications
 
             static string formatted;
         }
+
+        [Subject(typeof(Parameter))]
+        public class when_converting_to_query_string_with_int_array_value
+        {
+            Establish context = () =>
+                parameter = new Parameter("name", new[] { 3, 4, 5 });
+
+            Because of = () =>
+                formatted = parameter.ToQueryString();
+
+            It should_format_as_query_string = () =>
+                formatted.ShouldEqual("name=3,4,5");
+
+            static Parameter parameter;
+
+            static string formatted;
+        }
     }
 }
