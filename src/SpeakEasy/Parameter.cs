@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace SpeakEasy
 {
@@ -16,7 +17,13 @@ namespace SpeakEasy
 
         public string ToQueryString()
         {
-            return string.Concat(Name, "=", Uri.EscapeUriString(Value.ToString()));
+            var enumerable = Value as Array;
+
+            var value = enumerable != null
+                ? string.Join(",", enumerable.Cast<object>().Select(s => s.ToString()))
+                : Value.ToString();
+
+            return string.Concat(Name, "=", Uri.EscapeUriString(value));
         }
     }
 }
