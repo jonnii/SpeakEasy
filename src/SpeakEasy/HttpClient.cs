@@ -36,7 +36,8 @@ namespace SpeakEasy
             {
                 Root = new Resource(rootUrl),
                 Settings = settings,
-                Logger = settings.Logger
+                Logger = settings.Logger,
+                NamingConvention = settings.NamingConvention
             };
         }
 
@@ -55,6 +56,8 @@ namespace SpeakEasy
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
         public ILogger Logger { get; set; }
+
+        public INamingConvention NamingConvention { get; set; }
 
         public Resource Root { get; set; }
 
