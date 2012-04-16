@@ -159,7 +159,8 @@ namespace SpeakEasy
 
         public string GetEncodedParameters()
         {
-            return string.Join("&", Parameters.Select(p => p.ToQueryString()));
+            var encodableParameters = Parameters.Where(p => p.HasValue).Select(p => p.ToQueryString());
+            return string.Join("&", encodableParameters);
         }
 
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)

@@ -15,6 +15,11 @@ namespace SpeakEasy
 
         public object Value { get; private set; }
 
+        public bool HasValue
+        {
+            get { return Value != null; }
+        }
+
         public string ToQueryString()
         {
             var enumerable = Value as Array;

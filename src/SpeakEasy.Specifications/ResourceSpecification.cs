@@ -3,7 +3,7 @@ using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
 {
-    public class ResourceSpecification
+    public class encResourceSpecification
     {
         [Subject(typeof(Resource))]
         public class when_creating_simple_resource
@@ -238,6 +238,48 @@ namespace SpeakEasy.Specifications
             static dynamic resource;
 
             static string url;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_getting_encoded_parameters
+        {
+            Establish context = () =>
+            {
+                resource = new Resource("companies");
+                resource.AddParameter("name", "jim");
+                resource.AddParameter("age", "26");
+            };
+
+            Because of = () =>
+                encoded = resource.GetEncodedParameters();
+
+            It should_encode_parameters = () =>
+                encoded.ShouldEqual("name=jim&age=26");
+
+            static Resource resource;
+
+            static string encoded;
+        }
+
+        [Subject(typeof(Resource))]
+        public class when_getting_encoded_parameters_with_null_parameters
+        {
+            Establish context = () =>
+            {
+                resource = new Resource("companies");
+                resource.AddParameter("name", "jim");
+                resource.AddParameter("age", null);
+            };
+
+            Because of = () =>
+                encoded = resource.GetEncodedParameters();
+
+            It should_encode_parameters = () =>
+                encoded.ShouldEqual("name=jim");
+
+            static Resource resource;
+
+            static string encoded;
         }
 
         public class with_resource_with_parameter
