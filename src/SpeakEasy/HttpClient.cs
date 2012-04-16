@@ -43,9 +43,12 @@ namespace SpeakEasy
 
         private readonly IRequestRunner requestRunner;
 
+        private readonly ResourceMerger merger;
+
         public HttpClient(IRequestRunner requestRunner)
         {
             this.requestRunner = requestRunner;
+            merger = new ResourceMerger();
 
             Settings = new HttpClientSettings();
             Logger = NullLogger.Instance;
@@ -68,17 +71,13 @@ namespace SpeakEasy
 
         public HttpClientSettings Settings { get; set; }
 
-        public IHttpResponse Get(Resource resource)
-        {
-            var appended = Root.Append(resource);
-            var request = new GetRequest(appended);
-            return Run(request);
-        }
-
         public IHttpResponse Get(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new GetRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+
+            var request = new GetRequest(merged);
+
             return Run(request);
         }
 
@@ -91,8 +90,10 @@ namespace SpeakEasy
 
         public IHttpResponse Post(object body, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PostRequest(resource, new ObjectRequestBody(body));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments ?? body, false);
+
+            var request = new PostRequest(merged, new ObjectRequestBody(body));
             return Run(request);
         }
 
@@ -103,34 +104,33 @@ namespace SpeakEasy
 
         public IHttpResponse Post(IFile[] files, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PostRequest(resource, new FileUploadBody(resource, files));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments, false);
+            var request = new PostRequest(merged, new FileUploadBody(merged, files));
             return Run(request);
-        }
-
-        public IHttpResponse Post(Resource resource)
-        {
-            return Post(resource, null);
         }
 
         public IHttpResponse Post(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new PostRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new PostRequest(merged);
             return Run(request);
         }
 
         public IHttpResponse Put(object body, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PutRequest(resource, new ObjectRequestBody(body));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments ?? body, false);
+            var request = new PutRequest(merged, new ObjectRequestBody(body));
             return Run(request);
         }
 
         public IHttpResponse Put(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new PutRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new PutRequest(merged);
             return Run(request);
         }
 
@@ -141,22 +141,25 @@ namespace SpeakEasy
 
         public IHttpResponse Put(IFile[] files, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PutRequest(resource, new FileUploadBody(resource, files));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments, false);
+            var request = new PutRequest(merged, new FileUploadBody(merged, files));
             return Run(request);
         }
 
         public IHttpResponse Patch(object body, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments ?? body, false);
-            var request = new PatchRequest(resource, new ObjectRequestBody(body));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments ?? body, false);
+            var request = new PatchRequest(merged, new ObjectRequestBody(body));
             return Run(request);
         }
 
         public IHttpResponse Patch(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new PatchRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new PatchRequest(merged);
             return Run(request);
         }
 
@@ -167,36 +170,41 @@ namespace SpeakEasy
 
         public IHttpResponse Patch(IFile[] files, string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments, false);
-            var request = new PatchRequest(resource, new FileUploadBody(resource, files));
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments, false);
+            var request = new PatchRequest(merged, new FileUploadBody(merged, files));
             return Run(request);
         }
 
         public IHttpResponse Delete(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new DeleteRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new DeleteRequest(merged);
             return Run(request);
         }
 
         public IHttpResponse Head(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new HeadRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new HeadRequest(merged);
             return Run(request);
         }
 
         public IHttpResponse Options(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new OptionsRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new OptionsRequest(merged);
             return Run(request);
         }
 
         public IAsyncHttpRequest GetAsync(string relativeUrl, object segments = null)
         {
-            var resource = Root.Append(relativeUrl).Merge(segments);
-            var request = new GetRequest(resource);
+            var resource = Root.Append(relativeUrl);
+            var merged = merger.Merge(resource, segments);
+            var request = new GetRequest(merged);
             return RunAsync(request);
         }
 

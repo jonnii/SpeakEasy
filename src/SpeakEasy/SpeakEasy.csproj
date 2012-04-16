@@ -66,6 +66,7 @@
     <Compile Include="ParsedHeaderValue.cs" />
     <Compile Include="ParsedHeaderParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceMerger.cs" />
     <Compile Include="SerializableByteArray.cs" />
     <Compile Include="SerializerException.cs" />
     <Compile Include="Serializers\NullSerializer.cs" />

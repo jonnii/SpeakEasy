@@ -78,6 +78,7 @@
     <Compile Include="PostRequestSpecification.cs" />
     <Compile Include="PutRequestSpecification.cs" />
     <Compile Include="RequestRunnerSpecification.cs" />
+    <Compile Include="ResourceMergerSpecification.cs" />
     <Compile Include="ResourceSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpClientSettingsSpecification.cs" />

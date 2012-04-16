@@ -32,13 +32,6 @@ namespace SpeakEasy
         /// <summary>
         /// Executes an http get request
         /// </summary>
-        /// <param name="resource">The resource to get</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Get(Resource resource);
-
-        /// <summary>
-        /// Executes an http get request
-        /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
@@ -86,13 +79,6 @@ namespace SpeakEasy
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
         IHttpResponse Post(IFile[] files, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http post request without a body
-        /// </summary>
-        /// <param name="resource">The resource to post</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(Resource resource);
 
         /// <summary>
         /// Executes an http post request without a body
