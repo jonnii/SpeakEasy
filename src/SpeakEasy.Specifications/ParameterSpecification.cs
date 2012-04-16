@@ -1,3 +1,4 @@
+using System;
 using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
@@ -53,6 +54,18 @@ namespace SpeakEasy.Specifications
             static Parameter parameter;
 
             static string formatted;
+        }
+
+        [Subject(typeof(Parameter))]
+        public class when_value_is_nullable
+        {
+            Establish context = () =>
+                parameter = new Parameter("name", new DateTime?());
+
+            It should_not_have_value = () =>
+                parameter.HasValue.ShouldBeFalse();
+
+            static Parameter parameter;
         }
     }
 }

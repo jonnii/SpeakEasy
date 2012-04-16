@@ -22,6 +22,14 @@ namespace SpeakEasy
 
         public string ToQueryString()
         {
+            if (!HasValue)
+            {
+                var message = string.Format(
+                    "Could not convert the parameter {0} to a query string because it did not have a value", Name);
+
+                throw new NotSupportedException(message);
+            }
+
             var enumerable = Value as Array;
 
             var value = enumerable != null
