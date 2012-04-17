@@ -6,7 +6,7 @@ namespace SpeakEasy.Specifications
 {
     public class ResourceMergerSpecification
     {
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_segments : with_resource_with_parameter
         {
             Because of = () =>
@@ -18,7 +18,7 @@ namespace SpeakEasy.Specifications
             static Resource merged;
         }
 
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_segments_of_different_case : with_resource_with_parameter
         {
             Because of = () =>
@@ -30,7 +30,7 @@ namespace SpeakEasy.Specifications
             static Resource merged;
         }
 
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_null_segments : WithSubject<ResourceMerger>
         {
             Establish context = () =>
@@ -47,7 +47,7 @@ namespace SpeakEasy.Specifications
             static Resource merged;
         }
 
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_null_segments_when_resource_has_segments : WithSubject<ResourceMerger>
         {
             Establish context = () =>
@@ -64,11 +64,14 @@ namespace SpeakEasy.Specifications
             static Exception exception;
         }
 
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_segments_as_parameters_when_no_segment_names_in_path : WithSubject<ResourceMerger>
         {
             Establish context = () =>
+            {
+                Subject.NamingConvention = new DefaultNamingConvention();
                 resource = new Resource("companies");
+            };
 
             Because of = () =>
                 merged = Subject.Merge(resource, new { Filter = "nasdaq" });
@@ -81,11 +84,14 @@ namespace SpeakEasy.Specifications
             static Resource merged;
         }
 
-        [Subject(typeof(Resource))]
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_extra_segments_add_as_parameters : WithSubject<ResourceMerger>
         {
             Establish context = () =>
+            {
+                Subject.NamingConvention = new DefaultNamingConvention();
                 resource = new Resource("company/:id");
+            };
 
             Because of = () =>
                 merged = Subject.Merge(resource, new { id = 5, Filter = "ftse" });
@@ -107,7 +113,10 @@ namespace SpeakEasy.Specifications
         public class with_resource_with_parameter : WithSubject<ResourceMerger>
         {
             Establish context = () =>
+            {
                 resource = new Resource("company/:name");
+                Subject.NamingConvention = new DefaultNamingConvention();
+            };
 
             protected static Resource resource;
         }

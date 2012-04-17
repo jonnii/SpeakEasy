@@ -6,5 +6,6 @@
     /// </summary>
     public interface INamingConvention
     {
+        string ConvertPropertyNameToParameterName(string propertyName);
     }
 }

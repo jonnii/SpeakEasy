@@ -5,8 +5,15 @@ using System.Reflection;
 
 namespace SpeakEasy
 {
-    public class ResourceMerger
+    public class ResourceMerger : IResourceMerger
     {
+        public ResourceMerger(INamingConvention namingConvention)
+        {
+            NamingConvention = namingConvention;
+        }
+
+        public INamingConvention NamingConvention { get; set; }
+
         public Resource Merge(Resource resource, object segments, bool shouldMergeProperties = true)
         {
             if (!resource.HasSegments && segments == null)
@@ -43,8 +50,10 @@ namespace SpeakEasy
         {
             foreach (var property in properties.Values)
             {
-                var propertyValue = property.GetValue(segments, new object[0]);
-                mergedResource.AddParameter(property.Name, propertyValue);
+                var parameterName = NamingConvention.ConvertPropertyNameToParameterName(property.Name);
+                var parameterValue = property.GetValue(segments, new object[0]);
+
+                mergedResource.AddParameter(parameterName, parameterValue);
             }
 
             return mergedResource;

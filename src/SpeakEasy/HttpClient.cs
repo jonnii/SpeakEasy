@@ -32,23 +32,23 @@ namespace SpeakEasy
                 webRequestGateway,
                 settings.Authenticator);
 
-            return new HttpClient(runner)
+            return new HttpClient(runner, settings.NamingConvention)
             {
                 Root = new Resource(rootUrl),
                 Settings = settings,
-                Logger = settings.Logger,
-                NamingConvention = settings.NamingConvention
+                Logger = settings.Logger
             };
         }
 
         private readonly IRequestRunner requestRunner;
 
-        private readonly ResourceMerger merger;
+        private readonly IResourceMerger merger;
 
-        public HttpClient(IRequestRunner requestRunner)
+        public HttpClient(IRequestRunner requestRunner, INamingConvention namingConvention)
         {
             this.requestRunner = requestRunner;
-            merger = new ResourceMerger();
+
+            merger = new ResourceMerger(namingConvention);
 
             Settings = new HttpClientSettings();
             Logger = NullLogger.Instance;
@@ -59,8 +59,6 @@ namespace SpeakEasy
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
         public ILogger Logger { get; set; }
-
-        public INamingConvention NamingConvention { get; set; }
 
         public Resource Root { get; set; }
 
