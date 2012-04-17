@@ -6,6 +6,11 @@
     /// </summary>
     public interface INamingConvention
     {
+        /// <summary>
+        /// Converts a property name to a parameter name
+        /// </summary>
+        /// <param name="propertyName">The name of the property to convert</param>
+        /// <returns>The converted name</returns>
         string ConvertPropertyNameToParameterName(string propertyName);
     }
 }
