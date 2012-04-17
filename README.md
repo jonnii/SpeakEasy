@@ -1,4 +1,4 @@
-SpeakEasy
+SpeakEasy [![endorse](http://api.coderwall.com/jonnii/endorsecount.png)](http://coderwall.com/jonnii)
 =========
 
 **PLEASE NOTE THIS IS A WORK IN PROGRESS**
