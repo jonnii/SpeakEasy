@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>SpeakEasy by jonnii</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>SpeakEasy</h1>
+<p>Making http easy... hopefully.</p>
+        <p class="view"><a href="https://github.com/jonnii/SpeakEasy">View the Project on GitHub <small>jonnii/SpeakEasy</small></a></p>
+        <ul>
+          <li><a href="https://github.com/jonnii/SpeakEasy/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/jonnii/SpeakEasy/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/jonnii/SpeakEasy">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>SpeakEasy <a href="http://coderwall.com/jonnii"><img src="http://api.coderwall.com/jonnii/endorsecount.png" alt="endorse"></a>
+</h1>
+
+<p>SpeakEasy is a library for working with web apis in the language they speak best, http. It's heavily 
+inspired by jQuery and RestSharp, so if you've used either of those libraries you should feel right
+at home.</p>
+
+<h2>Show me the goods</h2>
+
+<pre><code>// create a client
+var client = HttpClient.Create("<a href="http://example.com/api&quot;">http://example.com/api"</a>);
+
+// get some companies!
+var companies = client.Get("companies").OnOk().As&lt;List&lt;Company&gt;&gt;();
+
+// upload a company, with validation error support
+client.Post(company, "companies")
+    .On(HttpStatusCode.BadRequest, (List&lt;ValidationError&gt; errors) =&gt; {
+      Console.WriteLine("Ruh Roh, you have {0} validation errors", errors.Count());
+    })
+    .On(HttpStatusCode.Created, () =&gt; Console.WriteLine("Holy moly you win!"));
+
+// update a company
+client.Put(company, "company/:id", new { id = "awesome-sauce" })
+    .OnOk(() =&gt; Console.WriteLine("Company updated"));
+
+// run a search
+client.Get("images/:category", new { category = "cats", breed = "omg the cutest", size = "kittens" })
+    .OnOk().As&lt;List&lt;Image&gt;&gt;();
+
+// Asynchronous
+client.GetAsync("companies/:id", new { id = 5 }).
+    .OnComplete(r =&gt; r.OnOk(UpdateCompaniesCallback))
+    .Start();
+</code></pre>
+
+<h2>How do I get it?</h2>
+
+<p>If you aren't using nuget, then shame on you. If you are, then installation is as simple as:</p>
+
+<pre><code># install the stable version
+install-package SpeakEasy
+
+# install the pre-release version
+install-package SpeakEasy -pre
+</code></pre>
+
+<p>SpeakEasy has a dependency on Newtonsoft.Json.</p>
+
+<h2>Contributing</h2>
+
+<p>I'd love if you could contribute. You could:</p>
+
+<ul>
+<li>Add serializers.</li>
+<li>Add authentication providers (oauth?)</li>
+<li>Write examples and documentation!</li>
+</ul><p>However, if you're going to contribute please make sure you write tests for any new functionality.
+Adding an example is also great!</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/jonnii">jonnii</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
