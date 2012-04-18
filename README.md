@@ -1,54 +1,18 @@
 SpeakEasy [![endorse](http://api.coderwall.com/jonnii/endorsecount.png)](http://coderwall.com/jonnii)
 =========
 
-**PLEASE NOTE THIS IS A WORK IN PROGRESS**
-**IF YOU HAVE FEEDBACK PLEASE EMAIL ME**
-**me@[mygithubusername].com**
+SpeakEasy is a library for working with web apis in the language they speak best, http. It's heavily 
+inspired by jQuery and RestSharp, so if you've used either of those libraries you should feel right
+at home.
 
-This is a super simple library to talk to http web services, the kind you can easily create using
-ASP.net MVC WebApi or [insert your favourite web framework here]. It's heavily inspired 
-by [RestSharp](http://restsharp.org) and therefore licensed the same. It exists primarily to scratch 
-an itch I had that RestSharp couldn't and if you find it useful then great!
-
-I highly recommend you **DO NOT USE THIS** library (yet). It most likely will not do anything you want. You are 
-far better served by using RestSharp. It supports async, it has xml support, it has a larger community,
-John Sheehan is far smarter than I am, it has documentation, it works. etc... 
-
-Contributing
-------------
-
-I'd love if you could contribute. You could:
-
-* Add serializers (for example, xml)
-* Add authentication providers (oauth?)
-* Write examples and documentation! (everyone needs this)
-
-However, if you're going to contribute please make sure you write tests for any new functionality.
-Adding an example is also great!
-
-Installation
-------------
-
-If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
-
-	# install the stable version
-    install-package SpeakEasy
-	
-	# install the pre-release version
-	install-package SpeakEasy -pre
-
-SpeakEasy has a dependency on Newtonsoft.Json.
-
-Examples
---------
-
-Enough chat, lets see what it looks like:
+Show me the goods
+-----------------
 
     // create a client
     var client = HttpClient.Create("http://example.com/api");
     
     // get some companies!
-    var companies = client.Get("companies").OnOK().As<List<Company>>();
+    var companies = client.Get("companies").OnOk().As<List<Company>>();
   
     // upload a company, with validation error support
     client.Post(company, "companies")
@@ -59,15 +23,40 @@ Enough chat, lets see what it looks like:
     
     // update a company
     client.Put(company, "company/:id", new { id = "awesome-sauce" })
-        .OnOK(() => Console.WriteLine("Company updated"));
+        .OnOk(() => Console.WriteLine("Company updated"));
         
-    // change some state
-    var company = Resource.Create("company/:id");
-    client.Put(new { price = 3.1459 }, company.Id("Hooray!")).Is(HttpStatusCode.Created);
+    // run a search
+    client.Get("images/:category", new { category = "cats", breed = "omg the cutest", size = "kittens" })
+        .OnOk().As<List<Image>>();
     
     // Asynchronous
-    var company = Resource.Create("company/:id");
-    var response = await client.Put(new { Name = "Awesome Startup"}, company.Id("1234"));
-    var foo = ???
+    client.GetAsync("companies/:id", new { id = 5 }).
+        .OnComplete(r => r.OnOk(UpdateCompaniesCallback))
+        .Start();
 
-There are also sample projects for basecamp and github, which will demonstrate the library being used against real life apis.
+
+How do I get it?
+----------------
+
+If you aren't using nuget, then shame on you. If you are, then installation is as simple as:
+
+    # install the stable version
+    install-package SpeakEasy
+	
+    # install the pre-release version
+    install-package SpeakEasy -pre
+
+SpeakEasy has a dependency on Newtonsoft.Json.
+
+Contributing
+------------
+
+I'd love if you could contribute. You could:
+
+* Add serializers.
+* Add authentication providers (oauth?)
+* Write examples and documentation!
+
+However, if you're going to contribute please make sure you write tests for any new functionality.
+Adding an example is also great!
+
