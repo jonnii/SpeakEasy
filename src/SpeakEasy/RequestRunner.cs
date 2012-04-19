@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
@@ -20,11 +22,20 @@ namespace SpeakEasy
 
         public IHttpResponse Run(IHttpRequest request)
         {
+            var task = RunAsync(request);
+            task.Wait();
+            return task.Result;
+        }
+
+        public Task<IHttpResponse> RunAsync(IHttpRequest request)
+        {
             authenticator.Authenticate(request);
 
-            var webRequest = request.BuildWebRequest(transmissionSettings);
-            
-            return webRequestGateway.Send(webRequest, CreateHttpResponse);
+            return Task.Factory.StartNew(() =>
+            {
+                var webRequest = request.BuildWebRequest(transmissionSettings);
+                return webRequestGateway.Send(webRequest, CreateHttpResponse);
+            });
         }
 
         public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse)

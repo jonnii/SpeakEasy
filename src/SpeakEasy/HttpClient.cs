@@ -197,6 +197,7 @@ namespace SpeakEasy
 
             OnBeforeRequest(request);
             var response = requestRunner.Run(request);
+
             OnAfterRequest(request, response);
 
             return response;

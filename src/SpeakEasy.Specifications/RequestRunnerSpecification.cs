@@ -21,6 +21,19 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(RequestRunner))]
+        public class when_sending_request_async : with_request_runner
+        {
+            Because of = () =>
+                Subject.RunAsync(request).Wait();
+
+            It should_authenticate_request = () =>
+                The<IAuthenticator>().WasToldTo(a => a.Authenticate(Param.IsAny<IHttpRequest>()));
+
+            It should_execute_web_request = () =>
+                The<IWebRequestGateway>().WasToldTo(g => g.Send(Param.IsAny<WebRequest>(), Subject.CreateHttpResponse));
+        }
+
+        [Subject(typeof(RequestRunner))]
         public class when_creating_response : with_request_runner
         {
             Establish context = () =>
