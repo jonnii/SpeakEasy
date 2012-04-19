@@ -27,7 +27,8 @@ namespace SpeakEasy
 
         public Task Start()
         {
-            return runner.RunAsync(request).ContinueWith(r => completeHandler(r.Result));
+            return runner.RunAsync(request)
+                .ContinueWith(r => completeHandler(r.Result));
         }
     }
 }
