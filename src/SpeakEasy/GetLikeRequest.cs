@@ -10,16 +10,16 @@ namespace SpeakEasy
 
         }
 
-        protected override string BuildRequestUrl(Resource resource)
+        protected override string BuildRequestUrl()
         {
-            if (!resource.HasParameters)
+            if (!Resource.HasParameters)
             {
-                return resource.Path;
+                return Resource.Path;
             }
 
-            var queryString = resource.GetEncodedParameters();
+            var queryString = Resource.GetEncodedParameters();
 
-            return string.Concat(resource.Path, "?", queryString);
+            return string.Concat(Resource.Path, "?", queryString);
         }
 
         public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)

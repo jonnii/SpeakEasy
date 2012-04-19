@@ -30,7 +30,7 @@ namespace SpeakEasy
 
         public virtual HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
-            var url = BuildRequestUrl(Resource);
+            var url = BuildRequestUrl();
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.UseDefaultCredentials = false;
@@ -58,7 +58,7 @@ namespace SpeakEasy
             headers.Add(new Header(name, value));
         }
 
-        protected abstract string BuildRequestUrl(Resource resource);
+        protected abstract string BuildRequestUrl();
 
         public abstract override string ToString();
     }
