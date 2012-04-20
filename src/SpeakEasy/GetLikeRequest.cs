@@ -10,7 +10,7 @@ namespace SpeakEasy
 
         }
 
-        protected override string BuildRequestUrl()
+        public override string BuildRequestUrl()
         {
             if (!Resource.HasParameters)
             {

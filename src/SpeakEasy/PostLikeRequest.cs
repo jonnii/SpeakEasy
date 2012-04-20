@@ -44,7 +44,7 @@ namespace SpeakEasy
 
         protected abstract string GetHttpMethod();
 
-        protected override string BuildRequestUrl()
+        public override string BuildRequestUrl()
         {
             return Resource.Path;
         }

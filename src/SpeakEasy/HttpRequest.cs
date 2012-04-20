@@ -58,7 +58,7 @@ namespace SpeakEasy
             headers.Add(new Header(name, value));
         }
 
-        protected abstract string BuildRequestUrl();
+        public abstract string BuildRequestUrl();
 
         public abstract override string ToString();
     }
