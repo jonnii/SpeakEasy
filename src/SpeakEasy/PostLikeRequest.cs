@@ -21,7 +21,6 @@ namespace SpeakEasy
         public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
             var baseRequest = base.BuildWebRequest(transmissionSettings);
-            baseRequest.Method = GetHttpMethod();
 
             var serializedBody = Body.Serialize(transmissionSettings);
 
@@ -41,8 +40,6 @@ namespace SpeakEasy
 
             return baseRequest;
         }
-
-        protected abstract string GetHttpMethod();
 
         public override string BuildRequestUrl()
         {

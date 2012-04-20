@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace SpeakEasy
 {
     public sealed class OptionsRequest : GetLikeRequest
@@ -10,13 +8,9 @@ namespace SpeakEasy
 
         }
 
-        public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
+        public override string HttpMethod
         {
-            var baseRequest = base.BuildWebRequest(transmissionSettings);
-
-            baseRequest.Method = "OPTIONS";
-
-            return baseRequest;
+            get { return "OPTIONS"; }
         }
 
         public override string ToString()

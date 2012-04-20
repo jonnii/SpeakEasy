@@ -16,6 +16,8 @@ namespace SpeakEasy
 
         public string UserAgent { get; set; }
 
+        public abstract string HttpMethod { get; }
+
         public int NumHeaders
         {
             get { return headers.Count; }
@@ -39,6 +41,7 @@ namespace SpeakEasy
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
             request.Credentials = Credentials;
+            request.Method = HttpMethod;
 
             if (!string.IsNullOrEmpty(UserAgent))
             {

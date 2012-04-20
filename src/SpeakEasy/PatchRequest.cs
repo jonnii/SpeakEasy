@@ -14,9 +14,9 @@ namespace SpeakEasy
 
         }
 
-        protected override string GetHttpMethod()
+        public override string HttpMethod
         {
-            return "PATCH";
+            get { return "PATCH"; }
         }
 
         public override string ToString()
