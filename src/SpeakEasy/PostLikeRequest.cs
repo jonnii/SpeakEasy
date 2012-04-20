@@ -1,44 +1,15 @@
-using System.Net;
-
 namespace SpeakEasy
 {
     public abstract class PostLikeRequest : HttpRequest
     {
         protected PostLikeRequest(Resource resource)
-            : base(resource)
+            : base(resource, new PostRequestBody(resource))
         {
-            Body = new DefaultRequestBody(resource);
         }
 
         protected PostLikeRequest(Resource resource, IRequestBody body)
-            : base(resource)
+            : base(resource, body)
         {
-            Body = body;
-        }
-
-        public IRequestBody Body { get; private set; }
-
-        public override HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
-        {
-            var baseRequest = base.BuildWebRequest(transmissionSettings);
-
-            var serializedBody = Body.Serialize(transmissionSettings);
-
-            baseRequest.ContentType = serializedBody.ContentType;
-            if (serializedBody.ContentLength != -1)
-            {
-                baseRequest.ContentLength = serializedBody.ContentLength;
-            }
-
-            if (serializedBody.HasContent)
-            {
-                using (var stream = baseRequest.GetRequestStream())
-                {
-                    serializedBody.WriteTo(stream);
-                }
-            }
-
-            return baseRequest;
         }
 
         public override string BuildRequestUrl()

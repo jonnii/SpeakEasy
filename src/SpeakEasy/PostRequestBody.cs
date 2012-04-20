@@ -2,11 +2,11 @@ using System.Text;
 
 namespace SpeakEasy
 {
-    public class DefaultRequestBody : IRequestBody
+    public class PostRequestBody : IRequestBody
     {
         private readonly Resource resource;
 
-        public DefaultRequestBody(Resource resource)
+        public PostRequestBody(Resource resource)
         {
             this.resource = resource;
         }

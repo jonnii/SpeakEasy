@@ -57,7 +57,9 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="INamingConvention.cs" />
     <Compile Include="IRequestBody.cs" />
-    <Compile Include="DefaultRequestBody.cs" />
+    <Compile Include="NullRequestBody.cs" />
+    <Compile Include="NullSerializableBody.cs" />
+    <Compile Include="PostRequestBody.cs" />
     <Compile Include="IResourceMerger.cs" />
     <Compile Include="ISerializableBody.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />

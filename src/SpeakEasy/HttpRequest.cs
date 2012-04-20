@@ -7,12 +7,15 @@ namespace SpeakEasy
     {
         private readonly List<Header> headers = new List<Header>();
 
-        protected HttpRequest(Resource resource)
+        protected HttpRequest(Resource resource, IRequestBody body)
         {
             Resource = resource;
+            Body = body;
         }
 
         public Resource Resource { get; private set; }
+
+        public IRequestBody Body { get; private set; }
 
         public string UserAgent { get; set; }
 
@@ -30,7 +33,7 @@ namespace SpeakEasy
 
         public ICredentials Credentials { get; set; }
 
-        public virtual HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
+        public HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings)
         {
             var url = BuildRequestUrl();
             var request = (HttpWebRequest)WebRequest.Create(url);
@@ -51,6 +54,22 @@ namespace SpeakEasy
             foreach (var header in Headers)
             {
                 request.Headers.Add(header.Name, header.Value);
+            }
+
+            var serializedBody = Body.Serialize(transmissionSettings);
+
+            request.ContentType = serializedBody.ContentType;
+            if (serializedBody.ContentLength != -1)
+            {
+                request.ContentLength = serializedBody.ContentLength;
+            }
+
+            if (serializedBody.HasContent)
+            {
+                using (var stream = request.GetRequestStream())
+                {
+                    serializedBody.WriteTo(stream);
+                }
             }
 
             return request;

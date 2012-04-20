@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -22,9 +23,21 @@ namespace SpeakEasy
 
         public IHttpResponse Run(IHttpRequest request)
         {
-            var task = RunAsync(request);
-            task.Wait();
-            return task.Result;
+            try
+            {
+                var task = RunAsync(request);
+                task.Wait();
+                return task.Result;
+            }
+            catch (AggregateException e)
+            {
+                if (e.InnerException != null)
+                {
+                    throw e.InnerException;
+                }
+
+                throw;
+            }
         }
 
         public Task<IHttpResponse> RunAsync(IHttpRequest request)
