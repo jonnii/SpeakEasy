@@ -83,10 +83,12 @@ namespace SpeakEasy
                 {
                     var output = new MemoryStream();
                     var buffer = new byte[response.ContentLength > 0 ? response.ContentLength : 0x100];
+
                     while (true)
                     {
                         var read = Task<int>.Factory.FromAsync(responseStream.BeginRead, responseStream.EndRead, buffer, 0, buffer.Length, null);
                         yield return read;
+
                         if (read.Result == 0)
                         {
                             break;
