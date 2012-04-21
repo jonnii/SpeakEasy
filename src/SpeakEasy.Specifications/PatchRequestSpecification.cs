@@ -9,11 +9,8 @@ namespace SpeakEasy.Specifications
         [Subject(typeof(PatchRequest))]
         public class when_building_web_request : with_patch_request
         {
-            Because of = () =>
-                webRequest = request.BuildWebRequest(serializer);
-
             It should_have_patch_method = () =>
-                webRequest.Method.ShouldEqual("PATCH");
+                request.HttpMethod.ShouldEqual("PATCH");
 
             static WebRequest webRequest;
         }

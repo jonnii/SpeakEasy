@@ -25,11 +25,9 @@ namespace SpeakEasy
         public static IHttpClient Create(string rootUrl, HttpClientSettings settings)
         {
             var transmissionSettings = new TransmissionSettings(settings.Serializers);
-            var webRequestGateway = new WebRequestGateway();
 
             var runner = new RequestRunner(
                 transmissionSettings,
-                webRequestGateway,
                 settings.Authenticator);
 
             return new HttpClient(runner, settings.NamingConvention)

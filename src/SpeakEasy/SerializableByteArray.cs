@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -24,9 +25,9 @@ namespace SpeakEasy
 
         public string ContentType { get; private set; }
 
-        public void WriteTo(Stream stream)
+        public Task WriteTo(Stream stream)
         {
-            stream.Write(Content, 0, ContentLength);
+            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, Content, 0, Content.Length, null);
         }
     }
 }

@@ -9,11 +9,8 @@ namespace SpeakEasy.Specifications
         [Subject(typeof(HeadRequest))]
         public class when_building_web_request : with_head_request
         {
-            Because of = () =>
-                webRequest = request.BuildWebRequest(transmissionSettings);
-
             It should_have_delete_method = () =>
-                webRequest.Method.ShouldEqual("HEAD");
+                request.HttpMethod.ShouldEqual("HEAD");
 
             static WebRequest webRequest;
         }

@@ -34,12 +34,9 @@ namespace SpeakEasy
         /// </summary>
         ICredentials Credentials { get; set; }
 
-        /// <summary>
-        /// Creates a web request corresponding to this http request
-        /// </summary>
-        /// <param name="transmissionSettings">The current transmissionSettings</param>
-        /// <returns>A web request</returns>
-        HttpWebRequest BuildWebRequest(ITransmissionSettings transmissionSettings);
+        string HttpMethod { get; }
+
+        IRequestBody Body { get; }
 
         /// <summary>
         /// Adds a header to this http request
@@ -47,5 +44,7 @@ namespace SpeakEasy
         /// <param name="name">The name of the http header</param>
         /// <param name="value">The value of the header</param>
         void AddHeader(string name, string value);
+
+        string BuildRequestUrl();
     }
 }

@@ -9,13 +9,8 @@ namespace SpeakEasy.Specifications
         [Subject(typeof(PutRequest))]
         public class when_building_web_request : with_put_request
         {
-            Because of = () =>
-                webRequest = request.BuildWebRequest(serializer);
-
             It should_have_put_method = () =>
-                webRequest.Method.ShouldEqual("PUT");
-
-            static WebRequest webRequest;
+                request.HttpMethod.ShouldEqual("PUT");
         }
 
         public class with_serializer : WithFakes

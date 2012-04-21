@@ -7,13 +7,10 @@ namespace SpeakEasy.Specifications
     public class DeleteRequestSpecification
     {
         [Subject(typeof(DeleteRequest))]
-        public class when_building_web_request : with_delete_request
+        public class in_general : with_delete_request
         {
-            Because of = () =>
-                webRequest = request.BuildWebRequest(transmissionSettings);
-
             It should_have_delete_method = () =>
-                webRequest.Method.ShouldEqual("DELETE");
+                request.HttpMethod.ShouldEqual("DELETE");
 
             static WebRequest webRequest;
         }

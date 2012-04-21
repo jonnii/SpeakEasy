@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -26,6 +27,6 @@ namespace SpeakEasy
         /// Writes the body to the given stream
         /// </summary>
         /// <param name="stream">The stream to write to</param>
-        void WriteTo(Stream stream);
+        Task WriteTo(Stream stream);
     }
 }

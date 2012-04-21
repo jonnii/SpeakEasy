@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -27,7 +28,7 @@ namespace SpeakEasy
             get { return false; }
         }
 
-        public void WriteTo(Stream stream)
+        public Task WriteTo(Stream stream)
         {
             throw new NotSupportedException();
         }

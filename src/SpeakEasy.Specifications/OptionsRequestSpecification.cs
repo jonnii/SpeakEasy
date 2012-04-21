@@ -9,11 +9,8 @@ namespace SpeakEasy.Specifications
         [Subject(typeof(OptionsRequest))]
         public class when_building_web_request : with_options_request
         {
-            Because of = () =>
-                webRequest = request.BuildWebRequest(transmissionSettings);
-
             It should_have_options_method = () =>
-                webRequest.Method.ShouldEqual("OPTIONS");
+                request.HttpMethod.ShouldEqual("OPTIONS");
 
             static WebRequest webRequest;
         }

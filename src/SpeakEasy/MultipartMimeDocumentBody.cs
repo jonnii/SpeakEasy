@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -42,19 +43,21 @@ namespace SpeakEasy
             return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
-        public void WriteTo(Stream stream)
+        public Task WriteTo(Stream stream)
         {
-            foreach (var parameter in resource.Parameters)
-            {
-                WriteParameter(stream, parameter);
-            }
+            return null;
 
-            foreach (var file in files)
-            {
-                WriteFile(stream, file);
-            }
+            //foreach (var parameter in resource.Parameters)
+            //{
+            //    WriteParameter(stream, parameter);
+            //}
 
-            WriteFooter(stream);
+            //foreach (var file in files)
+            //{
+            //    WriteFile(stream, file);
+            //}
+
+            //WriteFooter(stream);
         }
 
         private void WriteFooter(Stream stream)
