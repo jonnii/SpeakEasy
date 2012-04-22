@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using SpeakEasy.Extensions;
@@ -10,6 +9,8 @@ namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
     {
+        private const int DefaultBufferSize = 0x100;
+
         private readonly ITransmissionSettings transmissionSettings;
 
         private readonly IAuthenticator authenticator;
@@ -74,15 +75,19 @@ namespace SpeakEasy
                 }
             }
 
-            var getResponse = Task.Factory.FromAsync<WebResponse>(webRequest.BeginGetResponse, Thing, webRequest);
+            var getResponse = Task.Factory.FromAsync<IHttpWebResponse>(webRequest.BeginGetResponse, GetWebResponse, webRequest);
             yield return getResponse;
 
-            using (var response = (HttpWebResponse)getResponse.Result)
+            using (var response = getResponse.Result)
             {
                 using (var responseStream = response.GetResponseStream())
                 {
+                    var bufferSize = response.ContentLength > 0
+                        ? response.ContentLength
+                        : DefaultBufferSize;
+
                     var output = new MemoryStream();
-                    var buffer = new byte[response.ContentLength > 0 ? response.ContentLength : 0x100];
+                    var buffer = new byte[bufferSize];
 
                     while (true)
                     {
@@ -102,42 +107,6 @@ namespace SpeakEasy
                     streamCompletionSource.TrySetResult(webResponse);
                 }
             }
-        }
-
-        private WebResponse Thing(IAsyncResult result)
-        {
-            var webRequest = (WebRequest)result.AsyncState;
-
-            try
-            {
-                return webRequest.EndGetResponse(result);
-            }
-            catch (WebException wex)
-            {
-                var innerResponse = wex.Response;
-                if (innerResponse != null)
-                {
-                    return innerResponse;
-                }
-
-                throw;
-            }
-        }
-
-        public IHttpResponse CreateHttpResponse(HttpWebResponse webResponse, Stream body)
-        {
-            var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
-
-            var headerNames = webResponse.Headers.AllKeys;
-            var headers = headerNames.Select(n => new Header(n.ToLowerInvariant(), webResponse.Headers[n])).ToArray();
-
-            return new HttpResponse(
-                deserializer,
-                body,
-                webResponse.StatusCode,
-                webResponse.ResponseUri,
-                headers,
-                webResponse.ContentType);
         }
 
         public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
@@ -166,6 +135,39 @@ namespace SpeakEasy
             }
 
             return request;
+        }
+
+        private IHttpWebResponse GetWebResponse(IAsyncResult result)
+        {
+            var webRequest = (WebRequest)result.AsyncState;
+
+            try
+            {
+                return new HttpWebResponseWrapper((HttpWebResponse)webRequest.EndGetResponse(result));
+            }
+            catch (WebException wex)
+            {
+                var innerResponse = wex.Response;
+                if (innerResponse != null)
+                {
+                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
+                }
+
+                throw;
+            }
+        }
+
+        public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)
+        {
+            var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
+
+            return new HttpResponse(
+                deserializer,
+                body,
+                webResponse.StatusCode,
+                webResponse.ResponseUri,
+                webResponse.Headers,
+                webResponse.ContentType);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace SpeakEasy
     /// <summary>
     /// A simple wrapper around an HttpWebResponse
     /// </summary>
-    public interface IHttpWebResponse
+    public interface IHttpWebResponse : IDisposable
     {
         /// <summary>
         /// The uri that responded to the web request
@@ -35,9 +35,14 @@ namespace SpeakEasy
         string ContentType { get; }
 
         /// <summary>
-        /// Reads the body of the http web response
+        /// The content length of the web response
         /// </summary>
-        /// <returns>A string representation of the body</returns>
-        Stream ReadBody();
+        long ContentLength { get; }
+
+        /// <summary>
+        /// Gets the response stream
+        /// </summary>
+        /// <returns>The response stream</returns>
+        Stream GetResponseStream();
     }
 }

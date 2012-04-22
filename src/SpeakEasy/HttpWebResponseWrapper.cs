@@ -34,6 +34,11 @@ namespace SpeakEasy
             get { return response.ContentType; }
         }
 
+        public long ContentLength
+        {
+            get { return response.ContentLength; }
+        }
+
         public Header[] Headers
         {
             get
@@ -43,22 +48,14 @@ namespace SpeakEasy
             }
         }
 
-        public Stream ReadBody()
+        public Stream GetResponseStream()
         {
-            using (var responseStream = response.GetResponseStream())
-            {
-                if (responseStream == null)
-                {
-                    throw new NotSupportedException("The body of the response stream could not be read.");
-                }
+            return response.GetResponseStream();
+        }
 
-                var responseCopy = new MemoryStream();
-                responseStream.CopyTo(responseCopy);
-
-                responseCopy.Position = 0;
-
-                return responseCopy;
-            }
+        public void Dispose()
+        {
+            response.Close();
         }
     }
 }
