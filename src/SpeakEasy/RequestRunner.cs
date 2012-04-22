@@ -86,24 +86,10 @@ namespace SpeakEasy
                         ? response.ContentLength
                         : DefaultBufferSize;
 
-                    var output = new MemoryStream();
-                    var buffer = new byte[bufferSize];
+                    var readResponseStream = responseStream.ReadStreamAsync(bufferSize);
+                    yield return readResponseStream;
 
-                    while (true)
-                    {
-                        var read = Task<int>.Factory.FromAsync(responseStream.BeginRead, responseStream.EndRead, buffer, 0, buffer.Length, null);
-                        yield return read;
-
-                        if (read.Result == 0)
-                        {
-                            break;
-                        }
-                        output.Write(buffer, 0, read.Result);
-                    }
-
-                    output.Seek(0, SeekOrigin.Begin);
-
-                    var webResponse = CreateHttpResponse(response, output);
+                    var webResponse = CreateHttpResponse(response, readResponseStream.Result);
                     streamCompletionSource.TrySetResult(webResponse);
                 }
             }
