@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\targets\speakeasy\</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;FRAMEWORK</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -70,6 +70,7 @@
     <Compile Include="ParsedHeaderValue.cs" />
     <Compile Include="ParsedHeaderParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestRunner.Framework.cs" />
     <Compile Include="ResourceMerger.cs" />
     <Compile Include="SerializableByteArray.cs" />
     <Compile Include="SerializerException.cs" />

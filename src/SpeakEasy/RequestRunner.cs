@@ -7,7 +7,7 @@ using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public class RequestRunner : IRequestRunner
+    public partial class RequestRunner : IRequestRunner
     {
         private const int DefaultBufferSize = 0x100;
 
@@ -95,6 +95,8 @@ namespace SpeakEasy
             }
         }
 
+        partial void BuildWebRequestFrameworkSpecific(HttpWebRequest webRequest);
+
         public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
@@ -103,10 +105,7 @@ namespace SpeakEasy
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.UseDefaultCredentials = false;
-            ServicePointManager.Expect100Continue = false;
-
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-            request.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
 
@@ -117,8 +116,10 @@ namespace SpeakEasy
 
             foreach (var header in httpRequest.Headers)
             {
-                request.Headers.Add(header.Name, header.Value);
+                request.Headers[header.Name] = header.Value;
             }
+
+            BuildWebRequestFrameworkSpecific(request);
 
             return request;
         }

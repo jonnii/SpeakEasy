@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F5D5CDFA-6492-461F-91DB-052AAE6CFA90}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpeakEasy</RootNamespace>
+    <AssemblyName>SpeakEasy</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\targets\silverlight\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\targets\silverlight\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core">
+      <HintPath>$(TargetFrameworkDirectory)System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\DeserializationSettings.cs">
+      <Link>DeserializationSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Extensions\RaiseExtensions.cs">
+      <Link>Extensions\RaiseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Extensions\StreamExtensions.cs">
+      <Link>Extensions\StreamExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Extensions\TaskExtensions.cs">
+      <Link>Extensions\TaskExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\FileDownload.cs">
+      <Link>FileDownload.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Header.cs">
+      <Link>Header.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HeaderParser.cs">
+      <Link>HeaderParser.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpException.cs">
+      <Link>HttpException.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpResponse.cs">
+      <Link>HttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpResponseHandler.cs">
+      <Link>HttpResponseHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpWebResponseWrapper.cs">
+      <Link>HttpWebResponseWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IAuthenticator.cs">
+      <Link>IAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IFile.cs">
+      <Link>IFile.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IHttpRequest.cs">
+      <Link>IHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IHttpResponse.cs">
+      <Link>IHttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IHttpResponseHandler.cs">
+      <Link>IHttpResponseHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IHttpWebResponse.cs">
+      <Link>IHttpWebResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IRequestBody.cs">
+      <Link>IRequestBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IRequestRunner.cs">
+      <Link>IRequestRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ISerializableBody.cs">
+      <Link>ISerializableBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ISerializer.cs">
+      <Link>ISerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ITransmissionSettings.cs">
+      <Link>ITransmissionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Parameter.cs">
+      <Link>Parameter.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ParsedHeaderParameter.cs">
+      <Link>ParsedHeaderParameter.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ParsedHeaderValue.cs">
+      <Link>ParsedHeaderValue.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\RequestRunner.cs">
+      <Link>RequestRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Resource.cs">
+      <Link>Resource.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

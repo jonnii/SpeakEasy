@@ -59,4 +59,3 @@ I'd love if you could contribute. You could:
 
 However, if you're going to contribute please make sure you write tests for any new functionality.
 Adding an example is also great!
-
