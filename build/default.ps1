@@ -17,6 +17,9 @@ task PreparePackage -depends Test {
 
 	mkdir ..\targets\packages\lib\net40
 	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net40
+
+	mkdir ..\targets\packages\lib\sl5
+	cp ..\targets\silverlight\speakeasy.* ..\targets\packages\lib\sl5
 }
 
 task PackagePre -depends PreparePackage {
