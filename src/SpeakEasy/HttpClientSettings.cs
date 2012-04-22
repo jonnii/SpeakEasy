@@ -23,7 +23,10 @@ namespace SpeakEasy
                 var settings = new HttpClientSettings();
 
                 settings.Serializers.Add(new JsonDotNetSerializer());
+                
+#if FRAMEWORK
                 settings.Serializers.Add(new DotNetXmlSerializer());
+#endif
 
                 return settings;
             }

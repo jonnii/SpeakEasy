@@ -17,6 +17,8 @@
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -49,15 +51,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.3\lib\sl4\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core">
       <HintPath>$(TargetFrameworkDirectory)System.Core.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\AfterRequestEventArgs.cs">
+      <Link>AfterRequestEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\AsyncHttpRequest.cs">
+      <Link>AsyncHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Authenticators\BasicAuthenticator.cs">
+      <Link>Authenticators\BasicAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Authenticators\NullAuthenticator.cs">
+      <Link>Authenticators\NullAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\BeforeRequestEventArgs.cs">
+      <Link>BeforeRequestEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\DefaultNamingConvention.cs">
+      <Link>DefaultNamingConvention.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\DeleteRequest.cs">
+      <Link>DeleteRequest.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\DeserializationSettings.cs">
       <Link>DeserializationSettings.cs</Link>
@@ -74,14 +101,35 @@
     <Compile Include="..\SpeakEasy\FileDownload.cs">
       <Link>FileDownload.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\FileUploadBody.cs">
+      <Link>FileUploadBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\GetLikeRequest.cs">
+      <Link>GetLikeRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\GetRequest.cs">
+      <Link>GetRequest.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\Header.cs">
       <Link>Header.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\HeaderParser.cs">
       <Link>HeaderParser.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\HeadRequest.cs">
+      <Link>HeadRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpClient.cs">
+      <Link>HttpClient.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpClientSettings.cs">
+      <Link>HttpClientSettings.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\HttpException.cs">
       <Link>HttpException.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\HttpRequest.cs">
+      <Link>HttpRequest.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\HttpResponse.cs">
       <Link>HttpResponse.cs</Link>
@@ -92,11 +140,17 @@
     <Compile Include="..\SpeakEasy\HttpWebResponseWrapper.cs">
       <Link>HttpWebResponseWrapper.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\IAsyncHttpRequest.cs">
+      <Link>IAsyncHttpRequest.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\IAuthenticator.cs">
       <Link>IAuthenticator.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\IFile.cs">
       <Link>IFile.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IHttpClient.cs">
+      <Link>IHttpClient.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\IHttpRequest.cs">
       <Link>IHttpRequest.cs</Link>
@@ -110,11 +164,20 @@
     <Compile Include="..\SpeakEasy\IHttpWebResponse.cs">
       <Link>IHttpWebResponse.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\ILogger.cs">
+      <Link>ILogger.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\INamingConvention.cs">
+      <Link>INamingConvention.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\IRequestBody.cs">
       <Link>IRequestBody.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\IRequestRunner.cs">
       <Link>IRequestRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\IResourceMerger.cs">
+      <Link>IResourceMerger.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\ISerializableBody.cs">
       <Link>ISerializableBody.cs</Link>
@@ -125,6 +188,27 @@
     <Compile Include="..\SpeakEasy\ITransmissionSettings.cs">
       <Link>ITransmissionSettings.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\Loggers\ConsoleLogger.cs">
+      <Link>Loggers\ConsoleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Loggers\NullLogger.cs">
+      <Link>Loggers\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\MultipartMimeDocumentBody.cs">
+      <Link>MultipartMimeDocumentBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\NullRequestBody.cs">
+      <Link>NullRequestBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\NullSerializableBody.cs">
+      <Link>NullSerializableBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\ObjectRequestBody.cs">
+      <Link>ObjectRequestBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\OptionsRequest.cs">
+      <Link>OptionsRequest.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\Parameter.cs">
       <Link>Parameter.cs</Link>
     </Compile>
@@ -134,13 +218,55 @@
     <Compile Include="..\SpeakEasy\ParsedHeaderValue.cs">
       <Link>ParsedHeaderValue.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\PatchRequest.cs">
+      <Link>PatchRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\PostLikeRequest.cs">
+      <Link>PostLikeRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\PostRequest.cs">
+      <Link>PostRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\PostRequestBody.cs">
+      <Link>PostRequestBody.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\PutRequest.cs">
+      <Link>PutRequest.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\RequestRunner.cs">
       <Link>RequestRunner.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\Resource.cs">
       <Link>Resource.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\ResourceMerger.cs">
+      <Link>ResourceMerger.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\SerializableByteArray.cs">
+      <Link>SerializableByteArray.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\SerializerException.cs">
+      <Link>SerializerException.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Serializers\JsonDotNetSerializer.cs">
+      <Link>Serializers\JsonDotNetSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Serializers\NullSerializer.cs">
+      <Link>Serializers\NullSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Serializers\Serializer.cs">
+      <Link>Serializers\Serializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\Serializers\StringBasedSerializer.cs">
+      <Link>Serializers\StringBasedSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\TransmissionSettings.cs">
+      <Link>TransmissionSettings.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions>
@@ -150,6 +276,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
