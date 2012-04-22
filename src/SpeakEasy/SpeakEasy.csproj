@@ -85,7 +85,6 @@
     <Compile Include="IRequestRunner.cs" />
     <Compile Include="IHttpRequest.cs" />
     <Compile Include="ITransmissionSettings.cs" />
-    <Compile Include="IWebRequestGateway.cs" />
     <Compile Include="OptionsRequest.cs" />
     <Compile Include="Parameter.cs" />
     <Compile Include="PatchRequest.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
-    <Compile Include="WebRequestGateway.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

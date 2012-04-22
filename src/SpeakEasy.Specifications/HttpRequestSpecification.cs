@@ -84,16 +84,12 @@ namespace SpeakEasy.Specifications
                 transmissionSettings.WhenToldTo(t => t.DefaultSerializerContentType).Return("text/xml");
                 transmissionSettings.WhenToldTo(t => t.DeserializableMediaTypes).Return(new[] { "text/xml", "application/json" });
 
-                webRequestGateway = An<IWebRequestGateway>();
-
                 request = new TestHttpRequest(new Resource("http://example.com/api/companies"));
             };
 
             protected static TestHttpRequest request;
 
             protected static ITransmissionSettings transmissionSettings;
-
-            protected static IWebRequestGateway webRequestGateway;
         }
     }
 }
