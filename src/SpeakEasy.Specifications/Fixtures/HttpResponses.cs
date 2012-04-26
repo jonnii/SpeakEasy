@@ -4,9 +4,9 @@ using System.Net;
 
 namespace SpeakEasy.Specifications.Fixtures
 {
-    internal static class HttpResponses
+    public static class HttpResponses
     {
-        internal static HttpResponse Create(ISerializer serializer, Stream bodyStream, HttpStatusCode code)
+        public static HttpResponse Create(ISerializer serializer, Stream bodyStream, HttpStatusCode code)
         {
             var headers = new[]
                 {

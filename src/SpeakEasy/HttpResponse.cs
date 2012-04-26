@@ -5,7 +5,7 @@ using System.Net;
 
 namespace SpeakEasy
 {
-    internal class HttpResponse : IHttpResponse
+    public class HttpResponse : IHttpResponse
     {
         public HttpResponse(
             ISerializer deserializer,

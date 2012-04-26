@@ -176,7 +176,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.OK);
 
-            internal static HttpResponse response;
+            protected static HttpResponse response;
         }
 
         public class with_created_response : with_deserializer
@@ -184,7 +184,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.Created);
 
-            internal static HttpResponse response;
+            protected static HttpResponse response;
         }
 
         public class Person { }
