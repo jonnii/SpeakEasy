@@ -23,7 +23,10 @@ namespace SpeakEasy.Specifications
             It should_set_request_to_get_request = () =>
                 webRequest.Method.ShouldEqual("GET");
 
-            static WebRequest webRequest;
+            It should_initialize_cookie_container = () =>
+                webRequest.CookieContainer.ShouldNotBeNull();
+
+            static HttpWebRequest webRequest;
         }
 
         [Subject(typeof(RequestRunner))]

@@ -111,6 +111,7 @@ namespace SpeakEasy
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
+            request.CookieContainer = new CookieContainer();
 
             if (!string.IsNullOrEmpty(httpRequest.UserAgent))
             {
