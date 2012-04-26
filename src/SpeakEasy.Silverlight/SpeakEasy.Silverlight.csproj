@@ -269,6 +269,7 @@
     <Compile Include="..\SpeakEasy\TransmissionSettings.cs">
       <Link>TransmissionSettings.cs</Link>
     </Compile>
+    <Compile Include="HttpWebResponseWrapper.Silverlight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

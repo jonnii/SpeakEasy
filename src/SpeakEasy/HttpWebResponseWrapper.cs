@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 
 namespace SpeakEasy
@@ -12,21 +10,6 @@ namespace SpeakEasy
         public HttpWebResponseWrapper(HttpWebResponse response)
         {
             this.response = response;
-        }
-
-        public Uri ResponseUri
-        {
-            get { return response.ResponseUri; }
-        }
-
-        public HttpStatusCode StatusCode
-        {
-            get { return response.StatusCode; }
-        }
-
-        public string StatusDescription
-        {
-            get { return response.StatusDescription; }
         }
 
         public bool HasContent
@@ -44,36 +27,9 @@ namespace SpeakEasy
             get { return response.ContentLength; }
         }
 
-        public Header[] Headers
-        {
-            get
-            {
-                var headerNames = response.Headers.AllKeys;
-                return headerNames.Select(n => new Header(n.ToLowerInvariant(), response.Headers[n])).ToArray();
-            }
-        }
-
-        public Cookie[] Cookies
-        {
-            get
-            {
-                return response.Cookies.Cast<System.Net.Cookie>().Select(BuildCookie).ToArray();
-            }
-        }
-
         public Stream GetResponseStream()
         {
             return response.GetResponseStream();
-        }
-
-        public HttpResponseState BuildState()
-        {
-            return new HttpResponseState(
-                StatusCode,
-                ResponseUri,
-                Headers,
-                Cookies,
-                ContentType);
         }
 
         private Cookie BuildCookie(System.Net.Cookie cookie)

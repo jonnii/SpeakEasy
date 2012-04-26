@@ -22,6 +22,7 @@ namespace SpeakEasy.Specifications.Fixtures
                 serializer,
                 bodyStream,
                 new HttpResponseState(code,
+                    "status description",
                     new Uri("http://example.com/companies"),
                     headers,
                     cookies,
