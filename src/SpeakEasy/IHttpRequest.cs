@@ -15,6 +15,16 @@ namespace SpeakEasy
         Resource Resource { get; }
 
         /// <summary>
+        /// The http method for this request
+        /// </summary>
+        string HttpMethod { get; }
+
+        /// <summary>
+        /// The body of this request
+        /// </summary>
+        IRequestBody Body { get; }
+
+        /// <summary>
         /// The user agent of this http request
         /// </summary>
         string UserAgent { get; set; }
@@ -34,10 +44,6 @@ namespace SpeakEasy
         /// </summary>
         ICredentials Credentials { get; set; }
 
-        string HttpMethod { get; }
-
-        IRequestBody Body { get; }
-
         /// <summary>
         /// Adds a header to this http request
         /// </summary>
@@ -45,6 +51,10 @@ namespace SpeakEasy
         /// <param name="value">The value of the header</param>
         void AddHeader(string name, string value);
 
+        /// <summary>
+        /// Builds the method specific request url
+        /// </summary>
+        /// <returns>A url</returns>
         string BuildRequestUrl();
     }
 }
