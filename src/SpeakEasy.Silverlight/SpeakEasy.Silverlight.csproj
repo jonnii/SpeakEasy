@@ -80,6 +80,9 @@
     <Compile Include="..\SpeakEasy\BeforeRequestEventArgs.cs">
       <Link>BeforeRequestEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\Cookie.cs">
+      <Link>Cookie.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\DefaultNamingConvention.cs">
       <Link>DefaultNamingConvention.cs</Link>
     </Compile>
