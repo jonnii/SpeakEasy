@@ -72,6 +72,7 @@
     <Compile Include="Authenticators\WindowsAuthenticatorSpecification.cs" />
     <Compile Include="DeleteRequestSpecification.cs" />
     <Compile Include="FileUploadBodySpecification.cs" />
+    <Compile Include="Fixtures\HttpResponses.cs" />
     <Compile Include="GetRequestSpecification.cs" />
     <Compile Include="HeaderSpecification.cs" />
     <Compile Include="HeadRequestSpecification.cs" />

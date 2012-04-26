@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Specifications.Fixtures;
 
 namespace SpeakEasy.Specifications
 {
@@ -165,28 +166,6 @@ namespace SpeakEasy.Specifications
                 bodyStream = new MemoryStream(Encoding.Default.GetBytes("lollipops"));
             };
 
-            protected static HttpResponse CreateResponse(HttpStatusCode code)
-            {
-                var headers = new[]
-                {
-                    new Header("awesome-header", "value")
-                };
-
-                var cookies = new[]
-                {
-                    new Cookie("comment", new Uri("http://fribble.com"), true, "domain", true, DateTime.Now, true, "name", "path", "port", false, DateTime.Now, "value", 5)
-                };
-
-                return new HttpResponse(
-                    deserializer,
-                    bodyStream,
-                    new HttpResponseState(code,
-                        new Uri("http://example.com/companies"),
-                        headers,
-                        cookies,
-                        "contentType"));
-            }
-
             protected static ISerializer deserializer;
 
             protected static Stream bodyStream;
@@ -195,17 +174,17 @@ namespace SpeakEasy.Specifications
         public class with_ok_response : with_deserializer
         {
             Establish context = () =>
-                response = CreateResponse(HttpStatusCode.OK);
+                response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.OK);
 
-            protected static HttpResponse response;
+            internal static HttpResponse response;
         }
 
         public class with_created_response : with_deserializer
         {
             Establish context = () =>
-                response = CreateResponse(HttpStatusCode.Created);
+                response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.Created);
 
-            protected static HttpResponse response;
+            internal static HttpResponse response;
         }
 
         public class Person { }

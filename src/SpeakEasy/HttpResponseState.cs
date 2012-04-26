@@ -3,6 +3,9 @@ using System.Net;
 
 namespace SpeakEasy
 {
+    /// <summary>
+    /// The http response state contains the details of an http response, for example cookies and headers.
+    /// </summary>
     public class HttpResponseState
     {
         public HttpResponseState(
