@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -11,5 +12,7 @@ namespace SpeakEasy
         string ContentType { get; }
 
         void WriteTo(Stream stream);
+
+        Task WriteToAsync(Stream stream);
     }
 }

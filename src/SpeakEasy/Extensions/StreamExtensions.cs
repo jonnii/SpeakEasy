@@ -22,16 +22,22 @@ namespace SpeakEasy.Extensions
             }
         }
 
-        public static Task<Stream> ReadStreamAsync(this Stream source, long bufferSize = 16 * 1024)
+        public static Task<Stream> CopyToAsync(this Stream source, Stream target, long bufferSize = 16 * 1024)
         {
             var completionSource = new TaskCompletionSource<Stream>();
-            ReadStreamAsyncCore(source, bufferSize, completionSource).Iterate(completionSource);
+            ReadStreamAsyncCore(source, target, bufferSize, completionSource).Iterate(completionSource);
             return completionSource.Task;
         }
 
-        private static IEnumerable<Task> ReadStreamAsyncCore(Stream responseStream, long bufferSize, TaskCompletionSource<Stream> completionSource)
+        public static Task<Stream> ReadStreamAsync(this Stream source, long bufferSize = 16 * 1024)
         {
-            var output = new MemoryStream();
+            var completionSource = new TaskCompletionSource<Stream>();
+            ReadStreamAsyncCore(source, new MemoryStream(), bufferSize, completionSource).Iterate(completionSource);
+            return completionSource.Task;
+        }
+
+        private static IEnumerable<Task> ReadStreamAsyncCore(Stream responseStream, Stream output, long bufferSize, TaskCompletionSource<Stream> completionSource)
+        {
             var buffer = new byte[bufferSize];
 
             while (true)

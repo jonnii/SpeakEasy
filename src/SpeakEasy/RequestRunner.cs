@@ -58,10 +58,6 @@ namespace SpeakEasy
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings);
 
             webRequest.ContentType = serializedBody.ContentType;
-            if (serializedBody.ContentLength != -1)
-            {
-                webRequest.ContentLength = serializedBody.ContentLength;
-            }
 
             if (serializedBody.HasContent)
             {
@@ -72,6 +68,13 @@ namespace SpeakEasy
                 using (var requestStream = getRequestStream.Result)
                 {
                     yield return serializedBody.WriteTo(requestStream);
+                }
+            }
+            else
+            {
+                if (serializedBody.ContentLength != -1)
+                {
+                    webRequest.ContentLength = serializedBody.ContentLength;
                 }
             }
 

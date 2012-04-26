@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
@@ -45,46 +47,58 @@ namespace SpeakEasy
 
         public Task WriteTo(Stream stream)
         {
-            return null;
+            var completionSource = new TaskCompletionSource<string>();
 
-            //foreach (var parameter in resource.Parameters)
-            //{
-            //    WriteParameter(stream, parameter);
-            //}
+            WriteToAsync(stream, completionSource).Iterate(completionSource);
 
-            //foreach (var file in files)
-            //{
-            //    WriteFile(stream, file);
-            //}
-
-            //WriteFooter(stream);
+            return completionSource.Task;
         }
 
-        private void WriteFooter(Stream stream)
+        private IEnumerable<Task> WriteToAsync(Stream stream, TaskCompletionSource<string> completionSource)
+        {
+            foreach (var parameter in resource.Parameters)
+            {
+                yield return WriteParameter(stream, parameter);
+            }
+
+            foreach (var file in files)
+            {
+                foreach (var step in WriteFile(stream, file))
+                {
+                    yield return step;
+                }
+            }
+
+            yield return WriteFooter(stream);
+
+            completionSource.TrySetResult("Done!");
+        }
+
+        private Task WriteFooter(Stream stream)
         {
             var footer = DefaultEncoding.GetBytes(GetFooter());
-            stream.Write(footer, 0, footer.Length);
+            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, footer, 0, footer.Length, null);
         }
 
-        private void WriteParameter(Stream stream, Parameter parameter)
+        private Task WriteParameter(Stream stream, Parameter parameter)
         {
             var formattedParameter = GetFormattedParameter(parameter);
-
             var encoded = DefaultEncoding.GetBytes(formattedParameter);
-            stream.Write(encoded, 0, encoded.Length);
+
+            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, encoded, 0, encoded.Length, null);
         }
 
-        private void WriteFile(Stream stream, IFile file)
+        private IEnumerable<Task> WriteFile(Stream stream, IFile file)
         {
             var fileHeader = GetFileHeader(file);
 
             var encoded = DefaultEncoding.GetBytes(fileHeader);
-            stream.Write(encoded, 0, encoded.Length);
+            yield return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, encoded, 0, encoded.Length, null);
 
-            file.WriteTo(stream);
+            yield return file.WriteToAsync(stream);
 
             var crlf = DefaultEncoding.GetBytes(Crlf);
-            stream.Write(crlf, 0, crlf.Length);
+            yield return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, crlf, 0, crlf.Length, null);
         }
 
         public string GetFileHeader(IFile file)
