@@ -172,7 +172,19 @@ namespace SpeakEasy.Specifications
                     new Header("awesome-header", "value")
                 };
 
-                return new HttpResponse(deserializer, bodyStream, code, new Uri("http://example.com/companies"), headers, "contentType");
+                var cookies = new[]
+                {
+                    new Cookie("comment", new Uri("http://fribble.com"), true, "domain", true, DateTime.Now, true, "name", "path", "port", false, DateTime.Now, "value", 5)
+                };
+
+                return new HttpResponse(
+                    deserializer,
+                    bodyStream,
+                    code,
+                    new Uri("http://example.com/companies"),
+                    headers,
+                    cookies,
+                    "contentType");
             }
 
             protected static ISerializer deserializer;

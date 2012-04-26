@@ -158,6 +158,7 @@ namespace SpeakEasy
                 webResponse.StatusCode,
                 webResponse.ResponseUri,
                 webResponse.Headers,
+                webResponse.Cookies,
                 webResponse.ContentType);
         }
     }

@@ -48,6 +48,33 @@ namespace SpeakEasy
             }
         }
 
+        public Cookie[] Cookies
+        {
+            get
+            {
+                return response.Cookies.Cast<System.Net.Cookie>().Select(BuildCookie).ToArray();
+            }
+        }
+
+        private Cookie BuildCookie(System.Net.Cookie cookie)
+        {
+            return new Cookie(
+                cookie.Comment,
+                cookie.CommentUri,
+                cookie.Discard,
+                cookie.Domain,
+                cookie.Expired,
+                cookie.Expires,
+                cookie.HttpOnly,
+                cookie.Name,
+                cookie.Path,
+                cookie.Port,
+                cookie.Secure,
+                cookie.TimeStamp,
+                cookie.Value,
+                cookie.Version);
+        }
+
         public Stream GetResponseStream()
         {
             return response.GetResponseStream();

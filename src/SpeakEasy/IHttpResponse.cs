@@ -26,6 +26,11 @@ namespace SpeakEasy
         Header[] Headers { get; }
 
         /// <summary>
+        /// The cookies on this http response
+        /// </summary>
+        Cookie[] Cookies { get; }
+
+        /// <summary>
         /// The body of the response
         /// </summary>
         Stream Body { get; }

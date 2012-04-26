@@ -7,13 +7,21 @@ namespace SpeakEasy
 {
     public class HttpResponse : IHttpResponse
     {
-        public HttpResponse(ISerializer deserializer, Stream body, HttpStatusCode httpStatusCode, Uri requestUrl, Header[] headers, string contentType)
+        public HttpResponse(
+            ISerializer deserializer,
+            Stream body,
+            HttpStatusCode httpStatusCode,
+            Uri requestUrl,
+            Header[] headers,
+            Cookie[] cookies,
+            string contentType)
         {
             Deserializer = deserializer;
 
             RequestedUrl = requestUrl;
             HttpStatusCode = httpStatusCode;
             Headers = headers;
+            Cookies = cookies;
             ContentType = contentType;
             Body = body;
         }
@@ -23,6 +31,8 @@ namespace SpeakEasy
         public HttpStatusCode HttpStatusCode { get; private set; }
 
         public Header[] Headers { get; private set; }
+
+        public Cookie[] Cookies { get; private set; }
 
         public string ContentType { get; private set; }
 

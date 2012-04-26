@@ -42,6 +42,7 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="Cookie.cs" />
     <Compile Include="DefaultNamingConvention.cs" />
     <Compile Include="DeleteRequest.cs" />
     <Compile Include="DeserializationSettings.cs" />

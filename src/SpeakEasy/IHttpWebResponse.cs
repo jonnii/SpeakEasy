@@ -25,6 +25,11 @@ namespace SpeakEasy
         Header[] Headers { get; }
 
         /// <summary>
+        /// The cookies that came back as part of this response
+        /// </summary>
+        Cookie[] Cookies { get; }
+
+        /// <summary>
         /// Indicates whether or not the web response has content
         /// </summary>
         bool HasContent { get; }
