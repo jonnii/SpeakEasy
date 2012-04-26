@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net;
 
 namespace SpeakEasy
 {
@@ -9,26 +8,6 @@ namespace SpeakEasy
     /// </summary>
     public interface IHttpWebResponse : IDisposable
     {
-        /// <summary>
-        /// The uri that responded to the web request
-        /// </summary>
-        Uri ResponseUri { get; }
-
-        /// <summary>
-        /// The status code of the web response
-        /// </summary>
-        HttpStatusCode StatusCode { get; }
-
-        /// <summary>
-        /// The headers that came back as part of this response
-        /// </summary>
-        Header[] Headers { get; }
-
-        /// <summary>
-        /// The cookies that came back as part of this response
-        /// </summary>
-        Cookie[] Cookies { get; }
-
         /// <summary>
         /// Indicates whether or not the web response has content
         /// </summary>
@@ -49,5 +28,11 @@ namespace SpeakEasy
         /// </summary>
         /// <returns>The response stream</returns>
         Stream GetResponseStream();
+
+        /// <summary>
+        /// Builds the http response state from this http web response
+        /// </summary>
+        /// <returns>An http response state</returns>
+        HttpResponseState BuildState();
     }
 }

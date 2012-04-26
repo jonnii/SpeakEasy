@@ -10,35 +10,28 @@ namespace SpeakEasy
         public HttpResponse(
             ISerializer deserializer,
             Stream body,
-            HttpStatusCode httpStatusCode,
-            Uri requestUrl,
-            Header[] headers,
-            Cookie[] cookies,
-            string contentType)
+            HttpResponseState state)
         {
             Deserializer = deserializer;
-
-            RequestedUrl = requestUrl;
-            HttpStatusCode = httpStatusCode;
-            Headers = headers;
-            Cookies = cookies;
-            ContentType = contentType;
             Body = body;
+            State = state;
         }
 
-        public Uri RequestedUrl { get; private set; }
-
-        public HttpStatusCode HttpStatusCode { get; private set; }
-
-        public Header[] Headers { get; private set; }
-
-        public Cookie[] Cookies { get; private set; }
-
-        public string ContentType { get; private set; }
+        public HttpResponseState State { get; private set; }
 
         public Stream Body { get; private set; }
 
         public ISerializer Deserializer { get; private set; }
+
+        public string ContentType
+        {
+            get { return State.ContentType; }
+        }
+
+        public HttpStatusCode StatusCode
+        {
+            get { return State.StatusCode; }
+        }
 
         public IHttpResponse On(HttpStatusCode code, Action action)
         {
@@ -71,7 +64,7 @@ namespace SpeakEasy
             if (!IsOk())
             {
                 var message = string.Format(
-                    "Cannot get an http response handler for Ok, because the status was {0}", HttpStatusCode);
+                    "Cannot get an http response handler for Ok, because the status was {0}", StatusCode);
 
                 throw new HttpException(message);
             }
@@ -86,12 +79,12 @@ namespace SpeakEasy
 
         public IHttpResponse OnOk<T>(Action<T> action)
         {
-            return On(HttpStatusCode, action);
+            return On(StatusCode, action);
         }
 
         public bool Is(HttpStatusCode code)
         {
-            return HttpStatusCode == code;
+            return StatusCode == code;
         }
 
         public bool IsOk()
@@ -101,7 +94,7 @@ namespace SpeakEasy
 
         public Header GetHeader(string name)
         {
-            var header = Headers.FirstOrDefault(h => h.Name == name.ToLowerInvariant());
+            var header = State.Headers.FirstOrDefault(h => h.Name == name.ToLowerInvariant());
 
             if (header == null)
             {
@@ -124,10 +117,10 @@ namespace SpeakEasy
         public override string ToString()
         {
             return string.Format(
-                "[HttpResponse StatusCode={0}, ContentType={1}, RequestedUrl={2}]",
-                HttpStatusCode,
+                "[HttpResponse StatusCode={0}, ContentType={1}, RequestUrl={2}]",
+                StatusCode,
                 ContentType,
-                RequestedUrl);
+                State.RequestUrl);
         }
     }
 }

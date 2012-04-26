@@ -5,7 +5,7 @@ using System.Net;
 
 namespace SpeakEasy
 {
-    public class HttpWebResponseWrapper : IHttpWebResponse
+    public partial class HttpWebResponseWrapper : IHttpWebResponse
     {
         private readonly HttpWebResponse response;
 
@@ -22,6 +22,11 @@ namespace SpeakEasy
         public HttpStatusCode StatusCode
         {
             get { return response.StatusCode; }
+        }
+
+        public string StatusDescription
+        {
+            get { return response.StatusDescription; }
         }
 
         public bool HasContent
@@ -56,6 +61,21 @@ namespace SpeakEasy
             }
         }
 
+        public Stream GetResponseStream()
+        {
+            return response.GetResponseStream();
+        }
+
+        public HttpResponseState BuildState()
+        {
+            return new HttpResponseState(
+                StatusCode,
+                ResponseUri,
+                Headers,
+                Cookies,
+                ContentType);
+        }
+
         private Cookie BuildCookie(System.Net.Cookie cookie)
         {
             return new Cookie(
@@ -73,11 +93,6 @@ namespace SpeakEasy
                 cookie.TimeStamp,
                 cookie.Value,
                 cookie.Version);
-        }
-
-        public Stream GetResponseStream()
-        {
-            return response.GetResponseStream();
         }
 
         public void Dispose()

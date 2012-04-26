@@ -155,11 +155,13 @@ namespace SpeakEasy
             return new HttpResponse(
                 deserializer,
                 body,
-                webResponse.StatusCode,
-                webResponse.ResponseUri,
-                webResponse.Headers,
-                webResponse.Cookies,
-                webResponse.ContentType);
+                webResponse.BuildState());
+
+            //webResponse.StatusCode,
+            //webResponse.ResponseUri,
+            //webResponse.Headers,
+            //webResponse.Cookies,
+            //webResponse.ContentType);
         }
     }
 }

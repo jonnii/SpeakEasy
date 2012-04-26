@@ -54,6 +54,8 @@
     <Compile Include="Header.cs" />
     <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="HeaderParser.cs" />
+    <Compile Include="HttpResponseState.cs" />
+    <Compile Include="HttpWebResponseWrapper.Framework.cs" />
     <Compile Include="IAsyncHttpRequest.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="ILogger.cs" />

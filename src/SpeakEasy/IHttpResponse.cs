@@ -11,24 +11,19 @@ namespace SpeakEasy
     public interface IHttpResponse
     {
         /// <summary>
-        /// The url that was requested
-        /// </summary>
-        Uri RequestedUrl { get; }
-
-        /// <summary>
         /// The http status code of this response
         /// </summary>
-        HttpStatusCode HttpStatusCode { get; }
+        HttpStatusCode StatusCode { get; }
 
         /// <summary>
-        /// The http headers on this http response
+        /// The content type of the response
         /// </summary>
-        Header[] Headers { get; }
+        string ContentType { get; }
 
         /// <summary>
-        /// The cookies on this http response
+        /// The state of this http response
         /// </summary>
-        Cookie[] Cookies { get; }
+        HttpResponseState State { get; }
 
         /// <summary>
         /// The body of the response
@@ -39,11 +34,6 @@ namespace SpeakEasy
         /// The deserializer that will be used to deserialize the response
         /// </summary>
         ISerializer Deserializer { get; }
-
-        /// <summary>
-        /// The content type of the response
-        /// </summary>
-        string ContentType { get; }
 
         /// <summary>
         /// Executes the given action when the response status code matches the supplied status code.

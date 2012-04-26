@@ -180,11 +180,11 @@ namespace SpeakEasy.Specifications
                 return new HttpResponse(
                     deserializer,
                     bodyStream,
-                    code,
-                    new Uri("http://example.com/companies"),
-                    headers,
-                    cookies,
-                    "contentType");
+                    new HttpResponseState(code,
+                        new Uri("http://example.com/companies"),
+                        headers,
+                        cookies,
+                        "contentType"));
             }
 
             protected static ISerializer deserializer;

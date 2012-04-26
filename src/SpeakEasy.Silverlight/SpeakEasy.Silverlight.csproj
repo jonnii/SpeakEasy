@@ -140,6 +140,9 @@
     <Compile Include="..\SpeakEasy\HttpResponseHandler.cs">
       <Link>HttpResponseHandler.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\HttpResponseState.cs">
+      <Link>HttpResponseState.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\HttpWebResponseWrapper.cs">
       <Link>HttpWebResponseWrapper.cs</Link>
     </Compile>

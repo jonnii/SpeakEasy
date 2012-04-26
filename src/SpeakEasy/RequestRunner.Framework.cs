@@ -1,6 +1,6 @@
-﻿using System.Net;
+﻿#if FRAMEWORK
 
-#if FRAMEWORK
+using System.Net;
 
 namespace SpeakEasy
 {

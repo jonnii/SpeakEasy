@@ -17,8 +17,8 @@ namespace SpeakEasy.IntegrationTests
                 {
                     didComplete = true;
 
-                    Assert.That(response.RequestedUrl.ToString(), Is.EqualTo("http://localhost:1337/api/products/1"));
-                    Assert.That(response.HttpStatusCode, Is.EqualTo(HttpStatusCode.OK));
+                    Assert.That(response.State.RequestUrl.ToString(), Is.EqualTo("http://localhost:1337/api/products/1"));
+                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
                     Assert.That(response.Deserializer, Is.TypeOf<JsonDotNetSerializer>());
                 }).Start();
 
