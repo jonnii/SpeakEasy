@@ -112,7 +112,7 @@ namespace SpeakEasy
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
             request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            request.CookieContainer = new CookieContainer();
+            request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
 
             if (!string.IsNullOrEmpty(httpRequest.UserAgent))
             {

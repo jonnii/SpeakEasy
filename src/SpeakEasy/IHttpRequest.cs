@@ -51,6 +51,11 @@ namespace SpeakEasy
         bool AllowAutoRedirect { get; set; }
 
         /// <summary>
+        /// The cookie container to use when making this http request
+        /// </summary>
+        CookieContainer CookieContainer { get; set; }
+
+        /// <summary>
         /// Adds a header to this http request
         /// </summary>
         /// <param name="name">The name of the http header</param>

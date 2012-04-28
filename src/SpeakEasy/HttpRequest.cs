@@ -37,6 +37,8 @@ namespace SpeakEasy
 
         public bool AllowAutoRedirect { get; set; }
 
+        public CookieContainer CookieContainer { get; set; }
+
         public void AddHeader(string name, string value)
         {
             headers.Add(new Header(name, value));
