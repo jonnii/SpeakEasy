@@ -19,7 +19,16 @@ namespace SpeakEasy.Serializers
 
         public override IEnumerable<string> SupportedMediaTypes
         {
-            get { return new[] { "application/json" }; }
+            get
+            {
+                return new[]
+                {
+                    "application/json",
+                    "text/json",
+                    "text/x-json",
+                    "text/javascript"
+                };
+            }
         }
 
         public void ConfigureSettings(Action<JsonSerializerSettings> configureCallback)
