@@ -47,9 +47,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test, Explicit("WIP")]
-        public void ShouldUploadOneFile()
+        public void ShouldUploadOneFileByteArray()
         {
-            var file = new FileUpload("name", "filename", new byte[] { 0xDE });
+            var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
 
             var fileNames = client.Post(file, "invoices")
                 .On(HttpStatusCode.Created).As<string[]>();
@@ -58,9 +58,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test, Explicit("WIP")]
-        public void ShouldUploadMultipleFiles()
+        public void ShouldUploadMultipleFilesByteArray()
         {
-            var files = new[] { new FileUpload("name", "filename", new byte[] { 0xDE }), new FileUpload("name", "filename", new byte[] { 0xDE }) };
+            var files = new[] { FileUpload.FromBytes("name", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name", "filename", new byte[] { 0xDE }) };
 
             var fileNames = client.Post(files, "invoices/:id", new { id = 1234 })
                 .On(HttpStatusCode.Created).As<IEnumerable<string>>();

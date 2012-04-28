@@ -52,6 +52,9 @@
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="FileDownload.cs" />
     <Compile Include="FileUploadBody.cs" />
+    <Compile Include="FileUploadByteArray.cs" />
+    <Compile Include="FileUploadPath.cs" />
+    <Compile Include="FileUploadStream.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="HeaderParser.cs" />

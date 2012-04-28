@@ -3,16 +3,27 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
-    public class FileUpload : IFile
+    public abstract class FileUpload : IFile
     {
-        private readonly byte[] contents;
+        public static FileUpload FromBytes(string name, string fileName, byte[] contents)
+        {
+            return new FileUploadByteArray(name, fileName, contents);
+        }
 
-        public FileUpload(string name, string fileName, byte[] contents)
+        public static FileUpload FromStream(string name, string fileName, Stream contents)
+        {
+            return new FileUploadStream(name, fileName, contents);
+        }
+
+        public static FileUpload FromPath(string name, string filePath)
+        {
+            return new FileUploadPath(name, filePath);
+        }
+
+        protected FileUpload(string name, string fileName)
         {
             Name = name;
             FileName = fileName;
-
-            this.contents = contents;
         }
 
         public string Name { get; set; }
@@ -26,9 +37,6 @@ namespace SpeakEasy
             WriteToAsync(stream).Wait();
         }
 
-        public Task WriteToAsync(Stream stream)
-        {
-            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, contents, 0, contents.Length, null);
-        }
+        public abstract Task WriteToAsync(Stream stream);
     }
 }
