@@ -37,8 +37,6 @@ namespace SpeakEasy
 
         public bool AllowAutoRedirect { get; set; }
 
-        public int? MaximumAutomaticRedirections { get; set; }
-
         public void AddHeader(string name, string value)
         {
             headers.Add(new Header(name, value));

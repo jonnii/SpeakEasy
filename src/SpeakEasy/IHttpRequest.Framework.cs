@@ -19,6 +19,11 @@ namespace SpeakEasy
         /// The web proxy to use when making this http request
         /// </summary>
         IWebProxy Proxy { get; set; }
+
+        /// <summary>
+        /// The maximum number of automatic redirections when allow auto redirect it set to true
+        /// </summary>
+        int? MaximumAutomaticRedirections { get; set; }
     }
 }
 

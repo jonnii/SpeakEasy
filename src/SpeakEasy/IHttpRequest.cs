@@ -51,11 +51,6 @@ namespace SpeakEasy
         bool AllowAutoRedirect { get; set; }
 
         /// <summary>
-        /// The maximum number of automatic redirections when allow auto redirect it set to true
-        /// </summary>
-        int? MaximumAutomaticRedirections { get; set; }
-
-        /// <summary>
         /// Adds a header to this http request
         /// </summary>
         /// <param name="name">The name of the http header</param>

@@ -10,6 +10,8 @@ namespace SpeakEasy
         public X509CertificateCollection ClientCertificates { get; set; }
 
         public IWebProxy Proxy { get; set; }
+
+        public int? MaximumAutomaticRedirections { get; set; }
     }
 }
 
