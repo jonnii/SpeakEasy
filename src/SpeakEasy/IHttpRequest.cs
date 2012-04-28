@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy
 {
@@ -7,7 +8,7 @@ namespace SpeakEasy
     /// An http request represents one http interaction with
     /// a web service that speaks http
     /// </summary>
-    public interface IHttpRequest
+    public partial interface IHttpRequest
     {
         /// <summary>
         /// The resource that will be requested by this http request
@@ -43,6 +44,16 @@ namespace SpeakEasy
         /// The windows credentials on this http request
         /// </summary>
         ICredentials Credentials { get; set; }
+
+        /// <summary>
+        /// Indicates whether or not this http request should allow auto redirects
+        /// </summary>
+        bool AllowAutoRedirect { get; set; }
+
+        /// <summary>
+        /// The maximum number of automatic redirections when allow auto redirect it set to true
+        /// </summary>
+        int? MaximumAutomaticRedirections { get; set; }
 
         /// <summary>
         /// Adds a header to this http request

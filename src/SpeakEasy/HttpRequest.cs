@@ -3,7 +3,7 @@ using System.Net;
 
 namespace SpeakEasy
 {
-    public abstract class HttpRequest : IHttpRequest
+    public abstract partial class HttpRequest : IHttpRequest
     {
         private readonly List<Header> headers = new List<Header>();
 
@@ -11,6 +11,8 @@ namespace SpeakEasy
         {
             Resource = resource;
             Body = body;
+
+            AllowAutoRedirect = true;
         }
 
         public Resource Resource { get; private set; }
@@ -32,6 +34,10 @@ namespace SpeakEasy
         }
 
         public ICredentials Credentials { get; set; }
+
+        public bool AllowAutoRedirect { get; set; }
+
+        public int? MaximumAutomaticRedirections { get; set; }
 
         public void AddHeader(string name, string value)
         {

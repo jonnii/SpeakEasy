@@ -1,4 +1,3 @@
-using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 
@@ -50,6 +49,13 @@ namespace SpeakEasy.Specifications
 
         //    static HttpWebRequest webRequest;
         //}
+
+        [Subject(typeof(HttpRequest))]
+        public class in_general : with_request
+        {
+            It should_allow_auto_redirects = () =>
+                request.AllowAutoRedirect.ShouldBeTrue();
+        }
 
         [Subject(typeof(HttpRequest))]
         public class when_adding_header : with_request

@@ -98,7 +98,7 @@ namespace SpeakEasy
             }
         }
 
-        partial void BuildWebRequestFrameworkSpecific(HttpWebRequest webRequest);
+        partial void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest);
 
         public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
         {
@@ -111,6 +111,7 @@ namespace SpeakEasy
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
+            request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
             request.CookieContainer = new CookieContainer();
 
             if (!string.IsNullOrEmpty(httpRequest.UserAgent))
@@ -123,7 +124,7 @@ namespace SpeakEasy
                 request.Headers[header.Name] = header.Value;
             }
 
-            BuildWebRequestFrameworkSpecific(request);
+            BuildWebRequestFrameworkSpecific(httpRequest, request);
 
             return request;
         }

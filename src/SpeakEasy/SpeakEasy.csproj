@@ -55,11 +55,13 @@
     <Compile Include="Header.cs" />
     <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="HeaderParser.cs" />
+    <Compile Include="HttpRequest.Framework.cs" />
     <Compile Include="HttpResponseState.cs" />
     <Compile Include="HttpResponseState.Framework.cs" />
     <Compile Include="HttpWebResponseWrapper.Framework.cs" />
     <Compile Include="IAsyncHttpRequest.cs" />
     <Compile Include="IFile.cs" />
+    <Compile Include="IHttpRequest.Framework.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="INamingConvention.cs" />
     <Compile Include="IRequestBody.cs" />
