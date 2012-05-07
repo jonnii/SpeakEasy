@@ -48,6 +48,11 @@ If you aren't using nuget, then shame on you. If you are, then installation is a
 
 SpeakEasy has a dependency on Newtonsoft.Json.
 
+Builds
+------
+
+Builds are managed by code better. (http://teamcity.codebetter.com/login.html)
+
 Contributing
 ------------
 
