@@ -17,5 +17,13 @@ namespace SpeakEasy
             : base(message, inner)
         {
         }
+
+        public HttpException(string message, IHttpResponse response)
+            : base(message)
+        {
+            Response = response;
+        }
+
+        public IHttpResponse Response { get; set; }
     }
 }

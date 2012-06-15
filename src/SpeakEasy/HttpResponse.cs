@@ -66,7 +66,7 @@ namespace SpeakEasy
                 var message = string.Format(
                     "Cannot get an http response handler for Ok, because the status was {0}", StatusCode);
 
-                throw new HttpException(message);
+                throw new HttpException(message, this);
             }
 
             return new HttpResponseHandler(this);
