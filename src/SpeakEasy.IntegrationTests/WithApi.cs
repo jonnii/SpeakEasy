@@ -16,6 +16,7 @@ namespace SpeakEasy.IntegrationTests
 
             config.Routes.MapHttpRoute("api", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.Routes.MapHttpRoute("reservations_api", "api/products/{productId}/{controller}/{id}", new { id = RouteParameter.Optional });
+            config.Formatters.XmlFormatter.UseXmlSerializer = true;
 
             var server = new HttpSelfHostServer(config);
             server.OpenAsync().Wait();

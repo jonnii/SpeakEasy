@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using SpeakEasy.IntegrationTests.Controllers;
+using SpeakEasy.Loggers;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy.IntegrationTests
@@ -15,6 +16,7 @@ namespace SpeakEasy.IntegrationTests
             var settings = HttpClientSettings.Default;
             settings.Serializers.Clear();
             settings.Serializers.Add(new DotNetXmlSerializer());
+            settings.Logger = new ConsoleLogger();
 
             return HttpClient.Create("http://localhost:1337/api", settings);
         }

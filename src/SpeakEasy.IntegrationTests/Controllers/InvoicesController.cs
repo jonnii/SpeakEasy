@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,21 +25,21 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return response;
         }
 
-        public HttpResponseMessage<IEnumerable<string>> Post(HttpRequestMessage message)
+        public HttpResponseMessage Post(HttpRequestMessage message)
         {
             if (!Request.Content.IsMimeMultipartContent("form-data"))
             {
-                return new HttpResponseMessage<IEnumerable<string>>(HttpStatusCode.UnsupportedMediaType);
+                return message.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            var streamProvider = new MultipartFileStreamProvider();
+            var streamProvider = new MultipartFileStreamProvider(Environment.CurrentDirectory);
 
             var bodyParts = Request.Content.ReadAsMultipartAsync(streamProvider);
             bodyParts.Wait();
 
             var fileNames = streamProvider.BodyPartFileNames;
 
-            return new HttpResponseMessage<IEnumerable<string>>(fileNames, HttpStatusCode.Created);
+            return message.CreateResponse(HttpStatusCode.Created, fileNames);
         }
     }
 }

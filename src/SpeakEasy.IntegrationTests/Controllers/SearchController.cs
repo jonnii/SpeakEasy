@@ -14,14 +14,15 @@ namespace SpeakEasy.IntegrationTests.Controllers
             "dog food"
         };
 
-        public IEnumerable<string> Get(string filter)
+        public IEnumerable<string> Get([FromUri]string filter)
         {
             return products.Where(p => p.StartsWith(filter));
         }
 
-        public string Post(string username)
+        public string Post(SearchModel searchModel)
         {
-            return username;
+            return searchModel.Username;
         }
+
     }
 }

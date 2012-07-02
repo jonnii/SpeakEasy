@@ -41,18 +41,16 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return products.Single(p => p.Id == id);
         }
 
-        public HttpResponseMessage Post(Product product)
+        public HttpResponseMessage Post([FromBody]Product product)
         {
             if (string.IsNullOrEmpty(product.Name))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Name required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Category required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
             }
 
             return new HttpResponseMessage(HttpStatusCode.Created);
@@ -62,14 +60,12 @@ namespace SpeakEasy.IntegrationTests.Controllers
         {
             if (string.IsNullOrEmpty(product.Name))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Name required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Category required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
             }
 
             var existingProduct = products.FirstOrDefault(p => p.Id == id);
@@ -84,14 +80,12 @@ namespace SpeakEasy.IntegrationTests.Controllers
         {
             if (string.IsNullOrEmpty(product.Name))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Name required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return new HttpResponseMessage<ValidationError>(
-                    new ValidationError("Category required"), HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
             }
 
             var existingProduct = products.FirstOrDefault(p => p.Id == id);
