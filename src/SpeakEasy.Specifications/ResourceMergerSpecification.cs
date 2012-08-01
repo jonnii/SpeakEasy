@@ -19,6 +19,18 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(ResourceMerger))]
+        public class when_merging_segments_with_null_value : with_resource_with_parameter
+        {
+            Because of = () =>
+                exception = Catch.Exception(() => Subject.Merge(resource, new { name = (string)null }));
+
+            It should_throw_exception = () =>
+                exception.ShouldBeOfType<ArgumentException>();
+
+            static Exception exception;
+        }
+
+        [Subject(typeof(ResourceMerger))]
         public class when_merging_segments_of_different_case : with_resource_with_parameter
         {
             Because of = () =>

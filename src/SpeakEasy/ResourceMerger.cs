@@ -73,6 +73,16 @@ namespace SpeakEasy
 
                 var propertyValue = property.GetValue(segments, new object[0]);
 
+                if (propertyValue == null)
+                {
+                    var message = string.Format(
+                        "Could not merge url segment with name {0} because the value of the segment was null. " +
+                        "When passing in segments for a url make sure each property has a value if it is to be used in the url.",
+                        segmentName);
+
+                    throw new ArgumentException(message);
+                }
+
                 merged = merged.Replace(":" + segmentName, propertyValue.ToString());
 
                 properties.Remove(segmentName);
@@ -80,7 +90,5 @@ namespace SpeakEasy
 
             return new Resource(merged);
         }
-
-
     }
 }
