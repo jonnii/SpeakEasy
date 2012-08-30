@@ -157,12 +157,6 @@ namespace SpeakEasy
                 deserializer,
                 body,
                 webResponse.BuildState());
-
-            //webResponse.StatusCode,
-            //webResponse.ResponseUri,
-            //webResponse.Headers,
-            //webResponse.Cookies,
-            //webResponse.ContentType);
         }
     }
 }
