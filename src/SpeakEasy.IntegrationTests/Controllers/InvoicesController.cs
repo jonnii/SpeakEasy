@@ -37,7 +37,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
             var bodyParts = Request.Content.ReadAsMultipartAsync(streamProvider);
             bodyParts.Wait();
 
-            var fileNames = streamProvider.BodyPartFileNames;
+            var fileNames = streamProvider.Contents;
 
             return message.CreateResponse(HttpStatusCode.Created, fileNames);
         }
