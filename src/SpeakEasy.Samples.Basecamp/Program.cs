@@ -9,9 +9,11 @@ namespace SpeakEasy.Samples.Basecamp
     {
         public static void Main(string[] args)
         {
-            var settings = HttpClientSettings.Default;
-            settings.Authenticator = new BasicAuthenticator("username", "password");
-            settings.UserAgent = new UserAgent("SpeakEasy (username)");
+            var settings = new HttpClientSettings
+            {
+                Authenticator = new BasicAuthenticator("username", "password"),
+                UserAgent = new UserAgent("SpeakEasy (username)")
+            };
 
             var client = HttpClient.Create("https://basecamp.com/1816438/api/v1/", settings);
 
