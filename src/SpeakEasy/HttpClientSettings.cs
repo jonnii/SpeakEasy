@@ -13,26 +13,6 @@ namespace SpeakEasy
     public class HttpClientSettings
     {
         /// <summary>
-        /// Creates the default http client settings, this will add json and xml serializers and set up
-        /// some basic defaults.
-        /// </summary>
-        public static HttpClientSettings Default
-        {
-            get
-            {
-                var settings = new HttpClientSettings();
-
-                settings.Serializers.Add(new JsonDotNetSerializer());
-
-#if FRAMEWORK
-                settings.Serializers.Add(new DotNetXmlSerializer());
-#endif
-
-                return settings;
-            }
-        }
-
-        /// <summary>
         /// Creates a new http client settings with blank defaults
         /// </summary>
         public HttpClientSettings()
@@ -42,6 +22,11 @@ namespace SpeakEasy
             Logger = new NullLogger();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
+
+            Serializers.Add(new JsonDotNetSerializer());
+#if FRAMEWORK
+            Serializers.Add(new DotNetXmlSerializer());
+#endif
         }
 
         /// <summary>
@@ -86,6 +71,14 @@ namespace SpeakEasy
         public INamingConvention NamingConvention { get; set; }
 
         /// <summary>
+        /// Indicates whether or not the http client settings are valid
+        /// </summary>
+        public bool IsValid
+        {
+            get { return Serializers.Any(); }
+        }
+
+        /// <summary>
         /// Configures the give serializer
         /// </summary>
         /// <typeparam name="T">The type of serializer to configure</typeparam>
@@ -98,6 +91,17 @@ namespace SpeakEasy
             foreach (var serializer in serializers)
             {
                 configurationCallback(serializer);
+            }
+        }
+
+        /// <summary>
+        /// Validates the http client settings
+        /// </summary>
+        public void Validate()
+        {
+            if (!Serializers.Any())
+            {
+                throw new HttpException("At least one serializer is required for the http client to function.");
             }
         }
     }

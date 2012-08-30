@@ -1,10 +1,31 @@
-﻿using Machine.Fakes;
+﻿using System;
+using Machine.Fakes;
 using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
 {
     public class HttpClientSpecification
     {
+        [Subject(typeof(HttpClient))]
+        public class when_creating_with_invalid_settings
+        {
+            Establish context = () =>
+            {
+                settings = new HttpClientSettings();
+                settings.Serializers.Clear();
+            };
+
+            Because of = () =>
+                exception = Catch.Exception(() => HttpClient.Create("http://example.com/api", settings));
+
+            It should_throw = () =>
+                exception.ShouldBeOfType<HttpException>();
+
+            static HttpClientSettings settings;
+
+            static Exception exception;
+        }
+
         [Subject(typeof(HttpClient))]
         public class when_getting_collection_resource : with_client
         {

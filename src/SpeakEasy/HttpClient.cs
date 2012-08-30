@@ -12,7 +12,7 @@ namespace SpeakEasy
         /// <returns>A new http client</returns>
         public static IHttpClient Create(string rootUrl)
         {
-            return Create(rootUrl, HttpClientSettings.Default);
+            return Create(rootUrl, new HttpClientSettings());
         }
 
         /// <summary>
@@ -23,6 +23,8 @@ namespace SpeakEasy
         /// <returns>A new http client</returns>
         public static IHttpClient Create(string rootUrl, HttpClientSettings settings)
         {
+            settings.Validate();
+
             var transmissionSettings = new TransmissionSettings(settings.Serializers);
 
             var runner = new RequestRunner(

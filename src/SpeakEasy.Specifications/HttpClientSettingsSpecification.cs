@@ -1,3 +1,4 @@
+using System;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Loggers;
@@ -8,11 +9,8 @@ namespace SpeakEasy.Specifications
     public class HttpClientSettingsSpecification
     {
         [Subject(typeof(HttpClientSettings))]
-        public class in_general
+        public class in_general : with_default_settings
         {
-            Establish context = () =>
-                settings = new HttpClientSettings();
-
             It should_have_null_authenticator = () =>
                 settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
 
@@ -25,7 +23,8 @@ namespace SpeakEasy.Specifications
             It should_have_default_user_agent = () =>
                 settings.UserAgent.Name.ShouldEqual("SpeakEasy");
 
-            static HttpClientSettings settings;
+            It should_be_valid = () =>
+                settings.IsValid.ShouldBeTrue();
         }
 
         [Subject(typeof(HttpClientSettings))]
@@ -39,6 +38,9 @@ namespace SpeakEasy.Specifications
 
             It should_have_xml_deserializer = () =>
                 settings.Serializers.ShouldContain(d => d is DotNetXmlSerializer);
+
+            It should_be_valid = () =>
+                settings.IsValid.ShouldBeTrue();
         }
 
         [Subject(typeof(HttpClientSettings))]
@@ -56,10 +58,35 @@ namespace SpeakEasy.Specifications
             static bool called;
         }
 
+        [Subject(typeof(HttpClientSettings))]
+        public class without_serializers : with_default_settings
+        {
+            Because of = () =>
+                settings.Serializers.Clear();
+
+            It should_not_be_valid = () =>
+                settings.IsValid.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HttpClientSettings))]
+        public class when_validating_invalid_settings : with_default_settings
+        {
+            Establish context = () =>
+                settings.Serializers.Clear();
+
+            Because of = () =>
+                exception = Catch.Exception(() => settings.Validate());
+
+            It should_throw = () =>
+                exception.ShouldBeOfType<HttpException>();
+
+            static Exception exception;
+        }
+
         public class with_default_settings
         {
             Establish context = () =>
-                settings = HttpClientSettings.Default;
+                settings = new HttpClientSettings();
 
             protected static HttpClientSettings settings;
         }

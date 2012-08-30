@@ -13,7 +13,7 @@ namespace SpeakEasy.IntegrationTests
     {
         protected override IHttpClient CreateClient()
         {
-            var settings = HttpClientSettings.Default;
+            var settings = new HttpClientSettings();
             settings.Serializers.Clear();
             settings.Serializers.Add(new DotNetXmlSerializer());
             settings.Logger = new ConsoleLogger();

@@ -41,8 +41,10 @@ namespace SpeakEasy.IntegrationTests
 
         protected virtual IHttpClient CreateClient()
         {
-            var settings = HttpClientSettings.Default;
-            settings.Logger = new ConsoleLogger();
+            var settings = new HttpClientSettings
+            {
+                Logger = new ConsoleLogger()
+            };
 
             return HttpClient.Create(ApiUrl, settings);
         }
