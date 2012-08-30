@@ -10,6 +10,19 @@ namespace SpeakEasy.Specifications
         {
             It should_allow_auto_redirects = () =>
                 request.AllowAutoRedirect.ShouldBeTrue();
+
+            It should_not_have_custom_user_agent = () =>
+                request.HasUserAgent.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HttpRequest))]
+        public class when_custom_user_agent_defined : with_request
+        {
+            Establish context = () =>
+                request.UserAgent = new UserAgent("awesome agent!");
+
+            It should_have_custom_user_agent = () =>
+                request.HasUserAgent.ShouldBeTrue();
         }
 
         [Subject(typeof(HttpRequest))]

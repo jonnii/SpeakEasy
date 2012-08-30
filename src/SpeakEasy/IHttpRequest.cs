@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy
 {
@@ -28,7 +27,12 @@ namespace SpeakEasy
         /// <summary>
         /// The user agent of this http request
         /// </summary>
-        string UserAgent { get; set; }
+        IUserAgent UserAgent { get; set; }
+
+        /// <summary>
+        /// Indicates that this http request has a user agent
+        /// </summary>
+        bool HasUserAgent { get; }
 
         /// <summary>
         /// The number of headers on this http request

@@ -114,9 +114,9 @@ namespace SpeakEasy
             request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
             request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
 
-            if (!string.IsNullOrEmpty(httpRequest.UserAgent))
+            if (httpRequest.HasUserAgent)
             {
-                request.UserAgent = httpRequest.UserAgent;
+                request.UserAgent = httpRequest.UserAgent.Name;
             }
 
             foreach (var header in httpRequest.Headers)

@@ -19,7 +19,12 @@ namespace SpeakEasy
 
         public IRequestBody Body { get; private set; }
 
-        public string UserAgent { get; set; }
+        public IUserAgent UserAgent { get; set; }
+
+        public bool HasUserAgent
+        {
+            get { return UserAgent != null; }
+        }
 
         public abstract string HttpMethod { get; }
 

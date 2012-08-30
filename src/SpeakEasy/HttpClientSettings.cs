@@ -23,7 +23,7 @@ namespace SpeakEasy
                 var settings = new HttpClientSettings();
 
                 settings.Serializers.Add(new JsonDotNetSerializer());
-                
+
 #if FRAMEWORK
                 settings.Serializers.Add(new DotNetXmlSerializer());
 #endif
@@ -41,8 +41,7 @@ namespace SpeakEasy
             Authenticator = new NullAuthenticator();
             Logger = new NullLogger();
             NamingConvention = new DefaultNamingConvention();
-
-            UserAgent = "SpeakEasy";
+            UserAgent = SpeakEasy.UserAgent.SpeakEasy;
         }
 
         /// <summary>
@@ -63,7 +62,7 @@ namespace SpeakEasy
         /// <summary>
         /// The user agent the web client will send when making http requests
         /// </summary>
-        public string UserAgent { get; set; }
+        public IUserAgent UserAgent { get; set; }
 
         /// <summary>
         /// The default serializer

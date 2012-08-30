@@ -68,6 +68,7 @@
     <Compile Include="ILogger.cs" />
     <Compile Include="INamingConvention.cs" />
     <Compile Include="IRequestBody.cs" />
+    <Compile Include="IUserAgent.cs" />
     <Compile Include="NullRequestBody.cs" />
     <Compile Include="NullSerializableBody.cs" />
     <Compile Include="PostRequestBody.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
+    <Compile Include="UserAgent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

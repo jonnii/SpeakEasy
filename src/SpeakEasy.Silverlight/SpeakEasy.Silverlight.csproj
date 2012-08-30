@@ -194,6 +194,9 @@
     <Compile Include="..\SpeakEasy\ITransmissionSettings.cs">
       <Link>ITransmissionSettings.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\IUserAgent.cs">
+      <Link>IUserAgent.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\Loggers\ConsoleLogger.cs">
       <Link>Loggers\ConsoleLogger.cs</Link>
     </Compile>
@@ -268,6 +271,9 @@
     </Compile>
     <Compile Include="..\SpeakEasy\TransmissionSettings.cs">
       <Link>TransmissionSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\UserAgent.cs">
+      <Link>UserAgent.cs</Link>
     </Compile>
     <Compile Include="HttpWebResponseWrapper.Silverlight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

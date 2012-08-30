@@ -24,11 +24,6 @@ namespace SpeakEasy
         Resource Root { get; }
 
         /// <summary>
-        /// Indicates whether or not this http client is authenticated
-        /// </summary>
-        bool IsAuthenticated { get; }
-
-        /// <summary>
         /// Executes an http get request
         /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>

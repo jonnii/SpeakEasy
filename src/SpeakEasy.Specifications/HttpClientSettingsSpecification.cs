@@ -23,7 +23,7 @@ namespace SpeakEasy.Specifications
                 settings.NamingConvention.ShouldBeOfType<DefaultNamingConvention>();
 
             It should_have_default_user_agent = () =>
-                settings.UserAgent.ShouldEqual("SpeakEasy");
+                settings.UserAgent.Name.ShouldEqual("SpeakEasy");
 
             static HttpClientSettings settings;
         }

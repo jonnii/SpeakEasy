@@ -1,6 +1,5 @@
 using System;
 using SpeakEasy.Extensions;
-using SpeakEasy.Loggers;
 
 namespace SpeakEasy
 {
@@ -30,10 +29,13 @@ namespace SpeakEasy
                 transmissionSettings,
                 settings.Authenticator);
 
-            return new HttpClient(runner, settings.NamingConvention)
+            return new HttpClient(
+                runner,
+                settings.NamingConvention,
+                settings.Logger,
+                settings.UserAgent)
             {
                 Root = new Resource(rootUrl),
-                Settings = settings,
                 Logger = settings.Logger
             };
         }
@@ -42,30 +44,29 @@ namespace SpeakEasy
 
         private readonly IResourceMerger merger;
 
-        public HttpClient(IRequestRunner requestRunner, INamingConvention namingConvention)
+        public HttpClient(
+            IRequestRunner requestRunner,
+            INamingConvention namingConvention,
+            ILogger logger,
+            IUserAgent userAgent)
         {
             this.requestRunner = requestRunner;
 
-            merger = new ResourceMerger(namingConvention);
+            UserAgent = userAgent;
+            Logger = logger;
 
-            Settings = new HttpClientSettings();
-            Logger = NullLogger.Instance;
+            merger = new ResourceMerger(namingConvention);
         }
 
         public event EventHandler<BeforeRequestEventArgs> BeforeRequest;
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
-        public ILogger Logger { get; set; }
+        public ILogger Logger { get; private set; }
 
         public Resource Root { get; set; }
 
-        public bool IsAuthenticated
-        {
-            get { return Settings.HasAuthenticator; }
-        }
-
-        public HttpClientSettings Settings { get; set; }
+        public IUserAgent UserAgent { get; private set; }
 
         public IHttpResponse Get(string relativeUrl, object segments = null)
         {
@@ -183,7 +184,7 @@ namespace SpeakEasy
         private IAsyncHttpRequest RunAsync<T>(T request)
             where T : IHttpRequest
         {
-            request.UserAgent = Settings.UserAgent;
+            request.UserAgent = UserAgent;
 
             return new AsyncHttpRequest<T>(requestRunner, request);
         }
@@ -191,7 +192,7 @@ namespace SpeakEasy
         private IHttpResponse Run<T>(T request)
             where T : IHttpRequest
         {
-            request.UserAgent = Settings.UserAgent;
+            request.UserAgent = UserAgent;
 
             OnBeforeRequest(request);
             var response = requestRunner.Run(request);

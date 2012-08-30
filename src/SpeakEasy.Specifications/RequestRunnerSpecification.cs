@@ -32,7 +32,10 @@ namespace SpeakEasy.Specifications
         public class when_building_web_request_with_custom_user_agent : with_request_runner
         {
             Establish context = () =>
-                request.WhenToldTo(r => r.UserAgent).Return("custom user agent");
+            {
+                request.WhenToldTo(r => r.HasUserAgent).Return(true);
+                request.WhenToldTo(r => r.UserAgent).Return(new UserAgent("custom user agent"));
+            };
 
             Because of = () =>
                 webRequest = Subject.BuildWebRequest(request);

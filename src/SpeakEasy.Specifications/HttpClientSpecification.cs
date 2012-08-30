@@ -35,13 +35,13 @@ namespace SpeakEasy.Specifications
         public class when_getting_collection_resource_with_custom_user_agent : with_client
         {
             Establish context = () =>
-                Subject.Settings.UserAgent = "custom user agent";
+                The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
 
             Because of = () =>
                 Subject.Get("companies");
 
             It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRequest>.Matches(p => p.UserAgent == "custom user agent")));
+                The<IRequestRunner>().WasToldTo(r => r.Run(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent")));
         }
 
         [Subject(typeof(HttpClient))]
