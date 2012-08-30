@@ -65,7 +65,7 @@ task CopyTools {
 
 task Test -depends Clean,CopyTools,Compile { 
   # run specs
-  ..\src\packages\Machine.Specifications.0.5.6.0\tools\mspec-clr4.exe .\..\targets\specifications\speakeasy.specifications.dll
+  ..\src\packages\Machine.Specifications.0.5.8\tools\mspec-clr4.exe .\..\targets\specifications\speakeasy.specifications.dll
 
   # run integration tests somehow (need a local nunit-console.exe, or switch to xunit?)
 }
