@@ -36,7 +36,18 @@ namespace SpeakEasy.Samples.RabbitMq
                 truncate = "50000"
             };
 
-            var messages = client.Post(options, "queues/:vhost/:queue/get", new { vhost = "integration", queue = "ErrorQueue" })
+            var resource = client.BuildRelativeResource("queues/:vhost/:queue/get", new
+            {
+                vhost = "integration",
+                queue = "ErrorQueue"
+            });
+
+            var request = new PostRequest(
+                resource, new ObjectRequestBody(options));
+
+            request.AddHeader("Accept", string.Empty);
+
+            var messages = client.Run(request)
                 .OnOk()
                 .As<List<Message>>();
 

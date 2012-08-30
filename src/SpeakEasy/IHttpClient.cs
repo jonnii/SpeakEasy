@@ -167,6 +167,24 @@ namespace SpeakEasy
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
         IHttpResponse Options(string relativeUrl, object segments = null);
+
+        /// <summary>
+        /// Builds 
+        /// </summary>
+        /// <param name="relativeUrl">The relative url</param>
+        /// <param name="segments">Any segments that need to be merged into the url</param>
+        /// <param name="shouldMergeProperties">Whether or not to merge properties into the url</param>
+        /// <returns>A relative resource that can be used to run requests</returns>
+        Resource BuildRelativeResource(string relativeUrl, object segments, bool shouldMergeProperties = true);
+
+        /// <summary>
+        /// Runs an http request
+        /// </summary>
+        /// <typeparam name="T">The type of request to run</typeparam>
+        /// <param name="request">the request</param>
+        /// <returns>A chainable http response</returns>
+        IHttpResponse Run<T>(T request)
+            where T : IHttpRequest;
     }
 }
 

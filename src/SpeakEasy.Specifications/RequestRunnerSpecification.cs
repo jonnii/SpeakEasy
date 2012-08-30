@@ -119,6 +119,21 @@ namespace SpeakEasy.Specifications
             static WebRequest webRequest;
         }
 
+        [Subject(typeof(RequestRunner))]
+        public class when_building_web_request_with_reserved_headers : with_request_runner
+        {
+            Establish context = () =>
+                request.WhenToldTo(r => r.Headers).Return(new[] { new Header("Accept", "sup kids") });
+
+            Because of = () =>
+                webRequest = Subject.BuildWebRequest(request);
+
+            It should_set_reserved_headers = () =>
+                webRequest.Accept.ShouldEqual("sup kids");
+
+            static HttpWebRequest webRequest;
+        }
+
         public class with_request_runner : WithSubject<RequestRunner>
         {
             Establish context = () =>

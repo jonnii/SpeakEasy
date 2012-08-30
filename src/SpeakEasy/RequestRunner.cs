@@ -15,6 +15,12 @@ namespace SpeakEasy
 
         private readonly IAuthenticator authenticator;
 
+        private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
+            new Dictionary<string, Action<HttpWebRequest, string>>
+            {
+                {"Accept", (h, v) => h.Accept = v}
+            };
+
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
             IAuthenticator authenticator)
@@ -119,14 +125,28 @@ namespace SpeakEasy
                 request.UserAgent = httpRequest.UserAgent.Name;
             }
 
+            BuildWebRequestFrameworkSpecific(httpRequest, request);
+
             foreach (var header in httpRequest.Headers)
+            {
+                ApplyHeaderToRequest(header, request);
+            }
+
+            return request;
+        }
+
+        private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
+        {
+            var headerName = header.Name;
+
+            if (reservedHeaderApplicators.ContainsKey(headerName))
+            {
+                reservedHeaderApplicators[headerName](request, header.Value);
+            }
+            else
             {
                 request.Headers[header.Name] = header.Value;
             }
-
-            BuildWebRequestFrameworkSpecific(httpRequest, request);
-
-            return request;
         }
 
         private IHttpWebResponse GetWebResponse(IAsyncResult result)
