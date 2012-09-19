@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace SpeakEasy
 {
-    public class Resource 
+    public class Resource
     {
         private readonly string[] segmentNames;
 
@@ -62,7 +62,7 @@ namespace SpeakEasy
 
             return segmentMatches
                 .Cast<Match>()
-                .Select(m => m.Groups[1].Value.ToLower())
+                .Select(m => m.Groups[1].Value)
                 .ToArray();
         }
 

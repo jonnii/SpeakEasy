@@ -65,8 +65,10 @@ namespace SpeakEasy
 
             foreach (var segmentName in resource.SegmentNames)
             {
+                var lowerSegmentName = segmentName.ToLower();
+
                 PropertyInfo property;
-                if (!properties.TryGetValue(segmentName, out property))
+                if (!properties.TryGetValue(lowerSegmentName, out property))
                 {
                     throw new ArgumentException("Could not find a property matching segment: " + segmentName);
                 }
@@ -85,7 +87,7 @@ namespace SpeakEasy
 
                 merged = merged.Replace(":" + segmentName, propertyValue.ToString());
 
-                properties.Remove(segmentName);
+                properties.Remove(lowerSegmentName);
             }
 
             return new Resource(merged);
