@@ -7,7 +7,7 @@ using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public class MultipartMimeDocumentBody : ISerializableBody
+    internal class MultipartMimeDocumentBody : ISerializableBody
     {
         private const string Crlf = "\r\n";
 

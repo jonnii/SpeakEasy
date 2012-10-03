@@ -3,7 +3,7 @@ namespace SpeakEasy
     /// <summary>
     /// The resource merger is responsible for merging a resource with segments.
     /// </summary>
-    public interface IResourceMerger
+    internal interface IResourceMerger
     {
         /// <summary>
         /// Merges a resource with segments

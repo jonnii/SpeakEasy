@@ -40,7 +40,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new TestHttpRequest(new Resource("http://example.com/api/companies"));
 
-            protected static TestHttpRequest request;
+            internal static TestHttpRequest request;
         }
     }
 }

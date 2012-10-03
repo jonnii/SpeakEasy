@@ -12,7 +12,7 @@ namespace SpeakEasy
 
         public string Value { get; private set; }
 
-        public ParsedHeaderValue ParseValue()
+        internal ParsedHeaderValue ParseValue()
         {
             var parser = new HeaderParser(Value);
             return parser.Parse();

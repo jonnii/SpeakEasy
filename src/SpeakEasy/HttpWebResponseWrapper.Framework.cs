@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SpeakEasy
 {
-    public partial class HttpWebResponseWrapper
+    internal partial class HttpWebResponseWrapper
     {
         public HttpResponseState BuildState()
         {

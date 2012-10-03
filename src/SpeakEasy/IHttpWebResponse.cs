@@ -6,7 +6,7 @@ namespace SpeakEasy
     /// <summary>
     /// A simple wrapper around an HttpWebResponse
     /// </summary>
-    public interface IHttpWebResponse : IDisposable
+    internal interface IHttpWebResponse : IDisposable
     {
         /// <summary>
         /// Indicates whether or not the web response has content

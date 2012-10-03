@@ -1,6 +1,6 @@
 namespace SpeakEasy
 {
-    public sealed class PatchRequest : PostLikeRequest
+    internal sealed class PatchRequest : PostLikeRequest
     {
         public PatchRequest(Resource resource)
             : base(resource)

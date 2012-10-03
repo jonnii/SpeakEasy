@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
-    public class FileUploadByteArray : FileUpload
+    internal class FileUploadByteArray : FileUpload
     {
         private readonly byte[] contents;
 
@@ -15,7 +15,13 @@ namespace SpeakEasy
 
         public override Task WriteToAsync(Stream stream)
         {
-            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, contents, 0, contents.Length, null);
+            return Task.Factory.FromAsync(
+                stream.BeginWrite,
+                stream.EndWrite,
+                contents,
+                0,
+                contents.Length,
+                null);
         }
     }
 }

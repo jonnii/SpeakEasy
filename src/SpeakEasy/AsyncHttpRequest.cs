@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
-    public class AsyncHttpRequest<T> : IAsyncHttpRequest
+    internal class AsyncHttpRequest<T> : IAsyncHttpRequest
         where T : IHttpRequest
     {
         private readonly IRequestRunner runner;

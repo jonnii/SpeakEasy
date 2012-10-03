@@ -2,7 +2,7 @@ using System.Text;
 
 namespace SpeakEasy
 {
-    public class PostRequestBody : IRequestBody
+    internal class PostRequestBody : IRequestBody
     {
         private readonly Resource resource;
 

@@ -28,7 +28,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new HeadRequest(new Resource("http://example.com/companies"));
 
-            protected static HeadRequest request;
+            internal static HeadRequest request;
         }
     }
 }

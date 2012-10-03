@@ -28,7 +28,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new PatchRequest(new Resource("http://example.com/companies"));
 
-            protected static PatchRequest request;
+            internal static PatchRequest request;
         }
     }
 }

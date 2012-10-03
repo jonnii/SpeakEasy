@@ -1,6 +1,6 @@
 namespace SpeakEasy
 {
-    public class ParsedHeaderParameter
+    internal class ParsedHeaderParameter
     {
         public ParsedHeaderParameter(string name, string value)
         {

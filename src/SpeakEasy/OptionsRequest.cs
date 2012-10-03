@@ -1,6 +1,6 @@
 namespace SpeakEasy
 {
-    public sealed class OptionsRequest : GetLikeRequest
+    internal sealed class OptionsRequest : GetLikeRequest
     {
         public OptionsRequest(Resource resource)
             : base(resource)

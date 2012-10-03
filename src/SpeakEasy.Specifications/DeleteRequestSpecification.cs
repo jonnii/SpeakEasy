@@ -28,7 +28,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new DeleteRequest(new Resource("http://example.com/companies"));
 
-            protected static DeleteRequest request;
+            internal static DeleteRequest request;
         }
     }
 }

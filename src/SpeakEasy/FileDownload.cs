@@ -4,7 +4,7 @@ using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public class FileDownload : IFile
+    internal class FileDownload : IFile
     {
         private readonly Stream body;
 

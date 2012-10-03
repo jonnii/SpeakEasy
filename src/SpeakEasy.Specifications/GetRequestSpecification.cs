@@ -41,7 +41,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new GetRequest(new Resource("http://example.com/companies"));
 
-            protected static GetRequest request;
+            internal static GetRequest request;
         }
     }
 }

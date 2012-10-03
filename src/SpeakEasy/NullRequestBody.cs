@@ -1,6 +1,6 @@
 namespace SpeakEasy
 {
-    public class NullRequestBody : IRequestBody
+    internal class NullRequestBody : IRequestBody
     {
         public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
         {

@@ -1,6 +1,6 @@
 namespace SpeakEasy
 {
-    public sealed class PutRequest : PostLikeRequest
+    internal sealed class PutRequest : PostLikeRequest
     {
         public PutRequest(Resource resource)
             : base(resource)

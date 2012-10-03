@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Extensions
 {
-    public static class StreamExtensions
+    internal static class StreamExtensions
     {
         public static byte[] ReadAsByteArray(this Stream input, int bufferSize = 16 * 1024)
         {

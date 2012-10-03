@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SpeakEasy
 {
-    public class HeaderParser
+    internal class HeaderParser
     {
         private readonly string value;
 

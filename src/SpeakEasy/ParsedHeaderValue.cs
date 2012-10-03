@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SpeakEasy
 {
-    public class ParsedHeaderValue
+    internal class ParsedHeaderValue
     {
         private readonly IDictionary<string, ParsedHeaderParameter[]> parameters;
 

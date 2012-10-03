@@ -4,7 +4,7 @@ using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public class FileUploadStream : FileUpload
+    internal class FileUploadStream : FileUpload
     {
         private readonly Stream contents;
 

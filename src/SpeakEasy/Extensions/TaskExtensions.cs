@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Extensions
 {
-    public static class TaskExtensions
+    internal static class TaskExtensions
     {
         /// <summary>
         /// Synchronously iterates over an enumerable of tasks with exception handling. For more information see:

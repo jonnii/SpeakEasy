@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
-    public class NullSerializableBody : ISerializableBody
+    internal class NullSerializableBody : ISerializableBody
     {
         private readonly ITransmissionSettings transmissionSettings;
 

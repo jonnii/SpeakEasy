@@ -26,7 +26,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 request = new PutRequest(new Resource("http://example.com/companies"));
 
-            protected static PutRequest request;
+            internal static PutRequest request;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Net;
 
 namespace SpeakEasy
 {
-    public partial class HttpWebResponseWrapper : IHttpWebResponse
+    internal partial class HttpWebResponseWrapper : IHttpWebResponse
     {
         private readonly HttpWebResponse response;
 

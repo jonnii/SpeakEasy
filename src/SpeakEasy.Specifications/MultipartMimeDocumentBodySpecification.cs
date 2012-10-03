@@ -84,7 +84,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 body = new MultipartMimeDocumentBody(new Resource("http://fribble.com"), new[] { An<IFile>() });
 
-            protected static MultipartMimeDocumentBody body;
+            internal static MultipartMimeDocumentBody body;
         }
     }
 }
