@@ -169,7 +169,7 @@ namespace SpeakEasy
             }
         }
 
-        internal IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)
+        public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)
         {
             var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
 
