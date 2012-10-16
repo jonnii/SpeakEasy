@@ -30,7 +30,7 @@ Show me the goods
         .OnOk().As<List<Image>>();
     
     // Asynchronous
-    client.GetAsync("companies/:id", new { id = 5 }).
+    client.GetAsync("companies/:id", new { id = 5 })
         .OnComplete(r => r.OnOk(UpdateCompaniesCallback))
         .Start();
 
