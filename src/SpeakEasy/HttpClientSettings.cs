@@ -24,9 +24,7 @@ namespace SpeakEasy
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
 
             Serializers.Add(new JsonDotNetSerializer());
-#if FRAMEWORK
             Serializers.Add(new DotNetXmlSerializer());
-#endif
         }
 
         /// <summary>
