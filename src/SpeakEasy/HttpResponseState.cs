@@ -6,7 +6,7 @@ namespace SpeakEasy
     /// <summary>
     /// The http response state contains the details of an http response, for example cookies and headers.
     /// </summary>
-    public partial class HttpResponseState
+    public class HttpResponseState
     {
         public HttpResponseState(HttpStatusCode statusCode, string statusDescription, Uri requestUrl, Header[] headers, Cookie[] cookies, string contentType)
         {

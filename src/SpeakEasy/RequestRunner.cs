@@ -7,7 +7,7 @@ using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public partial class RequestRunner : IRequestRunner
+    public class RequestRunner : IRequestRunner
     {
         private const int DefaultBufferSize = 0x100;
 
@@ -80,7 +80,14 @@ namespace SpeakEasy
             {
                 if (serializedBody.ContentLength != -1)
                 {
-                    //webRequest.ContentLength = serializedBody.ContentLength;
+                    var getRequestStream = Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest);
+
+                    yield return getRequestStream;
+
+                    using (var requestStream = getRequestStream.Result)
+                    {
+                        yield return requestStream.WriteAsync(new byte[0], 0, 0);
+                    }
                 }
             }
 
@@ -104,8 +111,6 @@ namespace SpeakEasy
             }
         }
 
-        partial void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest);
-
         public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
@@ -124,8 +129,6 @@ namespace SpeakEasy
             //{
             //    request.UserAgent = httpRequest.UserAgent.Name;
             //}
-
-            BuildWebRequestFrameworkSpecific(httpRequest, request);
 
             foreach (var header in httpRequest.Headers)
             {

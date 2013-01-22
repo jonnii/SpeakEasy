@@ -3,7 +3,7 @@ using System.Net;
 
 namespace SpeakEasy
 {
-    public abstract partial class HttpRequest : IHttpRequest
+    public abstract class HttpRequest : IHttpRequest
     {
         private readonly List<Header> headers = new List<Header>();
 
