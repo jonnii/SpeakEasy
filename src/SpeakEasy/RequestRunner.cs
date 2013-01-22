@@ -80,7 +80,7 @@ namespace SpeakEasy
             {
                 if (serializedBody.ContentLength != -1)
                 {
-                    webRequest.ContentLength = serializedBody.ContentLength;
+                    //webRequest.ContentLength = serializedBody.ContentLength;
                 }
             }
 
@@ -117,13 +117,13 @@ namespace SpeakEasy
             request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
-            request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            //request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
             request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
 
-            if (httpRequest.HasUserAgent)
-            {
-                request.UserAgent = httpRequest.UserAgent.Name;
-            }
+            //if (httpRequest.HasUserAgent)
+            //{
+            //    request.UserAgent = httpRequest.UserAgent.Name;
+            //}
 
             BuildWebRequestFrameworkSpecific(httpRequest, request);
 

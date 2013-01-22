@@ -42,7 +42,8 @@ namespace SpeakEasy.Extensions
 
             while (true)
             {
-                var read = Task<int>.Factory.FromAsync(responseStream.BeginRead, responseStream.EndRead, buffer, 0, buffer.Length, null);
+                var read = responseStream.ReadAsync(buffer, 0, buffer.Length);
+
                 yield return read;
 
                 if (read.Result == 0)

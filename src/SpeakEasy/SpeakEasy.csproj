@@ -1,39 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SpeakEasy</RootNamespace>
     <AssemblyName>SpeakEasy</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\targets\speakeasy\</OutputPath>
-    <DefineConstants>DEBUG;FRAMEWORK</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\targets\speakeasy\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
-    <DefineConstants>FRAMEWORK</DefineConstants>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
@@ -43,6 +47,7 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="DefaultNamingConvention.cs" />
     <Compile Include="DeleteRequest.cs" />
@@ -51,87 +56,87 @@
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="FileDownload.cs" />
+    <Compile Include="FileUpload.cs" />
     <Compile Include="FileUploadBody.cs" />
     <Compile Include="FileUploadByteArray.cs" />
     <Compile Include="FileUploadPath.cs" />
     <Compile Include="FileUploadStream.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="BeforeRequestEventArgs.cs" />
-    <Compile Include="HeaderParser.cs" />
-    <Compile Include="HttpRequest.Framework.cs" />
-    <Compile Include="HttpResponseState.cs" />
-    <Compile Include="HttpResponseState.Framework.cs" />
-    <Compile Include="HttpWebResponseWrapper.Framework.cs" />
-    <Compile Include="IAsyncHttpRequest.cs" />
-    <Compile Include="IFile.cs" />
-    <Compile Include="IHttpRequest.Framework.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="INamingConvention.cs" />
-    <Compile Include="IRequestBody.cs" />
-    <Compile Include="IUserAgent.cs" />
-    <Compile Include="NullRequestBody.cs" />
-    <Compile Include="NullSerializableBody.cs" />
-    <Compile Include="PostRequestBody.cs" />
-    <Compile Include="IResourceMerger.cs" />
-    <Compile Include="ISerializableBody.cs" />
-    <Compile Include="Loggers\ConsoleLogger.cs" />
-    <Compile Include="Loggers\NullLogger.cs" />
-    <Compile Include="MultipartMimeDocumentBody.cs" />
-    <Compile Include="ObjectRequestBody.cs" />
-    <Compile Include="ParsedHeaderValue.cs" />
-    <Compile Include="ParsedHeaderParameter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestRunner.Framework.cs" />
-    <Compile Include="ResourceMerger.cs" />
-    <Compile Include="SerializableByteArray.cs" />
-    <Compile Include="SerializerException.cs" />
-    <Compile Include="Serializers\NullSerializer.cs" />
-    <Compile Include="FileUpload.cs" />
     <Compile Include="GetLikeRequest.cs" />
     <Compile Include="GetRequest.cs" />
+    <Compile Include="Header.cs" />
+    <Compile Include="HeaderParser.cs" />
     <Compile Include="HeadRequest.cs" />
-    <Compile Include="HttpWebResponseWrapper.cs" />
-    <Compile Include="IAuthenticator.cs" />
-    <Compile Include="IHttpWebResponse.cs" />
-    <Compile Include="IRequestRunner.cs" />
-    <Compile Include="IHttpRequest.cs" />
-    <Compile Include="ITransmissionSettings.cs" />
-    <Compile Include="OptionsRequest.cs" />
-    <Compile Include="Parameter.cs" />
-    <Compile Include="PatchRequest.cs" />
-    <Compile Include="PostLikeRequest.cs" />
-    <Compile Include="PostRequest.cs" />
-    <Compile Include="PutRequest.cs" />
-    <Compile Include="RequestRunner.cs" />
+    <Compile Include="HttpClient.cs" />
     <Compile Include="HttpClientSettings.cs" />
     <Compile Include="HttpException.cs" />
     <Compile Include="HttpRequest.cs" />
-    <Compile Include="IHttpClient.cs" />
-    <Compile Include="IHttpResponse.cs" />
-    <Compile Include="IHttpResponseHandler.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="Resource.cs" />
-    <Compile Include="HttpClient.cs" />
+    <Compile Include="HttpRequest.Framework.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="HttpResponseHandler.cs" />
-    <Compile Include="Serializers\JsonDotNetSerializer.cs" />
+    <Compile Include="HttpResponseState.cs" />
+    <Compile Include="HttpResponseState.Framework.cs" />
+    <Compile Include="HttpWebResponseWrapper.cs" />
+    <Compile Include="HttpWebResponseWrapper.Framework.cs" />
+    <Compile Include="IAsyncHttpRequest.cs" />
+    <Compile Include="IAuthenticator.cs" />
+    <Compile Include="IFile.cs" />
+    <Compile Include="IHttpClient.cs" />
+    <Compile Include="IHttpRequest.cs" />
+    <Compile Include="IHttpRequest.Framework.cs" />
+    <Compile Include="IHttpResponse.cs" />
+    <Compile Include="IHttpResponseHandler.cs" />
+    <Compile Include="IHttpWebResponse.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="INamingConvention.cs" />
+    <Compile Include="IRequestBody.cs" />
+    <Compile Include="IRequestRunner.cs" />
+    <Compile Include="IResourceMerger.cs" />
+    <Compile Include="ISerializableBody.cs" />
+    <Compile Include="ISerializer.cs" />
+    <Compile Include="ITransmissionSettings.cs" />
+    <Compile Include="IUserAgent.cs" />
+    <Compile Include="Loggers\ConsoleLogger.cs" />
+    <Compile Include="Loggers\NullLogger.cs" />
+    <Compile Include="MultipartMimeDocumentBody.cs" />
+    <Compile Include="NullRequestBody.cs" />
+    <Compile Include="NullSerializableBody.cs" />
+    <Compile Include="ObjectRequestBody.cs" />
+    <Compile Include="OptionsRequest.cs" />
+    <Compile Include="Parameter.cs" />
+    <Compile Include="ParsedHeaderParameter.cs" />
+    <Compile Include="ParsedHeaderValue.cs" />
+    <Compile Include="PatchRequest.cs" />
+    <Compile Include="PostLikeRequest.cs" />
+    <Compile Include="PostRequest.cs" />
+    <Compile Include="PostRequestBody.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PutRequest.cs" />
+    <Compile Include="RequestRunner.cs" />
+    <Compile Include="RequestRunner.Framework.cs" />
+    <Compile Include="Resource.cs" />
+    <Compile Include="ResourceMerger.cs" />
+    <Compile Include="SerializableByteArray.cs" />
+    <Compile Include="SerializerException.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
+    <Compile Include="Serializers\JsonDotNetSerializer.cs" />
+    <Compile Include="Serializers\NullSerializer.cs" />
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="UserAgent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.4.5.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.XML" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

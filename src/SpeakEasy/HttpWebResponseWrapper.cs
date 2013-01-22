@@ -53,7 +53,7 @@ namespace SpeakEasy
 
         public void Dispose()
         {
-            response.Close();
+            response.Dispose();
         }
     }
 }

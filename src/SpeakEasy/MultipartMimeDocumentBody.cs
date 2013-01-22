@@ -77,15 +77,14 @@ namespace SpeakEasy
         private Task WriteFooter(Stream stream)
         {
             var footer = DefaultEncoding.GetBytes(GetFooter());
-            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, footer, 0, footer.Length, null);
+            return stream.WriteAsync(footer, 0, footer.Length);
         }
 
         private Task WriteParameter(Stream stream, Parameter parameter)
         {
             var formattedParameter = GetFormattedParameter(parameter);
             var encoded = DefaultEncoding.GetBytes(formattedParameter);
-
-            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, encoded, 0, encoded.Length, null);
+            return stream.WriteAsync(encoded, 0, encoded.Length);
         }
 
         private IEnumerable<Task> WriteFile(Stream stream, IFile file)
@@ -93,12 +92,12 @@ namespace SpeakEasy
             var fileHeader = GetFileHeader(file);
 
             var encoded = DefaultEncoding.GetBytes(fileHeader);
-            yield return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, encoded, 0, encoded.Length, null);
+            yield return stream.WriteAsync(encoded, 0, encoded.Length);
 
             yield return file.WriteToAsync(stream);
 
             var crlf = DefaultEncoding.GetBytes(Crlf);
-            yield return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, crlf, 0, crlf.Length, null);
+            yield return stream.WriteAsync(crlf, 0, crlf.Length);
         }
 
         public string GetFileHeader(IFile file)

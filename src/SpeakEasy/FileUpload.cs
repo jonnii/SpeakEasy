@@ -15,10 +15,10 @@ namespace SpeakEasy
             return new FileUploadStream(name, fileName, contents);
         }
 
-        public static FileUpload FromPath(string name, string filePath)
-        {
-            return new FileUploadPath(name, filePath);
-        }
+        //public static FileUpload FromPath(string name, string filePath)
+        //{
+        //    return new FileUploadPath(name, filePath);
+        //}
 
         protected FileUpload(string name, string fileName)
         {

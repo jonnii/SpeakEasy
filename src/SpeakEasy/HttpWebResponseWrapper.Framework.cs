@@ -1,6 +1,4 @@
-﻿#if FRAMEWORK
-
-using System.Linq;
+﻿using System.Linq;
 
 namespace SpeakEasy
 {
@@ -19,12 +17,10 @@ namespace SpeakEasy
                 response.ResponseUri,
                 headers,
                 cookies,
-                response.ContentType,
-                response.Server,
-                response.ContentEncoding,
-                response.LastModified);
+                response.ContentType);
+            //response.Server,
+            //response.ContentEncoding,
+            //response.LastModified);
         }
     }
 }
-
-#endif

@@ -9,14 +9,14 @@ namespace SpeakEasy.Loggers
     {
         public void BeforeRequest(IHttpRequest request)
         {
-            Console.WriteLine("Running request");
-            Console.WriteLine(request);
+            //Console.WriteLine("Running request");
+            //Console.WriteLine(request);
         }
 
         public void AfterRequest(IHttpRequest request, IHttpResponse response)
         {
-            Console.WriteLine("Received Response");
-            Console.WriteLine(response);
+            //Console.WriteLine("Received Response");
+            //Console.WriteLine(response);
         }
     }
 }

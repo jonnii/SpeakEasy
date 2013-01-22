@@ -33,7 +33,7 @@ namespace SpeakEasy
 
             var properties = segments
                 .GetType()
-                .GetProperties()
+                .GetRuntimeProperties()
                 .ToDictionary(p => p.Name.ToLower());
 
             var mergedResource = MergeUrlSegments(resource, segments, properties);
