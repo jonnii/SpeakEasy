@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using SpeakEasy.Extensions;
 
@@ -18,7 +19,7 @@ namespace SpeakEasy
         private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
             new Dictionary<string, Action<HttpWebRequest, string>>
             {
-                {"Accept", (h, v) => h.Accept = v}
+                {"Accept", (h, v) => h.Accept = v},
             };
 
         public RequestRunner(
@@ -48,94 +49,80 @@ namespace SpeakEasy
             }
         }
 
-        public Task<IHttpResponse> RunAsync(IHttpRequest request)
+        public async Task<IHttpResponse> RunAsync(IHttpRequest request)
         {
-            var completionSource = new TaskCompletionSource<IHttpResponse>();
-
-            RunWebRequestAsync(request, completionSource).Iterate(completionSource);
-
-            return completionSource.Task;
-        }
-
-        public IEnumerable<Task> RunWebRequestAsync(IHttpRequest httpRequest, TaskCompletionSource<IHttpResponse> streamCompletionSource)
-        {
-            var webRequest = BuildWebRequest(httpRequest);
-
-            var serializedBody = httpRequest.Body.Serialize(transmissionSettings);
-
-            webRequest.ContentType = serializedBody.ContentType;
-
-            if (serializedBody.HasContent)
+            using (var httpRequest = BuildWebRequest(request))
             {
-                var getRequestStream = Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest);
+                var serializedBody = request.Body.Serialize(transmissionSettings);
 
-                yield return getRequestStream;
+                httpRequest.Headers.Add("ContentType", serializedBody.ContentType);
 
-                using (var requestStream = getRequestStream.Result)
+                if (serializedBody.HasContent)
                 {
-                    yield return serializedBody.WriteTo(requestStream);
+                    var stream = new MemoryStream();
+                    await serializedBody.WriteTo(stream);
+                    httpRequest.Content = new StreamContent(stream);
                 }
-            }
-            else
-            {
-                if (serializedBody.ContentLength != -1)
+
+                var client = new System.Net.Http.HttpClient();
+                using (var response = await client.SendAsync(httpRequest))
                 {
-                    var getRequestStream = Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest);
+                    var responseStream = await response.Content.ReadAsStreamAsync();
+                    var wrappedResponse = GetWebResponse(response);
 
-                    yield return getRequestStream;
+                    var localStream = new MemoryStream();
+                    await responseStream.CopyToAsync(localStream);
+                    localStream.Position = 0;
 
-                    using (var requestStream = getRequestStream.Result)
-                    {
-                        yield return requestStream.WriteAsync(new byte[0], 0, 0);
-                    }
-                }
-            }
-
-            var getResponse = Task.Factory.FromAsync<IHttpWebResponse>(webRequest.BeginGetResponse, GetWebResponse, webRequest);
-            yield return getResponse;
-
-            using (var response = getResponse.Result)
-            {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    var bufferSize = response.ContentLength > 0
-                        ? response.ContentLength
-                        : DefaultBufferSize;
-
-                    var readResponseStream = responseStream.ReadStreamAsync(bufferSize);
-                    yield return readResponseStream;
-
-                    var webResponse = CreateHttpResponse(response, readResponseStream.Result);
-                    streamCompletionSource.TrySetResult(webResponse);
+                    return CreateHttpResponse(wrappedResponse, localStream);
                 }
             }
         }
 
-        public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
+        public HttpRequestMessage BuildWebRequest(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
 
-            var url = httpRequest.BuildRequestUrl();
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            var request = new HttpRequestMessage(
+                GetHttpMethod(httpRequest.HttpMethod),
+                httpRequest.BuildRequestUrl());
 
-            request.UseDefaultCredentials = false;
-            request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-            request.Credentials = httpRequest.Credentials;
-            request.Method = httpRequest.HttpMethod;
-            //request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
+            request.Headers.Add(
+                "Accept",
+                string.Join(", ", transmissionSettings.DeserializableMediaTypes));
 
-            //if (httpRequest.HasUserAgent)
+            //request.UseDefaultCredentials = false;
+            //request.Credentials = httpRequest.Credentials;
+            //request.Method = httpRequest.HttpMethod;
+            //request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
+
+            //foreach (var header in httpRequest.Headers)
             //{
-            //    request.UserAgent = httpRequest.UserAgent.Name;
+            //    ApplyHeaderToRequest(header, request);
             //}
 
-            foreach (var header in httpRequest.Headers)
-            {
-                ApplyHeaderToRequest(header, request);
-            }
-
             return request;
+        }
+
+        private HttpMethod GetHttpMethod(string httpMethod)
+        {
+            switch (httpMethod)
+            {
+                case "GET":
+                    return HttpMethod.Get;
+                case "DELETE":
+                    return HttpMethod.Delete;
+                case "HEAD":
+                    return HttpMethod.Head;
+                case "OPTIONS":
+                    return HttpMethod.Options;
+                case "POST":
+                    return HttpMethod.Post;
+                case "PUT":
+                    return HttpMethod.Put;
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
@@ -152,24 +139,9 @@ namespace SpeakEasy
             }
         }
 
-        private IHttpWebResponse GetWebResponse(IAsyncResult result)
+        private IHttpWebResponse GetWebResponse(HttpResponseMessage result)
         {
-            var webRequest = (WebRequest)result.AsyncState;
-
-            try
-            {
-                return new HttpWebResponseWrapper((HttpWebResponse)webRequest.EndGetResponse(result));
-            }
-            catch (WebException wex)
-            {
-                var innerResponse = wex.Response;
-                if (innerResponse != null)
-                {
-                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-                }
-
-                throw;
-            }
+            return new HttpWebResponseWrapper(result);
         }
 
         public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)

@@ -76,7 +76,6 @@
     <Compile Include="HttpResponseState.cs" />
     <Compile Include="HttpResponseState.Framework.cs" />
     <Compile Include="HttpWebResponseWrapper.cs" />
-    <Compile Include="HttpWebResponseWrapper.Framework.cs" />
     <Compile Include="IAsyncHttpRequest.cs" />
     <Compile Include="IAuthenticator.cs" />
     <Compile Include="IFile.cs" />

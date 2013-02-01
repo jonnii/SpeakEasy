@@ -1,13 +1,16 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 
 namespace SpeakEasy
 {
-    internal partial class HttpWebResponseWrapper : IHttpWebResponse
+    internal class HttpWebResponseWrapper : IHttpWebResponse
     {
-        private readonly HttpWebResponse response;
+        private readonly HttpResponseMessage response;
 
-        public HttpWebResponseWrapper(HttpWebResponse response)
+        public HttpWebResponseWrapper(HttpResponseMessage response)
         {
             this.response = response;
         }
@@ -19,17 +22,34 @@ namespace SpeakEasy
 
         public string ContentType
         {
-            get { return response.ContentType; }
+            get { return response.Content.Headers.ContentType.ToString(); }
         }
 
         public long ContentLength
         {
-            get { return response.ContentLength; }
+            get { return response.Content.Headers.ContentLength.Value; }
         }
 
-        public Stream GetResponseStream()
+        public HttpResponseState BuildState()
         {
-            return response.GetResponseStream();
+            var headers = response.Headers
+                .Select(n => new Header(n.Key.ToLowerInvariant(), string.Join(", ", n.Value)))
+                .ToArray();
+
+            //response.
+
+            //var cookies = response.Cookies.Cast<System.Net.Cookie>().Select(BuildCookie).ToArray();
+
+            return new HttpResponseState(
+                response.StatusCode,
+                "",//response.StatusDescription,
+                new Uri("http://example.com"), //response.ResponseUri,
+                headers,
+                new Cookie[0],
+                response.Content.Headers.ContentType.ToString());
+            //response.Server,
+            //response.ContentEncoding,
+            //response.LastModified);
         }
 
         private Cookie BuildCookie(System.Net.Cookie cookie)

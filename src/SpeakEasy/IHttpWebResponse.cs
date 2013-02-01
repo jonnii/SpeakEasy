@@ -27,7 +27,7 @@ namespace SpeakEasy
         /// Gets the response stream
         /// </summary>
         /// <returns>The response stream</returns>
-        Stream GetResponseStream();
+        //Stream GetResponseStream();
 
         /// <summary>
         /// Builds the http response state from this http web response
