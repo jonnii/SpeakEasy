@@ -24,6 +24,11 @@ namespace SpeakEasy
         {
             get
             {
+                if (response.Content.Headers.ContentType == null)
+                {
+                    return string.Empty;
+                }
+
                 return response.Content.Headers.ContentType.ToString();
             }
         }
@@ -46,13 +51,18 @@ namespace SpeakEasy
 
             //var cookies = response.Cookies.Cast<System.Net.Cookie>().Select(BuildCookie).ToArray();
 
+            var contentType =
+                response.Content.Headers.ContentType == null
+                    ? null
+                    : response.Content.Headers.ContentType.ToString();
+
             return new HttpResponseState(
                 response.StatusCode,
                 "",//response.StatusDescription,
                 new Uri("http://example.com"), //response.ResponseUri,
                 headers,
                 new Cookie[0],
-                response.Content.Headers.ContentType.ToString());
+                contentType);
             //response.Server,
             //response.ContentEncoding,
             //response.LastModified);

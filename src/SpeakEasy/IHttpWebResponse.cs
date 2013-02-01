@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace SpeakEasy
 {
@@ -22,12 +21,6 @@ namespace SpeakEasy
         /// The content length of the web response
         /// </summary>
         long ContentLength { get; }
-
-        /// <summary>
-        /// Gets the response stream
-        /// </summary>
-        /// <returns>The response stream</returns>
-        //Stream GetResponseStream();
 
         /// <summary>
         /// Builds the http response state from this http web response
