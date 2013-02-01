@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{5B4F3026
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{BD15F88B-14E7-4579-A5C3-6895F1695EDE}"
 	ProjectSection(SolutionItems) = preProject
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

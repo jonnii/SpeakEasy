@@ -16,7 +16,10 @@ namespace SpeakEasy
                 webRequest.ClientCertificates = httpRequest.ClientCertificates;
             }
 
-            webRequest.Proxy = httpRequest.Proxy;
+            if (httpRequest.Proxy != null)
+            {
+                webRequest.Proxy = httpRequest.Proxy;
+            }
 
             if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
             {
