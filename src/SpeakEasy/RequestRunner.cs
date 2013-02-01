@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using SpeakEasy.Extensions;
 
@@ -55,13 +56,13 @@ namespace SpeakEasy
             {
                 var serializedBody = request.Body.Serialize(transmissionSettings);
 
-                httpRequest.Headers.Add("ContentType", serializedBody.ContentType);
-
                 if (serializedBody.HasContent)
                 {
                     var stream = new MemoryStream();
                     await serializedBody.WriteTo(stream);
+                    stream.Position = 0;
                     httpRequest.Content = new StreamContent(stream);
+                    httpRequest.Content.Headers.Add("Content-Type", serializedBody.ContentType);
                 }
 
                 var client = new System.Net.Http.HttpClient();

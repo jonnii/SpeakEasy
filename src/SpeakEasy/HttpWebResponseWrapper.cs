@@ -22,12 +22,18 @@ namespace SpeakEasy
 
         public string ContentType
         {
-            get { return response.Content.Headers.ContentType.ToString(); }
+            get
+            {
+                return response.Content.Headers.ContentType.ToString();
+            }
         }
 
         public long ContentLength
         {
-            get { return response.Content.Headers.ContentLength.Value; }
+            get
+            {
+                return response.Content.Headers.ContentLength.Value;
+            }
         }
 
         public HttpResponseState BuildState()
