@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
@@ -45,33 +44,22 @@ namespace SpeakEasy
             return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
-        public Task WriteTo(Stream stream)
-        {
-            var completionSource = new TaskCompletionSource<string>();
-
-            WriteToAsync(stream, completionSource).Iterate(completionSource);
-
-            return completionSource.Task;
-        }
-
-        private IEnumerable<Task> WriteToAsync(Stream stream, TaskCompletionSource<string> completionSource)
+        public async Task WriteTo(Stream stream)
         {
             foreach (var parameter in resource.Parameters)
             {
-                yield return WriteParameter(stream, parameter);
+                await WriteParameter(stream, parameter);
             }
 
             foreach (var file in files)
             {
                 foreach (var step in WriteFile(stream, file))
                 {
-                    yield return step;
+                    await step;
                 }
             }
 
-            yield return WriteFooter(stream);
-
-            completionSource.TrySetResult("Done!");
+            await WriteFooter(stream);
         }
 
         private Task WriteFooter(Stream stream)
