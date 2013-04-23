@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace SpeakEasy
@@ -33,10 +34,20 @@ namespace SpeakEasy
             var enumerable = Value as Array;
 
             var value = enumerable != null
-                ? string.Join(",", enumerable.Cast<object>().Select(s => s.ToString()))
-                : Value.ToString();
+                ? string.Join(",", enumerable.Cast<object>().Select(ToQueryStringValue))
+                : ToQueryStringValue(Value);
 
             return string.Concat(Name, "=", Uri.EscapeUriString(value));
+        }
+
+        private string ToQueryStringValue(object value)
+        {
+            if (value is DateTime)
+            {
+                return ((DateTime)value).ToString("s", CultureInfo.InvariantCulture);
+            }
+
+            return value.ToString();
         }
     }
 }
