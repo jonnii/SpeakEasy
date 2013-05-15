@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.13.4
+
+  * update packages
+
 ## 0.1.13.2
 
   * when creating a query string with a datetime format it using an invariant culture
