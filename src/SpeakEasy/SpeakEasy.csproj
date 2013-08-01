@@ -114,17 +114,18 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="HttpResponseHandler.cs" />
-    <Compile Include="Serializers\JsonDotNetSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
     <Compile Include="Serializers\Serializer.cs" />
+    <Compile Include="Serializers\DefaultJsonSerializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
+    <Compile Include="SimpleJson.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="UserAgent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="SpeakEasy, Version=0.1.13.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.5.0.5\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\SpeakEasy.0.1.13.4\lib\net40\SpeakEasy.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net" />
