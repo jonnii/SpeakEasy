@@ -5,17 +5,17 @@ using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications.Serializers
 {
-    public class SimpleJsonSerializerSpecification
+    public class DefaultJsonSerializerSpecification
     {
-        [Subject(typeof(SimpleJsonSerializer))]
-        public class in_general : WithSubject<SimpleJsonSerializer>
+        [Subject(typeof(DefaultJsonSerializer))]
+        public class in_general : WithSubject<DefaultJsonSerializer>
         {
             It should_have_deserialization_settings = () =>
                 Subject.DefaultDeserializationSettings.ShouldNotBeNull();
         }
 
-        [Subject(typeof(SimpleJsonSerializer))]
-        public class when_deserializing_array_with_default_settings : WithSubject<SimpleJsonSerializer>
+        [Subject(typeof(DefaultJsonSerializer))]
+        public class when_deserializing_array_with_default_settings : WithSubject<DefaultJsonSerializer>
         {
             Establish context = () =>
                 json = SimpleJson.SerializeObject(new[] { "a", "b", "c" });
@@ -31,8 +31,8 @@ namespace SpeakEasy.Specifications.Serializers
             static List<string> deserialized;
         }
 
-        [Subject(typeof(SimpleJsonSerializer))]
-        public class when_deserializing_object_with_default_settings : WithSubject<SimpleJsonSerializer>
+        [Subject(typeof(DefaultJsonSerializer))]
+        public class when_deserializing_object_with_default_settings : WithSubject<DefaultJsonSerializer>
         {
             Establish context = () =>
                 json = SimpleJson.SerializeObject(new Person { Name = "fred", Age = 30 });

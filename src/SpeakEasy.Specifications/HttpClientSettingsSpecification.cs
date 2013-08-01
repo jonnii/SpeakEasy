@@ -31,10 +31,10 @@ namespace SpeakEasy.Specifications
         public class default_settings_in_general : with_default_settings
         {
             It should_default_to_json_serializer = () =>
-                settings.DefaultSerializer.ShouldBeOfType<SimpleJsonSerializer>();
+                settings.DefaultSerializer.ShouldBeOfType<DefaultJsonSerializer>();
 
             It should_have_json_deserializer = () =>
-                settings.Serializers.ShouldContain(d => d is SimpleJsonSerializer);
+                settings.Serializers.ShouldContain(d => d is DefaultJsonSerializer);
 
             It should_have_xml_deserializer = () =>
                 settings.Serializers.ShouldContain(d => d is DotNetXmlSerializer);
@@ -47,7 +47,7 @@ namespace SpeakEasy.Specifications
         public class when_customizing_serializer : with_default_settings
         {
             Because of = () =>
-                settings.Configure<SimpleJsonSerializer>(s =>
+                settings.Configure<DefaultJsonSerializer>(s =>
                 {
                     called = true;
                 });

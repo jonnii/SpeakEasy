@@ -114,10 +114,9 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="HttpResponseHandler.cs" />
-    <Compile Include="Serializers\JsonDotNetSerializer.cs" />
     <Compile Include="Serializers\DotNetXmlSerializer.cs" />
     <Compile Include="Serializers\Serializer.cs" />
-    <Compile Include="Serializers\SimpleJsonSerializer.cs" />
+    <Compile Include="Serializers\DefaultJsonSerializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
     <Compile Include="SimpleJson.cs" />
     <Compile Include="TransmissionSettings.cs" />

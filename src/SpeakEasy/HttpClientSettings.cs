@@ -23,7 +23,7 @@ namespace SpeakEasy
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
 
-            Serializers.Add(new SimpleJsonSerializer());
+            Serializers.Add(new DefaultJsonSerializer());
 #if FRAMEWORK
             Serializers.Add(new DotNetXmlSerializer());
 #endif
