@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json.Serialization;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Serializers;
 
@@ -18,52 +17,44 @@ namespace SpeakEasy.Samples.RabbitMq
 
             const string root = "http://localhost:55672/api/";
 
-            settings.Configure<JsonDotNetSerializer>(s =>
-                s.ConfigureSettings(c =>
-                {
-                    c.ContractResolver = new RabbitContractResolver();
-                }));
+            //settings.Configure<SimpleJsonSerializer>(s =>
+            //    s.ConfigureSettings(c =>
+            //    {
+            //        c.ContractResolver = new RabbitContractResolver();
+            //    }));
 
             var client = HttpClient.Create(root, settings);
 
-            var options = new
+            client.BeforeRequest += delegate(object sender, BeforeRequestEventArgs eventArgs)
             {
-                vhost = "integration",
-                name = "ErrorQueue",
-                count = "1",
-                requeue = "true",
-                encoding = "auto",
-                truncate = "50000"
+                eventArgs.Request.AddHeader("Accept", string.Empty);
             };
 
-            var resource = client.BuildRelativeResource("queues/:vhost/:queue/get", new
-            {
-                vhost = "integration",
-                queue = "ErrorQueue"
-            });
+            var resource = client.BuildRelativeResource("vhosts", new { });
 
-            var request = new PostRequest(
-                resource, new ObjectRequestBody(options));
+            var vhosts = client.Get("vhosts")
+               .OnOk()
+               .As<List<Vhost>>();
 
-            request.AddHeader("Accept", string.Empty);
-
-            var messages = client.Run(request)
-                .OnOk()
-                .As<List<Message>>();
-
-            Console.WriteLine(messages.Count);
+            Console.WriteLine(vhosts[0].Name);
 
             Console.ReadLine();
         }
     }
 
-    public class Message { }
-
-    public class RabbitContractResolver : DefaultContractResolver
+    public class Vhost
     {
-        protected override string ResolvePropertyName(string propertyName)
-        {
-            return Regex.Replace(propertyName, "([a-z])([A-Z])", "$1_$2").ToLower();
-        }
+        public string Name { get; set; }
+
+        public bool Tracing { get; set; }
     }
+
+
+    //public class RabbitContractResolver : DefaultContractResolver
+    //{
+    //    protected override string ResolvePropertyName(string propertyName)
+    //    {
+    //        return Regex.Replace(propertyName, "([a-z])([A-Z])", "$1_$2").ToLower();
+    //    }
+    //}
 }

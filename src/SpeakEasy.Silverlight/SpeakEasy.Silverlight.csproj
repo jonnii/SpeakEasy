@@ -258,8 +258,8 @@
     <Compile Include="..\SpeakEasy\SerializerException.cs">
       <Link>SerializerException.cs</Link>
     </Compile>
-    <Compile Include="..\SpeakEasy\Serializers\JsonDotNetSerializer.cs">
-      <Link>Serializers\JsonDotNetSerializer.cs</Link>
+    <Compile Include="..\SpeakEasy\Serializers\DefaultJsonSerializer.cs">
+      <Link>Serializers\DefaultJsonSerializer.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\Serializers\NullSerializer.cs">
       <Link>Serializers\NullSerializer.cs</Link>
@@ -269,6 +269,9 @@
     </Compile>
     <Compile Include="..\SpeakEasy\Serializers\StringBasedSerializer.cs">
       <Link>Serializers\StringBasedSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\SimpleJson.cs">
+      <Link>SimpleJson.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\TransmissionSettings.cs">
       <Link>TransmissionSettings.cs</Link>
