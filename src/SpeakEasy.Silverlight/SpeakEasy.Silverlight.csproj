@@ -267,8 +267,14 @@
     <Compile Include="..\SpeakEasy\Serializers\Serializer.cs">
       <Link>Serializers\Serializer.cs</Link>
     </Compile>
+    <Compile Include="..\SpeakEasy\Serializers\SimpleJsonSerializer.cs">
+      <Link>Serializers\SimpleJsonSerializer.cs</Link>
+    </Compile>
     <Compile Include="..\SpeakEasy\Serializers\StringBasedSerializer.cs">
       <Link>Serializers\StringBasedSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\SpeakEasy\SimpleJson.cs">
+      <Link>SimpleJson.cs</Link>
     </Compile>
     <Compile Include="..\SpeakEasy\TransmissionSettings.cs">
       <Link>TransmissionSettings.cs</Link>
