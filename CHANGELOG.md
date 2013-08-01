@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.14.0
+
+  * remove dependency on json.net, serialization is now handled by simplejson
+
 ## 0.1.13.4
 
   * update packages
