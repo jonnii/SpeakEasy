@@ -91,6 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HttpClientSettingsSpecification.cs" />
     <Compile Include="HttpClientSpecification.cs" />
+    <Compile Include="Serializers\SimpleJsonSerializerSpecification.cs" />
     <Compile Include="TestHttpRequest.cs" />
     <Compile Include="HttpResponseHandlerSpecification.cs" />
     <Compile Include="HttpResponseSpecification.cs" />
