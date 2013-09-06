@@ -27,7 +27,7 @@ namespace SpeakEasy
 
         public Task WriteTo(Stream stream)
         {
-            return Task.Factory.FromAsync(stream.BeginWrite, stream.EndWrite, Content, 0, Content.Length, null);
+            return stream.WriteAsync(Content, 0, Content.Length);
         }
     }
 }
