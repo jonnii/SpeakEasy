@@ -2,6 +2,7 @@
 
 ## pending
   
+  * retarget .net 4.5
   * remove support for silverlight
 
 ## 0.1.14.0
