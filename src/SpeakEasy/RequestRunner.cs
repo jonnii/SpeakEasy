@@ -57,11 +57,9 @@ namespace SpeakEasy
 
             if (serializedBody.HasContent)
             {
-                var getRequestStream = Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest);
+                var requestStream = await webRequest.GetRequestStreamAsync();
 
-                await getRequestStream;
-
-                using (var requestStream = getRequestStream.Result)
+                using (requestStream)
                 {
                     await serializedBody.WriteTo(requestStream);
                 }

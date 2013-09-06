@@ -15,13 +15,7 @@ namespace SpeakEasy
 
         public override Task WriteToAsync(Stream stream)
         {
-            return Task.Factory.FromAsync(
-                stream.BeginWrite,
-                stream.EndWrite,
-                contents,
-                0,
-                contents.Length,
-                null);
+            return stream.WriteAsync(contents, 0, contents.Length);
         }
     }
 }
