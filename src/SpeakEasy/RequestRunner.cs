@@ -50,9 +50,7 @@ namespace SpeakEasy
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
             var webRequest = BuildWebRequest(httpRequest);
-
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings);
-
             webRequest.ContentType = serializedBody.ContentType;
 
             if (serializedBody.HasContent)
@@ -72,10 +70,7 @@ namespace SpeakEasy
                 }
             }
 
-            var getResponse = Task.Factory.FromAsync<IHttpWebResponse>(webRequest.BeginGetResponse, GetWebResponse, webRequest);
-            await getResponse;
-
-            using (var response = getResponse.Result)
+            using (var response = await GetResponseWrapper(webRequest))
             {
                 using (var responseStream = response.GetResponseStream())
                 {
@@ -88,9 +83,27 @@ namespace SpeakEasy
 
                     readResponseStream.Position = 0;
 
-                    var webResponse = CreateHttpResponse(response, readResponseStream);
-                    return webResponse;
+                    return CreateHttpResponse(response, readResponseStream);
                 }
+            }
+        }
+
+        private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
+        {
+            try
+            {
+                var response = await webRequest.GetResponseAsync();
+                return new HttpWebResponseWrapper((HttpWebResponse)response);
+            }
+            catch (WebException wex)
+            {
+                var innerResponse = wex.Response;
+                if (innerResponse != null)
+                {
+                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
+                }
+
+                throw;
             }
         }
 
@@ -155,26 +168,6 @@ namespace SpeakEasy
             else
             {
                 request.Headers[header.Name] = header.Value;
-            }
-        }
-
-        private IHttpWebResponse GetWebResponse(IAsyncResult result)
-        {
-            var webRequest = (WebRequest)result.AsyncState;
-
-            try
-            {
-                return new HttpWebResponseWrapper((HttpWebResponse)webRequest.EndGetResponse(result));
-            }
-            catch (WebException wex)
-            {
-                var innerResponse = wex.Response;
-                if (innerResponse != null)
-                {
-                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-                }
-
-                throw;
             }
         }
 
