@@ -1,9 +1,10 @@
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace SpeakEasy
 {
-    internal partial class HttpWebResponseWrapper : IHttpWebResponse
+    internal class HttpWebResponseWrapper : IHttpWebResponse
     {
         private readonly HttpWebResponse response;
 
@@ -30,6 +31,25 @@ namespace SpeakEasy
         public Stream GetResponseStream()
         {
             return response.GetResponseStream();
+        }
+
+        public HttpResponseState BuildState()
+        {
+            var headerNames = response.Headers.AllKeys;
+            var headers = headerNames.Select(n => new Header(n.ToLowerInvariant(), response.Headers[n])).ToArray();
+
+            var cookies = response.Cookies.Cast<System.Net.Cookie>().Select(BuildCookie).ToArray();
+
+            return new HttpResponseState(
+                response.StatusCode,
+                response.StatusDescription,
+                response.ResponseUri,
+                headers,
+                cookies,
+                response.ContentType,
+                response.Server,
+                response.ContentEncoding,
+                response.LastModified);
         }
 
         private Cookie BuildCookie(System.Net.Cookie cookie)

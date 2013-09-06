@@ -9,14 +9,14 @@ namespace SpeakEasy.Specifications.Fixtures
         public static HttpResponse Create(ISerializer serializer, Stream bodyStream, HttpStatusCode code)
         {
             var headers = new[]
-                {
-                    new Header("awesome-header", "value")
-                };
+            {
+                new Header("awesome-header", "value")
+            };
 
             var cookies = new[]
-                {
-                    new Cookie("comment", new Uri("http://fribble.com"), true, "domain", true, DateTime.Now, true, "name", "path", "port", false, DateTime.Now, "value", 5)
-                };
+            {
+                new Cookie("comment", new Uri("http://fribble.com"), true, "domain", true, DateTime.Now, true, "name", "path", "port", false, DateTime.Now, "value", 5)
+            };
 
             return new HttpResponse(
                 serializer,
@@ -26,8 +26,10 @@ namespace SpeakEasy.Specifications.Fixtures
                     new Uri("http://example.com/companies"),
                     headers,
                     cookies,
-                    "contentType"));
+                    "contentType",
+                    "server",
+                    "cotent-encoding",
+                    DateTime.Now));
         }
-
     }
 }

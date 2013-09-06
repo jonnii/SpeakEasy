@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy
 {
@@ -7,7 +8,7 @@ namespace SpeakEasy
     /// An http request represents one http interaction with
     /// a web service that speaks http
     /// </summary>
-    public partial interface IHttpRequest
+    public interface IHttpRequest
     {
         /// <summary>
         /// The resource that will be requested by this http request
@@ -28,6 +29,21 @@ namespace SpeakEasy
         /// The user agent of this http request
         /// </summary>
         IUserAgent UserAgent { get; set; }
+
+        /// <summary>
+        /// The web proxy to use when making this http request
+        /// </summary>
+        IWebProxy Proxy { get; set; }
+
+        /// <summary>
+        /// The x509 certificates associated with this http request
+        /// </summary>
+        X509CertificateCollection ClientCertificates { get; }
+
+        /// <summary>
+        /// The maximum number of automatic redirections when allow auto redirect it set to true
+        /// </summary>
+        int? MaximumAutomaticRedirections { get; set; }
 
         /// <summary>
         /// Indicates that this http request has a user agent

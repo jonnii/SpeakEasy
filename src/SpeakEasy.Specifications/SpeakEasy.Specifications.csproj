@@ -97,13 +97,13 @@
     <Compile Include="TransmissionSpecification.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj">
-      <Project>{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}</Project>
-      <Name>SpeakEasy</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj">
+      <Project>{e8546c22-d1ff-4c28-a8c4-7f6e474f7a01}</Project>
+      <Name>SpeakEasy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

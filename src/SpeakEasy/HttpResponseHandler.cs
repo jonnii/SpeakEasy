@@ -47,6 +47,7 @@ namespace SpeakEasy
             var body = response.Body;
 
             var memoryStream = body as MemoryStream;
+
             return memoryStream != null
                 ? memoryStream.ToArray()
                 : body.ReadAsByteArray(bufferSize);

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
-    public partial class RequestRunner : IRequestRunner
+    public class RequestRunner : IRequestRunner
     {
         private const int DefaultBufferSize = 0x100;
 
@@ -48,16 +47,7 @@ namespace SpeakEasy
             }
         }
 
-        public Task<IHttpResponse> RunAsync(IHttpRequest request)
-        {
-            var completionSource = new TaskCompletionSource<IHttpResponse>();
-
-            RunWebRequestAsync(request, completionSource).Iterate(completionSource);
-
-            return completionSource.Task;
-        }
-
-        public IEnumerable<Task> RunWebRequestAsync(IHttpRequest httpRequest, TaskCompletionSource<IHttpResponse> streamCompletionSource)
+        public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
             var webRequest = BuildWebRequest(httpRequest);
 
@@ -69,11 +59,11 @@ namespace SpeakEasy
             {
                 var getRequestStream = Task.Factory.FromAsync<Stream>(webRequest.BeginGetRequestStream, webRequest.EndGetRequestStream, webRequest);
 
-                yield return getRequestStream;
+                await getRequestStream;
 
                 using (var requestStream = getRequestStream.Result)
                 {
-                    yield return serializedBody.WriteTo(requestStream);
+                    await serializedBody.WriteTo(requestStream);
                 }
             }
             else
@@ -85,7 +75,7 @@ namespace SpeakEasy
             }
 
             var getResponse = Task.Factory.FromAsync<IHttpWebResponse>(webRequest.BeginGetResponse, GetWebResponse, webRequest);
-            yield return getResponse;
+            await getResponse;
 
             using (var response = getResponse.Result)
             {
@@ -95,16 +85,37 @@ namespace SpeakEasy
                         ? response.ContentLength
                         : DefaultBufferSize;
 
-                    var readResponseStream = responseStream.ReadStreamAsync(bufferSize);
-                    yield return readResponseStream;
+                    var readResponseStream = new MemoryStream();
+                    await responseStream.CopyToAsync(readResponseStream, (int)bufferSize);
 
-                    var webResponse = CreateHttpResponse(response, readResponseStream.Result);
-                    streamCompletionSource.TrySetResult(webResponse);
+                    readResponseStream.Position = 0;
+
+                    var webResponse = CreateHttpResponse(response, readResponseStream);
+                    return webResponse;
                 }
             }
         }
 
-        partial void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest);
+        private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
+        {
+            ServicePointManager.Expect100Continue = false;
+            webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+
+            if (httpRequest.ClientCertificates != null)
+            {
+                webRequest.ClientCertificates = httpRequest.ClientCertificates;
+            }
+
+            if (httpRequest.Proxy != null)
+            {
+                webRequest.Proxy = httpRequest.Proxy;
+            }
+
+            if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
+            {
+                webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
+            }
+        }
 
         public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
         {

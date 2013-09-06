@@ -23,6 +23,5 @@ namespace SpeakEasy.IntegrationTests.Controllers
         {
             return searchModel.Username;
         }
-
     }
 }
