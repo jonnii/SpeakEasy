@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## pending
+  
+  * remove support for silverlight
+
 ## 0.1.14.0
 
   * remove dependency on json.net, serialization is now handled by simplejson
