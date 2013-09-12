@@ -10,21 +10,13 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldGetAsync()
         {
-            var didComplete = false;
+            var request = client.GetAsync("products/1");
 
-            var task = client.GetAsync("products/1")
-                .OnComplete(response =>
-                {
-                    didComplete = true;
+            var response = request.Result;
 
-                    Assert.That(response.State.RequestUrl.ToString(), Is.StringEnding(":1337/api/products/1"));
-                    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-                    Assert.That(response.Deserializer, Is.TypeOf<DefaultJsonSerializer>());
-                }).Start();
-
-            task.Wait();
-
-            Assert.That(didComplete);
+            Assert.That(response.State.RequestUrl.ToString(), Is.StringEnding(":1337/api/products/1"));
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(response.Deserializer, Is.TypeOf<DefaultJsonSerializer>());
         }
     }
 }

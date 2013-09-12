@@ -9,13 +9,6 @@ namespace SpeakEasy
     public interface IRequestRunner
     {
         /// <summary>
-        /// Runs a http request synchronously
-        /// </summary>
-        /// <param name="request">The request to run</param>
-        /// <returns>AN http response</returns>
-        IHttpResponse Run(IHttpRequest request);
-
-        /// <summary>
         /// Runs a http request asynchronously
         /// </summary>
         /// <param name="request">The request to run</param>

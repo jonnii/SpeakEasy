@@ -28,25 +28,6 @@ namespace SpeakEasy
             this.authenticator = authenticator;
         }
 
-        public IHttpResponse Run(IHttpRequest request)
-        {
-            try
-            {
-                var task = RunAsync(request);
-                task.Wait();
-                return task.Result;
-            }
-            catch (AggregateException e)
-            {
-                if (e.InnerException != null)
-                {
-                    throw e.InnerException;
-                }
-
-                throw;
-            }
-        }
-
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
             var webRequest = BuildWebRequest(httpRequest);

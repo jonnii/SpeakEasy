@@ -43,7 +43,6 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AfterRequestEventArgs.cs" />
-    <Compile Include="AsyncHttpRequest.cs" />
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
@@ -62,7 +61,6 @@
     <Compile Include="BeforeRequestEventArgs.cs" />
     <Compile Include="HeaderParser.cs" />
     <Compile Include="HttpResponseState.cs" />
-    <Compile Include="IAsyncHttpRequest.cs" />
     <Compile Include="IFile.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="INamingConvention.cs" />

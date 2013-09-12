@@ -4,6 +4,7 @@
   
   * retarget .net 4.5
   * remove support for silverlight
+  * it's a brave new async world
 
 ## 0.1.14.0
 
