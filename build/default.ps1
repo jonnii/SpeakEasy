@@ -15,11 +15,8 @@ task PreparePackage -depends Test {
 	mkdir $packagesDirectory
 	cp ..\build\package.nuspec ..\targets\packages
 
-	mkdir ..\targets\packages\lib\net40
-	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net40
-
-	mkdir ..\targets\packages\lib\sl5
-	cp ..\targets\silverlight\speakeasy.* ..\targets\packages\lib\sl5
+	mkdir ..\targets\packages\lib\net45
+	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net45
 }
 
 task PackagePre -depends PreparePackage {
@@ -65,7 +62,7 @@ task CopyTools {
 
 task Test -depends Clean,CopyTools,Compile { 
   # run specs
-  ..\src\packages\Machine.Specifications.0.5.12\tools\mspec-clr4.exe .\..\targets\specifications\speakeasy.specifications.dll
+  ..\src\packages\Machine.Specifications.0.5.16\tools\mspec-clr4.exe .\..\targets\specifications\speakeasy.specifications.dll
 
   # run integration tests somehow (need a local nunit-console.exe, or switch to xunit?)
 }

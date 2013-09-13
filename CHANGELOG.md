@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## pending
+## 0.2.0.0
   
   * retarget .net 4.5
   * remove support for silverlight
