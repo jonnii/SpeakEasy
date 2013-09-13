@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -25,7 +27,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return response;
         }
 
-        public HttpResponseMessage Post(HttpRequestMessage message)
+        public async Task<HttpResponseMessage> Post(HttpRequestMessage message)
         {
             if (!Request.Content.IsMimeMultipartContent("form-data"))
             {
@@ -34,12 +36,10 @@ namespace SpeakEasy.IntegrationTests.Controllers
 
             var streamProvider = new MultipartFileStreamProvider(Environment.CurrentDirectory);
 
-            var bodyParts = Request.Content.ReadAsMultipartAsync(streamProvider);
-            bodyParts.Wait();
+            await Request.Content.ReadAsMultipartAsync(streamProvider);
+            var fileNames = streamProvider.FileData.Select(f => f.Headers.ContentDisposition.Name);
 
-            var fileNames = streamProvider.Contents;
-
-            return message.CreateResponse(HttpStatusCode.Created, fileNames);
+            return message.CreateResponse(HttpStatusCode.Created, fileNames.ToArray());
         }
     }
 }

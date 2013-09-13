@@ -39,7 +39,7 @@ namespace SpeakEasy.Specifications
                 header = body.GetFileHeader(file);
 
             It should_format_header = () =>
-                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: text/plain\r\n");
+                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: text/plain\r\n\r\n");
 
             static IFile file;
 
@@ -60,7 +60,7 @@ namespace SpeakEasy.Specifications
                 header = body.GetFileHeader(file);
 
             It should_format_header = () =>
-                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n");
+                header.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"file-upload\"; filename=\"test.txt\"\r\nContent-Type: application/octet-stream\r\n\r\n");
 
             static IFile file;
 

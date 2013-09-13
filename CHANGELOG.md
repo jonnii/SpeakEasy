@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.0.1
+
+  * Fix a bug with file uploading
+
 ## 0.2.0.0
   
   * retarget .net 4.5

@@ -88,7 +88,7 @@ namespace SpeakEasy
         public string GetFileHeader(IFile file)
         {
             return string.Format(
-                "--{0}{4}Content-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"{4}Content-Type: {3}{4}",
+                "--{0}{4}Content-Disposition: form-data; name=\"{1}\"; filename=\"{2}\"{4}Content-Type: {3}{4}{4}",
                 MimeBoundary,
                 file.Name,
                 file.FileName,

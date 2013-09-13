@@ -34,7 +34,7 @@ namespace SpeakEasy.IntegrationTests
             Assert.That(file.Name, Is.EqualTo("name"));
 
             var stream = new MemoryStream();
-            file.WriteTo(stream);
+            file.WriteToAsync(stream).Wait();
 
             stream.Position = 0;
             string contentsAsString;
@@ -46,7 +46,7 @@ namespace SpeakEasy.IntegrationTests
             Assert.That(contentsAsString, Is.EqualTo("file contents"));
         }
 
-        [Test, Explicit("WIP")]
+        [Test]
         public void ShouldUploadOneFileByteArray()
         {
             var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
@@ -54,18 +54,19 @@ namespace SpeakEasy.IntegrationTests
             var fileNames = client.Post(file, "invoices")
                 .On(HttpStatusCode.Created).As<string[]>();
 
-            Assert.That(fileNames.Single(), Is.EqualTo("name"));
+            Assert.That(fileNames.Single(), Is.EqualTo("\"name\""));
         }
 
-        [Test, Explicit("WIP")]
+        [Test]
         public void ShouldUploadMultipleFilesByteArray()
         {
-            var files = new[] { FileUpload.FromBytes("name", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name", "filename", new byte[] { 0xDE }) };
+            var files = new[] { FileUpload.FromBytes("name1", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name2", "filename", new byte[] { 0xDE }) };
 
             var fileNames = client.Post(files, "invoices/:id", new { id = 1234 })
                 .On(HttpStatusCode.Created).As<IEnumerable<string>>();
 
-            Assert.That(fileNames.Single(), Is.EqualTo("name"));
+            Assert.That(fileNames.First(), Is.EqualTo("\"name1\""));
+            Assert.That(fileNames.Last(), Is.EqualTo("\"name2\""));
         }
     }
 }

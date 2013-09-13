@@ -24,12 +24,6 @@ namespace SpeakEasy
         string ContentType { get; }
 
         /// <summary>
-        /// Writes the file to a stream
-        /// </summary>
-        /// <param name="stream">The stream to write the file to</param>
-        void WriteTo(Stream stream);
-
-        /// <summary>
         /// Writes the file to a stream asynchronously
         /// </summary>
         /// <param name="stream">The stream to write to</param>

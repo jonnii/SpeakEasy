@@ -21,11 +21,6 @@ namespace SpeakEasy
 
         public string ContentType { get; private set; }
 
-        public void WriteTo(Stream stream)
-        {
-            WriteToAsync(stream).Wait();
-        }
-
         public Task WriteToAsync(Stream stream)
         {
             return body.CopyToAsync(stream);

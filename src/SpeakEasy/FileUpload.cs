@@ -32,11 +32,6 @@ namespace SpeakEasy
 
         public string ContentType { get; set; }
 
-        public void WriteTo(Stream stream)
-        {
-            WriteToAsync(stream).Wait();
-        }
-
         public abstract Task WriteToAsync(Stream stream);
     }
 }
