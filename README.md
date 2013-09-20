@@ -61,6 +61,9 @@ choosing SpeakEasy.
  * Microsoft's HttpClient (http://msdn.microsoft.com/en-us/library/system.net.http.httpclient.aspx)
  * EasyHttp (https://github.com/hhariri/EasyHttp)
 
+If you do decide to go with another option I'd love to hear why, that's the kind of feedback that will help
+make this project even better. You can open an issue with feedback or find me on twitter @jonnii.
+
 Builds
 ======
 
@@ -90,5 +93,20 @@ Features
 
 ````
 // create a client with the default settings
+var client = HttpClient.Create("http://example.com/api");
+````
+
+````
+// create a client with custom settings
+var settings = new HttpClientSettings
+{
+    // We need to authenticate with windows
+	Authenticator = new WindowsAuthenticator()
+};
+
+// configure the serializer
+settings.Configure<DefaultJsonSerializer>(
+    c => c.JsonSerializerStrategy = new CustomSerializerStrategy());
+
 var client = HttpClient.Create("http://example.com/api");
 ````
