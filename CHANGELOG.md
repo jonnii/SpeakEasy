@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.1.0
+
+  * Add overloads for On/As to support numeric status codes
+
 ## 0.2.0.1
 
   * Fix a bug with file uploading

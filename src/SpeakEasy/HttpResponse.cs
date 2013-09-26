@@ -43,6 +43,11 @@ namespace SpeakEasy
             return this;
         }
 
+        public IHttpResponse On(int code, Action action)
+        {
+            return On((HttpStatusCode)code, action);
+        }
+
         public IHttpResponse On<T>(HttpStatusCode code, Action<T> action)
         {
             if (Is(code))
@@ -54,9 +59,19 @@ namespace SpeakEasy
             return this;
         }
 
+        public IHttpResponse On<T>(int code, Action<T> action)
+        {
+            return On((HttpStatusCode)code, action);
+        }
+
         public IHttpResponseHandler On(HttpStatusCode code)
         {
             return new HttpResponseHandler(this);
+        }
+
+        public IHttpResponseHandler On(int code)
+        {
+            return On((HttpStatusCode)code);
         }
 
         public IHttpResponseHandler OnOk()
@@ -85,6 +100,11 @@ namespace SpeakEasy
         public bool Is(HttpStatusCode code)
         {
             return StatusCode == code;
+        }
+
+        public bool Is(int code)
+        {
+            return Is((HttpStatusCode)code);
         }
 
         public bool IsOk()

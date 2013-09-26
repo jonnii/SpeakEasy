@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -21,6 +22,11 @@ namespace SpeakEasy.IntegrationTests.Controllers
 
         public string Post(SearchModel searchModel)
         {
+            if (searchModel.Username == "unknown-username")
+            {
+                throw new HttpResponseException((HttpStatusCode)422);
+            }
+
             return searchModel.Username;
         }
     }

@@ -180,5 +180,15 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.That(success);
         }
+
+        [Test]
+        public void ShouldBeAbleToUseNumericResponseCodes()
+        {
+            var response = client.Post("search", new { username = "unknown-username" });
+
+            var success = response.Is(422);
+
+            Assert.That(success);
+        }
     }
 }

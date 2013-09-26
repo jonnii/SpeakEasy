@@ -44,6 +44,14 @@ namespace SpeakEasy
         IHttpResponse On(HttpStatusCode code, Action action);
 
         /// <summary>
+        /// Executes the given action when the response status code matches the supplied status code.
+        /// </summary>
+        /// <param name="code">The http status code we're expecting</param>
+        /// <param name="action">An action callback</param>
+        /// <returns>A chainable http response</returns>
+        IHttpResponse On(int code, Action action);
+
+        /// <summary>
         /// Executes the given action when the response status code matches the supplied status code,
         /// the body will be deserialized automatically to the given type.
         /// </summary>
@@ -54,12 +62,30 @@ namespace SpeakEasy
         IHttpResponse On<T>(HttpStatusCode code, Action<T> action);
 
         /// <summary>
+        /// Executes the given action when the response status code matches the supplied status code,
+        /// the body will be deserialized automatically to the given type.
+        /// </summary>
+        /// <typeparam name="T">The type to deserialize the body as</typeparam>
+        /// <param name="code">The http status code we're expecting</param>
+        /// <param name="action">An action callback</param>
+        /// <returns>A chainable http response</returns>
+        IHttpResponse On<T>(int code, Action<T> action);
+
+        /// <summary>
         /// Get a response handler when the response status code matches the supplied status code,
         /// if the status code does not match an exception will be thrown.
         /// </summary>
         /// <param name="code">The http status code we're expecting</param>
         /// <returns>A response handler giving access to the body of the response</returns>
         IHttpResponseHandler On(HttpStatusCode code);
+
+        /// <summary>
+        /// Get a response handler when the response status code matches the supplied status code,
+        /// if the status code does not match an exception will be thrown.
+        /// </summary>
+        /// <param name="code">The http status code we're expecting</param>
+        /// <returns>A response handler giving access to the body of the response</returns>
+        IHttpResponseHandler On(int code);
 
         /// <summary>
         /// Gets a response handler when the response status code is OK (200). If the status code does not
@@ -90,6 +116,13 @@ namespace SpeakEasy
         /// <param name="code">The status code to check</param>
         /// <returns>True if the code matches the response status code</returns>
         bool Is(HttpStatusCode code);
+
+        /// <summary>
+        /// Indicates whether or not the response is of a given status code.
+        /// </summary>
+        /// <param name="code">The status code to check</param>
+        /// <returns>True if the code matches the response status code</returns>
+        bool Is(int code);
 
         /// <summary>
         /// Indicates whether or not this response is a OK (200).
