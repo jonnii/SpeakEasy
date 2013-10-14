@@ -2,7 +2,8 @@
 
 ## 0.2.2.0
 
- * Move construction to constructor from static method
+  * Move construction to constructor from static method
+  * Update simplejson
 
 ## 0.2.1.0
 

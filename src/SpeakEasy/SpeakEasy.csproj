@@ -114,7 +114,6 @@
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\DefaultJsonSerializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
-    <Compile Include="SimpleJson.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="UserAgent.cs" />
   </ItemGroup>
@@ -122,9 +121,6 @@
     <Reference Include="System" />
     <Reference Include="System.Net" />
     <Reference Include="System.XML" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>
