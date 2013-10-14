@@ -24,28 +24,27 @@ namespace SpeakEasy
         /// <returns>A new http client</returns>
         public static IHttpClient Create(string rootUrl, HttpClientSettings settings)
         {
-            settings.Validate();
-
-            var transmissionSettings = new TransmissionSettings(settings.Serializers);
-
-            var runner = new RequestRunner(
-                transmissionSettings,
-                settings.Authenticator);
-
-            return new HttpClient(
-                runner,
-                settings.NamingConvention,
-                settings.Logger,
-                settings.UserAgent)
-            {
-                Root = new Resource(rootUrl),
-                Logger = settings.Logger
-            };
+            return new HttpClient(rootUrl, settings);
         }
 
         private readonly IRequestRunner requestRunner;
 
         private readonly IResourceMerger merger;
+
+        public HttpClient(string rootUrl, HttpClientSettings settings)
+        {
+            settings.Validate();
+
+            requestRunner = new RequestRunner(
+                new TransmissionSettings(settings.Serializers),
+                settings.Authenticator);
+
+            merger = new ResourceMerger(settings.NamingConvention);
+
+            UserAgent = settings.UserAgent;
+            Root = new Resource(rootUrl);
+            Logger = settings.Logger;
+        }
 
         public HttpClient(
             IRequestRunner requestRunner,
