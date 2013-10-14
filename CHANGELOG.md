@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.2.0
+
+ * Move construction to constructor from static method
+
 ## 0.2.1.0
 
   * Add overloads for On/As to support numeric status codes
