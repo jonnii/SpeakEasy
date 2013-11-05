@@ -22,6 +22,7 @@ namespace SpeakEasy
             Logger = new NullLogger();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
+            CookieStrategy = new TransientCookieStrategy();
 
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new DotNetXmlSerializer());
@@ -48,6 +49,11 @@ namespace SpeakEasy
         public IUserAgent UserAgent { get; set; }
 
         /// <summary>
+        /// The cooking container will be reused on all subsequent requests
+        /// </summary>
+        public ICookieStrategy CookieStrategy { get; set; }
+
+        /// <summary>
         /// The default serializer
         /// </summary>
         public ISerializer DefaultSerializer
@@ -56,7 +62,7 @@ namespace SpeakEasy
         }
 
         /// <summary>
-        /// Indicates whether or not this settings has any authenticator set
+        /// Indicates whether or not these settings have a custom authenticator set
         /// </summary>
         public bool HasAuthenticator
         {
@@ -73,7 +79,7 @@ namespace SpeakEasy
         /// </summary>
         public bool IsValid
         {
-            get { return Serializers.Any(); }
+            get { return Serializers.Any() && CookieStrategy != null; }
         }
 
         /// <summary>

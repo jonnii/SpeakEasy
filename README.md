@@ -110,3 +110,15 @@ settings.Configure<DefaultJsonSerializer>(
 
 var client = HttpClient.Create("http://example.com/api");
 ````
+
+## Changing the cookie strategy
+
+````
+var settings = new HttpClientSettings
+{
+	// Use the persistent cookie strategy
+	CookieStrategy = new PersistentCookieStrategy()
+};
+
+var client = HttpClient.Create("http://example.com/api");
+````

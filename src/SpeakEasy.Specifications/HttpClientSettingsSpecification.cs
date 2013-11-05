@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Loggers;
@@ -23,6 +24,9 @@ namespace SpeakEasy.Specifications
             It should_have_default_user_agent = () =>
                 settings.UserAgent.Name.ShouldEqual("SpeakEasy");
 
+            It should_have_default_cookie_container = () =>
+                settings.CookieStrategy.ShouldBeOfType<TransientCookieStrategy>();
+
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
         }
@@ -41,6 +45,16 @@ namespace SpeakEasy.Specifications
 
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
+        }
+
+        [Subject(typeof(HttpClientSettings))]
+        public class without_cookie_strategy : with_default_settings
+        {
+            Because of = () =>
+                settings.CookieStrategy = null;
+
+            It should_not_be_valid = () =>
+                settings.IsValid.ShouldBeFalse();
         }
 
         [Subject(typeof(HttpClientSettings))]

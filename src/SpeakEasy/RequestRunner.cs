@@ -14,6 +14,8 @@ namespace SpeakEasy
 
         private readonly IAuthenticator authenticator;
 
+        private readonly ICookieStrategy cookieStrategy;
+
         private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
             new Dictionary<string, Action<HttpWebRequest, string>>
             {
@@ -22,10 +24,12 @@ namespace SpeakEasy
 
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
-            IAuthenticator authenticator)
+            IAuthenticator authenticator,
+            ICookieStrategy cookieStrategy)
         {
             this.transmissionSettings = transmissionSettings;
             this.authenticator = authenticator;
+            this.cookieStrategy = cookieStrategy;
         }
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
@@ -121,7 +125,7 @@ namespace SpeakEasy
             request.Credentials = httpRequest.Credentials;
             request.Method = httpRequest.HttpMethod;
             request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            request.CookieContainer = httpRequest.CookieContainer ?? new CookieContainer();
+            request.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
 
             if (httpRequest.HasUserAgent)
             {

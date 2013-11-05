@@ -25,6 +25,9 @@ namespace SpeakEasy.Specifications
             It should_initialize_cookie_container = () =>
                 webRequest.CookieContainer.ShouldNotBeNull();
 
+            It should_get_cookie_from_cookie_strategy = () =>
+                The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
+
             static HttpWebRequest webRequest;
         }
 
@@ -141,6 +144,9 @@ namespace SpeakEasy.Specifications
                 request = An<IHttpRequest>();
                 request.WhenToldTo(r => r.BuildRequestUrl()).Return("http://example.com");
                 request.WhenToldTo(r => r.HttpMethod).Return("GET");
+
+                The<ICookieStrategy>().WhenToldTo(s => s.Get(Param.IsAny<IHttpRequest>()))
+                    .Return(new CookieContainer());
             };
 
             protected static IHttpRequest request;

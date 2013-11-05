@@ -4,6 +4,7 @@
 
   * Move construction to constructor from static method
   * Update simplejson
+  * Add the ability to change the default handling the cookie container, no longer need to override BeforeRequest
 
 ## 0.2.1.0
 
