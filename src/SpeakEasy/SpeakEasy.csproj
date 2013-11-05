@@ -48,6 +48,7 @@
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="PersistentCookieStrategy.cs" />
+    <Compile Include="SimpleJson.cs" />
     <Compile Include="TransientCookieStrategy.cs" />
     <Compile Include="DefaultNamingConvention.cs" />
     <Compile Include="DeleteRequest.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\DefaultJsonSerializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
-    <Compile Include="SimpleJson.cs" />
     <Compile Include="TransmissionSettings.cs" />
     <Compile Include="UserAgent.cs" />
   </ItemGroup>
