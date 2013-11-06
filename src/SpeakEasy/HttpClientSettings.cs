@@ -103,10 +103,22 @@ namespace SpeakEasy
         /// </summary>
         public void Validate()
         {
+            if (IsValid)
+            {
+                return;
+            }
+
             if (!Serializers.Any())
             {
-                throw new HttpException("At least one serializer is required for the http client to function.");
+                throw new ConfigurationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
             }
+
+            if (CookieStrategy == null)
+            {
+                throw new ConfigurationException("A cookie strategy is required.");
+            }
+
+            throw new ConfigurationException("The http client settings are not valid.");
         }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="PersistentCookieStrategy.cs" />
     <Compile Include="SimpleJson.cs" />

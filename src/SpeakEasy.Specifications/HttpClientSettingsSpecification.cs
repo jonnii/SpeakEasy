@@ -92,7 +92,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => settings.Validate());
 
             It should_throw = () =>
-                exception.ShouldBeOfType<HttpException>();
+                exception.ShouldBeOfType<ConfigurationException>();
 
             static Exception exception;
         }
