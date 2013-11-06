@@ -1,5 +1,4 @@
 using System;
-using System.Net;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Loggers;
