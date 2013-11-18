@@ -15,6 +15,23 @@ namespace SpeakEasy.Specifications.Serializers
         }
 
         [Subject(typeof(DefaultJsonSerializer))]
+        public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
+        {
+            Establish context = () =>
+                json = SimpleJson.SerializeObject(new { message = "hi sir" });
+
+            Because of = () =>
+                deserialized = Subject.DeserializeString<dynamic>(json);
+
+            It should_deserialize_items_when_array = () =>
+                ((string)deserialized.message).ShouldEqual("hi sir");
+
+            static string json;
+
+            static dynamic deserialized;
+        }
+
+        [Subject(typeof(DefaultJsonSerializer))]
         public class when_deserializing_array_with_default_settings : WithSubject<DefaultJsonSerializer>
         {
             Establish context = () =>

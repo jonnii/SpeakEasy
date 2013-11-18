@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.4.0
+
+  * Enable Dynamic in SimpleJson
+
 ## 0.2.3.0
 
   * Fix bug with `On(StatusCode)` not throwing exceptions when it should
