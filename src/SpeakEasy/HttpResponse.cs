@@ -66,6 +66,11 @@ namespace SpeakEasy
 
         public IHttpResponseHandler On(HttpStatusCode code)
         {
+            if (!Is(code))
+            {
+                OnIncorrectStatusCode(code);
+            }
+
             return new HttpResponseHandler(this);
         }
 
@@ -78,13 +83,18 @@ namespace SpeakEasy
         {
             if (!IsOk())
             {
-                var message = string.Format(
-                    "Cannot get an http response handler for Ok, because the status was {0}", StatusCode);
-
-                throw new HttpException(message, this);
+                OnIncorrectStatusCode(HttpStatusCode.OK);
             }
 
             return new HttpResponseHandler(this);
+        }
+
+        private void OnIncorrectStatusCode(HttpStatusCode expected)
+        {
+            var message = string.Format(
+                    "Cannot get an http response handler for {0}, because the status was {1}", expected, StatusCode);
+
+            throw new HttpException(message, this);
         }
 
         public IHttpResponse OnOk(Action action)

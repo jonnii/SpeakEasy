@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -20,14 +21,14 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return products.Where(p => p.StartsWith(filter));
         }
 
-        public string Post(SearchModel searchModel)
+        public HttpResponseMessage Post(SearchModel searchModel)
         {
             if (searchModel.Username == "unknown-username")
             {
                 throw new HttpResponseException((HttpStatusCode)422);
             }
 
-            return searchModel.Username;
+            return Request.CreateResponse(HttpStatusCode.Created, searchModel.Username);
         }
     }
 }

@@ -46,6 +46,12 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Test]
+        public void ShouldGetCollectionWrongStatusCode()
+        {
+            Assert.Throws<HttpException>(() => client.Get("products").On(HttpStatusCode.Accepted).As<List<Product>>());
+        }
+
+        [Test]
         public void ShouldGetCollectionWithCustomConstructor()
         {
             var products = client.Get("products").On(HttpStatusCode.OK).As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });

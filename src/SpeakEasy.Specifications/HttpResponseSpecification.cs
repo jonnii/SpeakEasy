@@ -111,6 +111,30 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(HttpResponse))]
+        public class when_on_with_incorrect_status_code : with_created_response
+        {
+            Because of = () =>
+                exception = Catch.Exception(() => response.On(HttpStatusCode.OK));
+
+            It should_throw_http_exception = () =>
+                exception.ShouldBeOfType<HttpException>();
+
+            static Exception exception;
+        }
+
+        [Subject(typeof(HttpResponse))]
+        public class when_on_with_incorrect_integer_status_code : with_created_response
+        {
+            Because of = () =>
+                exception = Catch.Exception(() => response.On(301));
+
+            It should_throw_http_exception = () =>
+                exception.ShouldBeOfType<HttpException>();
+
+            static Exception exception;
+        }
+
+        [Subject(typeof(HttpResponse))]
         public class when_on_ok_with_callback : with_ok_response
         {
             Because of = () =>
