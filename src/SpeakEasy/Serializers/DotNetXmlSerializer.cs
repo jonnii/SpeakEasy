@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -24,11 +25,16 @@ namespace SpeakEasy.Serializers
 
         public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)
         {
-            var serializer = new XmlSerializer(typeof(T));
+            return (T)DeserializeString(body, deserializationSettings, typeof(T));
+        }
+
+        public override object DeserializeString(string body, DeserializationSettings deserializationSettings, Type type)
+        {
+            var serializer = new XmlSerializer(type);
 
             using (var reader = new StringReader(body))
             {
-                return (T)serializer.Deserialize(reader);
+                return serializer.Deserialize(reader);
             }
         }
 

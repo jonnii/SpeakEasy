@@ -196,5 +196,15 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.That(success);
         }
+
+        [Test]
+        public void ShouldDeserializeCollectionAsObject()
+        {
+            var obj = client.Get("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
+
+            var products = (List<Product>)obj;
+
+            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+        }
     }
 }

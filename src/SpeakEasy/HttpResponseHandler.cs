@@ -18,6 +18,20 @@ namespace SpeakEasy
             get { return response; }
         }
 
+        public object As(Type type)
+        {
+            var deserializer = response.Deserializer;
+
+            return deserializer.Deserialize(response.Body, type);
+        }
+
+        public object As(Type type, DeserializationSettings deserializationSettings)
+        {
+            var deserializer = response.Deserializer;
+
+            return deserializer.Deserialize(response.Body, deserializationSettings, type);
+        }
+
         public T As<T>()
         {
             var deserializer = response.Deserializer;

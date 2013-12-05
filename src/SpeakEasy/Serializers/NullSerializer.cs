@@ -30,16 +30,31 @@ namespace SpeakEasy.Serializers
 
         public T Deserialize<T>(Stream body)
         {
-            var message = string.Format(
-                "Could not find a deserializer that supports the content type {0}",
-                contentType);
+            throw BuildNotSupportedException();
+        }
 
-            throw new NotSupportedException(message);
+        public object Deserialize(Stream body, Type type)
+        {
+            throw BuildNotSupportedException();
+        }
+
+        public object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type)
+        {
+            return Deserialize(body, type);
         }
 
         public T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings)
         {
             return Deserialize<T>(body);
+        }
+
+        private NotSupportedException BuildNotSupportedException()
+        {
+            var message = string.Format(
+                "Could not find a deserializer that supports the content type {0}",
+                contentType);
+
+            return new NotSupportedException(message);
         }
     }
 }

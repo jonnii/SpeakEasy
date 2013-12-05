@@ -34,6 +34,20 @@ namespace SpeakEasy.Serializers
 
         public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)
         {
+            EnsureCompatibleSettings(deserializationSettings);
+
+            return SimpleJson.DeserializeObject<T>(body, JsonSerializerStrategy);
+        }
+
+        public override object DeserializeString(string body, DeserializationSettings deserializationSettings, Type type)
+        {
+            EnsureCompatibleSettings(deserializationSettings);
+
+            return SimpleJson.DeserializeObject(body, type, JsonSerializerStrategy);
+        }
+
+        private void EnsureCompatibleSettings(DeserializationSettings deserializationSettings)
+        {
             if (deserializationSettings.SkipRootElement)
             {
                 throw new NotSupportedException("Cannot skip root element with SimpleJsonSerializer");
@@ -43,38 +57,39 @@ namespace SpeakEasy.Serializers
             {
                 throw new NotSupportedException("Cannot navigate root element path with SimpleJsonSerializer");
             }
-
-            return SimpleJson.DeserializeObject<T>(body, JsonSerializerStrategy);
         }
 
         public class DefaultJsonSerializerStrategy : PocoJsonSerializerStrategy
         {
-            protected override object SerializeEnum(Enum p)
+            protected override object SerializeEnum(Enum value)
             {
-                return p.ToString();
+                return value.ToString();
             }
 
             public override object DeserializeObject(object value, Type type)
             {
                 var stringValue = value as string;
-                if (stringValue != null)
-                {
-                    if (type.IsEnum)
-                    {
-                        return Enum.Parse(type, stringValue, true);
-                    }
 
-                    if (ReflectionUtils.IsNullableType(type))
-                    {
-                        var underlyingType = Nullable.GetUnderlyingType(type);
-                        if (underlyingType.IsEnum)
-                        {
-                            return Enum.Parse(underlyingType, stringValue, true);
-                        }
-                    }
+                if (stringValue == null)
+                {
+                    return base.DeserializeObject(value, type);
                 }
 
-                return base.DeserializeObject(value, type);
+                if (type.IsEnum)
+                {
+                    return Enum.Parse(type, stringValue, true);
+                }
+
+                if (!ReflectionUtils.IsNullableType(type))
+                {
+                    return base.DeserializeObject(value, type);
+                }
+
+                var underlyingType = Nullable.GetUnderlyingType(type);
+
+                return underlyingType.IsEnum
+                    ? Enum.Parse(underlyingType, stringValue, true)
+                    : base.DeserializeObject(value, type);
             }
         }
     }

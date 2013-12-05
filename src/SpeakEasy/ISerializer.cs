@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -25,6 +26,24 @@ namespace SpeakEasy
         /// <param name="t">The object to serialize</param>
         /// <returns>A serialized object</returns>
         string Serialize<T>(T t);
+
+        /// <summary>
+        /// Deserializes the body of a response and creates an instance of the given type
+        /// </summary>
+        /// <param name="body">The body to deserialize</param>
+        /// <param name="type">The type to deserialize</param>
+        /// <returns>An instance of the given type</returns>
+        object Deserialize(Stream body, Type type);
+
+        /// <summary>
+        /// Deserializes the body of a response and creates an instance of the given type
+        /// with custom deserialization settings
+        /// </summary>
+        /// <param name="body">The body to deserialize</param>
+        /// <param name="deserializationSettings">The custom deserialization settings</param>
+        /// <param name="type">The type to deserialize</param>
+        /// <returns>An instance of the given type</returns>
+        object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type);
 
         /// <summary>
         /// Deserializes the body of a response and creates
