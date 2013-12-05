@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.2.5.0
+
+  * Add generic As method to http response handler
+
 ## 0.2.4.0
 
   * Enable Dynamic in SimpleJson
