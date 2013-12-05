@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace SpeakEasy.Serializers
@@ -6,11 +7,24 @@ namespace SpeakEasy.Serializers
     {
         public override T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings)
         {
+            return ReadStream(
+                body,
+                contents => DeserializeString<T>(contents, deserializationSettings));
+        }
+
+        public override object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type)
+        {
+            return ReadStream(
+                body,
+                contents => DeserializeString(contents, deserializationSettings, type));
+        }
+
+        private T ReadStream<T>(Stream body, Func<string, T> callback)
+        {
             using (var reader = new StreamReader(body))
             {
                 var contents = reader.ReadToEnd();
-
-                return DeserializeString<T>(contents, deserializationSettings);
+                return callback(contents);
             }
         }
 
@@ -20,5 +34,7 @@ namespace SpeakEasy.Serializers
         }
 
         public abstract T DeserializeString<T>(string body, DeserializationSettings deserializationSettings);
+
+        public abstract object DeserializeString(string body, DeserializationSettings deserializationSettings, Type type);
     }
 }

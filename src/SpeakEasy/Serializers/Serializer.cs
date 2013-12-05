@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,13 @@ namespace SpeakEasy.Serializers
         {
             return Deserialize<T>(body, DefaultDeserializationSettings);
         }
+
+        public object Deserialize(Stream body, Type type)
+        {
+            return Deserialize(body, DefaultDeserializationSettings, type);
+        }
+
+        public abstract object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type);
 
         public abstract T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings);
     }
