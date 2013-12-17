@@ -142,7 +142,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
             {
                 request = An<IHttpRequest>();
-                request.WhenToldTo(r => r.BuildRequestUrl()).Return("http://example.com");
+                request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IArrayFormatter>())).Return("http://example.com");
                 request.WhenToldTo(r => r.HttpMethod).Return("GET");
 
                 The<ICookieStrategy>().WhenToldTo(s => s.Get(Param.IsAny<IHttpRequest>()))

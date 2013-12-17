@@ -86,6 +86,6 @@ namespace SpeakEasy
         /// Builds the method specific request url
         /// </summary>
         /// <returns>A url</returns>
-        string BuildRequestUrl();
+        string BuildRequestUrl(IArrayFormatter arrayFormatter);
     }
 }

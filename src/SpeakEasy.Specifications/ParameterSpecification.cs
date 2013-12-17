@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications
                 parameter = new Parameter("name", "value");
 
             Because of = () =>
-                formatted = parameter.ToQueryString();
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value");
@@ -29,7 +29,7 @@ namespace SpeakEasy.Specifications
                 parameter = new Parameter("name", new[] { "value1", "value2" });
 
             Because of = () =>
-                formatted = parameter.ToQueryString();
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value1,value2");
@@ -46,10 +46,27 @@ namespace SpeakEasy.Specifications
                 parameter = new Parameter("name", new[] { 3, 4, 5 });
 
             Because of = () =>
-                formatted = parameter.ToQueryString();
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=3,4,5");
+
+            static Parameter parameter;
+
+            static string formatted;
+        }
+
+        [Subject(typeof(Parameter))]
+        public class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
+        {
+            Establish context = () =>
+                parameter = new Parameter("name", new[] { 3, 4, 5 });
+
+            Because of = () =>
+                formatted = parameter.ToQueryString(new MultipleValuesArrayFormatter());
+
+            It should_format_as_query_string = () =>
+                formatted.ShouldEqual("name=3&name=4&name=5");
 
             static Parameter parameter;
 
@@ -63,7 +80,7 @@ namespace SpeakEasy.Specifications
                 parameter = new Parameter("name", new DateTime(2013, 10, 15, 14, 30, 44));
 
             Because of = () =>
-                formatted = parameter.ToQueryString();
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=2013-10-15T14:30:44");
@@ -80,7 +97,7 @@ namespace SpeakEasy.Specifications
                 parameter = new Parameter("name", (DateTime?)new DateTime(2013, 10, 15, 14, 30, 44));
 
             Because of = () =>
-                formatted = parameter.ToQueryString();
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=2013-10-15T14:30:44");

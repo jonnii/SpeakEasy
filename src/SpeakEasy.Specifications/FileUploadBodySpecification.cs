@@ -9,7 +9,7 @@ namespace SpeakEasy.Specifications
         public class when_serializing : with_file_upload_body
         {
             Because of = () =>
-                serializable = body.Serialize(transmissionSettings);
+                serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
 
             It should_have_content_type_for_multipart_form_data = () =>
                 serializable.ShouldBeOfType<MultipartMimeDocumentBody>();

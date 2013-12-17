@@ -56,7 +56,7 @@ namespace SpeakEasy
             headers.Add(new Header(name, value));
         }
 
-        public abstract string BuildRequestUrl();
+        public abstract string BuildRequestUrl(IArrayFormatter arrayFormatter);
 
         public abstract override string ToString();
     }

@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
     <Compile Include="Authenticators\WindowsAuthenticatorSpecification.cs" />
+    <Compile Include="MultipleValuesArrayFormatterSpecification.cs" />
     <Compile Include="PersistentCookieStrategySpecification.cs" />
     <Compile Include="TransientCookieStrategySpecification.cs" />
     <Compile Include="DeleteRequestSpecification.cs" />

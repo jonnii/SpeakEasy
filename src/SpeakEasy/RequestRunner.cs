@@ -16,6 +16,8 @@ namespace SpeakEasy
 
         private readonly ICookieStrategy cookieStrategy;
 
+        private readonly IArrayFormatter arrayFormatter;
+
         private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
             new Dictionary<string, Action<HttpWebRequest, string>>
             {
@@ -25,17 +27,19 @@ namespace SpeakEasy
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
             IAuthenticator authenticator,
-            ICookieStrategy cookieStrategy)
+            ICookieStrategy cookieStrategy,
+            IArrayFormatter arrayFormatter)
         {
             this.transmissionSettings = transmissionSettings;
             this.authenticator = authenticator;
             this.cookieStrategy = cookieStrategy;
+            this.arrayFormatter = arrayFormatter;
         }
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
             var webRequest = BuildWebRequest(httpRequest);
-            var serializedBody = httpRequest.Body.Serialize(transmissionSettings);
+            var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
             webRequest.ContentType = serializedBody.ContentType;
 
             if (serializedBody.HasContent)
@@ -117,7 +121,8 @@ namespace SpeakEasy
         {
             authenticator.Authenticate(httpRequest);
 
-            var url = httpRequest.BuildRequestUrl();
+            var url = httpRequest.BuildRequestUrl(arrayFormatter);
+
             var request = (HttpWebRequest)WebRequest.Create(url);
 
             request.UseDefaultCredentials = false;

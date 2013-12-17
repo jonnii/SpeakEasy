@@ -11,11 +11,11 @@ namespace SpeakEasy
             this.resource = resource;
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             if (resource.HasParameters)
             {
-                var parameters = resource.GetEncodedParameters();
+                var parameters = resource.GetEncodedParameters(arrayFormatter);
                 var content = Encoding.UTF8.GetBytes(parameters);
 
                 return new SerializableByteArray("application/x-www-form-urlencoded", content);

@@ -89,15 +89,25 @@ namespace SpeakEasy
             return Append(new Resource(resource));
         }
 
-        public string GetEncodedParameters()
+        public string GetEncodedParameters(IArrayFormatter arrayFormatter)
         {
-            var encodableParameters = Parameters.Where(p => p.HasValue).Select(p => p.ToQueryString());
-            return string.Join("&", encodableParameters);
+            var formattedParameters = GetFormattedParameters(arrayFormatter);
+
+            return string.Join("&", formattedParameters);
+        }
+
+        private IEnumerable<string> GetFormattedParameters(IArrayFormatter arrayFormatter)
+        {
+            return parameters
+                .Where(p => p.HasValue)
+                .Select(p => p.ToQueryString(arrayFormatter));
         }
 
         public override string ToString()
         {
-            var formattedParameters = parameters.Where(p => p.HasValue).Select(s => s.ToQueryString()).ToList();
+            var arrayFormatter = new CommaSeparatedArrayFormatter();
+
+            var formattedParameters = GetFormattedParameters(arrayFormatter).ToList();
             var parameterList = formattedParameters.Any() ? string.Join(", ", formattedParameters) : "none";
 
             return string.Format("[Resource Path={0}, Parameters={1}]", Path, parameterList);

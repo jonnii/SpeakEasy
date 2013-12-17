@@ -12,7 +12,7 @@ namespace SpeakEasy
         {
         }
 
-        public override string BuildRequestUrl()
+        public override string BuildRequestUrl(IArrayFormatter arrayFormatter)
         {
             return Resource.Path;
         }

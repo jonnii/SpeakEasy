@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Linq;
 
 namespace SpeakEasy
 {
@@ -21,7 +20,7 @@ namespace SpeakEasy
             get { return Value != null; }
         }
 
-        public string ToQueryString()
+        public string ToQueryString(IArrayFormatter arrayFormatter)
         {
             if (!HasValue)
             {
@@ -33,11 +32,14 @@ namespace SpeakEasy
 
             var enumerable = Value as Array;
 
-            var value = enumerable != null
-                ? string.Join(",", enumerable.Cast<object>().Select(ToQueryStringValue))
-                : ToQueryStringValue(Value);
+            if (enumerable != null)
+            {
+                return arrayFormatter.FormatParameter(Name, enumerable, ToQueryStringValue);
+            }
 
-            return string.Concat(Name, "=", Uri.EscapeUriString(value));
+            var value = ToQueryStringValue(Value);
+
+            return string.Concat(Name, "=", value);
         }
 
         private string ToQueryStringValue(object value)
@@ -47,7 +49,9 @@ namespace SpeakEasy
                 return ((DateTime)value).ToString("s", CultureInfo.InvariantCulture);
             }
 
-            return value.ToString();
+            var raw = value.ToString();
+
+            return Uri.EscapeUriString(raw);
         }
     }
 }

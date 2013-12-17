@@ -135,7 +135,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters();
+                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim&age=26");
@@ -156,7 +156,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters();
+                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim");
@@ -177,7 +177,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters();
+                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldBeEmpty();

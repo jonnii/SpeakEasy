@@ -12,7 +12,7 @@ namespace SpeakEasy
             this.files = files;
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             return new MultipartMimeDocumentBody(resource, files);
         }
