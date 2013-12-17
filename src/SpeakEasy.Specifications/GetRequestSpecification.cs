@@ -18,7 +18,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                url = request.BuildRequestUrl();
+                url = request.BuildRequestUrl(An<IArrayFormatter>());
 
             It should_set_url = () =>
                 url.ShouldEqual("http://example.com/companies?filter=ftse&starred=True");

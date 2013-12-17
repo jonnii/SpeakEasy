@@ -26,6 +26,9 @@ namespace SpeakEasy.Specifications
             It should_have_default_cookie_container = () =>
                 settings.CookieStrategy.ShouldBeOfType<TransientCookieStrategy>();
 
+            It should_have_default_array_formatter = () =>
+                settings.ArrayFormatter.ShouldBeOfType<MultipleValuesArrayFormatter>();
+
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
         }
@@ -51,6 +54,16 @@ namespace SpeakEasy.Specifications
         {
             Because of = () =>
                 settings.CookieStrategy = null;
+
+            It should_not_be_valid = () =>
+                settings.IsValid.ShouldBeFalse();
+        }
+
+        [Subject(typeof(HttpClientSettings))]
+        public class without_array_formatter : with_default_settings
+        {
+            Because of = () =>
+                settings.ArrayFormatter = null;
 
             It should_not_be_valid = () =>
                 settings.IsValid.ShouldBeFalse();

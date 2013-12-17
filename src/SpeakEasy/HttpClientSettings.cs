@@ -23,6 +23,7 @@ namespace SpeakEasy
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
             CookieStrategy = new TransientCookieStrategy();
+            ArrayFormatter = new MultipleValuesArrayFormatter();
 
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new DotNetXmlSerializer());
@@ -54,6 +55,11 @@ namespace SpeakEasy
         public ICookieStrategy CookieStrategy { get; set; }
 
         /// <summary>
+        /// The array formatter that will be used to format query string array paramters
+        /// </summary>
+        public IArrayFormatter ArrayFormatter { get; set; }
+
+        /// <summary>
         /// The default serializer
         /// </summary>
         public ISerializer DefaultSerializer
@@ -79,7 +85,7 @@ namespace SpeakEasy
         /// </summary>
         public bool IsValid
         {
-            get { return Serializers.Any() && CookieStrategy != null; }
+            get { return Serializers.Any() && CookieStrategy != null && ArrayFormatter != null; }
         }
 
         /// <summary>

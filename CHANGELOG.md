@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.3.0.0
+
+  * Add ability to customize array formatting, this changes the default array 
+    formatting from `?property=1,2,3` to `?property=1&property=2&property=3` to be 
+    more consistent with both WebApi and jQuery.
+
 ## 0.2.5.0
 
   * Add generic As method to http response handler

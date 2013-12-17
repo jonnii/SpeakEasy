@@ -16,7 +16,7 @@ namespace SpeakEasy
             get { return string.Empty; }
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings)
+        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             var serialized = transmissionSettings.Serialize(body);
             var content = Encoding.UTF8.GetBytes(serialized);

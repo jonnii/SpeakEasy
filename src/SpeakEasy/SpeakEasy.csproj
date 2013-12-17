@@ -46,8 +46,11 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="CommaSeparatedArrayFormatter.cs" />
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
+    <Compile Include="IArrayFormatter.cs" />
+    <Compile Include="MultipleValuesArrayFormatter.cs" />
     <Compile Include="PersistentCookieStrategy.cs" />
     <Compile Include="SimpleJson.cs" />
     <Compile Include="TransientCookieStrategy.cs" />

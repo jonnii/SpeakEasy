@@ -11,7 +11,8 @@ namespace SpeakEasy
         /// Serializes the request body
         /// </summary>
         /// <param name="transmissionSettings">The transmission settings</param>
+        /// <param name="arrayFormatter">The array formatter for array parameters</param>
         /// <returns>A byte array with the contents of this body</returns>
-        ISerializableBody Serialize(ITransmissionSettings transmissionSettings);
+        ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter);
     }
 }

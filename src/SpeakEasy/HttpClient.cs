@@ -38,7 +38,8 @@ namespace SpeakEasy
             requestRunner = new RequestRunner(
                 new TransmissionSettings(settings.Serializers),
                 settings.Authenticator,
-                settings.CookieStrategy);
+                settings.CookieStrategy,
+                settings.ArrayFormatter);
 
             merger = new ResourceMerger(settings.NamingConvention);
 
