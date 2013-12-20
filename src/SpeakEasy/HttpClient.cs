@@ -173,7 +173,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PostAsync(IFile[] files, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments, false);
+            var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PostRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
@@ -206,7 +206,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PutAsync(IFile[] files, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments, false);
+            var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PutRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
