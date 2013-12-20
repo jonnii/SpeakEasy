@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.2.0
+
+  * Fix a bug with the way mime documents were formatted for form data
+
 ## 0.3.1.0
 
   * Bug fix for uploading files with resource parameters
