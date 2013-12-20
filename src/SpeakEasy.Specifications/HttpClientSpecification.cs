@@ -143,6 +143,32 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(HttpClient))]
+        public class when_posting_with_file_and_segments : with_client
+        {
+            Because of = () =>
+                Subject.Post(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" });
+
+            It should_have_files = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
+
+            It should_merge_url_parameters = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/companies/3")));
+
+            It should_include_additional_parameters_in_resource = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+        }
+
+        [Subject(typeof(HttpClient))]
+        public class when_putting_with_file_and_segments : with_client
+        {
+            Because of = () =>
+                Subject.Put(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" });
+
+            It should_include_additional_parameters_in_resource = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+        }
+
+        [Subject(typeof(HttpClient))]
         public class when_putting : with_client
         {
             Because of = () =>
@@ -210,6 +236,9 @@ namespace SpeakEasy.Specifications
 
                 The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>()))
                     .Return(Task.Factory.StartNew(() => An<IHttpResponse>()));
+
+                The<INamingConvention>().WhenToldTo(r => r.ConvertPropertyNameToParameterName(Param.IsAny<string>()))
+                    .Return((string original) => original);
             };
         }
     }
