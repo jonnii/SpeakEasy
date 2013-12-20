@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.3.1.0
+
+  * Bug fix for uploading files with resource parameters
+
 ## 0.3.0.0
 
   * Add ability to customize array formatting, this changes the default array 
