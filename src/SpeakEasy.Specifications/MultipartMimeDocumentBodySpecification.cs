@@ -19,7 +19,7 @@ namespace SpeakEasy.Specifications
                 formatted = body.GetFormattedParameter(new Parameter("email", "foo@bar.com"));
 
             It should_format_as_mime_field = () =>
-                formatted.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"email\"\r\nfoo@bar.com\r\n");
+                formatted.ShouldEqual("-----------------------------29772313742745\r\nContent-Disposition: form-data; name=\"email\"\r\n\r\nfoo@bar.com\r\n");
 
             static string formatted;
         }
