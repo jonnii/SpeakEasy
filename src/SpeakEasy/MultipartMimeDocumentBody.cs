@@ -40,7 +40,7 @@ namespace SpeakEasy
 
         public string GetFormattedParameter(Parameter parameter)
         {
-            return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
+            return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
         public async Task WriteTo(Stream stream)
