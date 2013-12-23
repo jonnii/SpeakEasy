@@ -85,6 +85,7 @@
     <Compile Include="BasicHttpMethods.cs" />
     <Compile Include="BasicHttpMethodsWithXmlSerialization.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\Product.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />

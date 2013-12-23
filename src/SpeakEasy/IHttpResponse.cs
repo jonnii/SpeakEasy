@@ -23,7 +23,7 @@ namespace SpeakEasy
         /// <summary>
         /// The state of this http response
         /// </summary>
-        HttpResponseState State { get; }
+        IHttpResponseState State { get; }
 
         /// <summary>
         /// The body of the response
@@ -60,6 +60,24 @@ namespace SpeakEasy
         /// <param name="action">An action callback</param>
         /// <returns>A chainable http response</returns>
         IHttpResponse On<T>(HttpStatusCode code, Action<T> action);
+
+        /// <summary>
+        /// Executes the given action when the response state code matches the supplied status code.
+        /// The action will be given the http response state of the result.
+        /// </summary>
+        /// <param name="code">The http status code on which to execute the callback</param>
+        /// <param name="action">An action callback</param>
+        /// <returns>A chainable http response</returns>
+        IHttpResponse On(HttpStatusCode code, Action<IHttpResponseState> action);
+
+        /// <summary>
+        /// Executes the given action when the response state code matches the supplied status code.
+        /// The action will be given the http response state of the result.
+        /// </summary>
+        /// <param name="code">The http status code on which to execute the callback</param>
+        /// <param name="action">An action callback</param>
+        /// <returns>A chainable http response</returns>
+        IHttpResponse On(int code, Action<IHttpResponseState> action);
 
         /// <summary>
         /// Executes the given action when the response status code matches the supplied status code,

@@ -147,6 +147,18 @@ namespace SpeakEasy.Specifications
         }
 
         [Subject(typeof(HttpResponse))]
+        public class when_on_with_state_callback : with_ok_response
+        {
+            Because of = () =>
+                response.On(HttpStatusCode.OK, state => { called = true; });
+
+            It should_call_callback = () =>
+                called.ShouldBeTrue();
+
+            static bool called;
+        }
+
+        [Subject(typeof(HttpResponse))]
         public class when_getting_header : with_ok_response
         {
             Because of = () =>

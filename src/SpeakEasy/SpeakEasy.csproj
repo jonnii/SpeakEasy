@@ -50,6 +50,7 @@
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="IArrayFormatter.cs" />
+    <Compile Include="IHttpResponseState.cs" />
     <Compile Include="MultipleValuesArrayFormatter.cs" />
     <Compile Include="PersistentCookieStrategy.cs" />
     <Compile Include="SimpleJson.cs" />
