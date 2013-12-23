@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 
 namespace SpeakEasy
@@ -10,14 +9,14 @@ namespace SpeakEasy
         public HttpResponse(
             ISerializer deserializer,
             Stream body,
-            HttpResponseState state)
+            IHttpResponseState state)
         {
             Deserializer = deserializer;
             Body = body;
             State = state;
         }
 
-        public HttpResponseState State { get; private set; }
+        public IHttpResponseState State { get; private set; }
 
         public Stream Body { get; private set; }
 
@@ -57,6 +56,21 @@ namespace SpeakEasy
             }
 
             return this;
+        }
+
+        public IHttpResponse On(HttpStatusCode code, Action<IHttpResponseState> action)
+        {
+            if (Is(code))
+            {
+                action(State);
+            }
+
+            return this;
+        }
+
+        public IHttpResponse On(int code, Action<IHttpResponseState> action)
+        {
+            return On((HttpStatusCode)code, action);
         }
 
         public IHttpResponse On<T>(int code, Action<T> action)
@@ -124,24 +138,12 @@ namespace SpeakEasy
 
         public Header GetHeader(string name)
         {
-            var header = State.Headers.FirstOrDefault(h => h.Name == name.ToLowerInvariant());
-
-            if (header == null)
-            {
-                var message = string.Format(
-                    "Could not find a header with the name {0}", name);
-
-                throw new ArgumentException(message);
-            }
-
-            return header;
+            return State.GetHeader(name);
         }
 
         public string GetHeaderValue(string name)
         {
-            var header = GetHeader(name);
-
-            return header.Value;
+            return State.GetHeaderValue(name);
         }
 
         public override string ToString()

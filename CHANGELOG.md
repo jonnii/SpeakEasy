@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## pending
+
+  * Add overload to http response to access the internal http state.
+
 ## 0.3.2.0
 
   * Fix a bug with the way mime documents were formatted for form data

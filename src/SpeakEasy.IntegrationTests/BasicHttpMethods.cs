@@ -206,5 +206,16 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         }
+
+        [Test]
+        public void ShouldCallbackWithState()
+        {
+            var message = string.Empty;
+
+            client.Post("locations")
+                .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; });
+
+            Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
+        }
     }
 }
