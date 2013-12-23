@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## pending
+## 0.3.3.0
 
   * Add overload to http response to access the internal http state.
 
