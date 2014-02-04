@@ -46,7 +46,7 @@ namespace SpeakEasy
         {
             if (value is DateTime)
             {
-                return ((DateTime)value).ToString("s", CultureInfo.InvariantCulture);
+                return ((DateTime)value).ToString("o", CultureInfo.InvariantCulture);
             }
 
             var raw = value.ToString();
