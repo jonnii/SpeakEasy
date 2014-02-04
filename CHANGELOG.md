@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## pending
+## 0.3.4.0
 
   * Change query string parameter format from "s", to "o", this is to 
     fix problems with dates being passed as query string parameters and
