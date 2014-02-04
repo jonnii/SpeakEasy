@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## pending
+
+  * Change query string parameter format from "s", to "o", this is to 
+    fix problems with dates being passed as query string parameters and
+	not being interpreted as UTC
+
 ## 0.3.3.0
 
   * Add overload to http response to access the internal http state.

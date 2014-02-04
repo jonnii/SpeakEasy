@@ -83,7 +83,7 @@ namespace SpeakEasy.Specifications
                 formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
-                formatted.ShouldEqual("name=2013-10-15T14:30:44");
+                formatted.ShouldEqual("name=2013-10-15T14:30:44.0000000");
 
             static Parameter parameter;
 
@@ -94,13 +94,13 @@ namespace SpeakEasy.Specifications
         public class when_converting_to_query_string_with_nullable_date_time
         {
             Establish context = () =>
-                parameter = new Parameter("name", (DateTime?)new DateTime(2013, 10, 15, 14, 30, 44));
+                parameter = new Parameter("name", (DateTime?)new DateTime(2013, 10, 15, 14, 30, 44, DateTimeKind.Utc));
 
             Because of = () =>
                 formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
 
             It should_format_as_query_string = () =>
-                formatted.ShouldEqual("name=2013-10-15T14:30:44");
+                formatted.ShouldEqual("name=2013-10-15T14:30:44.0000000Z");
 
             static Parameter parameter;
 
