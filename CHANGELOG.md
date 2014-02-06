@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## PENDING
+## 0.3.6.0
 
   * When making a POST/PUT/PATCH with an object body and segments then
     extra segment values which do not merge into the URL will be added
