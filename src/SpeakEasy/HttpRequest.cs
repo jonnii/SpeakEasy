@@ -56,7 +56,17 @@ namespace SpeakEasy
             headers.Add(new Header(name, value));
         }
 
-        public abstract string BuildRequestUrl(IArrayFormatter arrayFormatter);
+        public string BuildRequestUrl(IArrayFormatter arrayFormatter)
+        {
+            if (!Resource.HasParameters || Body.ConsumesResourceParameters)
+            {
+                return Resource.Path;
+            }
+
+            var queryString = Resource.GetEncodedParameters(arrayFormatter);
+
+            return string.Concat(Resource.Path, "?", queryString);
+        }
 
         public abstract override string ToString();
     }

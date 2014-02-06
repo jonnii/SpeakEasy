@@ -217,5 +217,14 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
         }
+
+        [Test]
+        public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
+        {
+            var success = client.Put(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
+                .Is(HttpStatusCode.Created);
+
+            Assert.That(success);
+        }
     }
 }

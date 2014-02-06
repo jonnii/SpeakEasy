@@ -6,6 +6,13 @@ namespace SpeakEasy.Specifications
     public class FileUploadBodySpecification
     {
         [Subject(typeof(FileUploadBody))]
+        public class in_general : with_file_upload_body
+        {
+            It should_consume_resource = () =>
+                body.ConsumesResourceParameters.ShouldBeTrue();
+        }
+
+        [Subject(typeof(FileUploadBody))]
         public class when_serializing : with_file_upload_body
         {
             Because of = () =>
