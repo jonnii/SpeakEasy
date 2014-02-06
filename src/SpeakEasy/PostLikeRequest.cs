@@ -11,10 +11,5 @@ namespace SpeakEasy
             : base(resource, body)
         {
         }
-
-        public override string BuildRequestUrl(IArrayFormatter arrayFormatter)
-        {
-            return Resource.Path;
-        }
     }
 }

@@ -16,6 +16,11 @@ namespace SpeakEasy
             get { return string.Empty; }
         }
 
+        public bool ConsumesResourceParameters
+        {
+            get { return false; }
+        }
+
         public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             var serialized = transmissionSettings.Serialize(body);

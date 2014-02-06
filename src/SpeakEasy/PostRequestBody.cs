@@ -11,6 +11,11 @@ namespace SpeakEasy
             this.resource = resource;
         }
 
+        public bool ConsumesResourceParameters
+        {
+            get { return true; }
+        }
+
         public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             if (resource.HasParameters)

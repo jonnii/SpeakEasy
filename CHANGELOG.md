@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## PENDING
+
+  * When making a POST/PUT/PATCH with an object body and segments then
+    extra segment values which do not merge into the URL will be added
+	as query string parameters.
+
 ## 0.3.5.0
 
   * Fix a bug with query params not being added to a resource when a body

@@ -8,6 +8,13 @@ namespace SpeakEasy
     public interface IRequestBody
     {
         /// <summary>
+        /// Indicates whether or not this request body will use the resource parameters when serializing
+        /// the request body. This is used to indicate whether or not the request can use the resource
+        /// parameters for something else (namely query parameters).
+        /// </summary>
+        bool ConsumesResourceParameters { get; }
+
+        /// <summary>
         /// Serializes the request body
         /// </summary>
         /// <param name="transmissionSettings">The transmission settings</param>
