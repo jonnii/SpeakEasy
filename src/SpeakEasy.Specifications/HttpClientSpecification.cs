@@ -116,10 +116,13 @@ namespace SpeakEasy.Specifications
         public class when_posting_with_body_and_segments : with_client
         {
             Because of = () =>
-                Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments" });
+                Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
 
             It should_use_segments = () =>
                 The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
+
+            It should_add_extra_segment_properties_as_parameters = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
         }
 
         [Subject(typeof(HttpClient))]
@@ -192,10 +195,26 @@ namespace SpeakEasy.Specifications
         public class when_putting_with_body_and_segments : with_client
         {
             Because of = () =>
-                Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments" });
+                Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
 
             It should_use_segments = () =>
                 The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
+
+            It should_add_extra_segment_properties_as_parameters = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+        }
+
+        [Subject(typeof(HttpClient))]
+        public class when_patching_with_body_and_segments : with_client
+        {
+            Because of = () =>
+                Subject.Patch(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
+
+            It should_use_segments = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
+
+            It should_add_extra_segment_properties_as_parameters = () =>
+                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
         }
 
         [Subject(typeof(HttpClient))]
