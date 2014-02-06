@@ -161,7 +161,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PostAsync(object body, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments ?? body, false);
+            var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PostRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
@@ -187,7 +187,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PutAsync(object body, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments ?? body, false);
+            var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PutRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
@@ -213,7 +213,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PatchAsync(object body, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments ?? body, false);
+            var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PatchRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
@@ -232,7 +232,7 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> PatchAsync(IFile[] files, string relativeUrl, object segments = null)
         {
-            var merged = BuildRelativeResource(relativeUrl, segments, false);
+            var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PatchRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
