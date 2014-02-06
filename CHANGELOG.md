@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.3.5.0
+
+  * Fix a bug with query params not being added to a resource when a body
+    is not given for POST/PUT/Patch, this is inconsistent with how GET 
+	requests work.
+
 ## 0.3.4.0
 
   * Change query string parameter format from "s", to "o", this is to 
