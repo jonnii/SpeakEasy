@@ -122,3 +122,6 @@ var settings = new HttpClientSettings
 
 var client = HttpClient.Create("http://example.com/api");
 ````
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jonnii/speakeasy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
