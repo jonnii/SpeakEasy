@@ -49,6 +49,8 @@
     <Compile Include="CommaSeparatedArrayFormatter.cs" />
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
+    <Compile Include="HttpResponseHandlerTaskExtensions.cs" />
+    <Compile Include="HttpResponseTaskExtensions.cs" />
     <Compile Include="IArrayFormatter.cs" />
     <Compile Include="IHttpResponseState.cs" />
     <Compile Include="MultipleValuesArrayFormatter.cs" />

@@ -92,6 +92,7 @@
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SearchModel.cs" />
     <Compile Include="Controllers\ValidationError.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="UploadingDownloadingFiles.cs" />
     <Compile Include="ValidationException.cs" />
