@@ -1,5 +1,10 @@
 properties {
 	$buildName = "dev"
+	
+	$builds = @(
+		@{TargetDir = "Net45"; NugetDir = "net45"; Framework = "v4.5"},
+		@{TargetDir = "Net461"; NugetDir = "net461"; Framework = "v4.6.1"}
+	)
 }
 
 task default -depends Package
@@ -15,8 +20,13 @@ task PreparePackage -depends Test {
 	mkdir $packagesDirectory
 	cp ..\build\package.nuspec ..\targets\packages
 
-	mkdir ..\targets\packages\lib\net45
-	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net45
+	foreach ($build in $builds) {
+		$nugetdir = '..\targets\packages\lib\' + $build.NugetDir
+		$sources = '..\targets\speakeasy\' + $build.TargetDir + '\speakeasy.*'
+	
+		mkdir $nugetdir
+		cp $sources $nugetdir
+	}
 }
 
 task PackagePre -depends PreparePackage {
@@ -81,18 +91,28 @@ task UpdateAssemblyInfo {
 }
 
 task Compile -depends Clean,UpdateAssemblyInfo { 
-  # call msbuild
-  # /p:TargetFrameworkVersion=4.0
-  # /p:TargetFrameworkVersion=Silverlight
+	# call msbuild
+	# /p:TargetFrameworkVersion=4.0
+	# /p:TargetFrameworkVersion=Silverlight
+	
+	foreach ($build in $builds) {
+		$options = "/p:Configuration=Release /p:TargetFrameworkVersion=" + $build.Framework
+		$msbuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
 
-  $options = "/p:Configuration=Release"
-  $msbuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
-  
-  Push-Location ..\src
-  $build = $msbuild + ' "SpeakEasy.sln" ' + $options + " /t:Build"
+		Push-Location ..\src
+		$buildCmd = $msbuild + ' "SpeakEasy.sln" ' + $options + " /t:Rebuild"
 
-  iex $build
-  Pop-Location
+		iex $buildCmd
+		Pop-Location
+		
+		Write-Host $build.Framework
+		Write-Host $build.TargetDir
+		
+		$targetDir = '..\targets\speakeasy\' + $build.TargetDir
+		
+		mkdir $targetDir
+		mv ..\targets\speakeasy\speakeasy.* $targetDir
+	}
 }
 
 task Clean { 
