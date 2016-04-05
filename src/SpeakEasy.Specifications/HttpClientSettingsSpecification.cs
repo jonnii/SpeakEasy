@@ -12,22 +12,22 @@ namespace SpeakEasy.Specifications
         public class in_general : with_default_settings
         {
             It should_have_null_authenticator = () =>
-                settings.Authenticator.ShouldBeOfType<NullAuthenticator>();
+                settings.Authenticator.ShouldBeOfExactType<NullAuthenticator>();
 
             It should_have_null_logger = () =>
-                settings.Logger.ShouldBeOfType<NullLogger>();
+                settings.Logger.ShouldBeOfExactType<NullLogger>();
 
             It should_have_default_naming_convention = () =>
-                settings.NamingConvention.ShouldBeOfType<DefaultNamingConvention>();
+                settings.NamingConvention.ShouldBeOfExactType<DefaultNamingConvention>();
 
             It should_have_default_user_agent = () =>
                 settings.UserAgent.Name.ShouldEqual("SpeakEasy");
 
             It should_have_default_cookie_container = () =>
-                settings.CookieStrategy.ShouldBeOfType<TransientCookieStrategy>();
+                settings.CookieStrategy.ShouldBeOfExactType<TransientCookieStrategy>();
 
             It should_have_default_array_formatter = () =>
-                settings.ArrayFormatter.ShouldBeOfType<MultipleValuesArrayFormatter>();
+                settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();
 
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
@@ -37,7 +37,7 @@ namespace SpeakEasy.Specifications
         public class default_settings_in_general : with_default_settings
         {
             It should_default_to_json_serializer = () =>
-                settings.DefaultSerializer.ShouldBeOfType<DefaultJsonSerializer>();
+                settings.DefaultSerializer.ShouldBeOfExactType<DefaultJsonSerializer>();
 
             It should_have_json_deserializer = () =>
                 settings.Serializers.ShouldContain(d => d is DefaultJsonSerializer);
@@ -104,7 +104,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => settings.Validate());
 
             It should_throw = () =>
-                exception.ShouldBeOfType<ConfigurationException>();
+                exception.ShouldBeOfExactType<ConfigurationException>();
 
             static Exception exception;
         }

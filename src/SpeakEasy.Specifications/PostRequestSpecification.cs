@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications
                 request = new PostRequest(new Resource("http://example.com/companies"));
 
             It should_have_null_body = () =>
-                request.Body.ShouldBeOfType<PostRequestBody>();
+                request.Body.ShouldBeOfExactType<PostRequestBody>();
 
             static PostRequest request;
         }

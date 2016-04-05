@@ -19,7 +19,7 @@ namespace SpeakEasy.Specifications
                 serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
 
             It should_have_content_type_for_multipart_form_data = () =>
-                serializable.ShouldBeOfType<MultipartMimeDocumentBody>();
+                serializable.ShouldBeOfExactType<MultipartMimeDocumentBody>();
 
             static ISerializableBody serializable;
         }
