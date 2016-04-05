@@ -81,7 +81,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => response.OnOk());
 
             It should_return_handler = () =>
-                exception.ShouldBeOfType<HttpException>();
+                exception.ShouldBeOfExactType<HttpException>();
 
             static Exception exception;
         }
@@ -117,7 +117,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => response.On(HttpStatusCode.OK));
 
             It should_throw_http_exception = () =>
-                exception.ShouldBeOfType<HttpException>();
+                exception.ShouldBeOfExactType<HttpException>();
 
             static Exception exception;
         }
@@ -129,7 +129,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => response.On(301));
 
             It should_throw_http_exception = () =>
-                exception.ShouldBeOfType<HttpException>();
+                exception.ShouldBeOfExactType<HttpException>();
 
             static Exception exception;
         }
@@ -189,7 +189,7 @@ namespace SpeakEasy.Specifications
                 header = Catch.Exception(() => response.GetHeaderValue("fribble"));
 
             It should_throw_exception = () =>
-                header.ShouldBeOfType<ArgumentException>();
+                header.ShouldBeOfExactType<ArgumentException>();
 
             static Exception header;
         }

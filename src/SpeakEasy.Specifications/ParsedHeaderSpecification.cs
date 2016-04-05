@@ -16,7 +16,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => headerValue.GetParameter("unknown", "fribble"));
 
             It should_throw_exception = () =>
-                exception.ShouldBeOfType<ArgumentException>();
+                exception.ShouldBeOfExactType<ArgumentException>();
 
             static ParsedHeaderValue headerValue;
 
