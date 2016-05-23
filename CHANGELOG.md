@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Next
+
+  * .NET 4.6.1 Only [robertcoltheart]
+
 ## 0.3.6.0
 
   * When making a POST/PUT/PATCH with an object body and segments then
