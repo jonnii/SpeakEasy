@@ -22,7 +22,7 @@ namespace SpeakEasy.Serializers
 
         public DeserializationSettings DefaultDeserializationSettings { get; set; }
 
-        public abstract Task Serialize<T>(Stream stream, T body);
+        public abstract Task SerializeAsync<T>(Stream stream, T body);
 
         public virtual T Deserialize<T>(Stream body)
         {

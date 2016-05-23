@@ -30,9 +30,9 @@ namespace SpeakEasy
             get { return serializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
         }
 
-        public Task Serialize<T>(Stream stream, T body)
+        public Task SerializeAsync<T>(Stream stream, T body)
         {
-            return DefaultSerializer.Serialize(stream, body);
+            return DefaultSerializer.SerializeAsync(stream, body);
         }
 
         public ISerializer FindSerializer(string contentType)

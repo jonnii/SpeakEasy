@@ -19,12 +19,7 @@ namespace SpeakEasy.Serializers
             get { throw new NotImplementedException(); }
         }
 
-        public string Serialize<T>(T t)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Serialize<T>(Stream stream, T body)
+        public Task SerializeAsync<T>(Stream stream, T body)
         {
             throw new NotImplementedException();
         }

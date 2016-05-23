@@ -1,0 +1,14 @@
+; Top-most EditorConfig file
+root = true
+
+[*]
+insert_final_newline      = true
+trim_trailing_whitespace  = true
+
+[*.cs]
+indent_style  = space
+indent_size   = 4
+
+[*.ps1]
+indent_style  = space
+indent_size   = 2

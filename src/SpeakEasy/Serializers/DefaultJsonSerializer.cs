@@ -29,12 +29,7 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        //public override string Serialize<T>(T t)
-        //{
-        //    return SimpleJson.SerializeObject(t, JsonSerializerStrategy);
-        //}
-
-        public override async Task Serialize<T>(Stream stream, T body)
+        public override async Task SerializeAsync<T>(Stream stream, T body)
         {
             var content = SimpleJson.SerializeObject(body, JsonSerializerStrategy);
 

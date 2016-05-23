@@ -27,7 +27,7 @@ namespace SpeakEasy
         /// <param name="stream">The stream to write the content into</param>
         /// <param name="body">The object to serialize</param>
         /// <returns>A serialized object</returns>
-        Task Serialize<T>(Stream stream, T body);
+        Task SerializeAsync<T>(Stream stream, T body);
 
         /// <summary>
         /// Deserializes the body of a response and creates an instance of the given type
