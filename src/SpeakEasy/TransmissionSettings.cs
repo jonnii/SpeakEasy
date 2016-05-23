@@ -15,15 +15,9 @@ namespace SpeakEasy
             this.serializers = serializers;
         }
 
-        public ISerializer DefaultSerializer
-        {
-            get { return serializers.First(); }
-        }
+        public ISerializer DefaultSerializer => serializers.First();
 
-        public string DefaultSerializerContentType
-        {
-            get { return DefaultSerializer.MediaType; }
-        }
+        public string DefaultSerializerContentType => DefaultSerializer.MediaType;
 
         public IEnumerable<string> DeserializableMediaTypes
         {
