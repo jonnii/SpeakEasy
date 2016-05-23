@@ -2,6 +2,7 @@
 
 ## Next
 
+  * No more Xml Deserializer
   * .NET 4.6.1 Only [robertcoltheart]
 
 ## 0.3.6.0
