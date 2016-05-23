@@ -11,19 +11,13 @@ namespace SpeakEasy
             Content = bytes;
         }
 
-        public int ContentLength
-        {
-            get { return Content.Length; }
-        }
+        public int ContentLength => Content.Length;
 
-        public byte[] Content { get; private set; }
+        public byte[] Content { get; }
 
-        public bool HasContent
-        {
-            get { return ContentLength > 0; }
-        }
+        public bool HasContent => ContentLength > 0;
 
-        public string ContentType { get; private set; }
+        public string ContentType { get; }
 
         public Task WriteTo(Stream stream)
         {

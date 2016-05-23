@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeakEasy.Serializers
 {
@@ -21,7 +22,7 @@ namespace SpeakEasy.Serializers
 
         public DeserializationSettings DefaultDeserializationSettings { get; set; }
 
-        public abstract string Serialize<T>(T t);
+        public abstract Task Serialize<T>(Stream stream, T body);
 
         public virtual T Deserialize<T>(Stream body)
         {

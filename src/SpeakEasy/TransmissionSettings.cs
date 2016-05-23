@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -28,16 +30,16 @@ namespace SpeakEasy
             get { return serializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
         }
 
+        public Task Serialize<T>(Stream stream, T body)
+        {
+            return DefaultSerializer.Serialize(stream, body);
+        }
+
         public ISerializer FindSerializer(string contentType)
         {
             var deserializer = serializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
 
             return deserializer ?? new NullSerializer(contentType);
-        }
-
-        public string Serialize<T>(T body)
-        {
-            return DefaultSerializer.Serialize(body);
         }
     }
 }

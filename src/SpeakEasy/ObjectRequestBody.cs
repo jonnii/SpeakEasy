@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace SpeakEasy
 {
     public class ObjectRequestBody : IRequestBody
@@ -11,22 +9,15 @@ namespace SpeakEasy
             this.body = body;
         }
 
-        public string ContentType
-        {
-            get { return string.Empty; }
-        }
+        public string ContentType { get; } = string.Empty;
 
-        public bool ConsumesResourceParameters
-        {
-            get { return false; }
-        }
+        public bool ConsumesResourceParameters { get; } = false;
 
         public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
-            var serialized = transmissionSettings.Serialize(body);
-            var content = Encoding.UTF8.GetBytes(serialized);
-
-            return new SerializableByteArray(transmissionSettings.DefaultSerializerContentType, content);
+            return new StreamableSerializableBody(
+                transmissionSettings.DefaultSerializerContentType,
+                stream => transmissionSettings.Serialize(stream, body));
         }
     }
 }

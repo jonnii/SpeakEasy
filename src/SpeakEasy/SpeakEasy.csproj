@@ -56,6 +56,7 @@
     <Compile Include="MultipleValuesArrayFormatter.cs" />
     <Compile Include="PersistentCookieStrategy.cs" />
     <Compile Include="SimpleJson.cs" />
+    <Compile Include="StreamableSerializableBody.cs" />
     <Compile Include="TransientCookieStrategy.cs" />
     <Compile Include="DefaultNamingConvention.cs" />
     <Compile Include="DeleteRequest.cs" />
