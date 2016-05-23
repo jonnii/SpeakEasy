@@ -39,7 +39,7 @@ namespace SpeakEasy.Specifications
                 deserializer = transmissionSettings.FindSerializer("application/fribble");
 
             It should_return_null_deserializer = () =>
-                deserializer.ShouldBeOfType<NullSerializer>();
+                deserializer.ShouldBeOfExactType<NullSerializer>();
 
             static ISerializer deserializer;
         }

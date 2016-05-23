@@ -37,7 +37,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => Subject.Merge(resource, new { name = (string)null }));
 
             It should_throw_exception = () =>
-                exception.ShouldBeOfType<ArgumentException>();
+                exception.ShouldBeOfExactType<ArgumentException>();
 
             static Exception exception;
         }
@@ -81,7 +81,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => Subject.Merge(resource, null));
 
             It should_throw_exception = () =>
-                exception.ShouldBeOfType<ArgumentException>();
+                exception.ShouldBeOfExactType<ArgumentException>();
 
             static Resource resource;
 

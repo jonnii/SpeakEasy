@@ -20,7 +20,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => HttpClient.Create("http://example.com/api", settings));
 
             It should_throw = () =>
-                exception.ShouldBeOfType<ConfigurationException>();
+                exception.ShouldBeOfExactType<ConfigurationException>();
 
             static HttpClientSettings settings;
 

@@ -15,8 +15,8 @@ task PreparePackage -depends Test {
 	mkdir $packagesDirectory
 	cp ..\build\package.nuspec ..\targets\packages
 
-	mkdir ..\targets\packages\lib\net45
-	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net45
+	mkdir ..\targets\packages\lib\net461
+	cp ..\targets\speakeasy\speakeasy.* ..\targets\packages\lib\net461
 }
 
 task PackagePre -depends PreparePackage {
