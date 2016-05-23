@@ -43,7 +43,7 @@ namespace SpeakEasy
             return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
-        public async Task WriteTo(Stream stream)
+        public async Task WriteToAsync(Stream stream)
         {
             foreach (var parameter in resource.Parameters)
             {

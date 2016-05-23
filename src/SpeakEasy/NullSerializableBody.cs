@@ -28,7 +28,7 @@ namespace SpeakEasy
             get { return false; }
         }
 
-        public Task WriteTo(Stream stream)
+        public Task WriteToAsync(Stream stream)
         {
             throw new NotSupportedException();
         }

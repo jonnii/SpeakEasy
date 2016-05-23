@@ -19,7 +19,7 @@ namespace SpeakEasy
 
         public string ContentType { get; }
 
-        public Task WriteTo(Stream stream)
+        public Task WriteToAsync(Stream stream)
         {
             return stream.WriteAsync(Content, 0, Content.Length);
         }

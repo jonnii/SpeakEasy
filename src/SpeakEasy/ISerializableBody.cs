@@ -27,6 +27,6 @@ namespace SpeakEasy
         /// Writes the body to the given stream
         /// </summary>
         /// <param name="stream">The stream to write to</param>
-        Task WriteTo(Stream stream);
+        Task WriteToAsync(Stream stream);
     }
 }

@@ -13,10 +13,7 @@ namespace SpeakEasy.Serializers
             DefaultDeserializationSettings = new DeserializationSettings();
         }
 
-        public virtual string MediaType
-        {
-            get { return SupportedMediaTypes.First(); }
-        }
+        public virtual string MediaType => SupportedMediaTypes.First();
 
         public abstract IEnumerable<string> SupportedMediaTypes { get; }
 
