@@ -121,7 +121,6 @@
     <Compile Include="HttpClient.cs" />
     <Compile Include="HttpResponse.cs" />
     <Compile Include="HttpResponseHandler.cs" />
-    <Compile Include="Serializers\DotNetXmlSerializer.cs" />
     <Compile Include="Serializers\Serializer.cs" />
     <Compile Include="Serializers\DefaultJsonSerializer.cs" />
     <Compile Include="Serializers\StringBasedSerializer.cs" />
@@ -131,7 +130,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Net" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

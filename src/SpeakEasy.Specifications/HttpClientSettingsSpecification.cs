@@ -42,9 +42,6 @@ namespace SpeakEasy.Specifications
             It should_have_json_deserializer = () =>
                 settings.Serializers.ShouldContain(d => d is DefaultJsonSerializer);
 
-            It should_have_xml_deserializer = () =>
-                settings.Serializers.ShouldContain(d => d is DotNetXmlSerializer);
-
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
         }

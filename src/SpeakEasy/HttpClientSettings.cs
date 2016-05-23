@@ -26,7 +26,6 @@ namespace SpeakEasy
             ArrayFormatter = new MultipleValuesArrayFormatter();
 
             Serializers.Add(new DefaultJsonSerializer());
-            Serializers.Add(new DotNetXmlSerializer());
         }
 
         /// <summary>

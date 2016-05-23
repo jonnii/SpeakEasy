@@ -85,7 +85,6 @@
     </Compile>
     <Compile Include="BasicAsyncHttpMethods.cs" />
     <Compile Include="BasicHttpMethods.cs" />
-    <Compile Include="BasicHttpMethodsWithXmlSerialization.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\Product.cs" />
