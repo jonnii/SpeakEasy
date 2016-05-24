@@ -1,7 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SpeakEasy
+namespace SpeakEasy.Bodies
 {
     public class SerializableByteArray : ISerializableBody
     {

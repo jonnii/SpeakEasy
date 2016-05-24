@@ -1,3 +1,5 @@
+using SpeakEasy.Bodies;
+
 namespace SpeakEasy
 {
     public class FileUploadBody : IRequestBody

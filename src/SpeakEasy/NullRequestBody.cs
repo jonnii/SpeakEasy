@@ -1,3 +1,5 @@
+using SpeakEasy.Bodies;
+
 namespace SpeakEasy
 {
     internal class NullRequestBody : IRequestBody

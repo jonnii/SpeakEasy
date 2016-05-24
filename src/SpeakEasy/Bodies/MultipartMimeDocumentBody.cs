@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpeakEasy
+namespace SpeakEasy.Bodies
 {
     internal class MultipartMimeDocumentBody : ISerializableBody
     {

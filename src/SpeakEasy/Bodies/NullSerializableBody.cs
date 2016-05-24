@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SpeakEasy
+namespace SpeakEasy.Bodies
 {
     internal class NullSerializableBody : ISerializableBody
     {

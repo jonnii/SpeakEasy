@@ -1,7 +1,8 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Bodies;
 
-namespace SpeakEasy.Specifications
+namespace SpeakEasy.Specifications.Bodies
 {
     public class MultipartMimeDocumentBodySpecification
     {
