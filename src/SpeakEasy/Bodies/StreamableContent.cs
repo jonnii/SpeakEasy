@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Bodies
 {
-    public class StreamableSerializableBody : ISerializableBody
+    public class StreamableContent : IContent
     {
         private readonly Func<Stream, Task> onStream;
 
-        public StreamableSerializableBody(string contentType, Func<Stream, Task> onStream)
+        public StreamableContent(string contentType, Func<Stream, Task> onStream)
         {
             this.onStream = onStream;
             ContentType = contentType;

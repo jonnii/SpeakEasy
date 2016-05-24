@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Bodies
 {
-    internal class NullSerializableBody : ISerializableBody
+    internal class NullContent : IContent
     {
         private readonly ITransmissionSettings transmissionSettings;
 
-        public NullSerializableBody(ITransmissionSettings transmissionSettings)
+        public NullContent(ITransmissionSettings transmissionSettings)
         {
             this.transmissionSettings = transmissionSettings;
         }

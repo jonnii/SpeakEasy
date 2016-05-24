@@ -15,9 +15,9 @@ namespace SpeakEasy
 
         public bool ConsumesResourceParameters { get; } = false;
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
-            return new StreamableSerializableBody(
+            return new StreamableContent(
                 transmissionSettings.DefaultSerializerContentType,
                 stream => transmissionSettings.SerializeAsync(stream, body));
         }

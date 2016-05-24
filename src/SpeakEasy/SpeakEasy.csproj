@@ -46,10 +46,10 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
-    <Compile Include="Bodies\MultipartMimeDocumentBody.cs" />
-    <Compile Include="Bodies\NullSerializableBody.cs" />
-    <Compile Include="Bodies\SerializableByteArray.cs" />
-    <Compile Include="Bodies\StreamableSerializableBody.cs" />
+    <Compile Include="Bodies\MultipartMimeContent.cs" />
+    <Compile Include="Bodies\NullContent.cs" />
+    <Compile Include="Bodies\ByteArrayContent.cs" />
+    <Compile Include="Bodies\StreamableContent.cs" />
     <Compile Include="CommaSeparatedArrayFormatter.cs" />
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="NullRequestBody.cs" />
     <Compile Include="PostRequestBody.cs" />
     <Compile Include="IResourceMerger.cs" />
-    <Compile Include="ISerializableBody.cs" />
+    <Compile Include="IContent.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\NullLogger.cs" />
     <Compile Include="ObjectRequestBody.cs" />

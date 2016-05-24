@@ -17,17 +17,17 @@ namespace SpeakEasy
             get { return true; }
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
             if (resource.HasParameters)
             {
                 var parameters = resource.GetEncodedParameters(arrayFormatter);
                 var content = Encoding.UTF8.GetBytes(parameters);
 
-                return new SerializableByteArray("application/x-www-form-urlencoded", content);
+                return new ByteArrayContent("application/x-www-form-urlencoded", content);
             }
 
-            return new SerializableByteArray(transmissionSettings.DefaultSerializerContentType, new byte[0]);
+            return new ByteArrayContent(transmissionSettings.DefaultSerializerContentType, new byte[0]);
         }
     }
 }

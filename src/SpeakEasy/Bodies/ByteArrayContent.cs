@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Bodies
 {
-    public class SerializableByteArray : ISerializableBody
+    public class ByteArrayContent : IContent
     {
-        public SerializableByteArray(string contentType, byte[] bytes)
+        public ByteArrayContent(string contentType, byte[] bytes)
         {
             ContentType = contentType;
             Content = bytes;

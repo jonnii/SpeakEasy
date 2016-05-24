@@ -4,16 +4,16 @@ using SpeakEasy.Bodies;
 
 namespace SpeakEasy.Specifications.Bodies
 {
-    public class MultipartMimeDocumentBodySpecification
+    public class MultipartMimeContentSpecification
     {
-        [Subject(typeof(MultipartMimeDocumentBody))]
+        [Subject(typeof(MultipartMimeContent))]
         public class in_general : with_body
         {
             It should_have_content_type = () =>
                 body.ContentType.ShouldEqual("multipart/form-data; boundary=---------------------------29772313742745");
         }
 
-        [Subject(typeof(MultipartMimeDocumentBody))]
+        [Subject(typeof(MultipartMimeContent))]
         public class when_formatting_parameter : with_body
         {
             Because of = () =>
@@ -25,7 +25,7 @@ namespace SpeakEasy.Specifications.Bodies
             static string formatted;
         }
 
-        [Subject(typeof(MultipartMimeDocumentBody))]
+        [Subject(typeof(MultipartMimeContent))]
         public class when_formatting_file : with_body
         {
             Establish context = () =>
@@ -47,7 +47,7 @@ namespace SpeakEasy.Specifications.Bodies
             static string header;
         }
 
-        [Subject(typeof(MultipartMimeDocumentBody))]
+        [Subject(typeof(MultipartMimeContent))]
         public class when_formatting_file_without_content_type : with_body
         {
             Establish context = () =>
@@ -68,7 +68,7 @@ namespace SpeakEasy.Specifications.Bodies
             static string header;
         }
 
-        [Subject(typeof(MultipartMimeDocumentBody))]
+        [Subject(typeof(MultipartMimeContent))]
         public class when_formatting_footer : with_body
         {
             Because of = () =>
@@ -83,9 +83,9 @@ namespace SpeakEasy.Specifications.Bodies
         public class with_body : WithFakes
         {
             Establish context = () =>
-                body = new MultipartMimeDocumentBody(new Resource("http://fribble.com"), new[] { An<IFile>() });
+                body = new MultipartMimeContent(new Resource("http://fribble.com"), new[] { An<IFile>() });
 
-            internal static MultipartMimeDocumentBody body;
+            internal static MultipartMimeContent body;
         }
     }
 }

@@ -19,9 +19,9 @@ namespace SpeakEasy
             get { return true; }
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
-            return new MultipartMimeDocumentBody(resource, files);
+            return new MultipartMimeContent(resource, files);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Bodies
 {
-    internal class MultipartMimeDocumentBody : ISerializableBody
+    internal class MultipartMimeContent : IContent
     {
         private const string Crlf = "\r\n";
 
@@ -17,7 +17,7 @@ namespace SpeakEasy.Bodies
 
         private readonly IFile[] files;
 
-        public MultipartMimeDocumentBody(Resource resource, IFile[] files)
+        public MultipartMimeContent(Resource resource, IFile[] files)
         {
             this.resource = resource;
             this.files = files;
