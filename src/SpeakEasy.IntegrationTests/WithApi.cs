@@ -8,13 +8,7 @@ namespace SpeakEasy.IntegrationTests
 {
     public class WithApi
     {
-        public static string ApiUrl
-        {
-            get
-            {
-                return string.Format("http://{0}:1337/api", Environment.MachineName);
-            }
-        }
+        public static string ApiUrl => $"http://{Environment.MachineName}:1337/api";
 
         private static readonly Lazy<HttpSelfHostServer> ApiServer = new Lazy<HttpSelfHostServer>(() =>
         {
@@ -38,7 +32,7 @@ namespace SpeakEasy.IntegrationTests
 
         protected HttpSelfHostServer server;
 
-        [TestFixtureSetUp]
+        [OneTimeSetUpAttribute]
         public void StartServer()
         {
             server = StartWebServer();
