@@ -48,7 +48,7 @@ namespace SpeakEasy
 
                 using (requestStream)
                 {
-                    await serializedBody.WriteTo(requestStream);
+                    await serializedBody.WriteToAsync(requestStream);
                 }
             }
             else

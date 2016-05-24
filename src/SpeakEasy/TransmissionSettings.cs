@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -13,19 +15,18 @@ namespace SpeakEasy
             this.serializers = serializers;
         }
 
-        public ISerializer DefaultSerializer
-        {
-            get { return serializers.First(); }
-        }
+        public ISerializer DefaultSerializer => serializers.First();
 
-        public string DefaultSerializerContentType
-        {
-            get { return DefaultSerializer.MediaType; }
-        }
+        public string DefaultSerializerContentType => DefaultSerializer.MediaType;
 
         public IEnumerable<string> DeserializableMediaTypes
         {
             get { return serializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
+        }
+
+        public Task SerializeAsync<T>(Stream stream, T body)
+        {
+            return DefaultSerializer.SerializeAsync(stream, body);
         }
 
         public ISerializer FindSerializer(string contentType)
@@ -33,11 +34,6 @@ namespace SpeakEasy
             var deserializer = serializers.FirstOrDefault(d => d.SupportedMediaTypes.Any(contentType.StartsWith));
 
             return deserializer ?? new NullSerializer(contentType);
-        }
-
-        public string Serialize<T>(T body)
-        {
-            return DefaultSerializer.Serialize(body);
         }
     }
 }

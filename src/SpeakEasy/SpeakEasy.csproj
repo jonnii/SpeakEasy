@@ -46,6 +46,10 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
+    <Compile Include="Contents\MultipartMimeContent.cs" />
+    <Compile Include="Contents\NullContent.cs" />
+    <Compile Include="Contents\ByteArrayContent.cs" />
+    <Compile Include="Contents\StreamableContent.cs" />
     <Compile Include="CommaSeparatedArrayFormatter.cs" />
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />
@@ -78,19 +82,16 @@
     <Compile Include="IRequestBody.cs" />
     <Compile Include="IUserAgent.cs" />
     <Compile Include="NullRequestBody.cs" />
-    <Compile Include="NullSerializableBody.cs" />
     <Compile Include="PostRequestBody.cs" />
     <Compile Include="IResourceMerger.cs" />
-    <Compile Include="ISerializableBody.cs" />
+    <Compile Include="IContent.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\NullLogger.cs" />
-    <Compile Include="MultipartMimeDocumentBody.cs" />
     <Compile Include="ObjectRequestBody.cs" />
     <Compile Include="ParsedHeaderValue.cs" />
     <Compile Include="ParsedHeaderParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceMerger.cs" />
-    <Compile Include="SerializableByteArray.cs" />
     <Compile Include="SerializerException.cs" />
     <Compile Include="Serializers\NullSerializer.cs" />
     <Compile Include="FileUpload.cs" />
@@ -134,5 +135,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
 </Project>

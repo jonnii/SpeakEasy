@@ -20,6 +20,6 @@ namespace SpeakEasy
         /// <param name="transmissionSettings">The transmission settings</param>
         /// <param name="arrayFormatter">The array formatter for array parameters</param>
         /// <returns>A byte array with the contents of this body</returns>
-        ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter);
+        IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter);
     }
 }

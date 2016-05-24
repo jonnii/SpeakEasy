@@ -1,5 +1,6 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Contents;
 
 namespace SpeakEasy.Specifications
 {
@@ -19,9 +20,9 @@ namespace SpeakEasy.Specifications
                 serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
 
             It should_have_content_type_for_multipart_form_data = () =>
-                serializable.ShouldBeOfExactType<MultipartMimeDocumentBody>();
+                serializable.ShouldBeOfExactType<MultipartMimeContent>();
 
-            static ISerializableBody serializable;
+            static IContent serializable;
         }
 
         public class with_file_upload_body : WithFakes

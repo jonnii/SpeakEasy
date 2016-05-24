@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using SpeakEasy.Reflection;
 
 namespace SpeakEasy.Serializers
@@ -27,9 +29,14 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public override string Serialize<T>(T t)
+        public override async Task SerializeAsync<T>(Stream stream, T body)
         {
-            return SimpleJson.SerializeObject(t, JsonSerializerStrategy);
+            var content = SimpleJson.SerializeObject(body, JsonSerializerStrategy);
+
+            using (var writer = new StreamWriter(stream))
+            {
+                await writer.WriteAsync(content);
+            }
         }
 
         public override T DeserializeString<T>(string body, DeserializationSettings deserializationSettings)

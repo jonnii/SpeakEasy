@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy.Serializers
 {
@@ -18,7 +19,7 @@ namespace SpeakEasy.Serializers
             get { throw new NotImplementedException(); }
         }
 
-        public string Serialize<T>(T t)
+        public Task SerializeAsync<T>(Stream stream, T body)
         {
             throw new NotImplementedException();
         }

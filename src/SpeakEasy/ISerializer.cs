@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -23,9 +24,10 @@ namespace SpeakEasy
         /// Serializes an object
         /// </summary>
         /// <typeparam name="T">The type of object to serialize</typeparam>
-        /// <param name="t">The object to serialize</param>
+        /// <param name="stream">The stream to write the content into</param>
+        /// <param name="body">The object to serialize</param>
         /// <returns>A serialized object</returns>
-        string Serialize<T>(T t);
+        Task SerializeAsync<T>(Stream stream, T body);
 
         /// <summary>
         /// Deserializes the body of a response and creates an instance of the given type

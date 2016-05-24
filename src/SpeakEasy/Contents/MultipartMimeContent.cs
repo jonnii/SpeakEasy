@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpeakEasy
+namespace SpeakEasy.Contents
 {
-    internal class MultipartMimeDocumentBody : ISerializableBody
+    internal class MultipartMimeContent : IContent
     {
         private const string Crlf = "\r\n";
 
@@ -17,33 +17,24 @@ namespace SpeakEasy
 
         private readonly IFile[] files;
 
-        public MultipartMimeDocumentBody(Resource resource, IFile[] files)
+        public MultipartMimeContent(Resource resource, IFile[] files)
         {
             this.resource = resource;
             this.files = files;
         }
 
-        public string ContentType
-        {
-            get { return string.Concat("multipart/form-data; boundary=", MimeBoundary); }
-        }
+        public string ContentType { get; } = string.Concat("multipart/form-data; boundary=", MimeBoundary);
 
-        public int ContentLength
-        {
-            get { return 0; }
-        }
+        public int ContentLength { get; } = 0;
 
-        public bool HasContent
-        {
-            get { return files.Any(); }
-        }
+        public bool HasContent => files.Any();
 
         public string GetFormattedParameter(Parameter parameter)
         {
             return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
-        public async Task WriteTo(Stream stream)
+        public async Task WriteToAsync(Stream stream)
         {
             foreach (var parameter in resource.Parameters)
             {
@@ -98,7 +89,7 @@ namespace SpeakEasy
 
         public string GetFooter()
         {
-            return string.Format("--{0}--{1}", MimeBoundary, Crlf);
+            return $"--{MimeBoundary}--{Crlf}";
         }
     }
 }

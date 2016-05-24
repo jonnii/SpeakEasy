@@ -2,13 +2,13 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SpeakEasy
+namespace SpeakEasy.Contents
 {
-    internal class NullSerializableBody : ISerializableBody
+    internal class NullContent : IContent
     {
         private readonly ITransmissionSettings transmissionSettings;
 
-        public NullSerializableBody(ITransmissionSettings transmissionSettings)
+        public NullContent(ITransmissionSettings transmissionSettings)
         {
             this.transmissionSettings = transmissionSettings;
         }
@@ -28,7 +28,7 @@ namespace SpeakEasy
             get { return false; }
         }
 
-        public Task WriteTo(Stream stream)
+        public Task WriteToAsync(Stream stream)
         {
             throw new NotSupportedException();
         }

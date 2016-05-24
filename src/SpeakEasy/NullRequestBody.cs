@@ -1,3 +1,5 @@
+using SpeakEasy.Contents;
+
 namespace SpeakEasy
 {
     internal class NullRequestBody : IRequestBody
@@ -7,9 +9,9 @@ namespace SpeakEasy
             get { return false; }
         }
 
-        public ISerializableBody Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
-            return new NullSerializableBody(transmissionSettings);
+            return new NullContent(transmissionSettings);
         }
     }
 }

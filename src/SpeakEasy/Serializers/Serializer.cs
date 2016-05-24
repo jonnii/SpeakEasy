@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SpeakEasy.Serializers
 {
@@ -12,16 +13,13 @@ namespace SpeakEasy.Serializers
             DefaultDeserializationSettings = new DeserializationSettings();
         }
 
-        public virtual string MediaType
-        {
-            get { return SupportedMediaTypes.First(); }
-        }
+        public virtual string MediaType => SupportedMediaTypes.First();
 
         public abstract IEnumerable<string> SupportedMediaTypes { get; }
 
         public DeserializationSettings DefaultDeserializationSettings { get; set; }
 
-        public abstract string Serialize<T>(T t);
+        public abstract Task SerializeAsync<T>(Stream stream, T body);
 
         public virtual T Deserialize<T>(Stream body)
         {

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 namespace SpeakEasy
 {
     /// <summary>
-    /// A serializable body represents the body of a request that can be serialized to the request stream
+    /// A content represents the body of a request that can be serialized to the request stream
     /// </summary>
-    public interface ISerializableBody
+    public interface IContent
     {
         /// <summary>
         /// The content type of the body
@@ -24,9 +24,9 @@ namespace SpeakEasy
         bool HasContent { get; }
 
         /// <summary>
-        /// Writes the body to the given stream
+        /// Writes the content to the given stream
         /// </summary>
         /// <param name="stream">The stream to write to</param>
-        Task WriteTo(Stream stream);
+        Task WriteToAsync(Stream stream);
     }
 }

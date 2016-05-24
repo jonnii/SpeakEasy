@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -22,9 +24,10 @@ namespace SpeakEasy
         /// Serializes an object using the default serializer
         /// </summary>
         /// <typeparam name="T">The type of object to serialize</typeparam>
+        /// <param name="stream">The stream to serialize into</param>
         /// <param name="body">The object to serialize</param>
         /// <returns>A serialized representation of the object</returns>
-        string Serialize<T>(T body);
+        Task SerializeAsync<T>(Stream stream, T body);
 
         /// <summary>
         /// Finds a serializer for the given content type

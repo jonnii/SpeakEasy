@@ -74,6 +74,7 @@
     </Compile>
     <Compile Include="Authenticators\BasicAuthenticatorSpecification.cs" />
     <Compile Include="Authenticators\WindowsAuthenticatorSpecification.cs" />
+    <Compile Include="Contents\MultipartMimeContentSpecification.cs" />
     <Compile Include="MultipleValuesArrayFormatterSpecification.cs" />
     <Compile Include="PersistentCookieStrategySpecification.cs" />
     <Compile Include="TransientCookieStrategySpecification.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="HeaderSpecification.cs" />
     <Compile Include="HeadRequestSpecification.cs" />
     <Compile Include="HttpRequestSpecification.cs" />
-    <Compile Include="MultipartMimeDocumentBodySpecification.cs" />
     <Compile Include="OptionsRequestSpecification.cs" />
     <Compile Include="ParameterSpecification.cs" />
     <Compile Include="ParsedHeaderSpecification.cs" />
@@ -113,6 +113,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
