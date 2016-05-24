@@ -6,7 +6,7 @@ task default -depends Package
 
 task PreparePackage -depends Test {
 	$packagesDirectory = '..\targets\packages'
-	
+
 	if (Test-Path -path $packagesDirectory)
 	{
 		rm $packagesDirectory -recurse -force
@@ -25,9 +25,9 @@ task PackagePre -depends PreparePackage {
 	$when = (get-date).ToString("yyyyMMddHHmmss")
 	$packageVersion = "$version-$buildName-$when"
 
-	get-content ..\targets\packages\package.nuspec | 
+	get-content ..\targets\packages\package.nuspec |
         %{$_ -replace '0.0.0.1', $packageVersion } > ..\targets\packages\package.nuspec.tmp
-	
+
 	mv ..\targets\packages\package.nuspec.tmp ..\targets\packages\package.nuspec -force
 
 	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"
@@ -38,12 +38,12 @@ task Package -depends PreparePackage {
 	$version = get-content ..\VERSION
 	$packageVersion = "$version"
 
-	get-content ..\targets\packages\package.nuspec | 
+	get-content ..\targets\packages\package.nuspec |
         %{$_ -replace '0.0.0.1', $packageVersion } > ..\targets\packages\package.nuspec.tmp
-	
+
 	mv ..\targets\packages\package.nuspec.tmp ..\targets\packages\package.nuspec -force
 
-	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"	
+	..\src\.nuget\nuget.exe pack "..\targets\packages\package.nuspec" -outputdirectory ".\..\targets\packages"
 }
 
 task Publish -depends Package {
@@ -57,10 +57,10 @@ task PublishPre -depends PackagePre {
 }
 
 task CopyTools {
-	
+
 }
 
-task Test -depends Clean,CopyTools,Compile { 
+task Test -depends Clean,CopyTools,Compile {
   # run specs
   ..\src\packages\Machine.Specifications.0.5.16\tools\mspec-clr4.exe .\..\targets\specifications\speakeasy.specifications.dll
 
@@ -73,29 +73,29 @@ task UpdateAssemblyInfo {
 	$assemblyVersion = 'AssemblyVersion("' + $version + '")';
 	$assemblyFileVersion = 'AssemblyFileVersion("' + $version + '")';
 
-	get-content ..\src\CommonAssemblyInfo.cs | 
+	get-content ..\src\CommonAssemblyInfo.cs |
         %{$_ -replace 'AssemblyVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $assemblyVersion } |
         %{$_ -replace 'AssemblyFileVersion\("[0-9]+(\.([0-9]+|\*)){1,3}"\)', $assemblyFileVersion }  > ..\src\CommonAssemblyInfo.cs.tmp
-	
+
 	mv ..\src\CommonAssemblyInfo.cs.tmp ..\src\CommonAssemblyInfo.cs -force
 }
 
-task Compile -depends Clean,UpdateAssemblyInfo { 
+task Compile -depends Clean,UpdateAssemblyInfo {
   # call msbuild
   # /p:TargetFrameworkVersion=4.0
   # /p:TargetFrameworkVersion=Silverlight
 
   $options = "/p:Configuration=Release"
-  $msbuild = "C:\Windows\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe"
-  
-  Push-Location ..\src
-  $build = $msbuild + ' "SpeakEasy.sln" ' + $options + " /t:Build"
+  $build = '"speakeasy.sln" ' + $options + " /t:Build"
 
-  iex $build
+  $msbuild = ${Env:ProgramFiles(x86)} + "\MSBuild\14.0\Bin\MSBuild.exe"
+
+  Push-Location ..\src
+  & $msbuild $build
   Pop-Location
 }
 
-task Clean { 
+task Clean {
   if (Test-Path -path '..\targets') {
 	rm -recurse -force ..\targets
   }
