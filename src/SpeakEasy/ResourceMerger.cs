@@ -23,12 +23,8 @@ namespace SpeakEasy
 
             if (segments == null)
             {
-                var message = string.Format(
-                    "The resource {0} requires the following segments, but none were given: {1}",
-                    resource.Path,
-                    string.Join(", ", resource.SegmentNames));
-
-                throw new ArgumentException(message);
+                throw new ArgumentException(
+                    $"The resource {resource.Path} requires the following segments, but none were given: {string.Join(", ", resource.SegmentNames)}");
             }
 
             var properties = segments
@@ -77,12 +73,9 @@ namespace SpeakEasy
 
                 if (propertyValue == null)
                 {
-                    var message = string.Format(
-                        "Could not merge url segment with name {0} because the value of the segment was null. " +
-                        "When passing in segments for a url make sure each property has a value if it is to be used in the url.",
-                        segmentName);
-
-                    throw new ArgumentException(message);
+                    throw new ArgumentException(
+                        $"Could not merge url segment with name {segmentName} because the value of the segment was null. " +
+                        "When passing in segments for a url make sure each property has a value if it is to be used in the url.");
                 }
 
                 merged = merged.Replace(":" + segmentName, propertyValue.ToString());

@@ -19,14 +19,11 @@ namespace SpeakEasy.Serializers
             get { throw new NotImplementedException(); }
         }
 
+        public IEnumerable<string> SupportedMediaTypes => new string[0];
+
         public Task SerializeAsync<T>(Stream stream, T body)
         {
             throw new NotImplementedException();
-        }
-
-        public IEnumerable<string> SupportedMediaTypes
-        {
-            get { return new string[0]; }
         }
 
         public T Deserialize<T>(Stream body)
@@ -51,11 +48,7 @@ namespace SpeakEasy.Serializers
 
         private NotSupportedException BuildNotSupportedException()
         {
-            var message = string.Format(
-                "Could not find a deserializer that supports the content type {0}",
-                contentType);
-
-            return new NotSupportedException(message);
+            return new NotSupportedException($"Could not find a deserializer that supports the content type {contentType}");
         }
     }
 }

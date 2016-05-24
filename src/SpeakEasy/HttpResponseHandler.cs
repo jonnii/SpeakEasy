@@ -13,10 +13,7 @@ namespace SpeakEasy
             this.response = response;
         }
 
-        public IHttpResponse Response
-        {
-            get { return response; }
-        }
+        public IHttpResponse Response => response;
 
         public object As(Type type)
         {
@@ -62,9 +59,7 @@ namespace SpeakEasy
 
             var memoryStream = body as MemoryStream;
 
-            return memoryStream != null
-                ? memoryStream.ToArray()
-                : body.ReadAsByteArray(bufferSize);
+            return memoryStream?.ToArray() ?? body.ReadAsByteArray(bufferSize);
         }
 
         public string AsString()

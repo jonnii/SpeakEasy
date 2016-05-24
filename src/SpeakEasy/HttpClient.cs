@@ -66,11 +66,11 @@ namespace SpeakEasy
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
-        public ILogger Logger { get; private set; }
+        public ILogger Logger { get; }
 
         public Resource Root { get; set; }
 
-        public IUserAgent UserAgent { get; private set; }
+        public IUserAgent UserAgent { get; }
 
         public IHttpResponse Get(string relativeUrl, object segments = null)
         {

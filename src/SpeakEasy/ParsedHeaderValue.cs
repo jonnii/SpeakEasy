@@ -13,18 +13,13 @@ namespace SpeakEasy
             this.parameters = parameters;
         }
 
-        public IEnumerable<string> Keys
-        {
-            get { return parameters.Keys; }
-        }
+        public IEnumerable<string> Keys => parameters.Keys;
 
         public string GetParameter(string key, string name)
         {
             if (!parameters.ContainsKey(key))
             {
-                var message = string.Format("Could not find parameter named {0}", key);
-
-                throw new ArgumentException(message, "key");
+                throw new ArgumentException($"Could not find parameter named {key}", nameof(key));
             }
 
             return GetParameters(key).Single(p => p.Name == name).Value;

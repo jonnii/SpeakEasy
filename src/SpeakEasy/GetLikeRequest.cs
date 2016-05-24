@@ -5,7 +5,6 @@ namespace SpeakEasy
         protected GetLikeRequest(Resource resource)
             : base(resource, new NullRequestBody())
         {
-
         }
     }
 }

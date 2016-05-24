@@ -13,20 +13,11 @@ namespace SpeakEasy
             this.response = response;
         }
 
-        public bool HasContent
-        {
-            get { return !string.IsNullOrEmpty(ContentType); }
-        }
+        public bool HasContent => !string.IsNullOrEmpty(ContentType);
 
-        public string ContentType
-        {
-            get { return response.ContentType; }
-        }
+        public string ContentType => response.ContentType;
 
-        public long ContentLength
-        {
-            get { return response.ContentLength; }
-        }
+        public long ContentLength => response.ContentLength;
 
         public Stream GetResponseStream()
         {

@@ -17,37 +17,19 @@ namespace SpeakEasy
             segmentNames = ExtractSegments();
         }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public string[] SegmentNames
-        {
-            get { return segmentNames; }
-        }
+        public string[] SegmentNames => segmentNames;
 
-        public int NumSegments
-        {
-            get { return segmentNames.Length; }
-        }
+        public int NumSegments => segmentNames.Length;
 
-        public bool HasSegments
-        {
-            get { return segmentNames.Any(); }
-        }
+        public bool HasSegments => segmentNames.Any();
 
-        public IEnumerable<Parameter> Parameters
-        {
-            get { return parameters; }
-        }
+        public IEnumerable<Parameter> Parameters => parameters;
 
-        public bool HasParameters
-        {
-            get { return parameters.Any(); }
-        }
+        public bool HasParameters => parameters.Any();
 
-        public int NumParameters
-        {
-            get { return parameters.Count; }
-        }
+        public int NumParameters => parameters.Count;
 
         public bool HasSegment(string name)
         {
@@ -110,7 +92,7 @@ namespace SpeakEasy
             var formattedParameters = GetFormattedParameters(arrayFormatter).ToList();
             var parameterList = formattedParameters.Any() ? string.Join(", ", formattedParameters) : "none";
 
-            return string.Format("[Resource Path={0}, Parameters={1}]", Path, parameterList);
+            return $"[Resource Path={Path}, Parameters={parameterList}]";
         }
     }
 }

@@ -12,7 +12,6 @@ namespace SpeakEasy
         public PersistentCookieStrategy()
             : this(new CookieContainer())
         {
-
         }
 
         public PersistentCookieStrategy(CookieContainer container)

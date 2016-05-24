@@ -20,9 +20,6 @@ namespace SpeakEasy
         /// Indicates whether or not the deserialization settings has
         /// the root element path property set
         /// </summary>
-        public bool HasRootElementPath
-        {
-            get { return !string.IsNullOrEmpty(RootElementPath); }
-        }
+        public bool HasRootElementPath => !string.IsNullOrEmpty(RootElementPath);
     }
 }

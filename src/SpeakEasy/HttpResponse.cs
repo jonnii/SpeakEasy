@@ -16,21 +16,15 @@ namespace SpeakEasy
             State = state;
         }
 
-        public IHttpResponseState State { get; private set; }
+        public IHttpResponseState State { get; }
 
-        public Stream Body { get; private set; }
+        public Stream Body { get; }
 
-        public ISerializer Deserializer { get; private set; }
+        public ISerializer Deserializer { get; }
 
-        public string ContentType
-        {
-            get { return State.ContentType; }
-        }
+        public string ContentType => State.ContentType;
 
-        public HttpStatusCode StatusCode
-        {
-            get { return State.StatusCode; }
-        }
+        public HttpStatusCode StatusCode => State.StatusCode;
 
         public IHttpResponse On(HttpStatusCode code, Action action)
         {
@@ -105,10 +99,7 @@ namespace SpeakEasy
 
         private void OnIncorrectStatusCode(HttpStatusCode expected)
         {
-            var message = string.Format(
-                    "Cannot get an http response handler for {0}, because the status was {1}", expected, StatusCode);
-
-            throw new HttpException(message, this);
+            throw new HttpException($"Cannot get an http response handler for {expected}, because the status was {StatusCode}", this);
         }
 
         public IHttpResponse OnOk(Action action)
@@ -148,11 +139,7 @@ namespace SpeakEasy
 
         public override string ToString()
         {
-            return string.Format(
-                "[HttpResponse StatusCode={0}, ContentType={1}, RequestUrl={2}]",
-                StatusCode,
-                ContentType,
-                State.RequestUrl);
+            return $"[HttpResponse StatusCode={StatusCode}, ContentType={ContentType}, RequestUrl={State.RequestUrl}]";
         }
     }
 }
