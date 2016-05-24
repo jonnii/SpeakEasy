@@ -32,7 +32,7 @@ namespace SpeakEasy.IntegrationTests
 
         protected HttpSelfHostServer server;
 
-        [OneTimeSetUpAttribute]
+        [OneTimeSetUp]
         public void StartServer()
         {
             server = StartWebServer();
