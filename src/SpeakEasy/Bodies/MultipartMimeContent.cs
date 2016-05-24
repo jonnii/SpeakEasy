@@ -23,20 +23,11 @@ namespace SpeakEasy.Bodies
             this.files = files;
         }
 
-        public string ContentType
-        {
-            get { return string.Concat("multipart/form-data; boundary=", MimeBoundary); }
-        }
+        public string ContentType { get; } = string.Concat("multipart/form-data; boundary=", MimeBoundary);
 
-        public int ContentLength
-        {
-            get { return 0; }
-        }
+        public int ContentLength { get; } = 0;
 
-        public bool HasContent
-        {
-            get { return files.Any(); }
-        }
+        public bool HasContent => files.Any();
 
         public string GetFormattedParameter(Parameter parameter)
         {
@@ -98,7 +89,7 @@ namespace SpeakEasy.Bodies
 
         public string GetFooter()
         {
-            return string.Format("--{0}--{1}", MimeBoundary, Crlf);
+            return $"--{MimeBoundary}--{Crlf}";
         }
     }
 }
