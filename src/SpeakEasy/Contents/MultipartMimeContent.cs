@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpeakEasy.Bodies
+namespace SpeakEasy.Contents
 {
     internal class MultipartMimeContent : IContent
     {

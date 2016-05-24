@@ -1,6 +1,6 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
-using SpeakEasy.Bodies;
+using SpeakEasy.Contents;
 
 namespace SpeakEasy.Specifications
 {

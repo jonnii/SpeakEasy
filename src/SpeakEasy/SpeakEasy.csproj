@@ -46,10 +46,10 @@
     <Compile Include="Authenticators\BasicAuthenticator.cs" />
     <Compile Include="Authenticators\NullAuthenticator.cs" />
     <Compile Include="Authenticators\WindowsAuthenticator.cs" />
-    <Compile Include="Bodies\MultipartMimeContent.cs" />
-    <Compile Include="Bodies\NullContent.cs" />
-    <Compile Include="Bodies\ByteArrayContent.cs" />
-    <Compile Include="Bodies\StreamableContent.cs" />
+    <Compile Include="Contents\MultipartMimeContent.cs" />
+    <Compile Include="Contents\NullContent.cs" />
+    <Compile Include="Contents\ByteArrayContent.cs" />
+    <Compile Include="Contents\StreamableContent.cs" />
     <Compile Include="CommaSeparatedArrayFormatter.cs" />
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="Cookie.cs" />

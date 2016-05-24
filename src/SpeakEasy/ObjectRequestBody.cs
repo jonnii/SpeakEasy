@@ -1,4 +1,4 @@
-using SpeakEasy.Bodies;
+using SpeakEasy.Contents;
 
 namespace SpeakEasy
 {

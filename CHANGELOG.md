@@ -2,6 +2,7 @@
 
 ## Next
 
+  * Make contents streamable (this changes the serializer API)
   * No more Xml Deserializer
   * .NET 4.6.1 Only [robertcoltheart]
 
@@ -14,12 +15,12 @@
 ## 0.3.5.0
 
   * Fix a bug with query params not being added to a resource when a body
-    is not given for POST/PUT/Patch, this is inconsistent with how GET 
+    is not given for POST/PUT/Patch, this is inconsistent with how GET
 	requests work.
 
 ## 0.3.4.0
 
-  * Change query string parameter format from "s", to "o", this is to 
+  * Change query string parameter format from "s", to "o", this is to
     fix problems with dates being passed as query string parameters and
 	not being interpreted as UTC
 
@@ -37,8 +38,8 @@
 
 ## 0.3.0.0
 
-  * Add ability to customize array formatting, this changes the default array 
-    formatting from `?property=1,2,3` to `?property=1&property=2&property=3` to be 
+  * Add ability to customize array formatting, this changes the default array
+    formatting from `?property=1,2,3` to `?property=1&property=2&property=3` to be
     more consistent with both WebApi and jQuery.
 
 ## 0.2.5.0
@@ -68,7 +69,7 @@
   * Fix a bug with file uploading
 
 ## 0.2.0.0
-  
+
   * retarget .net 4.5
   * remove support for silverlight
   * it's a brave new async world

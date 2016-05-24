@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace SpeakEasy.Bodies
+namespace SpeakEasy.Contents
 {
     public class StreamableContent : IContent
     {
