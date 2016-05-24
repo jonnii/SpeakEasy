@@ -8,14 +8,11 @@ namespace SpeakEasy
 
         }
 
-        public override string HttpMethod
-        {
-            get { return "OPTIONS"; }
-        }
+        public override string HttpMethod { get; } = "OPTIONS";
 
         public override string ToString()
         {
-            return string.Format("[OptionsRequest {0}]", Resource);
+            return $"[OptionsRequest {Resource}]";
         }
     }
 }

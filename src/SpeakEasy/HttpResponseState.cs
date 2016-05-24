@@ -16,7 +16,7 @@ namespace SpeakEasy
             Header[] headers,
             Cookie[] cookies,
             string contentType,
-             string server,
+            string server,
             string contentEncoding,
             DateTime lastModified)
         {
@@ -31,23 +31,23 @@ namespace SpeakEasy
             LastModified = lastModified;
         }
 
-        public string Server { get; set; }
+        public string Server { get; }
 
-        public string ContentEncoding { get; set; }
+        public string ContentEncoding { get; }
 
-        public DateTime LastModified { get; set; }
+        public DateTime LastModified { get; }
 
-        public HttpStatusCode StatusCode { get; private set; }
+        public HttpStatusCode StatusCode { get; }
 
-        public string StatusDescription { get; private set; }
+        public string StatusDescription { get; }
 
-        public Uri RequestUrl { get; private set; }
+        public Uri RequestUrl { get; }
 
-        public Header[] Headers { get; private set; }
+        public Header[] Headers { get; }
 
-        public Cookie[] Cookies { get; private set; }
+        public Cookie[] Cookies { get; }
 
-        public string ContentType { get; private set; }
+        public string ContentType { get; }
 
         public Header GetHeader(string name)
         {
@@ -58,10 +58,7 @@ namespace SpeakEasy
                 return header;
             }
 
-            var message = string.Format(
-                "Could not find a header with the name {0}", name);
-
-            throw new ArgumentException(message);
+            throw new ArgumentException($"Could not find a header with the name {name}");
         }
 
         public string GetHeaderValue(string name)

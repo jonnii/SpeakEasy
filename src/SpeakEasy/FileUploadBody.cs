@@ -14,10 +14,7 @@ namespace SpeakEasy
             this.files = files;
         }
 
-        public bool ConsumesResourceParameters
-        {
-            get { return true; }
-        }
+        public bool ConsumesResourceParameters { get; } = true;
 
         public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {

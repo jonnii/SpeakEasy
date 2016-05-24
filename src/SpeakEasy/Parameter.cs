@@ -11,23 +11,17 @@ namespace SpeakEasy
             Value = value;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public object Value { get; private set; }
+        public object Value { get; }
 
-        public bool HasValue
-        {
-            get { return Value != null; }
-        }
+        public bool HasValue => Value != null;
 
         public string ToQueryString(IArrayFormatter arrayFormatter)
         {
             if (!HasValue)
             {
-                var message = string.Format(
-                    "Could not convert the parameter {0} to a query string because it did not have a value", Name);
-
-                throw new NotSupportedException(message);
+                throw new NotSupportedException($"Could not convert the parameter {Name} to a query string because it did not have a value");
             }
 
             var enumerable = Value as Array;

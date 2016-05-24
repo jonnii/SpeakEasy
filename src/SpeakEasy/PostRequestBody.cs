@@ -12,22 +12,19 @@ namespace SpeakEasy
             this.resource = resource;
         }
 
-        public bool ConsumesResourceParameters
-        {
-            get { return true; }
-        }
+        public bool ConsumesResourceParameters { get; } = true;
 
         public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
-            if (resource.HasParameters)
+            if (!resource.HasParameters)
             {
-                var parameters = resource.GetEncodedParameters(arrayFormatter);
-                var content = Encoding.UTF8.GetBytes(parameters);
-
-                return new ByteArrayContent("application/x-www-form-urlencoded", content);
+                return new ByteArrayContent(transmissionSettings.DefaultSerializerContentType, new byte[0]);
             }
 
-            return new ByteArrayContent(transmissionSettings.DefaultSerializerContentType, new byte[0]);
+            var parameters = resource.GetEncodedParameters(arrayFormatter);
+            var content = Encoding.UTF8.GetBytes(parameters);
+
+            return new ByteArrayContent("application/x-www-form-urlencoded", content);
         }
     }
 }

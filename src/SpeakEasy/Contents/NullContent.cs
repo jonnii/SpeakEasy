@@ -13,20 +13,11 @@ namespace SpeakEasy.Contents
             this.transmissionSettings = transmissionSettings;
         }
 
-        public string ContentType
-        {
-            get { return transmissionSettings.DefaultSerializerContentType; }
-        }
+        public string ContentType => transmissionSettings.DefaultSerializerContentType;
 
-        public int ContentLength
-        {
-            get { return -1; }
-        }
+        public int ContentLength { get; } = -1;
 
-        public bool HasContent
-        {
-            get { return false; }
-        }
+        public bool HasContent { get; } = false;
 
         public Task WriteToAsync(Stream stream)
         {

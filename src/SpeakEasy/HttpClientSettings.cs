@@ -61,18 +61,12 @@ namespace SpeakEasy
         /// <summary>
         /// The default serializer
         /// </summary>
-        public ISerializer DefaultSerializer
-        {
-            get { return Serializers.First(); }
-        }
+        public ISerializer DefaultSerializer => Serializers.First();
 
         /// <summary>
         /// Indicates whether or not these settings have a custom authenticator set
         /// </summary>
-        public bool HasAuthenticator
-        {
-            get { return Authenticator != null; }
-        }
+        public bool HasAuthenticator => Authenticator != null;
 
         /// <summary>
         /// The naming convention to use when converting segments to query string parameters
@@ -82,10 +76,7 @@ namespace SpeakEasy
         /// <summary>
         /// Indicates whether or not the http client settings are valid
         /// </summary>
-        public bool IsValid
-        {
-            get { return Serializers.Any() && CookieStrategy != null && ArrayFormatter != null; }
-        }
+        public bool IsValid => Serializers.Any() && CookieStrategy != null && ArrayFormatter != null;
 
         /// <summary>
         /// Configures the give serializer

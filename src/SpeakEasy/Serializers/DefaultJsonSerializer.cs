@@ -15,19 +15,13 @@ namespace SpeakEasy.Serializers
 
         public IJsonSerializerStrategy JsonSerializerStrategy { get; set; }
 
-        public override IEnumerable<string> SupportedMediaTypes
+        public override IEnumerable<string> SupportedMediaTypes => new[]
         {
-            get
-            {
-                return new[]
-                {
-                    "application/json",
-                    "text/json",
-                    "text/x-json",
-                    "text/javascript"
-                };
-            }
-        }
+            "application/json",
+            "text/json",
+            "text/x-json",
+            "text/javascript"
+        };
 
         public override async Task SerializeAsync<T>(Stream stream, T body)
         {

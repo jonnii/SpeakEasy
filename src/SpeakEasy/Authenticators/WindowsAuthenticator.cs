@@ -16,11 +16,10 @@ namespace SpeakEasy.Authenticators
         public WindowsAuthenticator()
             : this(CredentialCache.DefaultCredentials)
         {
-
         }
 
         /// <summary>
-        /// Creates a windows authenticator with a specific username 
+        /// Creates a windows authenticator with a specific username
         /// and password
         /// </summary>
         /// <param name="username">The username to authenticate with</param>
@@ -28,7 +27,6 @@ namespace SpeakEasy.Authenticators
         public WindowsAuthenticator(string username, string password)
             : this(new NetworkCredential(username, password))
         {
-
         }
 
         /// <summary>

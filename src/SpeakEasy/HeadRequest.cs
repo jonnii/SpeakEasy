@@ -5,17 +5,13 @@ namespace SpeakEasy
         public HeadRequest(Resource resource)
             : base(resource)
         {
-
         }
 
-        public override string HttpMethod
-        {
-            get { return "HEAD"; }
-        }
+        public override string HttpMethod { get; } = "HEAD";
 
         public override string ToString()
         {
-            return string.Format("[HeadRequest {0}]", Resource);
+            return $"[HeadRequest {Resource}]";
         }
     }
 }

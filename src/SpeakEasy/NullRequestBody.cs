@@ -4,10 +4,7 @@ namespace SpeakEasy
 {
     internal class NullRequestBody : IRequestBody
     {
-        public bool ConsumesResourceParameters
-        {
-            get { return false; }
-        }
+        public bool ConsumesResourceParameters { get; } = false;
 
         public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
         {
