@@ -15,11 +15,11 @@ namespace SpeakEasy
             ContentType = contentType;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string FileName { get; private set; }
+        public string FileName { get; }
 
-        public string ContentType { get; private set; }
+        public string ContentType { get; }
 
         public Task WriteToAsync(Stream stream)
         {

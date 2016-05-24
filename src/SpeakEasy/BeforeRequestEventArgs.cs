@@ -9,6 +9,6 @@ namespace SpeakEasy
             Request = request;
         }
 
-        public IHttpRequest Request { get; private set; }
+        public IHttpRequest Request { get; }
     }
 }

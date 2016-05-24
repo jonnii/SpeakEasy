@@ -36,32 +36,32 @@ namespace SpeakEasy
             Version = version;
         }
 
-        public string Comment { get; private set; }
+        public string Comment { get; }
 
-        public Uri CommentUri { get; private set; }
+        public Uri CommentUri { get; }
 
-        public bool Discard { get; private set; }
+        public bool Discard { get; }
 
-        public string Domain { get; private set; }
+        public string Domain { get; }
 
-        public bool Expired { get; private set; }
+        public bool Expired { get; }
 
-        public DateTime Expires { get; private set; }
+        public DateTime Expires { get; }
 
-        public bool Httponly { get; private set; }
+        public bool Httponly { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Path { get; private set; }
+        public string Path { get; }
 
-        public string Port { get; private set; }
+        public string Port { get; }
 
-        public bool Secure { get; private set; }
+        public bool Secure { get; }
 
-        public DateTime TimeStamp { get; private set; }
+        public DateTime TimeStamp { get; }
 
-        public string Value { get; set; }
+        public string Value { get; }
 
-        public int Version { get; set; }
+        public int Version { get; }
     }
 }
