@@ -39,7 +39,8 @@ namespace SpeakEasy
                 new TransmissionSettings(settings.Serializers),
                 settings.Authenticator,
                 settings.CookieStrategy,
-                settings.ArrayFormatter);
+                settings.ArrayFormatter,
+                settings.StreamManager);
 
             merger = new ResourceMerger(settings.NamingConvention);
 
