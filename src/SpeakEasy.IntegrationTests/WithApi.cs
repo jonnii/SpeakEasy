@@ -43,8 +43,14 @@ namespace SpeakEasy.IntegrationTests
             client = CreateClient();
         }
 
-        [OneTimeTearDown]
-        public void CheckThings()
+        [SetUp]
+        public void Setup()
+        {
+            trackingStreamManager.Reset();
+        }
+
+        [TearDown]
+        public void TearDown()
         {
             trackingStreamManager.CheckForUnDisposedStreams();
         }

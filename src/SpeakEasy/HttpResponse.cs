@@ -20,11 +20,19 @@ namespace SpeakEasy
 
         public Stream Body { get; }
 
-        public T WithBody<T>(Func<Stream, T> onBody)
+        public T ConsumeBody<T>(Func<Stream, T> onBody)
         {
             using (Body)
             {
                 return onBody(Body);
+            }
+        }
+
+        public void ConsumeBody(Action<Stream> onBody)
+        {
+            using (Body)
+            {
+                onBody(Body);
             }
         }
 

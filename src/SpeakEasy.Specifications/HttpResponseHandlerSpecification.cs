@@ -14,7 +14,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
             {
                 The<IHttpResponse>()
-                    .WhenToldTo(r => r.WithBody(Param.IsAny<Func<Stream, Company>>()))
+                    .WhenToldTo(r => r.ConsumeBody(Param.IsAny<Func<Stream, Company>>()))
                     .Return(new Func<Func<Stream, Company>, Company>(f => f(new MemoryStream(Encoding.Default.GetBytes("abcd")))));
 
                 deserializer = An<ISerializer>();
@@ -35,7 +35,7 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
                 The<IHttpResponse>()
-                    .WhenToldTo(r => r.WithBody(Param.IsAny<Func<Stream, byte[]>>()))
+                    .WhenToldTo(r => r.ConsumeBody(Param.IsAny<Func<Stream, byte[]>>()))
                     .Return(new Func<Func<Stream, byte[]>, byte[]>(f => f(new MemoryStream(Encoding.Default.GetBytes("abcd")))));
 
             Because of = () =>

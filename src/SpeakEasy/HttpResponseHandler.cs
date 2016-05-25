@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using SpeakEasy.Extensions;
 
 namespace SpeakEasy
@@ -17,28 +18,28 @@ namespace SpeakEasy
         {
             var deserializer = response.Deserializer;
 
-            return response.WithBody(body => deserializer.Deserialize(body, type));
+            return response.ConsumeBody(body => deserializer.Deserialize(body, type));
         }
 
         public object As(Type type, DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return response.WithBody(body => deserializer.Deserialize(body, deserializationSettings, type));
+            return response.ConsumeBody(body => deserializer.Deserialize(body, deserializationSettings, type));
         }
 
         public T As<T>()
         {
             var deserializer = response.Deserializer;
 
-            return response.WithBody(body => deserializer.Deserialize<T>(body));
+            return response.ConsumeBody(body => deserializer.Deserialize<T>(body));
         }
 
         public T As<T>(DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return response.WithBody(body => deserializer.Deserialize<T>(body, deserializationSettings));
+            return response.ConsumeBody(body => deserializer.Deserialize<T>(body, deserializationSettings));
         }
 
         public T As<T>(Func<IHttpResponseHandler, T> constructor)
@@ -53,7 +54,7 @@ namespace SpeakEasy
 
         public byte[] AsByteArray(int bufferSize)
         {
-            return response.WithBody(body =>
+            return response.ConsumeBody(body =>
             {
                 var memoryStream = body as MemoryStream;
 
@@ -63,7 +64,7 @@ namespace SpeakEasy
 
         public string AsString()
         {
-            return response.WithBody(body =>
+            return response.ConsumeBody(body =>
             {
                 using (var reader = new StreamReader(body))
                 {
@@ -81,13 +82,11 @@ namespace SpeakEasy
             var name = parsedHeader.GetParameter("attachment", "name");
             var fileName = parsedHeader.GetParameter("attachment", "filename");
 
-            throw new NotImplementedException();
-
-            //return new FileDownload(
-            //    name,
-            //    fileName,
-            //    response.ContentType,
-            //    response.Body);
+            return new FileDownload(
+                name,
+                fileName,
+                response.ContentType,
+                f => response.ConsumeBody(f));
         }
     }
 }

@@ -19,6 +19,11 @@ namespace SpeakEasy.IntegrationTests
             Interlocked.Decrement(ref numStreams);
         }
 
+        public void Reset()
+        {
+            numStreams = 0;
+        }
+
         public void CheckForUnDisposedStreams()
         {
             if (numStreams > 1)
