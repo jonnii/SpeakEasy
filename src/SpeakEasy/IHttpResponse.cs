@@ -25,10 +25,16 @@ namespace SpeakEasy
         /// </summary>
         IHttpResponseState State { get; }
 
-        /// <summary>
-        /// The body of the response
-        /// </summary>
-        Stream Body { get; }
+        ///// <summary>
+        ///// The body of the response
+        ///// </summary>
+        //Stream Body { get; }
+
+        T WithBody<T>(Func<Stream, T> onBody);
+
+        T ConsumeBody<T>(Func<Stream, T> onBody);
+
+        void ConsumeBody(Action<Stream> onBody);
 
         /// <summary>
         /// The deserializer that will be used to deserialize the response

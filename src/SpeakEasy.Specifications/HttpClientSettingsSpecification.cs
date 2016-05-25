@@ -6,10 +6,15 @@ using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
 {
-    public class HttpClientSettingsSpecification
+    [Subject(typeof(HttpClientSettings))]
+    class HttpClientSettingsSpecification
     {
-        [Subject(typeof(HttpClientSettings))]
-        public class in_general : with_default_settings
+        static HttpClientSettings settings;
+
+        Establish context = () =>
+            settings = new HttpClientSettings();
+
+        class in_general
         {
             It should_have_null_authenticator = () =>
                 settings.Authenticator.ShouldBeOfExactType<NullAuthenticator>();
@@ -29,12 +34,14 @@ namespace SpeakEasy.Specifications
             It should_have_default_array_formatter = () =>
                 settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();
 
+            It should_have_default_stream_manager = () =>
+                settings.StreamManager.ShouldBeOfExactType<DefaultStreamManager>();
+
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class default_settings_in_general : with_default_settings
+        class default_settings_in_general
         {
             It should_default_to_json_serializer = () =>
                 settings.DefaultSerializer.ShouldBeOfExactType<DefaultJsonSerializer>();
@@ -46,8 +53,7 @@ namespace SpeakEasy.Specifications
                 settings.IsValid.ShouldBeTrue();
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class without_cookie_strategy : with_default_settings
+        class without_cookie_strategy
         {
             Because of = () =>
                 settings.CookieStrategy = null;
@@ -56,8 +62,7 @@ namespace SpeakEasy.Specifications
                 settings.IsValid.ShouldBeFalse();
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class without_array_formatter : with_default_settings
+        class without_array_formatter
         {
             Because of = () =>
                 settings.ArrayFormatter = null;
@@ -66,8 +71,7 @@ namespace SpeakEasy.Specifications
                 settings.IsValid.ShouldBeFalse();
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class when_customizing_serializer : with_default_settings
+        class when_customizing_serializer
         {
             Because of = () =>
                 settings.Configure<DefaultJsonSerializer>(s =>
@@ -81,8 +85,7 @@ namespace SpeakEasy.Specifications
             static bool called;
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class without_serializers : with_default_settings
+        class without_serializers
         {
             Because of = () =>
                 settings.Serializers.Clear();
@@ -91,8 +94,7 @@ namespace SpeakEasy.Specifications
                 settings.IsValid.ShouldBeFalse();
         }
 
-        [Subject(typeof(HttpClientSettings))]
-        public class when_validating_invalid_settings : with_default_settings
+        class when_validating_invalid_settings
         {
             Establish context = () =>
                 settings.Serializers.Clear();
@@ -104,14 +106,6 @@ namespace SpeakEasy.Specifications
                 exception.ShouldBeOfExactType<ConfigurationException>();
 
             static Exception exception;
-        }
-
-        public class with_default_settings
-        {
-            Establish context = () =>
-                settings = new HttpClientSettings();
-
-            protected static HttpClientSettings settings;
         }
     }
 }

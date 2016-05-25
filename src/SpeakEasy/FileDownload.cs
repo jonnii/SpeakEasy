@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -5,11 +6,12 @@ namespace SpeakEasy
 {
     internal class FileDownload : IFile
     {
-        private readonly Stream body;
+        private readonly Func<Func<Stream, Task>, Task> onStream;
 
-        public FileDownload(string name, string fileName, string contentType, Stream body)
+        public FileDownload(string name, string fileName, string contentType, Func<Func<Stream, Task>, Task> onStream)
         {
-            this.body = body;
+            this.onStream = onStream;
+
             Name = name;
             FileName = fileName;
             ContentType = contentType;
@@ -23,7 +25,7 @@ namespace SpeakEasy
 
         public Task WriteToAsync(Stream stream)
         {
-            return body.CopyToAsync(stream);
+            return onStream(body => body.CopyToAsync(stream));
         }
     }
 }

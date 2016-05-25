@@ -20,6 +20,65 @@ namespace SpeakEasy
 
         public Stream Body { get; }
 
+        public T WithBody<T>(Func<Stream, T> onBody)
+        {
+            if (didConsumeBody)
+            {
+                throw new NotSupportedException("Body already consumed");
+            }
+
+            using (Body)
+            {
+                return onBody(Body);
+            }
+        }
+
+        public T ConsumeBody<T>(Func<Stream, T> onBody)
+        {
+            if (didConsumeBody)
+            {
+                throw new NotSupportedException("Body already consumed");
+            }
+
+            didConsumeBody = true;
+
+            using (Body)
+            {
+                return onBody(Body);
+            }
+        }
+
+        public void ConsumeBody(Action<Stream> onBody)
+        {
+            if (didConsumeBody)
+            {
+                throw new NotSupportedException("Body already consumed");
+            }
+
+            didConsumeBody = true;
+
+            using (Body)
+            {
+                onBody(Body);
+            }
+        }
+
+        private bool didConsumeBody = false;
+
+        public void ConsumeBody()
+        {
+            if (didConsumeBody)
+            {
+                return;
+            }
+
+            didConsumeBody = true;
+
+            using (Body)
+            {
+            }
+        }
+
         public ISerializer Deserializer { get; }
 
         public string ContentType => State.ContentType;
@@ -28,7 +87,7 @@ namespace SpeakEasy
 
         public IHttpResponse On(HttpStatusCode code, Action action)
         {
-            if (Is(code))
+            if (CheckStatusCode(code))
             {
                 action();
             }
@@ -43,7 +102,7 @@ namespace SpeakEasy
 
         public IHttpResponse On<T>(HttpStatusCode code, Action<T> action)
         {
-            if (Is(code))
+            if (CheckStatusCode(code))
             {
                 var deserialied = Deserializer.Deserialize<T>(Body);
                 action(deserialied);
@@ -54,12 +113,17 @@ namespace SpeakEasy
 
         public IHttpResponse On(HttpStatusCode code, Action<IHttpResponseState> action)
         {
-            if (Is(code))
+            if (CheckStatusCode(code))
             {
                 action(State);
             }
 
             return this;
+        }
+
+        private bool CheckStatusCode(HttpStatusCode code)
+        {
+            return StatusCode == code;
         }
 
         public IHttpResponse On(int code, Action<IHttpResponseState> action)
@@ -74,7 +138,7 @@ namespace SpeakEasy
 
         public IHttpResponseHandler On(HttpStatusCode code)
         {
-            if (!Is(code))
+            if (!CheckStatusCode(code))
             {
                 OnIncorrectStatusCode(code);
             }
@@ -89,7 +153,7 @@ namespace SpeakEasy
 
         public IHttpResponseHandler OnOk()
         {
-            if (!IsOk())
+            if (!CheckOk())
             {
                 OnIncorrectStatusCode(HttpStatusCode.OK);
             }
@@ -114,6 +178,7 @@ namespace SpeakEasy
 
         public bool Is(HttpStatusCode code)
         {
+            ConsumeBody();
             return StatusCode == code;
         }
 
@@ -125,6 +190,11 @@ namespace SpeakEasy
         public bool IsOk()
         {
             return Is(HttpStatusCode.OK);
+        }
+
+        private bool CheckOk()
+        {
+            return CheckStatusCode(HttpStatusCode.OK);
         }
 
         public Header GetHeader(string name)

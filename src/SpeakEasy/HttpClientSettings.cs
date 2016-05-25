@@ -24,6 +24,7 @@ namespace SpeakEasy
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
             CookieStrategy = new TransientCookieStrategy();
             ArrayFormatter = new MultipleValuesArrayFormatter();
+            StreamManager = new DefaultStreamManager();
 
             Serializers.Add(new DefaultJsonSerializer());
         }
@@ -77,6 +78,8 @@ namespace SpeakEasy
         /// Indicates whether or not the http client settings are valid
         /// </summary>
         public bool IsValid => Serializers.Any() && CookieStrategy != null && ArrayFormatter != null;
+
+        public IStreamManager StreamManager { get; set; }
 
         /// <summary>
         /// Configures the give serializer

@@ -18,6 +18,8 @@ namespace SpeakEasy
 
         private readonly IArrayFormatter arrayFormatter;
 
+        private readonly IStreamManager streamManager;
+
         private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
             new Dictionary<string, Action<HttpWebRequest, string>>
             {
@@ -28,12 +30,14 @@ namespace SpeakEasy
             ITransmissionSettings transmissionSettings,
             IAuthenticator authenticator,
             ICookieStrategy cookieStrategy,
-            IArrayFormatter arrayFormatter)
+            IArrayFormatter arrayFormatter,
+            IStreamManager streamManager)
         {
             this.transmissionSettings = transmissionSettings;
             this.authenticator = authenticator;
             this.cookieStrategy = cookieStrategy;
             this.arrayFormatter = arrayFormatter;
+            this.streamManager = streamManager;
         }
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
@@ -67,7 +71,7 @@ namespace SpeakEasy
                         ? response.ContentLength
                         : DefaultBufferSize;
 
-                    var readResponseStream = new MemoryStream();
+                    var readResponseStream = streamManager.GetStream("speakeasy.response");
                     await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
 
                     readResponseStream.Position = 0;
