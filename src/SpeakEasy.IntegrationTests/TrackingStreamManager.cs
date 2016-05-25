@@ -26,7 +26,7 @@ namespace SpeakEasy.IntegrationTests
 
         public void CheckForUnDisposedStreams()
         {
-            if (numStreams > 1)
+            if (numStreams > 0)
             {
                 throw new Exception($"There are {numStreams} undisposed streams");
             }
