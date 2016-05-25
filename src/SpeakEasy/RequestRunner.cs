@@ -44,11 +44,11 @@ namespace SpeakEasy
 
             if (serializedBody.HasContent)
             {
-                var requestStream = await webRequest.GetRequestStreamAsync();
+                var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
 
                 using (requestStream)
                 {
-                    await serializedBody.WriteToAsync(requestStream);
+                    await serializedBody.WriteToAsync(requestStream).ConfigureAwait(false);
                 }
             }
             else
@@ -59,7 +59,7 @@ namespace SpeakEasy
                 }
             }
 
-            using (var response = await GetResponseWrapper(webRequest))
+            using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
             {
                 using (var responseStream = response.GetResponseStream())
                 {
@@ -68,7 +68,7 @@ namespace SpeakEasy
                         : DefaultBufferSize;
 
                     var readResponseStream = new MemoryStream();
-                    await responseStream.CopyToAsync(readResponseStream, (int)bufferSize);
+                    await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
 
                     readResponseStream.Position = 0;
 
@@ -81,7 +81,7 @@ namespace SpeakEasy
         {
             try
             {
-                var response = await webRequest.GetResponseAsync();
+                var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
                 return new HttpWebResponseWrapper((HttpWebResponse)response);
             }
             catch (WebException wex)

@@ -265,7 +265,7 @@ namespace SpeakEasy
 
             OnBeforeRequest(request);
 
-            var response = await requestRunner.RunAsync(request);
+            var response = await requestRunner.RunAsync(request).ConfigureAwait(false);
 
             OnAfterRequest(request, response);
 

@@ -15,7 +15,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On(this Task<IHttpResponse> response, HttpStatusCode code, Action action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On(this Task<IHttpResponse> response, int code, Action action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On<T>(this Task<IHttpResponse> response, HttpStatusCode code, Action<T> action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On(this Task<IHttpResponse> response, HttpStatusCode code, Action<IHttpResponseState> action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On(this Task<IHttpResponse> response, int code, Action<IHttpResponseState> action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> On<T>(this Task<IHttpResponse> response, int code, Action<T> action)
         {
-            return (await response).On(code, action);
+            return (await response.ConfigureAwait(false)).On(code, action);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace SpeakEasy
         /// <returns>A response handler giving access to the body of the response</returns>
         public static async Task<IHttpResponseHandler> On(this Task<IHttpResponse> response, HttpStatusCode code)
         {
-            return (await response).On(code);
+            return (await response.ConfigureAwait(false)).On(code);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace SpeakEasy
         /// <returns>A response handler giving access to the body of the response</returns>
         public static async Task<IHttpResponseHandler> On(this Task<IHttpResponse> response, int code)
         {
-            return (await response).On(code);
+            return (await response.ConfigureAwait(false)).On(code);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace SpeakEasy
         /// <returns>A response handler giving access to the body of the response</returns>
         public static async Task<IHttpResponseHandler> OnOk(this Task<IHttpResponse> response)
         {
-            return (await response).OnOk();
+            return (await response.ConfigureAwait(false)).OnOk();
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> OnOk(this Task<IHttpResponse> response, Action action)
         {
-            return (await response).OnOk(action);
+            return (await response.ConfigureAwait(false)).OnOk(action);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         public static async Task<IHttpResponse> OnOk<T>(this Task<IHttpResponse> response, Action<T> action)
         {
-            return (await response).OnOk(action);
+            return (await response.ConfigureAwait(false)).OnOk(action);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace SpeakEasy
         /// <returns>True if the code matches the response status code</returns>
         public static async Task<bool> Is(this Task<IHttpResponse> response, HttpStatusCode code)
         {
-            return (await response).Is(code);
+            return (await response.ConfigureAwait(false)).Is(code);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace SpeakEasy
         /// <returns>True if the code matches the response status code</returns>
         public static async Task<bool> Is(this Task<IHttpResponse> response, int code)
         {
-            return (await response).Is(code);
+            return (await response.ConfigureAwait(false)).Is(code);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace SpeakEasy
         /// <returns>True if the response status code is OK (200)</returns>
         public static async Task<bool> IsOk(this Task<IHttpResponse> response)
         {
-            return (await response).IsOk();
+            return (await response.ConfigureAwait(false)).IsOk();
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace SpeakEasy
         /// <returns>The header</returns>
         public static async Task<Header> GetHeader(this Task<IHttpResponse> response, string name)
         {
-            return (await response).GetHeader(name);
+            return (await response.ConfigureAwait(false)).GetHeader(name);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace SpeakEasy
         /// <returns>The header value</returns>
         public static async Task<string> GetHeaderValue(this Task<IHttpResponse> response, string name)
         {
-            return (await response).GetHeaderValue(name);
+            return (await response.ConfigureAwait(false)).GetHeaderValue(name);
         }
     }
 }

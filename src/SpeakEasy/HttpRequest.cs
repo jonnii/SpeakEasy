@@ -16,9 +16,9 @@ namespace SpeakEasy
             AllowAutoRedirect = true;
         }
 
-        public Resource Resource { get; private set; }
+        public Resource Resource { get; }
 
-        public IRequestBody Body { get; private set; }
+        public IRequestBody Body { get; }
 
         public IUserAgent UserAgent { get; set; }
 
@@ -28,22 +28,13 @@ namespace SpeakEasy
 
         public int? MaximumAutomaticRedirections { get; set; }
 
-        public bool HasUserAgent
-        {
-            get { return UserAgent != null; }
-        }
+        public bool HasUserAgent => UserAgent != null;
 
         public abstract string HttpMethod { get; }
 
-        public int NumHeaders
-        {
-            get { return headers.Count; }
-        }
+        public int NumHeaders => headers.Count;
 
-        public IEnumerable<Header> Headers
-        {
-            get { return headers; }
-        }
+        public IEnumerable<Header> Headers => headers;
 
         public ICredentials Credentials { get; set; }
 
