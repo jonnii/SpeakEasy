@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## NEXT
+
+  * Always ConfigureWait(false)
+
 ## 0.4.0
 
   * Make contents streamable (this changes the serializer API)

@@ -29,7 +29,7 @@ namespace SpeakEasy.Serializers
 
             using (var writer = new StreamWriter(stream))
             {
-                await writer.WriteAsync(content);
+                await writer.WriteAsync(content).ConfigureAwait(false);
             }
         }
 

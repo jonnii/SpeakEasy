@@ -6,14 +6,14 @@ namespace SpeakEasy
     public static class HttpResponseHandlerTaskExtensions
     {
         /// <summary>
-        /// Deserializes the body of a response as a given type. This 
-        /// will use the default deserialization settings that are set on the 
+        /// Deserializes the body of a response as a given type. This
+        /// will use the default deserialization settings that are set on the
         /// serializer.
         /// </summary>
         /// <returns>The deserialized body, as an object</returns>
         public static async Task<object> As(this Task<IHttpResponseHandler> httpResponseHandler, Type type)
         {
-            return (await httpResponseHandler).As(type);
+            return (await httpResponseHandler.ConfigureAwait(false)).As(type);
         }
 
         /// <summary>
@@ -25,12 +25,12 @@ namespace SpeakEasy
         /// <returns>The deserialized body, as an object</returns>
         public static async Task<object> As(this Task<IHttpResponseHandler> httpResponseHandler, Type type, DeserializationSettings deserializationSettings)
         {
-            return (await httpResponseHandler).As(type, deserializationSettings);
+            return (await httpResponseHandler.ConfigureAwait(false)).As(type, deserializationSettings);
         }
 
         /// <summary>
-        /// Deserializes the body of a response as a given type. This 
-        /// will use the default deserialization settings that are set on the 
+        /// Deserializes the body of a response as a given type. This
+        /// will use the default deserialization settings that are set on the
         /// serializer. To override them use an overload of this method.
         /// </summary>
         /// <typeparam name="T">The type to deserialize</typeparam>
@@ -38,7 +38,7 @@ namespace SpeakEasy
         /// <returns>The deserialized body</returns>
         public static async Task<T> As<T>(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler).As<T>();
+            return (await httpResponseHandler.ConfigureAwait(false)).As<T>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace SpeakEasy
         /// <returns>The deserialized body</returns>
         public static async Task<T> As<T>(this Task<IHttpResponseHandler> httpResponseHandler, DeserializationSettings deserializationSettings)
         {
-            return (await httpResponseHandler).As<T>(deserializationSettings);
+            return (await httpResponseHandler.ConfigureAwait(false)).As<T>(deserializationSettings);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace SpeakEasy
         /// <returns></returns>
         public static async Task<T> As<T>(this Task<IHttpResponseHandler> httpResponseHandler, Func<IHttpResponseHandler, T> constructor)
         {
-            return (await httpResponseHandler).As(constructor);
+            return (await httpResponseHandler.ConfigureAwait(false)).As(constructor);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace SpeakEasy
         /// <returns>A byte array with the contents of the response handler</returns>
         public static async Task<byte[]> AsByteArray(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler).AsByteArray();
+            return (await httpResponseHandler.ConfigureAwait(false)).AsByteArray();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace SpeakEasy
         /// <returns>A byte array with the contents of the response handler</returns>
         public static async Task<byte[]> AsByteArray(this Task<IHttpResponseHandler> httpResponseHandler, int bufferSize)
         {
-            return (await httpResponseHandler).AsByteArray(bufferSize);
+            return (await httpResponseHandler.ConfigureAwait(false)).AsByteArray(bufferSize);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace SpeakEasy
         /// <returns>The string representation of the response</returns>
         public static async Task<string> AsString(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler).AsString();
+            return (await httpResponseHandler.ConfigureAwait(false)).AsString();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SpeakEasy
         /// <returns></returns>
         public static async Task<IFile> AsFile(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler).AsFile();
+            return (await httpResponseHandler.ConfigureAwait(false)).AsFile();
         }
     }
 }

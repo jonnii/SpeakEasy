@@ -38,15 +38,15 @@ namespace SpeakEasy.Contents
         {
             foreach (var parameter in resource.Parameters)
             {
-                await WriteParameter(stream, parameter);
+                await WriteParameter(stream, parameter).ConfigureAwait(false);
             }
 
             foreach (var file in files)
             {
-                await WriteFile(stream, file);
+                await WriteFile(stream, file).ConfigureAwait(false);
             }
 
-            await WriteFooter(stream);
+            await WriteFooter(stream).ConfigureAwait(false);
         }
 
         private Task WriteFooter(Stream stream)
@@ -68,12 +68,12 @@ namespace SpeakEasy.Contents
             var fileHeader = GetFileHeader(file);
 
             var encoded = DefaultEncoding.GetBytes(fileHeader);
-            await stream.WriteAsync(encoded, 0, encoded.Length);
+            await stream.WriteAsync(encoded, 0, encoded.Length).ConfigureAwait(false);
 
-            await file.WriteToAsync(stream);
+            await file.WriteToAsync(stream).ConfigureAwait(false);
 
             var crlf = DefaultEncoding.GetBytes(Crlf);
-            await stream.WriteAsync(crlf, 0, crlf.Length);
+            await stream.WriteAsync(crlf, 0, crlf.Length).ConfigureAwait(false);
         }
 
         public string GetFileHeader(IFile file)
