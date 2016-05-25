@@ -15,6 +15,7 @@ namespace SpeakEasy.IntegrationTests
         public void ShouldHaveCorrectPropertiesOnResponse()
         {
             var response = client.Get("products/1");
+            response.IsOk();
 
             Assert.That(response.State.RequestUrl.ToString(), Does.EndWith(":1337/api/products/1"));
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -190,9 +191,9 @@ namespace SpeakEasy.IntegrationTests
         [Test]
         public void ShouldBeAbleToUseNumericResponseCodes()
         {
-            var response = client.Post("search", new { username = "unknown-username" });
-
-            var success = response.Is(422);
+            var success = client
+                .Post("search", new { username = "unknown-username" })
+                .Is(422);
 
             Assert.That(success);
         }

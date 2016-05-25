@@ -30,6 +30,8 @@ namespace SpeakEasy
         ///// </summary>
         //Stream Body { get; }
 
+        T WithBody<T>(Func<Stream, T> onBody);
+
         T ConsumeBody<T>(Func<Stream, T> onBody);
 
         void ConsumeBody(Action<Stream> onBody);

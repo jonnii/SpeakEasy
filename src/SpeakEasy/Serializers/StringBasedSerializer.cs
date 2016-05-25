@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace SpeakEasy.Serializers
 {
@@ -21,7 +22,7 @@ namespace SpeakEasy.Serializers
 
         private T ReadStream<T>(Stream body, Func<string, T> callback)
         {
-            using (var reader = new StreamReader(body))
+            using (var reader = new StreamReader(body, Encoding.Default, true, 1024, true))
             {
                 var contents = reader.ReadToEnd();
                 return callback(contents);

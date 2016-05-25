@@ -18,28 +18,28 @@ namespace SpeakEasy
         {
             var deserializer = response.Deserializer;
 
-            return response.ConsumeBody(body => deserializer.Deserialize(body, type));
+            return response.WithBody(body => deserializer.Deserialize(body, type));
         }
 
         public object As(Type type, DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return response.ConsumeBody(body => deserializer.Deserialize(body, deserializationSettings, type));
+            return response.WithBody(body => deserializer.Deserialize(body, deserializationSettings, type));
         }
 
         public T As<T>()
         {
             var deserializer = response.Deserializer;
 
-            return response.ConsumeBody(body => deserializer.Deserialize<T>(body));
+            return response.WithBody(body => deserializer.Deserialize<T>(body));
         }
 
         public T As<T>(DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return response.ConsumeBody(body => deserializer.Deserialize<T>(body, deserializationSettings));
+            return response.WithBody(body => deserializer.Deserialize<T>(body, deserializationSettings));
         }
 
         public T As<T>(Func<IHttpResponseHandler, T> constructor)
