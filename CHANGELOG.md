@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## NEXT
+## 0.4.1
 
   * Always ConfigureWait(false)
 
