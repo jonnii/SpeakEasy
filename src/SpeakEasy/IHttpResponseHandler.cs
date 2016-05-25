@@ -8,13 +8,8 @@ namespace SpeakEasy
     public interface IHttpResponseHandler
     {
         /// <summary>
-        /// The response that created this response handler
-        /// </summary>
-        IHttpResponse Response { get; }
-
-        /// <summary>
-        /// Deserializes the body of a response as a given type. This 
-        /// will use the default deserialization settings that are set on the 
+        /// Deserializes the body of a response as a given type. This
+        /// will use the default deserialization settings that are set on the
         /// serializer.
         /// </summary>
         /// <returns>The deserialized body, as an object</returns>
@@ -29,8 +24,8 @@ namespace SpeakEasy
         object As(Type type, DeserializationSettings deserializationSettings);
 
         /// <summary>
-        /// Deserializes the body of a response as a given type. This 
-        /// will use the default deserialization settings that are set on the 
+        /// Deserializes the body of a response as a given type. This
+        /// will use the default deserialization settings that are set on the
         /// serializer. To override them use an overload of this method.
         /// </summary>
         /// <typeparam name="T">The type to deserialize</typeparam>

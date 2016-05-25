@@ -20,6 +20,14 @@ namespace SpeakEasy
 
         public Stream Body { get; }
 
+        public T WithBody<T>(Func<Stream, T> onBody)
+        {
+            using (Body)
+            {
+                return onBody(Body);
+            }
+        }
+
         public ISerializer Deserializer { get; }
 
         public string ContentType => State.ContentType;

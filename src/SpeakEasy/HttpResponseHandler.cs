@@ -13,34 +13,32 @@ namespace SpeakEasy
             this.response = response;
         }
 
-        public IHttpResponse Response => response;
-
         public object As(Type type)
         {
             var deserializer = response.Deserializer;
 
-            return deserializer.Deserialize(response.Body, type);
+            return response.WithBody(body => deserializer.Deserialize(body, type));
         }
 
         public object As(Type type, DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return deserializer.Deserialize(response.Body, deserializationSettings, type);
+            return response.WithBody(body => deserializer.Deserialize(body, deserializationSettings, type));
         }
 
         public T As<T>()
         {
             var deserializer = response.Deserializer;
 
-            return deserializer.Deserialize<T>(response.Body);
+            return response.WithBody(body => deserializer.Deserialize<T>(body));
         }
 
         public T As<T>(DeserializationSettings deserializationSettings)
         {
             var deserializer = response.Deserializer;
 
-            return deserializer.Deserialize<T>(response.Body, deserializationSettings);
+            return response.WithBody(body => deserializer.Deserialize<T>(body, deserializationSettings));
         }
 
         public T As<T>(Func<IHttpResponseHandler, T> constructor)
@@ -55,19 +53,23 @@ namespace SpeakEasy
 
         public byte[] AsByteArray(int bufferSize)
         {
-            var body = response.Body;
+            return response.WithBody(body =>
+            {
+                var memoryStream = body as MemoryStream;
 
-            var memoryStream = body as MemoryStream;
-
-            return memoryStream?.ToArray() ?? body.ReadAsByteArray(bufferSize);
+                return memoryStream?.ToArray() ?? body.ReadAsByteArray(bufferSize);
+            });
         }
 
         public string AsString()
         {
-            using (var reader = new StreamReader(response.Body))
+            return response.WithBody(body =>
             {
-                return reader.ReadToEnd();
-            }
+                using (var reader = new StreamReader(body))
+                {
+                    return reader.ReadToEnd();
+                }
+            });
         }
 
         public IFile AsFile()
@@ -79,11 +81,13 @@ namespace SpeakEasy
             var name = parsedHeader.GetParameter("attachment", "name");
             var fileName = parsedHeader.GetParameter("attachment", "filename");
 
-            return new FileDownload(
-                name,
-                fileName,
-                response.ContentType,
-                response.Body);
+            throw new NotImplementedException();
+
+            //return new FileDownload(
+            //    name,
+            //    fileName,
+            //    response.ContentType,
+            //    response.Body);
         }
     }
 }

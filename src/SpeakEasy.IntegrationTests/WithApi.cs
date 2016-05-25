@@ -32,18 +32,29 @@ namespace SpeakEasy.IntegrationTests
 
         protected HttpSelfHostServer server;
 
+        protected TrackingStreamManager trackingStreamManager;
+
         [OneTimeSetUp]
         public void StartServer()
         {
+            trackingStreamManager = new TrackingStreamManager();
+
             server = StartWebServer();
             client = CreateClient();
+        }
+
+        [OneTimeTearDown]
+        public void CheckThings()
+        {
+            trackingStreamManager.CheckForUnDisposedStreams();
         }
 
         protected virtual IHttpClient CreateClient()
         {
             var settings = new HttpClientSettings
             {
-                Logger = new ConsoleLogger()
+                Logger = new ConsoleLogger(),
+                StreamManager = trackingStreamManager
             };
 
             return HttpClient.Create(ApiUrl, settings);
