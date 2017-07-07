@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -39,42 +40,68 @@ namespace SpeakEasy
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
             var webRequest = BuildWebRequest(httpRequest);
+
+            var message = new HttpRequestMessage(GetMethod(httpRequest.HttpMethod), httpRequest.BuildRequestUrl(arrayFormatter));
+
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
-            webRequest.ContentType = serializedBody.ContentType;
 
-            if (serializedBody.HasContent)
-            {
-                var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
+            var memoryStream = new MemoryStream();
+            await serializedBody.WriteToAsync(memoryStream);
+            memoryStream.Position = 0;
 
-                using (requestStream)
-                {
-                    await serializedBody.WriteToAsync(requestStream).ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                if (serializedBody.ContentLength != -1)
-                {
-                    webRequest.ContentLength = serializedBody.ContentLength;
-                }
-            }
+            message.Content = new StreamContent(memoryStream);
 
-            using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
-            {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    var bufferSize = response.ContentLength > 0
-                        ? response.ContentLength
-                        : DefaultBufferSize;
+            //webRequest.ContentType = serializedBody.ContentType;
 
-                    var readResponseStream = new MemoryStream();
-                    await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
+            //if (serializedBody.HasContent)
+            //{
+            //    var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
 
-                    readResponseStream.Position = 0;
+            //    using (requestStream)
+            //    {
+            //        await serializedBody.WriteToAsync(requestStream).ConfigureAwait(false);
+            //    }
+            //}
+            //else
+            //{
+            //    if (serializedBody.ContentLength != -1)
+            //    {
+            //        webRequest.ContentLength = serializedBody.ContentLength;
+            //    }
+            //}
 
-                    return CreateHttpResponse(response, readResponseStream);
-                }
-            }
+            //var bufferSize = response.ContentLength > 0
+            //    ? response.ContentLength
+            //    : DefaultBufferSize;
+
+            var response = await webRequest.SendAsync(message);
+
+            var readResponseStream = new MemoryStream();
+            var responseSTream = await response.Content.ReadAsStreamAsync();
+
+            await responseSTream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
+            readResponseStream.Position = 0;
+
+            return CreateHttpResponse(response, readResponseStream);
+
+            //using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
+            //{
+            //    using (var responseStream = response.GetResponseStream())
+            //    {
+
+            //        var readResponseStream = new MemoryStream();
+            //        await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
+
+            //        readResponseStream.Position = 0;
+
+            //        return CreateHttpResponse(response, readResponseStream);
+            //    }
+            //}
+        }
+
+        private HttpMethod GetMethod(string httpRequestHttpMethod)
+        {
+            return HttpMethod.Get;
         }
 
         private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
@@ -117,34 +144,38 @@ namespace SpeakEasy
             }
         }
 
-        public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
+        public System.Net.Http.HttpClient BuildWebRequest(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
 
-            var url = httpRequest.BuildRequestUrl(arrayFormatter);
+            var handler = new HttpClientHandler();
 
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            //var request = (HttpWebRequest)WebRequest.Create(url);
 
-            request.UseDefaultCredentials = false;
-            request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-            request.Credentials = httpRequest.Credentials;
-            request.Method = httpRequest.HttpMethod;
-            request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            request.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
+            handler.UseDefaultCredentials = false;
+            handler.Credentials = httpRequest.Credentials;
+            handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            handler.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
+
+            //handler.Method = httpRequest.HttpMethod;
+            //handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
             if (httpRequest.HasUserAgent)
             {
-                request.UserAgent = httpRequest.UserAgent.Name;
+                //handler.UserAgent = httpRequest.UserAgent.Name;
             }
 
-            BuildWebRequestFrameworkSpecific(httpRequest, request);
+            //BuildWebRequestFrameworkSpecific(httpRequest, handler);
 
             foreach (var header in httpRequest.Headers)
             {
-                ApplyHeaderToRequest(header, request);
+                //ApplyHeaderToRequest(header, handler);
             }
 
-            return request;
+            var client = new System.Net.Http.HttpClient(handler);
+
+
+            return null;
         }
 
         private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
@@ -161,14 +192,27 @@ namespace SpeakEasy
             }
         }
 
-        public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)
+        public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {
-            var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
+            var contentType = webResponse.Content.Headers.ContentType.ToString();
+
+            var deserializer = transmissionSettings.FindSerializer(contentType);
+
+            var state = new HttpResponseState(
+                webResponse.StatusCode,
+                webResponse.ReasonPhrase,
+                webResponse.RequestMessage.RequestUri,
+                new Header[0],
+                new Cookie[0],
+                webResponse.Content.Headers.ContentType.ToString(),
+                webResponse.Headers.Server.ToString(),
+                webResponse.Content.Headers.ContentEncoding.ToString(),
+                webResponse.Content.Headers.LastModified.Value.Date);
 
             return new HttpResponse(
                 deserializer,
                 body,
-                webResponse.BuildState());
+                state);
         }
     }
 }
