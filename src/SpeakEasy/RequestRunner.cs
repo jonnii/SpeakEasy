@@ -19,11 +19,11 @@ namespace SpeakEasy
 
         private readonly IArrayFormatter arrayFormatter;
 
-        private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
-            new Dictionary<string, Action<HttpWebRequest, string>>
-            {
-                {"Accept", (h, v) => h.Accept = v}
-            };
+        // private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
+        //     new Dictionary<string, Action<HttpWebRequest, string>>
+        //     {
+        //         {"Accept", (h, v) => h.Accept = v}
+        //     };
 
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
@@ -104,45 +104,45 @@ namespace SpeakEasy
             return HttpMethod.Get;
         }
 
-        private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
-        {
-            try
-            {
-                var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
-                return new HttpWebResponseWrapper((HttpWebResponse)response);
-            }
-            catch (WebException wex)
-            {
-                var innerResponse = wex.Response;
-                if (innerResponse != null)
-                {
-                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-                }
+        // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
+        // {
+        //     try
+        //     {
+        //         var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
+        //         return new HttpWebResponseWrapper((HttpWebResponse)response);
+        //     }
+        //     catch (WebException wex)
+        //     {
+        //         var innerResponse = wex.Response;
+        //         if (innerResponse != null)
+        //         {
+        //             return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
+        //         }
 
-                throw;
-            }
-        }
+        //         throw;
+        //     }
+        // }
 
-        private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
-        {
-            ServicePointManager.Expect100Continue = false;
-            webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+        // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
+        // {
+        //     // ServicePointManager.Expect100Continue = false;
+        //     webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
 
-            if (httpRequest.ClientCertificates != null)
-            {
-                webRequest.ClientCertificates = httpRequest.ClientCertificates;
-            }
+        //     if (httpRequest.ClientCertificates != null)
+        //     {
+        //         webRequest.ClientCertificates = httpRequest.ClientCertificates;
+        //     }
 
-            if (httpRequest.Proxy != null)
-            {
-                webRequest.Proxy = httpRequest.Proxy;
-            }
+        //     if (httpRequest.Proxy != null)
+        //     {
+        //         webRequest.Proxy = httpRequest.Proxy;
+        //     }
 
-            if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
-            {
-                webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
-            }
-        }
+        //     if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
+        //     {
+        //         webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
+        //     }
+        // }
 
         public System.Net.Http.HttpClient BuildWebRequest(IHttpRequest httpRequest)
         {
@@ -178,19 +178,19 @@ namespace SpeakEasy
             return null;
         }
 
-        private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
-        {
-            var headerName = header.Name;
+        // private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
+        // {
+        //     var headerName = header.Name;
 
-            if (reservedHeaderApplicators.ContainsKey(headerName))
-            {
-                reservedHeaderApplicators[headerName](request, header.Value);
-            }
-            else
-            {
-                request.Headers[header.Name] = header.Value;
-            }
-        }
+        //     if (reservedHeaderApplicators.ContainsKey(headerName))
+        //     {
+        //         reservedHeaderApplicators[headerName](request, header.Value);
+        //     }
+        //     else
+        //     {
+        //         request.Headers[header.Name] = header.Value;
+        //     }
+        // }
 
         public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {

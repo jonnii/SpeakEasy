@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using SpeakEasy.Reflection;
 
@@ -76,7 +77,7 @@ namespace SpeakEasy.Serializers
                     return base.DeserializeObject(value, type);
                 }
 
-                if (type.IsEnum)
+                if (type.GetTypeInfo().IsEnum)
                 {
                     return Enum.Parse(type, stringValue, true);
                 }
@@ -88,7 +89,7 @@ namespace SpeakEasy.Serializers
 
                 var underlyingType = Nullable.GetUnderlyingType(type);
 
-                return underlyingType.IsEnum
+                return underlyingType.GetTypeInfo().IsEnum
                     ? Enum.Parse(underlyingType, stringValue, true)
                     : base.DeserializeObject(value, type);
             }
