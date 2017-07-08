@@ -5,7 +5,7 @@
     <AssemblyTitle>SpeakEasy.Specifications</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>jonnii</Authors>
-    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>netcoreapp1.1</TargetFrameworks>
     <AssemblyName>SpeakEasy.Specifications</AssemblyName>
     <PackageId>SpeakEasy.Specifications</PackageId>
     <PackageTags>SpeakEasy.Specifications</PackageTags>
@@ -20,8 +20,10 @@
     <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.*" />
     <PackageReference Include="Machine.Fakes.Moq" Version="2.8.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.*" />
     <!--<PackageReference Include="Microsoft.NETCore.App" Version="*" />-->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0-preview-20170106-08" />
+    
+    <!--<PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.*" />-->
 
     <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
   </ItemGroup>
