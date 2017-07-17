@@ -167,30 +167,31 @@ namespace SpeakEasy
 
             //BuildWebRequestFrameworkSpecific(httpRequest, handler);
 
-            foreach (var header in httpRequest.Headers)
-            {
-                //ApplyHeaderToRequest(header, handler);
-            }
+            // foreach (var header in httpRequest.Headers)
+            // {
+            //     ApplyHeaderToRequest(header, handler);
+            // }
 
             var client = new System.Net.Http.HttpClient(handler);
-
 
             return null;
         }
 
-        // private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
-        // {
-        //     var headerName = header.Name;
+        private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
+        {
+            var headerName = header.Name;
 
-        //     if (reservedHeaderApplicators.ContainsKey(headerName))
-        //     {
-        //         reservedHeaderApplicators[headerName](request, header.Value);
-        //     }
-        //     else
-        //     {
-        //         request.Headers[header.Name] = header.Value;
-        //     }
-        // }
+            // if (reservedHeaderApplicators.ContainsKey(headerName))
+            // {
+            //     reservedHeaderApplicators[headerName](request, header.Value);
+            // }
+            // else
+            {
+                request.Headers.Add(header.Name, new []{header.Value});
+
+                // request.Headers[header.Name] = header.Value;
+            }
+        }
 
         public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {
