@@ -20,45 +20,41 @@ namespace SpeakEasy.IntegrationTests
             // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             // loggerFactory.AddDebug();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseDeveloperExceptionPage();
+            app.UseMvc();
         }
     }
 
     public class ApiFixture : IDisposable 
     {
-        public static string ApiUrl => $"http://{Environment.MachineName}:1337/api";
+        public static string ApiUrl => $"http://*:1337/";
         
-        private Thread hostThread;
+        private IWebHost host;
 
         public ApiFixture()
         {
-            var host = new WebHostBuilder()
+            host = new WebHostBuilder()
                 .UseKestrel()
                 .UseStartup<Startup>()
                 .UseUrls(ApiUrl)
                 .Build();
 
-            hostThread = new Thread(() => host.Run());
-            hostThread.Start();
+            host.Start();
 
             var settings = new HttpClientSettings
             {
                 Logger = new ConsoleLogger()
             };
 
-            Client = HttpClient.Create(ApiUrl, settings);
+            Client = HttpClient.Create("http://localhost:1337/api", settings);
         }
 
         public IHttpClient Client { get; }
 
         public void Dispose()
         {
-            hostThread.Stop();
+            host.Dispose();
+            //hostThread.Stop();
         }
     }
 

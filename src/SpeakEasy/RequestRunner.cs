@@ -41,15 +41,26 @@ namespace SpeakEasy
         {
             var webRequest = BuildWebRequest(httpRequest);
 
-            var message = new HttpRequestMessage(GetMethod(httpRequest.HttpMethod), httpRequest.BuildRequestUrl(arrayFormatter));
+            var method = GetMethod(httpRequest.HttpMethod); 
+            var url = httpRequest.BuildRequestUrl(arrayFormatter);
+
+            System.Console.WriteLine(method);
+            System.Console.WriteLine(url);
+
+            var message = new HttpRequestMessage(
+                method, 
+                url);
 
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
+            
+            if(serializedBody.HasContent) 
+            {
+                var memoryStream = new MemoryStream();
+                await serializedBody.WriteToAsync(memoryStream);
+                memoryStream.Position = 0;
 
-            var memoryStream = new MemoryStream();
-            await serializedBody.WriteToAsync(memoryStream);
-            memoryStream.Position = 0;
-
-            message.Content = new StreamContent(memoryStream);
+                message.Content = new StreamContent(memoryStream);
+            }
 
             //webRequest.ContentType = serializedBody.ContentType;
 
@@ -174,7 +185,7 @@ namespace SpeakEasy
 
             var client = new System.Net.Http.HttpClient(handler);
 
-            return null;
+            return client;
         }
 
         private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
@@ -195,6 +206,11 @@ namespace SpeakEasy
 
         public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {
+            if(webResponse == null)
+            {
+                throw new ArgumentNullException(nameof(webResponse));
+            }
+            
             var contentType = webResponse.Content.Headers.ContentType.ToString();
 
             var deserializer = transmissionSettings.FindSerializer(contentType);

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
 {
+    [Route("api/[controller]")]
     public class ProductsController : Controller
     {
         private readonly IEnumerable<Product> products;
@@ -31,15 +32,17 @@ namespace SpeakEasy.IntegrationTests.Controllers
         //     return new HttpResponseMessage();
         // }
 
-        // public IEnumerable<Product> Get()
-        // {
-        //     return products;
-        // }
+        [HttpGet]
+        public IEnumerable<Product> Get()
+        {
+            return products;
+        }
 
-        // public Product Get(int id)
-        // {
-        //     return products.Single(p => p.Id == id);
-        // }
+        [HttpGet("{id}", Name = "GetProduct")]
+        public Product GetProduct(int id)
+        {
+            return products.Single(p => p.Id == id);
+        }
 
         // public HttpResponseMessage Post([FromBody]Product product)
         // {
