@@ -44,9 +44,6 @@ namespace SpeakEasy
             var method = GetMethod(httpRequest.HttpMethod); 
             var url = httpRequest.BuildRequestUrl(arrayFormatter);
 
-            System.Console.WriteLine(method);
-            System.Console.WriteLine(url);
-
             var message = new HttpRequestMessage(
                 method, 
                 url);
@@ -159,13 +156,16 @@ namespace SpeakEasy
         {
             authenticator.Authenticate(httpRequest);
 
-            var handler = new HttpClientHandler();
+            var handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false
+            };
 
             //var request = (HttpWebRequest)WebRequest.Create(url);
 
             handler.UseDefaultCredentials = false;
             handler.Credentials = httpRequest.Credentials;
-            handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
             handler.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
 
             //handler.Method = httpRequest.HttpMethod;

@@ -21,15 +21,15 @@ namespace SpeakEasy.IntegrationTests.Controllers
         }
 
         [AcceptVerbs("HEAD")]
-        public HttpResponseMessage Head()
+        public IActionResult Head()
         {
-            return new HttpResponseMessage();
+            return new NoContentResult();
         }
 
         [AcceptVerbs("OPTIONS")]
-        public HttpResponseMessage Options()
+        public IActionResult Options()
         {
-            return new HttpResponseMessage();
+            return new NoContentResult();
         }
 
         [HttpGet]
@@ -44,20 +44,21 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return products.Single(p => p.Id == id);
         }
 
-        // public HttpResponseMessage Post([FromBody]Product product)
-        // {
-        //     if (string.IsNullOrEmpty(product.Name))
-        //     {
-        //         return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
-        //     }
+        [HttpPost]
+        public IActionResult Post([FromBody]Product product)
+        {
+            if (string.IsNullOrEmpty(product.Name))
+            {
+                return BadRequest(new ValidationError("Name required"));
+            }
 
-        //     if (string.IsNullOrEmpty(product.Category))
-        //     {
-        //         return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
-        //     }
+            if (string.IsNullOrEmpty(product.Category))
+            {
+                return BadRequest(new ValidationError("Category required"));
+            }
 
-        //     return new HttpResponseMessage(HttpStatusCode.Created);
-        // }
+            return CreatedAtRoute("GetProduct", new { id = 33 });
+        }
 
         // public HttpResponseMessage Put(int id, Product product)
         // {
