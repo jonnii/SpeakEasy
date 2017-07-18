@@ -18,85 +18,85 @@ namespace SpeakEasy.IntegrationTests
             this.client = fixture.Client;
         } 
         
-        [Fact]
-        public void ShouldHaveCorrectPropertiesOnResponse()
-        {
-            var response = client.Get("products/1");
+        // [Fact]
+        // public void ShouldHaveCorrectPropertiesOnResponse()
+        // {
+        //     var response = client.Get("products/1");
 
-            Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsType(typeof(DefaultJsonSerializer), response.Deserializer);
-        }
+        //     Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
+        //     Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //     Assert.IsType(typeof(DefaultJsonSerializer), response.Deserializer);
+        // }
 
-        [Fact]
-        public void ShouldGetHead()
-        {
-            var success = client.Head("products").IsOk();
+        // [Fact]
+        // public void ShouldGetHead()
+        // {
+        //     var success = client.Head("products").IsOk();
 
-            Assert.True(success);
-        }
+        //     Assert.True(success);
+        // }
 
-        [Fact]
-        public void ShouldGetOptions()
-        {
-            var success = client.Options("products").IsOk();
+        // [Fact]
+        // public void ShouldGetOptions()
+        // {
+        //     var success = client.Options("products").IsOk();
 
-            Assert.True(success);
-        }
+        //     Assert.True(success);
+        // }
 
-        [Fact]
-        public void ShouldGetCollection()
-        {
-            var products = client
-                .Get("products")
-                .On(HttpStatusCode.OK)
-                .As<List<Product>>();
+        // [Fact]
+        // public void ShouldGetCollection()
+        // {
+        //     var products = client
+        //         .Get("products")
+        //         .On(HttpStatusCode.OK)
+        //         .As<List<Product>>();
 
-            Assert.Equal(2, products.Count());
-            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
-        }
+        //     Assert.Equal(2, products.Count());
+        //     Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
+        // }
 
-        [Fact]
-        public void ShouldGetCollectionWrongStatusCode()
-        {
-            Assert.Throws<HttpException>(() => client.Get("products").On(HttpStatusCode.Accepted).As<List<Product>>());
-        }
+        // [Fact]
+        // public void ShouldGetCollectionWrongStatusCode()
+        // {
+        //     Assert.Throws<HttpException>(() => client.Get("products").On(HttpStatusCode.Accepted).As<List<Product>>());
+        // }
 
-        [Fact]
-        public void ShouldGetCollectionWithCustomConstructor()
-        {
-            var products = client.Get("products")
-                .On(HttpStatusCode.OK)
-                .As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
+        // [Fact]
+        // public void ShouldGetCollectionWithCustomConstructor()
+        // {
+        //     var products = client.Get("products")
+        //         .On(HttpStatusCode.OK)
+        //         .As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
 
-            Assert.Contains("Vanilla Cake", products.Select(p => p.Name));
-        }
+        //     Assert.Contains("Vanilla Cake", products.Select(p => p.Name));
+        // }
 
-        [Fact]
-        public void ShouldGetCollectionShort()
-        {
-            var products = client.Get("products").OnOk().As<List<Product>>();
+        // [Fact]
+        // public void ShouldGetCollectionShort()
+        // {
+        //     var products = client.Get("products").OnOk().As<List<Product>>();
 
-            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
-        }
+        //     Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
+        // }
 
-        [Fact]
-        public void ShouldGetProduct()
-        {
-            var product = client.Get("products/1")
-                .OnOk()
-                .As<Product>();
+        // [Fact]
+        // public void ShouldGetProduct()
+        // {
+        //     var product = client.Get("products/1")
+        //         .OnOk()
+        //         .As<Product>();
 
-            Assert.Equal(1, product.Id);
-        }
+        //     Assert.Equal(1, product.Id);
+        // }
 
-        [Fact]
-        public void ShouldGetProductWithSegments()
-        {
-            var product = client.Get("products/:id", new { id = 1 }).OnOk().As<Product>();
+        // [Fact]
+        // public void ShouldGetProductWithSegments()
+        // {
+        //     var product = client.Get("products/:id", new { id = 1 }).OnOk().As<Product>();
 
-            Assert.Equal(1, product.Id);
-        }
+        //     Assert.Equal(1, product.Id);
+        // }
 
         [Fact]
         public void ShouldCreateNewProduct()

@@ -39,17 +39,12 @@ namespace SpeakEasy
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
-            var webRequest = BuildWebRequest(httpRequest);
-
-            var method = GetMethod(httpRequest.HttpMethod); 
-            var url = httpRequest.BuildRequestUrl(arrayFormatter);
-
-            var message = new HttpRequestMessage(
-                method, 
-                url);
+            var webRequest = BuildClient(httpRequest);
 
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
             
+            var message = BuildHttpRequestMessage(httpRequest);
+
             if(serializedBody.HasContent) 
             {
                 var memoryStream = new MemoryStream();
@@ -59,7 +54,9 @@ namespace SpeakEasy
                 message.Content = new StreamContent(memoryStream);
             }
 
-            //webRequest.ContentType = serializedBody.ContentType;
+            message.Content.Headers.ContentType =new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType); 
+
+            // webRequest.ContentType = serializedBody.ContentType;
 
             //if (serializedBody.HasContent)
             //{
@@ -107,9 +104,19 @@ namespace SpeakEasy
             //}
         }
 
-        private HttpMethod GetMethod(string httpRequestHttpMethod)
+        public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
         {
-            return HttpMethod.Get;
+            var method = GetMethod(httpRequest.HttpMethod); 
+            var url = httpRequest.BuildRequestUrl(arrayFormatter);
+
+            return new HttpRequestMessage(
+                method, 
+                url);
+        }
+
+        private HttpMethod GetMethod(string method)
+        {
+            return new HttpMethod(method);
         }
 
         // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
@@ -152,13 +159,13 @@ namespace SpeakEasy
         //     }
         // }
 
-        public System.Net.Http.HttpClient BuildWebRequest(IHttpRequest httpRequest)
+        public System.Net.Http.HttpClient BuildClient(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
 
             var handler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
             };
 
             //var request = (HttpWebRequest)WebRequest.Create(url);
@@ -211,6 +218,8 @@ namespace SpeakEasy
                 throw new ArgumentNullException(nameof(webResponse));
             }
             
+            System.Console.WriteLine(webResponse.StatusCode);
+
             var contentType = webResponse.Content.Headers.ContentType.MediaType.ToString();
 
             var deserializer = transmissionSettings.FindSerializer(contentType);
