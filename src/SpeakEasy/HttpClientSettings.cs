@@ -31,7 +31,7 @@ namespace SpeakEasy
         /// <summary>
         /// The logging mechanism the client will use
         /// </summary>
-        public ILogger Logger { get; set; }
+        public ISpeakEasyLogger Logger { get; set; }
 
         /// <summary>
         /// Any custom authentication required to access the http api

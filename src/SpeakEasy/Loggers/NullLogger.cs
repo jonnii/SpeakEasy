@@ -1,8 +1,8 @@
 ﻿namespace SpeakEasy.Loggers
 {
-    public class NullLogger : ILogger
+    public class NullLogger : ISpeakEasyLogger
     {
-        public static ILogger Instance = new NullLogger();
+        public static ISpeakEasyLogger Instance = new NullLogger();
 
         public void BeforeRequest(IHttpRequest request)
         {

@@ -51,7 +51,7 @@ namespace SpeakEasy
         public HttpClient(
             IRequestRunner requestRunner,
             INamingConvention namingConvention,
-            ILogger logger,
+            ISpeakEasyLogger logger,
             IUserAgent userAgent)
         {
             this.requestRunner = requestRunner;
@@ -66,7 +66,7 @@ namespace SpeakEasy
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
-        public ILogger Logger { get; }
+        public ISpeakEasyLogger Logger { get; }
 
         public Resource Root { get; set; }
 
