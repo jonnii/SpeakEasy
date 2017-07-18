@@ -206,7 +206,7 @@ namespace SpeakEasy
 
         public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {
-            if(webResponse == null)
+            if (webResponse == null)
             {
                 throw new ArgumentNullException(nameof(webResponse));
             }
@@ -224,7 +224,7 @@ namespace SpeakEasy
                 webResponse.Content.Headers.ContentType.ToString(),
                 webResponse.Headers.Server.ToString(),
                 webResponse.Content.Headers.ContentEncoding.ToString(),
-                webResponse.Content.Headers.LastModified.Value.Date);
+                webResponse.Content.Headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date);
 
             return new HttpResponse(
                 deserializer,
