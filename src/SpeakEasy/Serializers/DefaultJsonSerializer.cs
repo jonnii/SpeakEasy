@@ -30,7 +30,7 @@ namespace SpeakEasy.Serializers
             return Task.FromResult(true);
         }
 
-        public override T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings)
+        public override T Deserialize<T>(Stream body)
         {
             var serializer = new JsonSerializer();
 
@@ -41,7 +41,7 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public override object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type)
+        public override object Deserialize(Stream body, Type type)
         {
             var serializer = new JsonSerializer();
 
@@ -49,19 +49,6 @@ namespace SpeakEasy.Serializers
             using (var jsonTextReader = new JsonTextReader(sr))
             {
                 return serializer.Deserialize(jsonTextReader);
-            }
-        }
-
-        private void EnsureCompatibleSettings(DeserializationSettings deserializationSettings)
-        {
-            if (deserializationSettings.SkipRootElement)
-            {
-                throw new NotSupportedException("Cannot skip root element with SimpleJsonSerializer");
-            }
-
-            if (deserializationSettings.HasRootElementPath)
-            {
-                throw new NotSupportedException("Cannot navigate root element path with SimpleJsonSerializer");
             }
         }
     }

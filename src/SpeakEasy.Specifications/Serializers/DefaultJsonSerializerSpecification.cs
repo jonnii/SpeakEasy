@@ -7,13 +7,6 @@ namespace SpeakEasy.Specifications.Serializers
 {
     public class DefaultJsonSerializerSpecification
     {
-        [Subject(typeof(DefaultJsonSerializer))]
-        public class in_general : WithSubject<DefaultJsonSerializer>
-        {
-            It should_have_deserialization_settings = () =>
-                Subject.DefaultDeserializationSettings.ShouldNotBeNull();
-        }
-
         // [Subject(typeof(DefaultJsonSerializer))]
         // public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
         // {
