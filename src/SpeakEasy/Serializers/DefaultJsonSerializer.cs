@@ -21,7 +21,7 @@ namespace SpeakEasy.Serializers
         public override Task SerializeAsync<T>(Stream stream, T body)
         {
             JsonSerializer ser = new JsonSerializer();
-            using (var sw = new StreamWriter(stream))
+            using (var sw = new StreamWriter(stream, System.Text.Encoding.UTF32, 1024, true))
             using (var jsonTextWriter = new JsonTextWriter(sw))
             {
                 ser.Serialize(jsonTextWriter, body);
