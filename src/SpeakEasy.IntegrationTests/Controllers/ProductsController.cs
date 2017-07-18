@@ -26,11 +26,11 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return new HttpResponseMessage();
         }
 
-        // [AcceptVerbs("OPTIONS")]
-        // public HttpResponseMessage Options()
-        // {
-        //     return new HttpResponseMessage();
-        // }
+        [AcceptVerbs("OPTIONS")]
+        public HttpResponseMessage Options()
+        {
+            return new HttpResponseMessage();
+        }
 
         [HttpGet]
         public IEnumerable<Product> Get()

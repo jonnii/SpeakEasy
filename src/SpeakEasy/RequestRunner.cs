@@ -88,9 +88,9 @@ namespace SpeakEasy
             var response = await webRequest.SendAsync(message);
 
             var readResponseStream = new MemoryStream();
-            var responseSTream = await response.Content.ReadAsStreamAsync();
+            var responseStream = await response.Content.ReadAsStreamAsync();
 
-            await responseSTream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
+            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
             readResponseStream.Position = 0;
 
             return CreateHttpResponse(response, readResponseStream);
@@ -211,7 +211,7 @@ namespace SpeakEasy
                 throw new ArgumentNullException(nameof(webResponse));
             }
             
-            var contentType = webResponse.Content.Headers.ContentType.ToString();
+            var contentType = webResponse.Content.Headers.ContentType.MediaType.ToString();
 
             var deserializer = transmissionSettings.FindSerializer(contentType);
 
@@ -221,7 +221,7 @@ namespace SpeakEasy
                 webResponse.RequestMessage.RequestUri,
                 new Header[0],
                 new Cookie[0],
-                webResponse.Content.Headers.ContentType.ToString(),
+                contentType,
                 webResponse.Headers.Server.ToString(),
                 webResponse.Content.Headers.ContentEncoding.ToString(),
                 webResponse.Content.Headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date);

@@ -23,31 +23,38 @@ namespace SpeakEasy.IntegrationTests
         {
             var response = client.Get("products/1");
 
-            // Assert.Equal(response.State.RequestUrl.ToString(), Does.EndWith(":1337/api/products/1"));
+            Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            // Assert.Equal(response.Deserializer, Is.TypeOf<DefaultJsonSerializer>());
+            Assert.IsType(typeof(DefaultJsonSerializer), response.Deserializer);
         }
 
-        // public void ShouldGetHeadHurHur()
-        // {
-        //     var success = client.Head("products").IsOk();
+        [Fact]
+        public void ShouldGetHead()
+        {
+            var success = client.Head("products").IsOk();
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldGetOptions()
-        // {
-        //     var success = client.Options("products").IsOk();
+        [Fact]
+        public void ShouldGetOptions()
+        {
+            var success = client.Options("products").IsOk();
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldGetCollection()
-        // {
-        //     var products = client.Get("products").On(HttpStatusCode.OK).As<List<Product>>();
+        [Fact]
+        public void ShouldGetCollection()
+        {
+            var products = client
+                .Get("products")
+                .On(HttpStatusCode.OK)
+                .As<List<Product>>();
 
-        //     Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-        // }
+            Assert.Equal(2, products.Count());
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
+        }
 
         // public void ShouldGetCollectionWrongStatusCode()
         // {
@@ -68,12 +75,15 @@ namespace SpeakEasy.IntegrationTests
         //     Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         // }
 
-        // public void ShouldGetProduct()
-        // {
-        //     var product = client.Get("products/1").OnOk().As<Product>();
+        [Fact]
+        public void ShouldGetProduct()
+        {
+            var product = client.Get("products/1")
+                .OnOk()
+                .As<Product>();
 
-        //     Assert.That(product.Id, Is.EqualTo(1));
-        // }
+            Assert.Equal(1, product.Id);
+        }
 
         // public void ShouldGetProductWithSegments()
         // {
