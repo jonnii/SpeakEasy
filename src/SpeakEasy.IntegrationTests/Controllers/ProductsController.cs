@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/products")]
     public class ProductsController : Controller
     {
         private readonly IEnumerable<Product> products;
@@ -38,7 +38,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return products;
         }
 
-        [HttpGet("{id}", Name = "GetProduct")]
+        [HttpGet("{id}", Name = nameof(GetProduct))]
         public Product GetProduct(int id)
         {
             return products.Single(p => p.Id == id);
@@ -47,6 +47,14 @@ namespace SpeakEasy.IntegrationTests.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
+            if (product == null)
+            {
+                return BadRequest(new ValidationError("Product required"));
+            }
+
+            System.Console.WriteLine(product.Name);
+            System.Console.WriteLine(product.Category);
+
             if (string.IsNullOrEmpty(product.Name))
             {
                 return BadRequest(new ValidationError("Name required"));
@@ -57,7 +65,10 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 return BadRequest(new ValidationError("Category required"));
             }
 
-            return CreatedAtRoute("GetProduct", new { id = 33 });
+            return CreatedAtRoute(
+                routeName: nameof(GetProduct),
+                routeValues: new { id = 33 },
+                value: product);
         }
 
         // public HttpResponseMessage Put(int id, Product product)

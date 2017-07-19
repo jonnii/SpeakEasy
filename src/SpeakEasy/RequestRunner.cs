@@ -50,13 +50,12 @@ namespace SpeakEasy
                 var memoryStream = new MemoryStream();
                 await serializedBody.WriteToAsync(memoryStream);
                 memoryStream.Position = 0;
-
+                
                 message.Content = new StreamContent(memoryStream);
+                message.Content.Headers.ContentLength = memoryStream.Length;
+                message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType);
             }
 
-            message.Content.Headers.ContentType =new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType); 
-
-            // webRequest.ContentType = serializedBody.ContentType;
 
             //if (serializedBody.HasContent)
             //{
@@ -168,8 +167,6 @@ namespace SpeakEasy
                 AllowAutoRedirect = false,
             };
 
-            //var request = (HttpWebRequest)WebRequest.Create(url);
-
             handler.UseDefaultCredentials = false;
             handler.Credentials = httpRequest.Credentials;
             // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
@@ -218,7 +215,7 @@ namespace SpeakEasy
                 throw new ArgumentNullException(nameof(webResponse));
             }
             
-            System.Console.WriteLine(webResponse.StatusCode);
+            var end = new StreamReader(body).ReadToEnd();
 
             var contentType = webResponse.Content.Headers.ContentType.MediaType.ToString();
 
