@@ -23,13 +23,13 @@ namespace SpeakEasy.IntegrationTests.Controllers
         [AcceptVerbs("HEAD")]
         public IActionResult Head()
         {
-            return new NoContentResult();
+            return Ok();
         }
 
         [AcceptVerbs("OPTIONS")]
         public IActionResult Options()
         {
-            return new NoContentResult();
+            return Ok();
         }
 
         [HttpGet]

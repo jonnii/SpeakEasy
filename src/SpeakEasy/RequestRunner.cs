@@ -56,7 +56,6 @@ namespace SpeakEasy
                 message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType);
             }
 
-
             //if (serializedBody.HasContent)
             //{
             //    var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
@@ -215,9 +214,12 @@ namespace SpeakEasy
                 throw new ArgumentNullException(nameof(webResponse));
             }
             
-            var end = new StreamReader(body).ReadToEnd();
+            if (webResponse.Content == null)
+            {
+                throw new ArgumentNullException(nameof(webResponse.Content));
+            }
 
-            var contentType = webResponse.Content.Headers.ContentType.MediaType.ToString();
+            var contentType = webResponse.Content?.Headers?.ContentType?.MediaType?.ToString() ?? "application/json";
 
             var deserializer = transmissionSettings.FindSerializer(contentType);
 
