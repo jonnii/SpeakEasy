@@ -119,54 +119,59 @@ namespace SpeakEasy.IntegrationTests
             Assert.True(success);
         }
 
-        // public void ShouldCreateNewProductShortWithtErrorHandling()
-        // {
-        //     var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+        [Fact]
+        public void ShouldCreateNewProductShortWithtErrorHandling()
+        {
+            var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-        //     var response = client.Post(product, "products");
+            var response = client.Post(product, "products");
 
-        //     response.On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); });
-        //     var success = response.Is(HttpStatusCode.Created);
+            response.On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); });
+            var success = response.Is(HttpStatusCode.Created);
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldCreateNewProductWithErrors()
-        // {
-        //     var product = new Product { Name = "Canoli", Category = "" };
+        [Fact]
+        public void ShouldCreateNewProductWithErrors()
+        {
+            var product = new Product { Name = "Canoli", Category = "" };
 
-        //     var response = client.Post(product, "products");
+            var response = client.Post(product, "products");
 
-        //     Assert.Throws<ValidationException>(() =>
-        //         response
-        //             .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-        //             .OnOk(() => { throw new Exception("Expected error"); }));
-        // }
+            Assert.Throws<ValidationException>(() =>
+                response
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
+                    .OnOk(() => { throw new Exception("Expected error"); }));
+        }
 
-        // public void ShouldUpdatePerson()
-        // {
-        //     var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        [Fact]
+        public void ShouldUpdatePerson()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-        //     var success = client.Put(product, "products/:id", new { id = 1 }).IsOk();
+            var success = client.Put(product, "products/:id", new { id = 1 }).IsOk();
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
+        // [Fact]
         // public void ShouldUpdateReservations()
         // {
-        //     var success = client.Post("products/:id/reservations", new { id = 1 }).IsOk();
+        //     var success = client.Put("products/:id/reservations", new { id = 1 }).IsOk();
 
-        //     Assert.That(success);
+        //     Assert.True(success, "Expected a put to updated reservations to be ok");
         // }
 
-        // public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
-        // {
-        //     var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        [Fact]
+        public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-        //     var success = client.Put(product, "products/:id").IsOk();
+            var success = client.Put(product, "products/:id").IsOk();
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
         // public void ShouldUpdateProductsWithPatch()
         // {
