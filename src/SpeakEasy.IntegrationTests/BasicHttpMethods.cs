@@ -11,13 +11,13 @@ namespace SpeakEasy.IntegrationTests
     [Collection("Api collection")]
     public class BasicHttpMethods
     {
-        private IHttpClient client;
+        private readonly IHttpClient client;
 
         public BasicHttpMethods(ApiFixture fixture)
         {
-            this.client = fixture.Client;
-        } 
-        
+            client = fixture.Client;
+        }
+
         [Fact]
         public void ShouldHaveCorrectPropertiesOnResponse()
         {
