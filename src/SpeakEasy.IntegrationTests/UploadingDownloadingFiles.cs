@@ -1,72 +1,75 @@
-// using System.Collections.Generic;
-// using System.IO;
-// using System.Linq;
-// using System.Net;
-// using System.Text;
-// using NUnit.Framework;
+using System.Text;
+using Xunit;
 
-// namespace SpeakEasy.IntegrationTests
-// {
-//     [TestFixture]
-//     public class UploadingDownloadingFiles : WithApi
-//     {
-//         [Test]
-//         public void ShouldDownloadFileAsByteArray()
-//         {
-//             var contents = client.Get("invoices/:id", new { id = 5 })
-//                 .OnOk()
-//                 .AsByteArray();
+namespace SpeakEasy.IntegrationTests
+{
+    [Collection("Api collection")]
+    public class UploadingDownloadingFiles
+    {
+        private readonly IHttpClient client;
 
-//             var contentsAsString = Encoding.Default.GetString(contents);
+        public UploadingDownloadingFiles(ApiFixture fixture)
+        {
+            client = fixture.Client;
+        }
 
-//             Assert.That(contentsAsString, Is.EqualTo("file contents"));
-//         }
+        [Fact]
+        public void ShouldDownloadFileAsByteArray()
+        {
+            var contents = client.Get("invoices/:id", new { id = 5 })
+                .OnOk()
+                .AsByteArray();
 
-//         [Test]
-//         public void ShouldDownloadFileAsFile()
-//         {
-//             var file = client.Get("invoices/:id", new { id = 5 })
-//                 .OnOk()
-//                 .AsFile();
+            var contentsAsString = Encoding.UTF8.GetString(contents);
 
-//             Assert.That(file.ContentType, Is.EqualTo("application/octet-stream"));
-//             Assert.That(file.FileName, Is.EqualTo("foo.txt"));
-//             Assert.That(file.Name, Is.EqualTo("name"));
+            Assert.Equal("file contents", contentsAsString);
+        }
 
-//             var stream = new MemoryStream();
-//             file.WriteToAsync(stream).Wait();
+        //[Test]
+        //public void ShouldDownloadFileAsFile()
+        //{
+        //    var file = client.Get("invoices/:id", new { id = 5 })
+        //        .OnOk()
+        //        .AsFile();
 
-//             stream.Position = 0;
-//             string contentsAsString;
-//             using (var reader = new StreamReader(stream))
-//             {
-//                 contentsAsString = reader.ReadToEnd();
-//             }
+        //    Assert.That(file.ContentType, Is.EqualTo("application/octet-stream"));
+        //    Assert.That(file.FileName, Is.EqualTo("foo.txt"));
+        //    Assert.That(file.Name, Is.EqualTo("name"));
 
-//             Assert.That(contentsAsString, Is.EqualTo("file contents"));
-//         }
+        //    var stream = new MemoryStream();
+        //    file.WriteToAsync(stream).Wait();
 
-//         [Test]
-//         public void ShouldUploadOneFileByteArray()
-//         {
-//             var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
+        //    stream.Position = 0;
+        //    string contentsAsString;
+        //    using (var reader = new StreamReader(stream))
+        //    {
+        //        contentsAsString = reader.ReadToEnd();
+        //    }
 
-//             var fileNames = client.Post(file, "invoices")
-//                 .On(HttpStatusCode.Created).As<string[]>();
+        //    Assert.That(contentsAsString, Is.EqualTo("file contents"));
+        //}
 
-//             Assert.That(fileNames.Single(), Is.EqualTo("\"name\""));
-//         }
+        //[Test]
+        //public void ShouldUploadOneFileByteArray()
+        //{
+        //    var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
 
-//         [Test]
-//         public void ShouldUploadMultipleFilesByteArray()
-//         {
-//             var files = new[] { FileUpload.FromBytes("name1", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name2", "filename", new byte[] { 0xDE }) };
+        //    var fileNames = client.Post(file, "invoices")
+        //        .On(HttpStatusCode.Created).As<string[]>();
 
-//             var fileNames = client.Post(files, "invoices/:id", new { id = 1234 })
-//                 .On(HttpStatusCode.Created).As<IEnumerable<string>>();
+        //    Assert.That(fileNames.Single(), Is.EqualTo("\"name\""));
+        //}
 
-//             Assert.That(fileNames.First(), Is.EqualTo("\"name1\""));
-//             Assert.That(fileNames.Last(), Is.EqualTo("\"name2\""));
-//         }
-//     }
-// }
+        //[Test]
+        //public void ShouldUploadMultipleFilesByteArray()
+        //{
+        //    var files = new[] { FileUpload.FromBytes("name1", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name2", "filename", new byte[] { 0xDE }) };
+
+        //    var fileNames = client.Post(files, "invoices/:id", new { id = 1234 })
+        //        .On(HttpStatusCode.Created).As<IEnumerable<string>>();
+
+        //    Assert.That(fileNames.First(), Is.EqualTo("\"name1\""));
+        //    Assert.That(fileNames.Last(), Is.EqualTo("\"name2\""));
+        //}
+    }
+}
