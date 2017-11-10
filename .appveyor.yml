@@ -1,0 +1,32 @@
+image: Visual Studio 2017
+
+environment:
+  nuget_version: '0.4.0'
+
+version: '$(nuget_version)+{build}'
+
+configuration: Release
+
+install:
+  - cmd: dotnet restore src\SpeakEasy.sln
+
+dotnet_csproj:
+  patch: true
+  file: 'src\**\*.csproj'
+  version: $(nuget_version)
+  package_version: $(nuget_version)
+
+build:
+  project: src\SpeakEasy.sln
+  publish_nuget: true
+
+test_script:
+  - ps: .\build\run-tests.ps1
+
+# deploy:
+#   provider: NuGet
+#   skip_symbols: true
+#   api_key:
+#     secure: T5DAebGxPV1QtMqIYRQyPYhFr3yfKzlkOB2rtVl8SQkJD7nTLEPBPPtcI8MgbHj3
+#   on:
+#     appveyor_repo_tag: true
