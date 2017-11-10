@@ -173,50 +173,55 @@ namespace SpeakEasy.IntegrationTests
             Assert.True(success);
         }
 
-        // public void ShouldUpdateProductsWithPatch()
-        // {
-        //     var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        [Fact]
+        public void ShouldUpdateProductsWithPatch()
+        {
+            var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-        //     var success = client.Patch(product, "products/:id").IsOk();
+            var success = client.Patch(product, "products/:id").IsOk();
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldUpdatePersonWithErrors()
-        // {
-        //     var product = new Product { Id = 1, Name = "", Category = "Cakes" };
+        [Fact]
+        public void ShouldUpdatePersonWithErrors()
+        {
+            var product = new Product { Id = 1, Name = "", Category = "Cakes" };
 
-        //     Assert.Throws<ValidationException>(() =>
-        //         client.Put(product, "products/:id", new { id = 1 })
-        //             .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); }));
-        // }
+            Assert.Throws<ValidationException>(() =>
+                client.Put(product, "products/:id", new { id = 1 })
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException()));
+        }
 
-        // public void ShouldDeletePerson()
-        // {
-        //     var success = client.Delete("products/:id", new { id = 1 })
-        //         .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
-        //         .Is(HttpStatusCode.NoContent);
+        [Fact]
+        public void ShouldDeleteProduct()
+        {
+            var success = client.Delete("products/:id", new { id = 1 })
+                .On(HttpStatusCode.NotFound, () => throw new Exception("Could not find person to delete"))
+                .Is(HttpStatusCode.NoContent);
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldBeAbleToUseNumericResponseCodes()
-        // {
-        //     var response = client.Post("search", new { username = "unknown-username" });
+        [Fact]
+        public void ShouldBeAbleToUseNumericResponseCodes()
+        {
+            var response = client.Post("search", new { username = "unknown-username" });
 
-        //     var success = response.Is(422);
+            var success = response.Is(422);
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
 
-        // public void ShouldDeserializeCollectionAsObject()
-        // {
-        //     var obj = client.Get("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
+        //[Fact]
+        //public void ShouldDeserializeCollectionAsObject()
+        //{
+        //    var obj = client.Get("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
 
-        //     var products = (List<Product>)obj;
+        //    var products = (List<Product>)obj;
 
-        //     Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-        // }
+        //    Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
+        //}
 
         [Fact]
         public void ShouldCallbackWithState()

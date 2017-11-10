@@ -1,34 +1,36 @@
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Net;
-// using System.Net.Http;
-// using System.Web.Http;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
-// namespace SpeakEasy.IntegrationTests.Controllers
-// {
-//     public class SearchController : ApiController
-//     {
-//         private readonly IEnumerable<string> products = new[]
-//         {
-//             "apples",
-//             "bananas",
-//             "cake", 
-//             "dog food"
-//         };
+namespace SpeakEasy.IntegrationTests.Controllers
+{
+    [Route("api/search")]
+    public class SearchController : Controller
+    {
+        private readonly IEnumerable<string> products = new[]
+        {
+             "apples",
+             "bananas",
+             "cake",
+             "dog food"
+         };
 
-//         public IEnumerable<string> Get([FromUri]string filter)
-//         {
-//             return products.Where(p => p.StartsWith(filter));
-//         }
+        [HttpGet]
+        public IEnumerable<string> Get(string filter)
+        {
+            return products.Where(p => p.StartsWith(filter));
+        }
 
-//         public HttpResponseMessage Post(SearchModel searchModel)
-//         {
-//             if (searchModel.Username == "unknown-username")
-//             {
-//                 throw new HttpResponseException((HttpStatusCode)422);
-//             }
+        [HttpPost]
+        public IActionResult Post(SearchModel searchModel)
+        {
+            if (searchModel.Username == "unknown-username")
+            {
+                return StatusCode(422);
+            }
 
-//             return Request.CreateResponse(HttpStatusCode.Created, searchModel.Username);
-//         }
-//     }
-// }
+            return Created("somewhere", searchModel.Username);
+            //return Request.CreateResponse(HttpStatusCode.Created, searchModel.Username);
+        }
+    }
+}
