@@ -1,10 +1,5 @@
 image: Visual Studio 2017
 
-# environment:
-#   nuget_version: '1.0.0'
-
-# version: '$(nuget_version)+{build}'
-
 configuration: Release
 
 install:
