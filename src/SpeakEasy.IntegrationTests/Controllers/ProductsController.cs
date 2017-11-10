@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -65,10 +63,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 return BadRequest(new ValidationError("Category required"));
             }
 
-            return CreatedAtRoute(
-                routeName: nameof(GetProduct),
-                routeValues: new { id = 33 },
-                value: product);
+            return CreatedAtRoute(nameof(GetProduct), new { id = 33 }, product);
         }
 
         [HttpPut("{id}")]

@@ -126,7 +126,7 @@ namespace SpeakEasy.IntegrationTests
 
             var response = client.Post(product, "products");
 
-            response.On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); });
+            response.On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException());
             var success = response.Is(HttpStatusCode.Created);
 
             Assert.True(success);
@@ -141,8 +141,8 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.Throws<ValidationException>(() =>
                 response
-                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-                    .OnOk(() => { throw new Exception("Expected error"); }));
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException())
+                    .OnOk(() => throw new Exception("Expected error")));
         }
 
         [Fact]
@@ -155,13 +155,13 @@ namespace SpeakEasy.IntegrationTests
             Assert.True(success);
         }
 
-        // [Fact]
-        // public void ShouldUpdateReservations()
-        // {
-        //     var success = client.Put("products/:id/reservations", new { id = 1 }).IsOk();
+        [Fact]
+        public void ShouldCreateReservations()
+        {
+            var success = client.Post("products/:id/reservations", new { id = 1 }).IsOk();
 
-        //     Assert.True(success, "Expected a put to updated reservations to be ok");
-        // }
+            Assert.True(success, "Expected a post to updated reservations to be ok");
+        }
 
         [Fact]
         public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
@@ -218,22 +218,28 @@ namespace SpeakEasy.IntegrationTests
         //     Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
         // }
 
-        // public void ShouldCallbackWithState()
-        // {
-        //     var message = string.Empty;
+        [Fact]
+        public void ShouldCallbackWithState()
+        {
+            var message = string.Empty;
 
-        //     client.Post("locations")
-        //         .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; });
+            client.Post("locations")
+                .On(HttpStatusCode.BadRequest, status =>
+                {
+                    message = status.StatusDescription;
+                });
 
-        //     Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
-        // }
+            Assert.Equal("titles cannot start with 'bad'", message);
+        }
 
-        // public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
-        // {
-        //     var success = client.Put(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
-        //         .Is(HttpStatusCode.Created);
+        [Fact]
+        public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
+        {
+            var success = client
+                .Put(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
+                .Is(HttpStatusCode.Created);
 
-        //     Assert.That(success);
-        // }
+            Assert.True(success);
+        }
     }
 }
