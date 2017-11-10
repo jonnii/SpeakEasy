@@ -174,27 +174,5 @@ namespace SpeakEasy
         {
             return (await response.ConfigureAwait(false)).IsOk();
         }
-
-        /// <summary>
-        /// Gets the the header with the given name
-        /// </summary>
-        /// <param name="response">The http response</param>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header</returns>
-        public static async Task<Header> GetHeader(this Task<IHttpResponse> response, string name)
-        {
-            return (await response.ConfigureAwait(false)).GetHeader(name);
-        }
-
-        /// <summary>
-        /// Gets the value of the header with the given name
-        /// </summary>
-        /// <param name="response">The http response</param>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header value</returns>
-        public static async Task<string> GetHeaderValue(this Task<IHttpResponse> response, string name)
-        {
-            return (await response.ConfigureAwait(false)).GetHeaderValue(name);
-        }
     }
 }

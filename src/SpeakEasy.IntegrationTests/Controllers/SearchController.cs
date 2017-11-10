@@ -16,9 +16,25 @@ namespace SpeakEasy.IntegrationTests.Controllers
          };
 
         [HttpGet]
-        public IEnumerable<string> Get(string filter)
+        public IActionResult Get(string filter)
         {
-            return products.Where(p => p.StartsWith(filter));
+            var filtered = products
+                .Where(p => p.StartsWith(filter))
+                .Select(t => new { Name = t })
+                .ToArray();
+
+            return Ok(filtered);
+        }
+
+        [HttpGet("{category}")]
+        public IActionResult Get(string category, string filter)
+        {
+            var filtered = products
+                .Where(p => p.StartsWith(filter))
+                .Select(t => new { Name = t, category, filter })
+                .ToArray();
+
+            return Ok(filtered);
         }
 
         [HttpPost]
@@ -29,8 +45,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 return StatusCode(422);
             }
 
-            return Created("somewhere", searchModel.Username);
-            //return Request.CreateResponse(HttpStatusCode.Created, searchModel.Username);
+            return Created("somewhere", new { Name = searchModel.Username });
         }
     }
 }

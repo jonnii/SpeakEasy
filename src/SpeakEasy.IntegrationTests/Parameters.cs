@@ -1,41 +1,64 @@
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Net;
-// using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using Xunit;
 
-// namespace SpeakEasy.IntegrationTests
-// {
-//     [TestFixture]
-//     public class QueryStringAndFormParameters : WithApi
-//     {
-//         [Test]
-//         public void ShouldAddQueryStringParametersOnGet()
-//         {
-//             var response = client.Get("search", new { filter = "c" });
+namespace SpeakEasy.IntegrationTests
+{
+    [Collection("Api collection")]
+    public class QueryStringAndFormParameters
+    {
+        private readonly IHttpClient client;
 
-//             var products = response.OnOk().As<IEnumerable<string>>();
+        public QueryStringAndFormParameters(ApiFixture fixture)
+        {
+            client = fixture.Client;
+        }
 
-//             Assert.That(products.First(), Is.EqualTo("cake"));
-//         }
+        [Fact]
+        public void ShouldAddQueryStringParametersOnGet()
+        {
+            var products = client
+                .Get("search", new { filter = "c" })
+                .OnOk()
+                .As<IEnumerable<SearchResult>>();
 
-//         [Test]
-//         public void ShouldMergeParametersAndUseExtraParametersAsQueryStringParameters()
-//         {
-//             var response = client.Get("search/:category", new { category = "top100", filter = "c" });
+            Assert.Equal("cake", products.First().Name);
+        }
 
-//             var products = response.OnOk().As<IEnumerable<string>>();
+        [Fact]
+        public void ShouldMergeParametersAndUseExtraParametersAsQueryStringParameters()
+        {
+            var products = client
+                .Get("search/:category", new { category = "top100", filter = "c" })
+                .OnOk()
+                .As<IEnumerable<SearchResult>>();
 
-//             Assert.That(products.First(), Is.EqualTo("cake"));
-//         }
+            var result = products.First();
 
-//         [Test]
-//         public void ShouldPostParameters()
-//         {
-//             var response = client.Post("search", new { username = "bob" });
+            Assert.Equal("cake", result.Name);
+            Assert.Equal("top100", result.Category);
+            Assert.Equal("c", result.Filter);
+        }
 
-//             var user = response.On(HttpStatusCode.Created).As<string>();
+        [Fact]
+        public void ShouldPostParameters()
+        {
+            var user = client
+                .Post("search", new { username = "bob" })
+                .On(HttpStatusCode.Created)
+                .As<SearchResult>();
 
-//             Assert.That(user, Is.EqualTo("bob"));
-//         }
-//     }
-// }
+            Assert.Equal("bob", user.Name);
+        }
+
+        public class SearchResult
+        {
+            public string Name { get; set; }
+
+            public string Category { get; set; }
+
+            public string Filter { get; set; }
+        }
+    }
+}
