@@ -1,34 +1,25 @@
-// using System.Net;
-// using Machine.Fakes;
-// using Machine.Specifications;
+using Machine.Fakes;
+using Machine.Specifications;
 
-// namespace SpeakEasy.Specifications
-// {
-//     public class DeleteRequestSpecification
-//     {
-//         [Subject(typeof(DeleteRequest))]
-//         public class in_general : with_delete_request
-//         {
-//             It should_have_delete_method = () =>
-//                 request.HttpMethod.ShouldEqual("DELETE");
+namespace SpeakEasy.Specifications
+{
+    [Subject(typeof(DeleteRequest))]
+    class DeleteRequestSpecification : WithFakes
+    {
+        static ITransmissionSettings transmissionSettings;
 
-//             static WebRequest webRequest;
-//         }
+        static DeleteRequest request;
 
-//         public class with_serializer : WithFakes
-//         {
-//             Establish context = () =>
-//                 transmissionSettings = An<ITransmissionSettings>();
+        class in_general
+        {
+            Establish context = () =>
+            {
+                transmissionSettings = An<ITransmissionSettings>();
+                request = new DeleteRequest(new Resource("http://example.com/companies"));
+            };
 
-//             protected static ITransmissionSettings transmissionSettings;
-//         }
-
-//         public class with_delete_request : with_serializer
-//         {
-//             Establish context = () =>
-//                 request = new DeleteRequest(new Resource("http://example.com/companies"));
-
-//             internal static DeleteRequest request;
-//         }
-//     }
-// }
+            It should_have_delete_method = () =>
+                request.HttpMethod.ShouldEqual("DELETE");
+        }
+    }
+}
