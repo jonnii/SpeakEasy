@@ -8,7 +8,12 @@ version: '$(nuget_version)+{build}'
 configuration: Release
 
 install:
+  - choco install gitversion.portable -pre -y
   - cmd: dotnet restore src\SpeakEasy.sln
+  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+
+assembly_info:
+  patch: false
 
 dotnet_csproj:
   patch: true
