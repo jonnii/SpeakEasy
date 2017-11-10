@@ -50,9 +50,6 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 return BadRequest(new ValidationError("Product required"));
             }
 
-            System.Console.WriteLine(product.Name);
-            System.Console.WriteLine(product.Category);
-
             if (string.IsNullOrEmpty(product.Name))
             {
                 return BadRequest(new ValidationError("Name required"));
