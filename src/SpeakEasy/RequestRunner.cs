@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -18,11 +19,11 @@ namespace SpeakEasy
 
         private readonly IArrayFormatter arrayFormatter;
 
-        private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
-            new Dictionary<string, Action<HttpWebRequest, string>>
-            {
-                {"Accept", (h, v) => h.Accept = v}
-            };
+        // private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
+        //     new Dictionary<string, Action<HttpWebRequest, string>>
+        //     {
+        //         {"Accept", (h, v) => h.Accept = v}
+        //     };
 
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
@@ -38,137 +39,205 @@ namespace SpeakEasy
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
         {
-            var webRequest = BuildWebRequest(httpRequest);
+            var webRequest = BuildClient(httpRequest);
+
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
-            webRequest.ContentType = serializedBody.ContentType;
+            
+            var message = BuildHttpRequestMessage(httpRequest);
 
-            if (serializedBody.HasContent)
+            if(serializedBody.HasContent) 
             {
-                var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
-
-                using (requestStream)
-                {
-                    await serializedBody.WriteToAsync(requestStream).ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                if (serializedBody.ContentLength != -1)
-                {
-                    webRequest.ContentLength = serializedBody.ContentLength;
-                }
+                var memoryStream = new MemoryStream();
+                await serializedBody.WriteToAsync(memoryStream);
+                memoryStream.Position = 0;
+                
+                message.Content = new StreamContent(memoryStream);
+                message.Content.Headers.ContentLength = memoryStream.Length;
+                message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType);
             }
 
-            using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
-            {
-                using (var responseStream = response.GetResponseStream())
-                {
-                    var bufferSize = response.ContentLength > 0
-                        ? response.ContentLength
-                        : DefaultBufferSize;
+            //if (serializedBody.HasContent)
+            //{
+            //    var requestStream = await webRequest.GetRequestStreamAsync().ConfigureAwait(false);
 
-                    var readResponseStream = new MemoryStream();
-                    await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
+            //    using (requestStream)
+            //    {
+            //        await serializedBody.WriteToAsync(requestStream).ConfigureAwait(false);
+            //    }
+            //}
+            //else
+            //{
+            //    if (serializedBody.ContentLength != -1)
+            //    {
+            //        webRequest.ContentLength = serializedBody.ContentLength;
+            //    }
+            //}
 
-                    readResponseStream.Position = 0;
+            //var bufferSize = response.ContentLength > 0
+            //    ? response.ContentLength
+            //    : DefaultBufferSize;
 
-                    return CreateHttpResponse(response, readResponseStream);
-                }
-            }
+            var response = await webRequest.SendAsync(message);
+
+            var readResponseStream = new MemoryStream();
+            var responseStream = await response.Content.ReadAsStreamAsync();
+
+            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
+            readResponseStream.Position = 0;
+
+            return CreateHttpResponse(response, readResponseStream);
+
+            //using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
+            //{
+            //    using (var responseStream = response.GetResponseStream())
+            //    {
+
+            //        var readResponseStream = new MemoryStream();
+            //        await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
+
+            //        readResponseStream.Position = 0;
+
+            //        return CreateHttpResponse(response, readResponseStream);
+            //    }
+            //}
         }
 
-        private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
+        public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
         {
-            try
-            {
-                var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
-                return new HttpWebResponseWrapper((HttpWebResponse)response);
-            }
-            catch (WebException wex)
-            {
-                var innerResponse = wex.Response;
-                if (innerResponse != null)
-                {
-                    return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-                }
+            var method = GetMethod(httpRequest.HttpMethod); 
+            var url = httpRequest.BuildRequestUrl(arrayFormatter);
 
-                throw;
-            }
+            return new HttpRequestMessage(
+                method, 
+                url);
         }
 
-        private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
+        private HttpMethod GetMethod(string method)
         {
-            ServicePointManager.Expect100Continue = false;
-            webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
-
-            if (httpRequest.ClientCertificates != null)
-            {
-                webRequest.ClientCertificates = httpRequest.ClientCertificates;
-            }
-
-            if (httpRequest.Proxy != null)
-            {
-                webRequest.Proxy = httpRequest.Proxy;
-            }
-
-            if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
-            {
-                webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
-            }
+            return new HttpMethod(method);
         }
 
-        public HttpWebRequest BuildWebRequest(IHttpRequest httpRequest)
+        // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
+        // {
+        //     try
+        //     {
+        //         var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
+        //         return new HttpWebResponseWrapper((HttpWebResponse)response);
+        //     }
+        //     catch (WebException wex)
+        //     {
+        //         var innerResponse = wex.Response;
+        //         if (innerResponse != null)
+        //         {
+        //             return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
+        //         }
+
+        //         throw;
+        //     }
+        // }
+
+        // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
+        // {
+        //     // ServicePointManager.Expect100Continue = false;
+        //     webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
+
+        //     if (httpRequest.ClientCertificates != null)
+        //     {
+        //         webRequest.ClientCertificates = httpRequest.ClientCertificates;
+        //     }
+
+        //     if (httpRequest.Proxy != null)
+        //     {
+        //         webRequest.Proxy = httpRequest.Proxy;
+        //     }
+
+        //     if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
+        //     {
+        //         webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
+        //     }
+        // }
+
+        public System.Net.Http.HttpClient BuildClient(IHttpRequest httpRequest)
         {
             authenticator.Authenticate(httpRequest);
 
-            var url = httpRequest.BuildRequestUrl(arrayFormatter);
+            var handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+            };
 
-            var request = (HttpWebRequest)WebRequest.Create(url);
+            handler.UseDefaultCredentials = false;
+            handler.Credentials = httpRequest.Credentials;
+            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            handler.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
 
-            request.UseDefaultCredentials = false;
-            request.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-            request.Credentials = httpRequest.Credentials;
-            request.Method = httpRequest.HttpMethod;
-            request.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            request.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
+            //handler.Method = httpRequest.HttpMethod;
+            //handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
             if (httpRequest.HasUserAgent)
             {
-                request.UserAgent = httpRequest.UserAgent.Name;
+                //handler.UserAgent = httpRequest.UserAgent.Name;
             }
 
-            BuildWebRequestFrameworkSpecific(httpRequest, request);
+            //BuildWebRequestFrameworkSpecific(httpRequest, handler);
 
-            foreach (var header in httpRequest.Headers)
-            {
-                ApplyHeaderToRequest(header, request);
-            }
+            // foreach (var header in httpRequest.Headers)
+            // {
+            //     ApplyHeaderToRequest(header, handler);
+            // }
 
-            return request;
+            var client = new System.Net.Http.HttpClient(handler);
+
+            return client;
         }
 
-        private void ApplyHeaderToRequest(Header header, HttpWebRequest request)
+        private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
         {
             var headerName = header.Name;
 
-            if (reservedHeaderApplicators.ContainsKey(headerName))
+            // if (reservedHeaderApplicators.ContainsKey(headerName))
+            // {
+            //     reservedHeaderApplicators[headerName](request, header.Value);
+            // }
+            // else
             {
-                reservedHeaderApplicators[headerName](request, header.Value);
-            }
-            else
-            {
-                request.Headers[header.Name] = header.Value;
+                request.Headers.Add(header.Name, new []{header.Value});
+
+                // request.Headers[header.Name] = header.Value;
             }
         }
 
-        public IHttpResponse CreateHttpResponse(IHttpWebResponse webResponse, Stream body)
+        public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
         {
-            var deserializer = transmissionSettings.FindSerializer(webResponse.ContentType);
+            if (webResponse == null)
+            {
+                throw new ArgumentNullException(nameof(webResponse));
+            }
+            
+            if (webResponse.Content == null)
+            {
+                throw new ArgumentNullException(nameof(webResponse.Content));
+            }
+
+            var contentType = webResponse.Content?.Headers?.ContentType?.MediaType?.ToString() ?? "application/json";
+
+            var deserializer = transmissionSettings.FindSerializer(contentType);
+
+            var state = new HttpResponseState(
+                webResponse.StatusCode,
+                webResponse.ReasonPhrase,
+                webResponse.RequestMessage.RequestUri,
+                new Header[0],
+                new Cookie[0],
+                contentType,
+                webResponse.Headers.Server.ToString(),
+                webResponse.Content.Headers.ContentEncoding.ToString(),
+                webResponse.Content.Headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date);
 
             return new HttpResponse(
                 deserializer,
                 body,
-                webResponse.BuildState());
+                state);
         }
     }
 }

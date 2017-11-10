@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
 {
-    public class ProductsController : ApiController
+    [Route("api/products")]
+    public class ProductsController : Controller
     {
         private readonly IEnumerable<Product> products;
 
@@ -20,89 +19,98 @@ namespace SpeakEasy.IntegrationTests.Controllers
         }
 
         [AcceptVerbs("HEAD")]
-        public HttpResponseMessage Head()
+        public IActionResult Head()
         {
-            return new HttpResponseMessage();
+            return Ok();
         }
 
         [AcceptVerbs("OPTIONS")]
-        public HttpResponseMessage Options()
+        public IActionResult Options()
         {
-            return new HttpResponseMessage();
+            return Ok();
         }
 
+        [HttpGet]
         public IEnumerable<Product> Get()
         {
             return products;
         }
 
-        public Product Get(int id)
+        [HttpGet("{id}", Name = nameof(GetProduct))]
+        public Product GetProduct(int id)
         {
             return products.Single(p => p.Id == id);
         }
 
-        public HttpResponseMessage Post([FromBody]Product product)
+        [HttpPost]
+        public IActionResult Post([FromBody]Product product)
         {
+            if (product == null)
+            {
+                return BadRequest(new ValidationError("Product required"));
+            }
+
             if (string.IsNullOrEmpty(product.Name))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
+                return BadRequest(new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
+                return BadRequest(new ValidationError("Category required"));
             }
 
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return CreatedAtRoute(nameof(GetProduct), new { id = 33 }, product);
         }
 
-        public HttpResponseMessage Put(int id, Product product)
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]Product product)
         {
             if (string.IsNullOrEmpty(product.Name))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
+                return BadRequest(new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
+                return BadRequest(new ValidationError("Category required"));
             }
 
             var existingProduct = products.FirstOrDefault(p => p.Id == id);
 
             return existingProduct == null
-                ? new HttpResponseMessage(HttpStatusCode.NotFound)
-                : new HttpResponseMessage(HttpStatusCode.OK);
+                ? (IActionResult)NotFound()
+                : Ok();
         }
 
-        [AcceptVerbs("PATCH")]
-        public HttpResponseMessage Patch(int id, Product product)
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id, [FromBody]Product product)
         {
             if (string.IsNullOrEmpty(product.Name))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Name required"));
+                return BadRequest(new ValidationError("Name required"));
             }
 
             if (string.IsNullOrEmpty(product.Category))
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, new ValidationError("Category required"));
+                return BadRequest(new ValidationError("Category required"));
             }
 
             var existingProduct = products.FirstOrDefault(p => p.Id == id);
 
             return existingProduct == null
-                ? new HttpResponseMessage(HttpStatusCode.NotFound)
-                : new HttpResponseMessage(HttpStatusCode.OK);
+                ? (IActionResult)NotFound()
+                : Ok();
         }
 
-
-        public HttpResponseMessage Delete(int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             var existingProduct = products.FirstOrDefault(p => p.Id == id);
 
             return existingProduct == null
-                ? new HttpResponseMessage(HttpStatusCode.NotFound)
-                : new HttpResponseMessage(HttpStatusCode.NoContent);
+                ? (IActionResult)NotFound()
+                : NoContent();
         }
     }
 }

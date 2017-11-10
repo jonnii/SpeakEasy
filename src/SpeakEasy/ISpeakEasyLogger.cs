@@ -3,7 +3,7 @@ namespace SpeakEasy
     /// <summary>
     /// A logger is used to log messages from within SpeakEasy
     /// </summary>
-    public interface ILogger
+    public interface ISpeakEasyLogger
     {
         /// <summary>
         /// BeforeRequest is called before every http request is sent

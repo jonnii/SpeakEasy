@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.0
+
+  * Target `netstandard1.6`
+  * Explicit dependency on `Newtonsoft.Json`
+
 ## 0.4.1
 
   * Always ConfigureWait(false)

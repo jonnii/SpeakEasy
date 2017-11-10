@@ -1,19 +1,16 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
 {
-    public class LocationsController : ApiController
+    [Route("api/locations")]
+    public class LocationsController : Controller
     {
-        public HttpResponseMessage Post()
+        [HttpPost]
+        public IActionResult Post()
         {
-            var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-            {
-                ReasonPhrase = "titles cannot start with 'bad'"
-            };
-
-            return response;
+            Response.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = "titles cannot start with 'bad'";
+            return BadRequest();
         }
     }
 }

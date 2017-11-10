@@ -2,121 +2,137 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using NUnit.Framework;
 using SpeakEasy.IntegrationTests.Controllers;
 using SpeakEasy.Serializers;
+using Xunit;
 
 namespace SpeakEasy.IntegrationTests
 {
-    [TestFixture]
-    public class BasicHttpMethods : WithApi
+    [Collection("Api collection")]
+    public class BasicHttpMethods
     {
-        [Test]
+        private readonly IHttpClient client;
+
+        public BasicHttpMethods(ApiFixture fixture)
+        {
+            client = fixture.Client;
+        }
+
+        [Fact]
         public void ShouldHaveCorrectPropertiesOnResponse()
         {
             var response = client.Get("products/1");
 
-            Assert.That(response.State.RequestUrl.ToString(), Does.EndWith(":1337/api/products/1"));
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            Assert.That(response.Deserializer, Is.TypeOf<DefaultJsonSerializer>());
+            Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsType<DefaultJsonSerializer>(response.Deserializer);
         }
 
-        [Test]
-        public void ShouldGetHeadHurHur()
+        [Fact]
+        public void ShouldGetHead()
         {
             var success = client.Head("products").IsOk();
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetOptions()
         {
             var success = client.Options("products").IsOk();
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetCollection()
         {
-            var products = client.Get("products").On(HttpStatusCode.OK).As<List<Product>>();
+            var products = client
+                .Get("products")
+                .On(HttpStatusCode.OK)
+                .As<List<Product>>();
 
-            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+            Assert.Equal(2, products.Count());
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetCollectionWrongStatusCode()
         {
             Assert.Throws<HttpException>(() => client.Get("products").On(HttpStatusCode.Accepted).As<List<Product>>());
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetCollectionWithCustomConstructor()
         {
-            var products = client.Get("products").On(HttpStatusCode.OK).As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
+            var products = client.Get("products")
+                .On(HttpStatusCode.OK)
+                .As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
 
-            Assert.That(products.Any(p => p.Name == "Vanilla Cake"));
+            Assert.Contains("Vanilla Cake", products.Select(p => p.Name));
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetCollectionShort()
         {
             var products = client.Get("products").OnOk().As<List<Product>>();
 
-            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetProduct()
         {
-            var product = client.Get("products/1").OnOk().As<Product>();
+            var product = client.Get("products/1")
+                .OnOk()
+                .As<Product>();
 
-            Assert.That(product.Id, Is.EqualTo(1));
+            Assert.Equal(1, product.Id);
         }
 
-        [Test]
+        [Fact]
         public void ShouldGetProductWithSegments()
         {
             var product = client.Get("products/:id", new { id = 1 }).OnOk().As<Product>();
 
-            Assert.That(product.Id, Is.EqualTo(1));
+            Assert.Equal(1, product.Id);
         }
 
-        [Test]
+        [Fact]
         public void ShouldCreateNewProduct()
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-            var isok = client.Post(product, "products").Is(HttpStatusCode.Created);
+            var isok = client.Post(product, "products")
+                .Is(HttpStatusCode.Created);
 
-            Assert.That(isok);
+            Assert.True(isok);
         }
 
-        [Test]
+        [Fact]
         public void ShouldCreateNewProductShort()
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
             var success = client.Post(product, "products").Is(HttpStatusCode.Created);
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldCreateNewProductShortWithtErrorHandling()
         {
             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
             var response = client.Post(product, "products");
 
-            response.On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); });
+            response.On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException());
             var success = response.Is(HttpStatusCode.Created);
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldCreateNewProductWithErrors()
         {
             var product = new Product { Name = "Canoli", Category = "" };
@@ -125,106 +141,110 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.Throws<ValidationException>(() =>
                 response
-                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-                    .OnOk(() => { throw new Exception("Expected error"); }));
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException())
+                    .OnOk(() => throw new Exception("Expected error")));
         }
 
-        [Test]
+        [Fact]
         public void ShouldUpdatePerson()
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
             var success = client.Put(product, "products/:id", new { id = 1 }).IsOk();
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
-        public void ShouldUpdateReservations()
+        [Fact]
+        public void ShouldCreateReservations()
         {
             var success = client.Post("products/:id/reservations", new { id = 1 }).IsOk();
 
-            Assert.That(success);
+            Assert.True(success, "Expected a post to updated reservations to be ok");
         }
 
-        [Test]
+        [Fact]
         public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
             var success = client.Put(product, "products/:id").IsOk();
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldUpdateProductsWithPatch()
         {
             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
             var success = client.Patch(product, "products/:id").IsOk();
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldUpdatePersonWithErrors()
         {
             var product = new Product { Id = 1, Name = "", Category = "Cakes" };
 
             Assert.Throws<ValidationException>(() =>
                 client.Put(product, "products/:id", new { id = 1 })
-                    .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); }));
+                    .On(HttpStatusCode.BadRequest, (ValidationError e) => throw new ValidationException()));
         }
 
-        [Test]
-        public void ShouldDeletePerson()
+        [Fact]
+        public void ShouldDeleteProduct()
         {
             var success = client.Delete("products/:id", new { id = 1 })
-                .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
+                .On(HttpStatusCode.NotFound, () => throw new Exception("Could not find person to delete"))
                 .Is(HttpStatusCode.NoContent);
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
+        [Fact]
         public void ShouldBeAbleToUseNumericResponseCodes()
         {
             var response = client.Post("search", new { username = "unknown-username" });
 
             var success = response.Is(422);
 
-            Assert.That(success);
+            Assert.True(success);
         }
 
-        [Test]
-        public void ShouldDeserializeCollectionAsObject()
-        {
-            var obj = client.Get("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
+        //[Fact]
+        //public void ShouldDeserializeCollectionAsObject()
+        //{
+        //    var obj = client.Get("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
 
-            var products = (List<Product>)obj;
+        //    var products = (List<Product>)obj;
 
-            Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-        }
+        //    Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
+        //}
 
-        [Test]
+        [Fact]
         public void ShouldCallbackWithState()
         {
             var message = string.Empty;
 
             client.Post("locations")
-                .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; });
+                .On(HttpStatusCode.BadRequest, status =>
+                {
+                    message = status.StatusDescription;
+                });
 
-            Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
+            Assert.Equal("titles cannot start with 'bad'", message);
         }
 
-        [Test]
+        [Fact]
         public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
         {
-            var success = client.Put(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
+            var success = client
+                .Put(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
                 .Is(HttpStatusCode.Created);
 
-            Assert.That(success);
+            Assert.True(success);
         }
     }
 }

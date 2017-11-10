@@ -33,12 +33,12 @@ namespace SpeakEasy
         /// <summary>
         /// The web proxy to use when making this http request
         /// </summary>
-        IWebProxy Proxy { get; set; }
+        // IWebProxy Proxy { get; set; }
 
         /// <summary>
         /// The x509 certificates associated with this http request
         /// </summary>
-        X509CertificateCollection ClientCertificates { get; }
+        // X509CertificateCollection ClientCertificates { get; }
 
         /// <summary>
         /// The maximum number of automatic redirections when allow auto redirect it set to true
@@ -61,7 +61,7 @@ namespace SpeakEasy
         IEnumerable<Header> Headers { get; }
 
         /// <summary>
-        /// The windows credentials on this http request
+        /// The credentials on this http request
         /// </summary>
         ICredentials Credentials { get; set; }
 

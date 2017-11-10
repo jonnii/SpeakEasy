@@ -1,66 +1,67 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications.Serializers
 {
-    public class DefaultJsonSerializerSpecification
+    [Subject(typeof(DefaultJsonSerializer))]
+    public class DefaultJsonSerializerSpecification : WithSubject<DefaultJsonSerializer>
     {
-        [Subject(typeof(DefaultJsonSerializer))]
-        public class in_general : WithSubject<DefaultJsonSerializer>
-        {
-            It should_have_deserialization_settings = () =>
-                Subject.DefaultDeserializationSettings.ShouldNotBeNull();
-        }
+        static MemoryStream stream;
 
-        [Subject(typeof(DefaultJsonSerializer))]
-        public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
-        {
-            Establish context = () =>
-                json = SimpleJson.SerializeObject(new { message = "hi sir" });
+        Establish context = () =>
+            stream = new MemoryStream();
+   
 
-            Because of = () =>
-                deserialized = Subject.DeserializeString<dynamic>(json);
+        // [Subject(typeof(DefaultJsonSerializer))]
+        // public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
+        // {
+        //     Establish context = () =>
+        //         json = SimpleJson.SerializeObject(new { message = "hi sir" });
 
-            It should_deserialize_items_when_array = () =>
-                ((string)deserialized.message).ShouldEqual("hi sir");
+        //     Because of = () =>
+        //         deserialized = Subject.DeserializeString<dynamic>(json);
 
-            static string json;
+        //     It should_deserialize_items_when_array = () =>
+        //         ((string)deserialized.message).ShouldEqual("hi sir");
 
-            static dynamic deserialized;
-        }
+        //     static string json;
 
-        [Subject(typeof(DefaultJsonSerializer))]
-        public class when_deserializing_array_with_default_settings : WithSubject<DefaultJsonSerializer>
+        //     static dynamic deserialized;
+        // }
+
+        class when_deserializing_array_with_default_settings
         {
             Establish context = () =>
-                json = SimpleJson.SerializeObject(new[] { "a", "b", "c" });
+            {
+                Subject.SerializeAsync(stream, new[] { "a", "b", "c" }).Await();
+                stream.Position = 0;
+            };
 
             Because of = () =>
-                deserialized = Subject.DeserializeString<List<string>>(json);
+                deserialized = Subject.Deserialize<List<string>>(stream);
 
             It should_deserialize_items_when_array = () =>
                 deserialized.Count.ShouldEqual(3);
 
-            static string json;
-
             static List<string> deserialized;
         }
 
-        [Subject(typeof(DefaultJsonSerializer))]
-        public class when_deserializing_object_with_default_settings : WithSubject<DefaultJsonSerializer>
+        class when_deserializing_object_with_default_settings
         {
             Establish context = () =>
-                json = SimpleJson.SerializeObject(new Person { Name = "fred", Age = 30 });
-
+            {
+                Subject.SerializeAsync(stream, new Person { Name = "fred", Age = 30 }).Await();
+                stream.Position = 0;
+            };
+            
             Because of = () =>
-                deserialized = Subject.DeserializeString<Person>(json);
+                deserialized = Subject.Deserialize<Person>(stream);
 
             It should_deserialize_items_when_array = () =>
                 deserialized.Name.ShouldEqual("fred");
-
-            static string json;
 
             static Person deserialized;
         }

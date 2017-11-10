@@ -22,25 +22,11 @@ namespace SpeakEasy
             return deserializer.Deserialize(response.Body, type);
         }
 
-        public object As(Type type, DeserializationSettings deserializationSettings)
-        {
-            var deserializer = response.Deserializer;
-
-            return deserializer.Deserialize(response.Body, deserializationSettings, type);
-        }
-
         public T As<T>()
         {
             var deserializer = response.Deserializer;
 
             return deserializer.Deserialize<T>(response.Body);
-        }
-
-        public T As<T>(DeserializationSettings deserializationSettings)
-        {
-            var deserializer = response.Deserializer;
-
-            return deserializer.Deserialize<T>(response.Body, deserializationSettings);
         }
 
         public T As<T>(Func<IHttpResponseHandler, T> constructor)

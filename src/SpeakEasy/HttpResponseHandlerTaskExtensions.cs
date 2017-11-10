@@ -17,18 +17,6 @@ namespace SpeakEasy
         }
 
         /// <summary>
-        /// Deserializes the body of a response as a given type.
-        /// </summary>
-        /// <param name="httpResponseHandler">The http response handler</param>
-        /// <param name="type">The type of the object to deserialize</param>
-        /// <param name="deserializationSettings">The settings used to deserialize the contents</param>
-        /// <returns>The deserialized body, as an object</returns>
-        public static async Task<object> As(this Task<IHttpResponseHandler> httpResponseHandler, Type type, DeserializationSettings deserializationSettings)
-        {
-            return (await httpResponseHandler.ConfigureAwait(false)).As(type, deserializationSettings);
-        }
-
-        /// <summary>
         /// Deserializes the body of a response as a given type. This
         /// will use the default deserialization settings that are set on the
         /// serializer. To override them use an overload of this method.
@@ -39,18 +27,6 @@ namespace SpeakEasy
         public static async Task<T> As<T>(this Task<IHttpResponseHandler> httpResponseHandler)
         {
             return (await httpResponseHandler.ConfigureAwait(false)).As<T>();
-        }
-
-        /// <summary>
-        /// Deserializes the body of a response as a given type.
-        /// </summary>
-        /// <param name="deserializationSettings">The settings used to deserialize the contents</param>
-        /// <typeparam name="T">The type to deserialize</typeparam>
-        /// <param name="httpResponseHandler">The http response handler</param>
-        /// <returns>The deserialized body</returns>
-        public static async Task<T> As<T>(this Task<IHttpResponseHandler> httpResponseHandler, DeserializationSettings deserializationSettings)
-        {
-            return (await httpResponseHandler.ConfigureAwait(false)).As<T>(deserializationSettings);
         }
 
         /// <summary>

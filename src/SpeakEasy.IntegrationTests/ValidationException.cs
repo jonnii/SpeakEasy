@@ -1,9 +1,7 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace SpeakEasy.IntegrationTests
 {
-    [Serializable]
     public class ValidationException : Exception
     {
         public ValidationException()
@@ -17,13 +15,6 @@ namespace SpeakEasy.IntegrationTests
 
         public ValidationException(string message, Exception inner)
             : base(message, inner)
-        {
-        }
-
-        protected ValidationException(
-            SerializationInfo info,
-            StreamingContext context)
-            : base(info, context)
         {
         }
     }

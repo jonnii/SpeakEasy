@@ -5,7 +5,7 @@ namespace SpeakEasy.Loggers
     /// <summary>
     /// Console logger outputs all logging information to the console
     /// </summary>
-    public class ConsoleLogger : ILogger
+    public class ConsoleLogger : ISpeakEasyLogger
     {
         public void BeforeRequest(IHttpRequest request)
         {

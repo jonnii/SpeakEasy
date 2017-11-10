@@ -1,34 +1,34 @@
-using System.Net;
-using Machine.Fakes;
-using Machine.Specifications;
+// using System.Net;
+// using Machine.Fakes;
+// using Machine.Specifications;
 
-namespace SpeakEasy.Specifications
-{
-    public class OptionsRequestSpecification
-    {
-        [Subject(typeof(OptionsRequest))]
-        public class when_building_web_request : with_options_request
-        {
-            It should_have_options_method = () =>
-                request.HttpMethod.ShouldEqual("OPTIONS");
+// namespace SpeakEasy.Specifications
+// {
+//     public class OptionsRequestSpecification
+//     {
+//         [Subject(typeof(OptionsRequest))]
+//         public class when_building_web_request : with_options_request
+//         {
+//             It should_have_options_method = () =>
+//                 request.HttpMethod.ShouldEqual("OPTIONS");
 
-            static WebRequest webRequest;
-        }
+//             static WebRequest webRequest;
+//         }
 
-        public class with_serializer : WithFakes
-        {
-            Establish context = () =>
-                transmissionSettings = An<ITransmissionSettings>();
+//         public class with_serializer : WithFakes
+//         {
+//             Establish context = () =>
+//                 transmissionSettings = An<ITransmissionSettings>();
 
-            protected static ITransmissionSettings transmissionSettings;
-        }
+//             protected static ITransmissionSettings transmissionSettings;
+//         }
 
-        public class with_options_request : with_serializer
-        {
-            Establish context = () =>
-                request = new OptionsRequest(new Resource("http://example.com/companies"));
+//         public class with_options_request : with_serializer
+//         {
+//             Establish context = () =>
+//                 request = new OptionsRequest(new Resource("http://example.com/companies"));
 
-            internal static OptionsRequest request;
-        }
-    }
-}
+//             internal static OptionsRequest request;
+//         }
+//     }
+// }

@@ -1,140 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E8546C22-D1FF-4C28-A8C4-7F6E474F7A01}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SpeakEasy</RootNamespace>
+    <Description>SpeakEasy</Description>
+    <AssemblyTitle>SpeakEasy</AssemblyTitle>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Authors>jonnii</Authors>
+    <TargetFrameworks>netstandard1.6</TargetFrameworks>
     <AssemblyName>SpeakEasy</AssemblyName>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
+    <PackageId>SpeakEasy</PackageId>
+    <PackageTags>SpeakEasy</PackageTags>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\targets\speakeasy\</OutputPath>
-    <DefineConstants>DEBUG;FRAMEWORK</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\targets\speakeasy\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ConsolePause>false</ConsolePause>
-    <DefineConstants>FRAMEWORK</DefineConstants>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="AfterRequestEventArgs.cs" />
-    <Compile Include="Authenticators\BasicAuthenticator.cs" />
-    <Compile Include="Authenticators\NullAuthenticator.cs" />
-    <Compile Include="Authenticators\WindowsAuthenticator.cs" />
-    <Compile Include="Contents\MultipartMimeContent.cs" />
-    <Compile Include="Contents\NullContent.cs" />
-    <Compile Include="Contents\ByteArrayContent.cs" />
-    <Compile Include="Contents\StreamableContent.cs" />
-    <Compile Include="CommaSeparatedArrayFormatter.cs" />
-    <Compile Include="ConfigurationException.cs" />
-    <Compile Include="Cookie.cs" />
-    <Compile Include="HttpResponseHandlerTaskExtensions.cs" />
-    <Compile Include="HttpResponseTaskExtensions.cs" />
-    <Compile Include="IArrayFormatter.cs" />
-    <Compile Include="IHttpResponseState.cs" />
-    <Compile Include="MultipleValuesArrayFormatter.cs" />
-    <Compile Include="PersistentCookieStrategy.cs" />
-    <Compile Include="SimpleJson.cs" />
-    <Compile Include="TransientCookieStrategy.cs" />
-    <Compile Include="DefaultNamingConvention.cs" />
-    <Compile Include="DeleteRequest.cs" />
-    <Compile Include="DeserializationSettings.cs" />
-    <Compile Include="Extensions\RaiseExtensions.cs" />
-    <Compile Include="Extensions\StreamExtensions.cs" />
-    <Compile Include="FileDownload.cs" />
-    <Compile Include="FileUploadBody.cs" />
-    <Compile Include="FileUploadByteArray.cs" />
-    <Compile Include="FileUploadPath.cs" />
-    <Compile Include="FileUploadStream.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="BeforeRequestEventArgs.cs" />
-    <Compile Include="HeaderParser.cs" />
-    <Compile Include="HttpResponseState.cs" />
-    <Compile Include="ICookieStrategy.cs" />
-    <Compile Include="IFile.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="INamingConvention.cs" />
-    <Compile Include="IRequestBody.cs" />
-    <Compile Include="IUserAgent.cs" />
-    <Compile Include="NullRequestBody.cs" />
-    <Compile Include="PostRequestBody.cs" />
-    <Compile Include="IResourceMerger.cs" />
-    <Compile Include="IContent.cs" />
-    <Compile Include="Loggers\ConsoleLogger.cs" />
-    <Compile Include="Loggers\NullLogger.cs" />
-    <Compile Include="ObjectRequestBody.cs" />
-    <Compile Include="ParsedHeaderValue.cs" />
-    <Compile Include="ParsedHeaderParameter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResourceMerger.cs" />
-    <Compile Include="SerializerException.cs" />
-    <Compile Include="Serializers\NullSerializer.cs" />
-    <Compile Include="FileUpload.cs" />
-    <Compile Include="GetLikeRequest.cs" />
-    <Compile Include="GetRequest.cs" />
-    <Compile Include="HeadRequest.cs" />
-    <Compile Include="HttpWebResponseWrapper.cs" />
-    <Compile Include="IAuthenticator.cs" />
-    <Compile Include="IHttpWebResponse.cs" />
-    <Compile Include="IRequestRunner.cs" />
-    <Compile Include="IHttpRequest.cs" />
-    <Compile Include="ITransmissionSettings.cs" />
-    <Compile Include="OptionsRequest.cs" />
-    <Compile Include="Parameter.cs" />
-    <Compile Include="PatchRequest.cs" />
-    <Compile Include="PostLikeRequest.cs" />
-    <Compile Include="PostRequest.cs" />
-    <Compile Include="PutRequest.cs" />
-    <Compile Include="RequestRunner.cs" />
-    <Compile Include="HttpClientSettings.cs" />
-    <Compile Include="HttpException.cs" />
-    <Compile Include="HttpRequest.cs" />
-    <Compile Include="IHttpClient.cs" />
-    <Compile Include="IHttpResponse.cs" />
-    <Compile Include="IHttpResponseHandler.cs" />
-    <Compile Include="ISerializer.cs" />
-    <Compile Include="Resource.cs" />
-    <Compile Include="HttpClient.cs" />
-    <Compile Include="HttpResponse.cs" />
-    <Compile Include="HttpResponseHandler.cs" />
-    <Compile Include="Serializers\Serializer.cs" />
-    <Compile Include="Serializers\DefaultJsonSerializer.cs" />
-    <Compile Include="Serializers\StringBasedSerializer.cs" />
-    <Compile Include="TransmissionSettings.cs" />
-    <Compile Include="UserAgent.cs" />
+    <PackageReference Include="System.Net.Http" Version="4.3.2" />
+    <PackageREference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
     <Reference Include="System" />
-    <Reference Include="System.Net" />
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+
 </Project>

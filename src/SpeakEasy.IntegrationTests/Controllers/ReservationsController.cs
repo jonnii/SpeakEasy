@@ -1,29 +1,30 @@
-﻿using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
 {
-    public class ReservationsController : ApiController
+    [Route("api/products/{productId}/reservations")]
+    public class ReservationsController : Controller
     {
-        public HttpResponseMessage Post(int productId)
+        [HttpPost]
+        public IActionResult Post(int productId)
         {
             if (productId == 1)
             {
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                return Ok();
             }
 
-            return new HttpResponseMessage(HttpStatusCode.NotFound);
+            return NotFound();
         }
 
-        public HttpResponseMessage Put(int productId, int priceIncrease)
+        [HttpPut]
+        public IActionResult Put(int productId, int priceIncrease)
         {
             if (priceIncrease > 100)
             {
-                return new HttpResponseMessage(HttpStatusCode.Created);
+                return StatusCode(201);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            return BadRequest();
         }
     }
 }

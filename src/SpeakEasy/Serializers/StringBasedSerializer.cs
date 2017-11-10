@@ -5,18 +5,18 @@ namespace SpeakEasy.Serializers
 {
     public abstract class StringBasedSerializer : Serializer
     {
-        public override T Deserialize<T>(Stream body, DeserializationSettings deserializationSettings)
+        public override T Deserialize<T>(Stream body)
         {
             return ReadStream(
                 body,
-                contents => DeserializeString<T>(contents, deserializationSettings));
+                contents => DeserializeString<T>(contents));
         }
 
-        public override object Deserialize(Stream body, DeserializationSettings deserializationSettings, Type type)
+        public override object Deserialize(Stream body, Type type)
         {
             return ReadStream(
                 body,
-                contents => DeserializeString(contents, deserializationSettings, type));
+                contents => DeserializeString(contents, type));
         }
 
         private T ReadStream<T>(Stream body, Func<string, T> callback)
@@ -28,13 +28,8 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public T DeserializeString<T>(string body)
-        {
-            return DeserializeString<T>(body, DefaultDeserializationSettings);
-        }
+        public abstract T DeserializeString<T>(string body);
 
-        public abstract T DeserializeString<T>(string body, DeserializationSettings deserializationSettings);
-
-        public abstract object DeserializeString(string body, DeserializationSettings deserializationSettings, Type type);
+        public abstract object DeserializeString(string body, Type type);
     }
 }
