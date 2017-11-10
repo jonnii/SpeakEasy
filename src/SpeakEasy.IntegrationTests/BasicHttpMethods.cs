@@ -25,7 +25,7 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsType(typeof(DefaultJsonSerializer), response.Deserializer);
+            Assert.IsType<DefaultJsonSerializer>(response.Deserializer);
         }
 
         [Fact]

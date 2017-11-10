@@ -1,224 +1,229 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Linq;
-// using System.Net;
-// using NUnit.Framework;
-// using SpeakEasy.IntegrationTests.Controllers;
-// using SpeakEasy.IntegrationTests.Extensions;
-// using SpeakEasy.Serializers;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using SpeakEasy.IntegrationTests.Controllers;
+using SpeakEasy.Serializers;
+using Xunit;
 
-// namespace SpeakEasy.IntegrationTests
-// {
-//     [TestFixture]
-//     public class BasicAsyncHttpMethods : WithApi
-//     {
-//         [Test]
-//         public void ShouldGetAsync()
-//         {
-//             var request = client.GetAsync("products/1");
+namespace SpeakEasy.IntegrationTests
+{
+    [Collection("Api collection")]
+    public class BasicAsyncHttpMethods
+    {
+        private readonly IHttpClient client;
 
-//             var response = request.Result;
+        public BasicAsyncHttpMethods(ApiFixture fixture)
+        {
+            client = fixture.Client;
+        }
 
-//             Assert.That(response.State.RequestUrl.ToString(), Does.EndWith(":1337/api/products/1"));
-//             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-//             Assert.That(response.Deserializer, Is.TypeOf<DefaultJsonSerializer>());
-//         }
+        [Fact]
+        public async void ShouldGetAsync()
+        {
+            var response = await client.GetAsync("products/1");
 
-//         [Test]
-//         public void ShouldGetCollection()
-//         {
-//             var products = client.GetAsync("products").On(HttpStatusCode.OK).As<List<Product>>().Result;
+            Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsType<DefaultJsonSerializer>(response.Deserializer);
+        }
 
-//             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-//         }
+        [Fact]
+        public async void ShouldGetCollection()
+        {
+            var products = await client.GetAsync("products")
+                .On(HttpStatusCode.OK)
+                .As<List<Product>>();
 
-//         [Test]
-//         public void ShouldGetCollectionWrongStatusCode()
-//         {
-//             Assert.Throws<HttpException>(() => client.GetAsync("products").On(HttpStatusCode.Accepted).As<List<Product>>().Await());
-//         }
+            Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
+        }
 
-//         [Test]
-//         public void ShouldGetCollectionWithCustomConstructor()
-//         {
-//             var products = client.GetAsync("products").On(HttpStatusCode.OK).As(r => new List<Product> { new Product { Name = "Vanilla Cake" } }).Result;
+        //[Test]
+        //public void ShouldGetCollectionWrongStatusCode()
+        //{
+        //    Assert.Throws<HttpException>(() => client.GetAsync("products").On(HttpStatusCode.Accepted).As<List<Product>>().Await());
+        //}
 
-//             Assert.That(products.Any(p => p.Name == "Vanilla Cake"));
-//         }
+        //[Test]
+        //public void ShouldGetCollectionWithCustomConstructor()
+        //{
+        //    var products = client.GetAsync("products").On(HttpStatusCode.OK).As(r => new List<Product> { new Product { Name = "Vanilla Cake" } }).Result;
 
-//         [Test]
-//         public void ShouldGetCollectionShort()
-//         {
-//             var products = client.GetAsync("products").OnOk().As<List<Product>>().Result;
+        //    Assert.That(products.Any(p => p.Name == "Vanilla Cake"));
+        //}
 
-//             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-//         }
+        //[Test]
+        //public void ShouldGetCollectionShort()
+        //{
+        //    var products = client.GetAsync("products").OnOk().As<List<Product>>().Result;
 
-//         [Test]
-//         public void ShouldGetProduct()
-//         {
-//             var product = client.GetAsync("products/1").OnOk().As<Product>().Result;
+        //    Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+        //}
 
-//             Assert.That(product.Id, Is.EqualTo(1));
-//         }
+        //[Test]
+        //public void ShouldGetProduct()
+        //{
+        //    var product = client.GetAsync("products/1").OnOk().As<Product>().Result;
 
-//         [Test]
-//         public void ShouldGetProductWithSegments()
-//         {
-//             var product = client.GetAsync("products/:id", new { id = 1 }).OnOk().As<Product>().Result;
+        //    Assert.That(product.Id, Is.EqualTo(1));
+        //}
 
-//             Assert.That(product.Id, Is.EqualTo(1));
-//         }
+        //[Test]
+        //public void ShouldGetProductWithSegments()
+        //{
+        //    var product = client.GetAsync("products/:id", new { id = 1 }).OnOk().As<Product>().Result;
 
-//         [Test]
-//         public void ShouldCreateNewProduct()
-//         {
-//             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+        //    Assert.That(product.Id, Is.EqualTo(1));
+        //}
 
-//             var isok = client.PostAsync(product, "products").Is(HttpStatusCode.Created).Result;
+        //[Test]
+        //public void ShouldCreateNewProduct()
+        //{
+        //    var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-//             Assert.That(isok);
-//         }
+        //    var isok = client.PostAsync(product, "products").Is(HttpStatusCode.Created).Result;
 
-//         [Test]
-//         public void ShouldCreateNewProductShort()
-//         {
-//             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+        //    Assert.That(isok);
+        //}
 
-//             var success = client.PostAsync(product, "products").Is(HttpStatusCode.Created).Result;
+        //[Test]
+        //public void ShouldCreateNewProductShort()
+        //{
+        //    var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-//             Assert.That(success);
-//         }
+        //    var success = client.PostAsync(product, "products").Is(HttpStatusCode.Created).Result;
 
-//         [Test]
-//         public void ShouldCreateNewProductShortWithtErrorHandling()
-//         {
-//             var product = new Product { Name = "Canoli", Category = "Italian Treats" };
+        //    Assert.That(success);
+        //}
 
-//             var response = client.PostAsync(product, "products");
+        //[Test]
+        //public void ShouldCreateNewProductShortWithtErrorHandling()
+        //{
+        //    var product = new Product { Name = "Canoli", Category = "Italian Treats" };
 
-//             var success = response
-//                 .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-//                 .Is(HttpStatusCode.Created)
-//                 .Result;
+        //    var response = client.PostAsync(product, "products");
 
-//             Assert.That(success, Is.True);
-//         }
+        //    var success = response
+        //        .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
+        //        .Is(HttpStatusCode.Created)
+        //        .Result;
 
-//         [Test]
-//         public void ShouldCreateNewProductWithErrors()
-//         {
-//             var product = new Product { Name = "Canoli", Category = "" };
+        //    Assert.That(success, Is.True);
+        //}
 
-//             var response = client.PostAsync(product, "products");
+        //[Test]
+        //public void ShouldCreateNewProductWithErrors()
+        //{
+        //    var product = new Product { Name = "Canoli", Category = "" };
 
-//             Assert.Throws<ValidationException>(() =>
-//                 response
-//                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-//                     .OnOk(() => { throw new Exception("Expected error"); })
-//                     .Await());
-//         }
+        //    var response = client.PostAsync(product, "products");
 
-//         [Test]
-//         public void ShouldUpdatePerson()
-//         {
-//             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        //    Assert.Throws<ValidationException>(() =>
+        //        response
+        //            .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
+        //            .OnOk(() => { throw new Exception("Expected error"); })
+        //            .Await());
+        //}
 
-//             var success = client.PutAsync(product, "products/:id", new { id = 1 }).IsOk().Result;
+        //[Test]
+        //public void ShouldUpdatePerson()
+        //{
+        //    var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-//             Assert.That(success);
-//         }
+        //    var success = client.PutAsync(product, "products/:id", new { id = 1 }).IsOk().Result;
 
-//         [Test]
-//         public void ShouldUpdateReservations()
-//         {
-//             var success = client.PostAsync("products/:id/reservations", new { id = 1 }).IsOk().Result;
+        //    Assert.That(success);
+        //}
 
-//             Assert.That(success);
-//         }
+        //[Test]
+        //public void ShouldUpdateReservations()
+        //{
+        //    var success = client.PostAsync("products/:id/reservations", new { id = 1 }).IsOk().Result;
 
-//         [Test]
-//         public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
-//         {
-//             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        //    Assert.That(success);
+        //}
 
-//             var success = client.PutAsync(product, "products/:id").IsOk().Result;
+        //[Test]
+        //public void ShouldUpdatePersonUsingBodyAsSegmentProvider()
+        //{
+        //    var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-//             Assert.That(success);
-//         }
+        //    var success = client.PutAsync(product, "products/:id").IsOk().Result;
 
-//         [Test]
-//         public void ShouldUpdateProductsWithPatch()
-//         {
-//             var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
+        //    Assert.That(success);
+        //}
 
-//             var success = client.PatchAsync(product, "products/:id").IsOk().Result;
+        //[Test]
+        //public void ShouldUpdateProductsWithPatch()
+        //{
+        //    var product = new Product { Id = 1, Name = "Vanilla Cake", Category = "Cakes" };
 
-//             Assert.That(success);
-//         }
+        //    var success = client.PatchAsync(product, "products/:id").IsOk().Result;
 
-//         [Test]
-//         public void ShouldUpdatePersonWithErrors()
-//         {
-//             var product = new Product { Id = 1, Name = "", Category = "Cakes" };
+        //    Assert.That(success);
+        //}
 
-//             Assert.Throws<ValidationException>(() =>
-//                 client.PutAsync(product, "products/:id", new { id = 1 })
-//                     .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
-//                     .Await());
-//         }
+        //[Test]
+        //public void ShouldUpdatePersonWithErrors()
+        //{
+        //    var product = new Product { Id = 1, Name = "", Category = "Cakes" };
 
-//         [Test]
-//         public void ShouldDeletePerson()
-//         {
-//             var success = client.DeleteAsync("products/:id", new { id = 1 })
-//                 .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
-//                 .Is(HttpStatusCode.NoContent)
-//                 .Result;
+        //    Assert.Throws<ValidationException>(() =>
+        //        client.PutAsync(product, "products/:id", new { id = 1 })
+        //            .On(HttpStatusCode.BadRequest, (ValidationError e) => { throw new ValidationException(); })
+        //            .Await());
+        //}
 
-//             Assert.That(success);
-//         }
+        //[Test]
+        //public void ShouldDeletePerson()
+        //{
+        //    var success = client.DeleteAsync("products/:id", new { id = 1 })
+        //        .On(HttpStatusCode.NotFound, () => { throw new Exception("Could not find person to delete"); })
+        //        .Is(HttpStatusCode.NoContent)
+        //        .Result;
 
-//         [Test]
-//         public void ShouldBeAbleToUseNumericResponseCodes()
-//         {
-//             var response = client.PostAsync("search", new { username = "unknown-username" });
+        //    Assert.That(success);
+        //}
 
-//             var success = response.Is(422).Result;
+        //[Test]
+        //public void ShouldBeAbleToUseNumericResponseCodes()
+        //{
+        //    var response = client.PostAsync("search", new { username = "unknown-username" });
 
-//             Assert.That(success);
-//         }
+        //    var success = response.Is(422).Result;
 
-//         [Test]
-//         public void ShouldDeserializeCollectionAsObject()
-//         {
-//             var obj = client.GetAsync("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
+        //    Assert.That(success);
+        //}
 
-//             var products = (List<Product>)obj.Result;
+        //[Test]
+        //public void ShouldDeserializeCollectionAsObject()
+        //{
+        //    var obj = client.GetAsync("products").On(HttpStatusCode.OK).As(typeof(List<Product>));
 
-//             Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
-//         }
+        //    var products = (List<Product>)obj.Result;
 
-//         [Test]
-//         public void ShouldCallbackWithState()
-//         {
-//             var message = string.Empty;
+        //    Assert.That(products.Any(p => p.Name == "Chocolate Cake"));
+        //}
 
-//             client.PostAsync("locations")
-//                 .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; })
-//                 .Await();
+        //[Test]
+        //public void ShouldCallbackWithState()
+        //{
+        //    var message = string.Empty;
 
-//             Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
-//         }
+        //    client.PostAsync("locations")
+        //        .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; })
+        //        .Await();
 
-//         [Test]
-//         public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
-//         {
-//             var success = client.PutAsync(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
-//                 .Is(HttpStatusCode.Created)
-//                 .Result;
+        //    Assert.That(message, Is.EqualTo("titles cannot start with 'bad'"));
+        //}
 
-//             Assert.That(success);
-//         }
-//     }
-// }
+        //[Test]
+        //public void ShouldUseAdditionalSegmentsAsQueryParamsWhenBodySpecified()
+        //{
+        //    var success = client.PutAsync(new { }, "products/:id/reservations", new { id = 1, priceIncrease = 500 })
+        //        .Is(HttpStatusCode.Created)
+        //        .Result;
+
+        //    Assert.That(success);
+        //}
+    }
+}
