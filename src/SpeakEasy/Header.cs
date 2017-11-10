@@ -11,11 +11,5 @@ namespace SpeakEasy
         public string Name { get; }
 
         public string Value { get; }
-
-        internal ParsedHeaderValue ParseValue()
-        {
-            var parser = new HeaderParser(Value);
-            return parser.Parse();
-        }
     }
 }
