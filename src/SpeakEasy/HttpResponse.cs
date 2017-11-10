@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
@@ -9,11 +10,12 @@ namespace SpeakEasy
         public HttpResponse(
             ISerializer deserializer,
             Stream body,
-            IHttpResponseState state)
+            IHttpResponseState state, HttpContentHeaders headers)
         {
             Deserializer = deserializer;
             Body = body;
             State = state;
+            Headers = headers;
         }
 
         public IHttpResponseState State { get; }
@@ -127,15 +129,17 @@ namespace SpeakEasy
             return Is(HttpStatusCode.OK);
         }
 
-        public Header GetHeader(string name)
-        {
-            return State.GetHeader(name);
-        }
+        public HttpContentHeaders Headers { get; }
 
-        public string GetHeaderValue(string name)
-        {
-            return State.GetHeaderValue(name);
-        }
+        //public Header GetHeader(string name)
+        //{
+        //    return State.GetHeader(name);
+        //}
+
+        //public string GetHeaderValue(string name)
+        //{
+        //    return State.GetHeaderValue(name);
+        //}
 
         public override string ToString()
         {

@@ -8,9 +8,9 @@ namespace SpeakEasy
     /// </summary>
     public interface IHttpResponseState
     {
-        Header[] Headers { get; }
+        //Header[] Headers { get; }
 
-        Cookie[] Cookies { get; }
+        //Cookie[] Cookies { get; }
 
         Uri RequestUrl { get; }
 
@@ -26,18 +26,18 @@ namespace SpeakEasy
 
         HttpStatusCode StatusCode { get; }
 
-        /// <summary>
-        /// Gets the the header with the given name
-        /// </summary>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header</returns>
-        Header GetHeader(string name);
+        ///// <summary>
+        ///// Gets the the header with the given name
+        ///// </summary>
+        ///// <param name="name">The name of the header to get</param>
+        ///// <returns>The header</returns>
+        //Header GetHeader(string name);
 
-        /// <summary>
-        /// Gets the value of the header with the given name
-        /// </summary>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header value</returns>
-        string GetHeaderValue(string name);
+        ///// <summary>
+        ///// Gets the value of the header with the given name
+        ///// </summary>
+        ///// <param name="name">The name of the header to get</param>
+        ///// <returns>The header value</returns>
+        //string GetHeaderValue(string name);
     }
 }

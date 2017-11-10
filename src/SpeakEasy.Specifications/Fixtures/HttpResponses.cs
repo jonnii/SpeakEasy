@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace SpeakEasy.Specifications.Fixtures
 {
@@ -24,12 +25,10 @@ namespace SpeakEasy.Specifications.Fixtures
                 new HttpResponseState(code,
                     "status description",
                     new Uri("http://example.com/companies"),
-                    headers,
                     cookies,
                     "contentType",
                     "server",
-                    "cotent-encoding",
-                    DateTime.Now));
+                    null), null);
         }
     }
 }

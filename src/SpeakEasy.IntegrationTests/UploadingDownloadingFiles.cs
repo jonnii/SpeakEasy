@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text;
 using Xunit;
 
@@ -25,29 +26,29 @@ namespace SpeakEasy.IntegrationTests
             Assert.Equal("file contents", contentsAsString);
         }
 
-        //[Test]
-        //public void ShouldDownloadFileAsFile()
-        //{
-        //    var file = client.Get("invoices/:id", new { id = 5 })
-        //        .OnOk()
-        //        .AsFile();
+        [Fact]
+        public void ShouldDownloadFileAsFile()
+        {
+            var file = client.Get("invoices/:id", new { id = 5 })
+                .OnOk()
+                .AsFile();
 
-        //    Assert.That(file.ContentType, Is.EqualTo("application/octet-stream"));
-        //    Assert.That(file.FileName, Is.EqualTo("foo.txt"));
-        //    Assert.That(file.Name, Is.EqualTo("name"));
+            Assert.Equal("application/octet-stream", file.ContentType);
+            Assert.Equal("foo.txt", file.FileName);
+            //Assert.Equal("name", file.Name);
 
-        //    var stream = new MemoryStream();
-        //    file.WriteToAsync(stream).Wait();
+            var stream = new MemoryStream();
+            file.WriteToAsync(stream).Wait();
 
-        //    stream.Position = 0;
-        //    string contentsAsString;
-        //    using (var reader = new StreamReader(stream))
-        //    {
-        //        contentsAsString = reader.ReadToEnd();
-        //    }
+            stream.Position = 0;
+            string contentsAsString;
+            using (var reader = new StreamReader(stream))
+            {
+                contentsAsString = reader.ReadToEnd();
+            }
 
-        //    Assert.That(contentsAsString, Is.EqualTo("file contents"));
-        //}
+            Assert.Equal("file contents", contentsAsString);
+        }
 
         //[Test]
         //public void ShouldUploadOneFileByteArray()

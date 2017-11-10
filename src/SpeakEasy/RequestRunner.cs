@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -42,15 +44,15 @@ namespace SpeakEasy
             var webRequest = BuildClient(httpRequest);
 
             var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
-            
+
             var message = BuildHttpRequestMessage(httpRequest);
 
-            if(serializedBody.HasContent) 
+            if (serializedBody.HasContent)
             {
                 var memoryStream = new MemoryStream();
                 await serializedBody.WriteToAsync(memoryStream);
                 memoryStream.Position = 0;
-                
+
                 message.Content = new StreamContent(memoryStream);
                 message.Content.Headers.ContentLength = memoryStream.Length;
                 message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType);
@@ -104,11 +106,11 @@ namespace SpeakEasy
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
         {
-            var method = GetMethod(httpRequest.HttpMethod); 
+            var method = GetMethod(httpRequest.HttpMethod);
             var url = httpRequest.BuildRequestUrl(arrayFormatter);
 
             return new HttpRequestMessage(
-                method, 
+                method,
                 url);
         }
 
@@ -161,18 +163,17 @@ namespace SpeakEasy
         {
             authenticator.Authenticate(httpRequest);
 
-            var handler = new HttpClientHandler()
+            var handler = new HttpClientHandler
             {
                 AllowAutoRedirect = false,
+                UseDefaultCredentials = false,
+                Credentials = httpRequest.Credentials,
+                CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest),
             };
 
-            handler.UseDefaultCredentials = false;
-            handler.Credentials = httpRequest.Credentials;
             // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            handler.CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest);
-
-            //handler.Method = httpRequest.HttpMethod;
-            //handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
+            // handler.Method = httpRequest.HttpMethod;
+            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
             if (httpRequest.HasUserAgent)
             {
@@ -201,7 +202,7 @@ namespace SpeakEasy
             // }
             // else
             {
-                request.Headers.Add(header.Name, new []{header.Value});
+                request.Headers.Add(header.Name, new[] { header.Value });
 
                 // request.Headers[header.Name] = header.Value;
             }
@@ -213,13 +214,13 @@ namespace SpeakEasy
             {
                 throw new ArgumentNullException(nameof(webResponse));
             }
-            
+
             if (webResponse.Content == null)
             {
                 throw new ArgumentNullException(nameof(webResponse.Content));
             }
 
-            var contentType = webResponse.Content?.Headers?.ContentType?.MediaType?.ToString() ?? "application/json";
+            var contentType = webResponse.Content?.Headers?.ContentType?.MediaType ?? "application/json";
 
             var deserializer = transmissionSettings.FindSerializer(contentType);
 
@@ -227,17 +228,16 @@ namespace SpeakEasy
                 webResponse.StatusCode,
                 webResponse.ReasonPhrase,
                 webResponse.RequestMessage.RequestUri,
-                new Header[0],
                 new Cookie[0],
                 contentType,
                 webResponse.Headers.Server.ToString(),
-                webResponse.Content.Headers.ContentEncoding.ToString(),
-                webResponse.Content.Headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date);
+                webResponse.Content.Headers);
 
             return new HttpResponse(
                 deserializer,
                 body,
-                state);
+                state,
+                webResponse.Content.Headers);
         }
     }
 }

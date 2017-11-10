@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
@@ -148,18 +149,21 @@ namespace SpeakEasy
         /// <returns>True if the response status code is OK (200)</returns>
         bool IsOk();
 
-        /// <summary>
-        /// Gets the the header with the given name
-        /// </summary>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header</returns>
-        Header GetHeader(string name);
 
-        /// <summary>
-        /// Gets the value of the header with the given name
-        /// </summary>
-        /// <param name="name">The name of the header to get</param>
-        /// <returns>The header value</returns>
-        string GetHeaderValue(string name);
+        HttpContentHeaders Headers { get; }
+
+        ///// <summary>
+        ///// Gets the the header with the given name
+        ///// </summary>
+        ///// <param name="name">The name of the header to get</param>
+        ///// <returns>The header</returns>
+        //Header GetHeader(string name);
+
+        ///// <summary>
+        ///// Gets the value of the header with the given name
+        ///// </summary>
+        ///// <param name="name">The name of the header to get</param>
+        ///// <returns>The header value</returns>
+        //string GetHeaderValue(string name);
     }
 }
