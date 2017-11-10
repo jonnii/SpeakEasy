@@ -16,7 +16,7 @@ assembly_info:
   patch: false
 
 dotnet_csproj:
-  patch: true
+  patch: false
   file: 'src\**\*.csproj'
   version: $(GitVersion_NuGetVersion)
   package_version: $(GitVersion_NuGetVersion)
