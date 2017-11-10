@@ -1,7 +1,7 @@
 image: Visual Studio 2017
 
 environment:
-  nuget_version: '0.4.0'
+  nuget_version: '1.0.0'
 
 version: '$(nuget_version)+{build}'
 
