@@ -1,9 +1,9 @@
 image: Visual Studio 2017
 
-environment:
-  nuget_version: '1.0.0'
+# environment:
+#   nuget_version: '1.0.0'
 
-version: '$(nuget_version)+{build}'
+# version: '$(nuget_version)+{build}'
 
 configuration: Release
 
@@ -18,8 +18,8 @@ assembly_info:
 dotnet_csproj:
   patch: true
   file: 'src\**\*.csproj'
-  version: $(nuget_version)
-  package_version: $(nuget_version)
+  version: $(GitVersion_NuGetVersion)
+  package_version: $(GitVersion_NuGetVersion)
 
 build:
   project: src\SpeakEasy.sln
