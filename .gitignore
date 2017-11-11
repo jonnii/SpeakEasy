@@ -36,6 +36,7 @@ _ReSharper*/
 *.resharper
 [Tt]est[Rr]esult*
 src/.vs/
+.vscode/
 
 #Subversion files
 .svn
