@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
@@ -49,7 +48,11 @@ namespace SpeakEasy
                 return memoryStream.ToArray();
             }
 
-            return await body.ReadAsByteArray(bufferSize);
+            using (var copy = new MemoryStream())
+            {
+                await body.CopyToAsync(copy, bufferSize);
+                return copy.ToArray();
+            }
         }
 
         public async Task<string> AsString()

@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using SpeakEasy.Extensions;
 
 namespace SpeakEasy
 {
@@ -201,12 +200,12 @@ namespace SpeakEasy
         private void OnBeforeRequest(IHttpRequest request)
         {
             Logger.BeforeRequest(request);
-            BeforeRequest.Raise(this, new BeforeRequestEventArgs(request));
+            BeforeRequest?.Invoke(this, new BeforeRequestEventArgs(request));
         }
 
         private void OnAfterRequest(IHttpRequest request, IHttpResponse response)
         {
-            AfterRequest.Raise(this, new AfterRequestEventArgs(request, response));
+            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response));
             Logger.AfterRequest(request, response);
         }
     }
