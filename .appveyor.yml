@@ -10,8 +10,11 @@ install:
 dotnet_csproj:
   patch: true
   file: 'src\**\*.csproj'
-  version: '$(GitVersion_NuGetVersion)'
-  package_version: '$(GitVersion_NuGetVersion)'
+  version: $(GitVersion_NuGetVersion)
+  package_version: $(GitVersion_NuGetVersion)
+  assembly_version: $(GitVersion_NuGetVersion)
+  file_version: $(GitVersion_NuGetVersion)
+  informational_version: $(GitVersion_NuGetVersion)
 
 build:
   project: src\SpeakEasy.sln
