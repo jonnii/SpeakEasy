@@ -1,3 +1,5 @@
+skip_branch_with_pr: true
+
 image: Visual Studio 2017
 
 configuration: Release
@@ -17,6 +19,7 @@ dotnet_csproj:
   informational_version: $(GitVersion_NuGetVersion)
 
 build:
+  parallel: true
   project: src\SpeakEasy.sln
   publish_nuget: true
 
