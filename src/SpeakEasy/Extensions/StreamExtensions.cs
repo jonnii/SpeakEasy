@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace SpeakEasy.Extensions
 {
     internal static class StreamExtensions
     {
-        public static byte[] ReadAsByteArray(this Stream input, int bufferSize = 16 * 1024)
+        public static async Task<byte[]> ReadAsByteArray(this Stream input, int bufferSize = 16 * 1024)
         {
             var buffer = new byte[bufferSize];
 
@@ -12,9 +13,9 @@ namespace SpeakEasy.Extensions
             {
                 int read;
 
-                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                while ((read = await input.ReadAsync(buffer, 0, buffer.Length)) > 0)
                 {
-                    memoryStream.Write(buffer, 0, read);
+                    await memoryStream.WriteAsync(buffer, 0, read);
                 }
 
                 return memoryStream.ToArray();

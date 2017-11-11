@@ -40,13 +40,16 @@ namespace SpeakEasy
             return AsByteArray(16 * 1024);
         }
 
-        public Task<byte[]> AsByteArray(int bufferSize)
+        public async Task<byte[]> AsByteArray(int bufferSize)
         {
             var body = response.Body;
 
-            var memoryStream = body as MemoryStream;
+            if (body is MemoryStream memoryStream)
+            {
+                return memoryStream.ToArray();
+            }
 
-            return Task.FromResult(memoryStream?.ToArray() ?? body.ReadAsByteArray(bufferSize));
+            return await body.ReadAsByteArray(bufferSize);
         }
 
         public async Task<string> AsString()

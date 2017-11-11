@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
-// using SpeakEasy.Reflection;
 using Newtonsoft.Json;
 
 namespace SpeakEasy.Serializers
@@ -20,12 +18,12 @@ namespace SpeakEasy.Serializers
 
         public override Task SerializeAsync<T>(Stream stream, T body)
         {
-            JsonSerializer ser = new JsonSerializer();
+            var serializer = new JsonSerializer();
             using (var sw = new StreamWriter(stream, new System.Text.UTF8Encoding(false), 1024, true))
             {
                 using (var jsonTextWriter = new JsonTextWriter(sw))
                 {
-                    ser.Serialize(jsonTextWriter, body);
+                    serializer.Serialize(jsonTextWriter, body);
                 }
             }
 
