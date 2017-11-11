@@ -13,10 +13,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "POST";
-
-        public override string ToString()
-        {
-            return $"[PostRequest {Resource}]";
-        }
     }
 }

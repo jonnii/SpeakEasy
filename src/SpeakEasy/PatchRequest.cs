@@ -13,10 +13,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "PATCH";
-
-        public override string ToString()
-        {
-            return $"[PatchRequest {Resource}]";
-        }
     }
 }

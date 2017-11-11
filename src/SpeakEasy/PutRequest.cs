@@ -13,10 +13,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "PUT";
-
-        public override string ToString()
-        {
-            return $"[PutRequest {Resource}]";
-        }
     }
 }

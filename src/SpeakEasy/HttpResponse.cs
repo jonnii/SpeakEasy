@@ -18,6 +18,8 @@ namespace SpeakEasy
             Headers = headers;
         }
 
+        public HttpContentHeaders Headers { get; }
+
         public IHttpResponseState State { get; }
 
         public Stream Body { get; }
@@ -45,11 +47,13 @@ namespace SpeakEasy
 
         public IHttpResponse On<T>(HttpStatusCode code, Action<T> action)
         {
-            if (Is(code))
+            if (!Is(code))
             {
-                var deserialied = Deserializer.Deserialize<T>(Body);
-                action(deserialied);
+                return this;
             }
+
+            var deserialied = Deserializer.Deserialize<T>(Body);
+            action(deserialied);
 
             return this;
         }
@@ -127,23 +131,6 @@ namespace SpeakEasy
         public bool IsOk()
         {
             return Is(HttpStatusCode.OK);
-        }
-
-        public HttpContentHeaders Headers { get; }
-
-        //public Header GetHeader(string name)
-        //{
-        //    return State.GetHeader(name);
-        //}
-
-        //public string GetHeaderValue(string name)
-        //{
-        //    return State.GetHeaderValue(name);
-        //}
-
-        public override string ToString()
-        {
-            return $"[HttpResponse StatusCode={StatusCode}, ContentType={ContentType}, RequestUrl={State.RequestUrl}]";
         }
     }
 }
