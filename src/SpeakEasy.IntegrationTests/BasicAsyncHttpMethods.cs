@@ -35,7 +35,8 @@ namespace SpeakEasy.IntegrationTests
                 .On(HttpStatusCode.OK)
                 .As<List<Product>>();
 
-            Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
+            Assert.Equal(2, products.Count);
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
         }
 
         [Fact]
@@ -86,6 +87,22 @@ namespace SpeakEasy.IntegrationTests
                 .As<Product>();
 
             Assert.Equal(1, product.Id);
+        }
+
+        [Fact]
+        public async void ShouldGetHead()
+        {
+            var success = await client.Head("products").IsOk();
+
+            Assert.True(success);
+        }
+
+        [Fact]
+        public async void ShouldGetOptions()
+        {
+            var success = await client.Options("products").IsOk();
+
+            Assert.True(success);
         }
 
         [Fact]
