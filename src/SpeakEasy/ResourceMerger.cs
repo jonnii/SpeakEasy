@@ -35,12 +35,9 @@ namespace SpeakEasy
 
             var mergedResource = MergeUrlSegments(resource, segments, properties);
 
-            if (!shouldMergeProperties)
-            {
-                return mergedResource;
-            }
-
-            return AddMergedParameters(mergedResource, segments, properties);
+            return shouldMergeProperties
+                ? AddMergedParameters(mergedResource, segments, properties)
+                : mergedResource;
         }
 
         private Resource AddMergedParameters(Resource mergedResource, object segments, Dictionary<string, PropertyInfo> properties)
@@ -64,8 +61,7 @@ namespace SpeakEasy
             {
                 var lowerSegmentName = segmentName.ToLower();
 
-                PropertyInfo property;
-                if (!properties.TryGetValue(lowerSegmentName, out property))
+                if (!properties.TryGetValue(lowerSegmentName, out var property))
                 {
                     throw new ArgumentException("Could not find a property matching segment: " + segmentName);
                 }
