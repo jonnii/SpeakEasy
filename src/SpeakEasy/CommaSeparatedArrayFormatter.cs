@@ -3,7 +3,6 @@ using System.Linq;
 
 namespace SpeakEasy
 {
-    // used?
     public class CommaSeparatedArrayFormatter : IArrayFormatter
     {
         public string FormatParameter(string name, Array values, Func<object, string> valueFormatter)
