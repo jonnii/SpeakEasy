@@ -1,12 +1,22 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakEasy", "SpeakEasy\SpeakEasy.csproj", "{ACFAEFBE-EE50-459F-B7DF-8C30068626CF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakEasy.Specifications", "SpeakEasy.Specifications\SpeakEasy.Specifications.csproj", "{68F00AD9-2861-4397-A7BB-962332F4E919}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakEasy.IntegrationTests", "SpeakEasy.IntegrationTests\SpeakEasy.IntegrationTests.csproj", "{C8A85B40-CF7E-4D76-B0B7-A09B5469F283}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7044505B-5111-45DA-8722-DF7AD3F36D32}"
+	ProjectSection(SolutionItems) = preProject
+		..\.appveyor.yml = ..\.appveyor.yml
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\GitVersion.yml = ..\GitVersion.yml
+		..\LICENSE.txt = ..\LICENSE.txt
+		..\README.md = ..\README.md
+		..\VERSION = ..\VERSION
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,5 +67,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDC980A8-1CE7-4E25-A20A-F87E1D76EA3F}
 	EndGlobalSection
 EndGlobal

@@ -8,10 +8,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "HEAD";
-
-        public override string ToString()
-        {
-            return $"[HeadRequest {Resource}]";
-        }
     }
 }

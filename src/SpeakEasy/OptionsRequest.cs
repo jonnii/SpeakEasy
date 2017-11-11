@@ -9,10 +9,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "OPTIONS";
-
-        public override string ToString()
-        {
-            return $"[OptionsRequest {Resource}]";
-        }
     }
 }

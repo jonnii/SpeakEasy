@@ -84,15 +84,5 @@ namespace SpeakEasy
                 .Where(p => p.HasValue)
                 .Select(p => p.ToQueryString(arrayFormatter));
         }
-
-        public override string ToString()
-        {
-            var arrayFormatter = new CommaSeparatedArrayFormatter();
-
-            var formattedParameters = GetFormattedParameters(arrayFormatter).ToList();
-            var parameterList = formattedParameters.Any() ? string.Join(", ", formattedParameters) : "none";
-
-            return $"[Resource Path={Path}, Parameters={parameterList}]";
-        }
     }
 }

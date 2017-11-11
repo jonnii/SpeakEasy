@@ -14,10 +14,7 @@ namespace SpeakEasy.Serializers
             this.contentType = contentType;
         }
 
-        public string MediaType
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public string MediaType => throw new NotImplementedException();
 
         public IEnumerable<string> SupportedMediaTypes => new string[0];
 

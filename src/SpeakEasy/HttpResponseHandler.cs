@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using SpeakEasy.Extensions;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -34,25 +34,32 @@ namespace SpeakEasy
             return constructor(this);
         }
 
-        public byte[] AsByteArray()
+        public Task<byte[]> AsByteArray()
         {
             return AsByteArray(16 * 1024);
         }
 
-        public byte[] AsByteArray(int bufferSize)
+        public async Task<byte[]> AsByteArray(int bufferSize)
         {
             var body = response.Body;
 
-            var memoryStream = body as MemoryStream;
+            if (body is MemoryStream memoryStream)
+            {
+                return memoryStream.ToArray();
+            }
 
-            return memoryStream?.ToArray() ?? body.ReadAsByteArray(bufferSize);
+            using (var copy = new MemoryStream())
+            {
+                await body.CopyToAsync(copy, bufferSize).ConfigureAwait(false);
+                return copy.ToArray();
+            }
         }
 
-        public string AsString()
+        public async Task<string> AsString()
         {
             using (var reader = new StreamReader(response.Body))
             {
-                return reader.ReadToEnd();
+                return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 

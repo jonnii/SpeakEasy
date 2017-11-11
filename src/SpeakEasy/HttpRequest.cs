@@ -58,7 +58,5 @@ namespace SpeakEasy
 
             return string.Concat(Resource.Path, "?", queryString);
         }
-
-        public abstract override string ToString();
     }
 }

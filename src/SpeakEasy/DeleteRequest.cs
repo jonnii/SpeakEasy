@@ -8,10 +8,5 @@ namespace SpeakEasy
         }
 
         public override string HttpMethod { get; } = "DELETE";
-
-        public override string ToString()
-        {
-            return $"[DeleteRequest {Resource}]";
-        }
     }
 }

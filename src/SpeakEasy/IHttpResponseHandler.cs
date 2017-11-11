@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
@@ -38,20 +39,20 @@ namespace SpeakEasy
         /// the default buffer size
         /// </summary>
         /// <returns>A byte array with the contents of the response handler</returns>
-        byte[] AsByteArray();
+        Task<byte[]> AsByteArray();
 
         /// <summary>
         /// Gets the contents of this http response as a byte array.
         /// </summary>
         /// <param name="bufferSize">The size of the buffer to use when reading the response stream</param>
         /// <returns>A byte array with the contents of the response handler</returns>
-        byte[] AsByteArray(int bufferSize);
+        Task<byte[]> AsByteArray(int bufferSize);
 
         /// <summary>
         /// Gets the contents of this http response as a string
         /// </summary>
         /// <returns>The string representation of the response</returns>
-        string AsString();
+        Task<string> AsString();
 
         /// <summary>
         /// Gets the response as an IFile
