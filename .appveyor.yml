@@ -1,7 +1,10 @@
 skip_branch_with_pr: true
 
-image: Visual Studio 2017
+# build cache to preserve files/folders between builds
+cache:
+  - '%LocalAppData%\NuGet\v3-cache'
 
+image: Visual Studio 2017
 configuration: Release
 
 install:
