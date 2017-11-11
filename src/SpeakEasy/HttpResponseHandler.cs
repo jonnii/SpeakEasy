@@ -50,7 +50,7 @@ namespace SpeakEasy
 
             using (var copy = new MemoryStream())
             {
-                await body.CopyToAsync(copy, bufferSize);
+                await body.CopyToAsync(copy, bufferSize).ConfigureAwait(false);
                 return copy.ToArray();
             }
         }
@@ -59,7 +59,7 @@ namespace SpeakEasy
         {
             using (var reader = new StreamReader(response.Body))
             {
-                return await reader.ReadToEndAsync();
+                return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
         }
 

@@ -4,6 +4,7 @@
 
   * Target `netstandard1.6`
   * Explicit dependency on `Newtonsoft.Json`
+  * Async only
 
 ## 0.4.1
 

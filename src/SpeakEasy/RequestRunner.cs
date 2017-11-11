@@ -50,12 +50,12 @@ namespace SpeakEasy
             if (serializedBody.HasContent)
             {
                 var memoryStream = new MemoryStream();
-                await serializedBody.WriteToAsync(memoryStream);
+                await serializedBody.WriteToAsync(memoryStream).ConfigureAwait(false);
                 memoryStream.Position = 0;
 
                 message.Content = new StreamContent(memoryStream);
                 message.Content.Headers.ContentLength = memoryStream.Length;
-                message.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(serializedBody.ContentType);
+                message.Content.Headers.ContentType = new MediaTypeHeaderValue(serializedBody.ContentType);
             }
 
             //if (serializedBody.HasContent)
@@ -79,10 +79,10 @@ namespace SpeakEasy
             //    ? response.ContentLength
             //    : DefaultBufferSize;
 
-            var response = await webRequest.SendAsync(message);
+            var response = await webRequest.SendAsync(message).ConfigureAwait(false);
 
             var readResponseStream = new MemoryStream();
-            var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
             await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
             readResponseStream.Position = 0;
