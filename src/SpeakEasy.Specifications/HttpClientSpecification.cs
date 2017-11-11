@@ -5,11 +5,15 @@ using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
 {
-    public class HttpClientSpecification
+    [Subject(typeof(HttpClient))]
+    class HttpClientSpecification : WithSubject<HttpClient>
     {
-        [Subject(typeof(HttpClient))]
-        public class when_creating_with_invalid_settings
+        class when_creating_with_invalid_settings
         {
+            static HttpClientSettings settings;
+
+            static Exception exception;
+
             Establish context = () =>
             {
                 settings = new HttpClientSettings();
@@ -21,233 +25,9 @@ namespace SpeakEasy.Specifications
 
             It should_throw = () =>
                 exception.ShouldBeOfExactType<ConfigurationException>();
-
-            static HttpClientSettings settings;
-
-            static Exception exception;
         }
 
-        [Subject(typeof(HttpClient))]
-        public class when_getting_collection_resource : with_client
-        {
-            Establish context = () =>
-            {
-                Subject.BeforeRequest += delegate { beforeCalled = true; };
-                Subject.AfterRequest += delegate { afterCalled = true; };
-            };
-
-            Because of = () =>
-                Subject.Get("companies");
-
-            It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies")));
-
-            It should_raise_before_request_event_args = () =>
-                beforeCalled.ShouldBeTrue();
-
-            It should_raise_after_request_event_args = () =>
-                afterCalled.ShouldBeTrue();
-
-            static bool beforeCalled;
-
-            static bool afterCalled;
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_getting_collection_resource_with_custom_user_agent : with_client
-        {
-            Establish context = () =>
-                The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
-
-            Because of = () =>
-                Subject.Get("companies");
-
-            It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent")));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_getting_specific_resource : with_client
-        {
-            Because of = () =>
-                Subject.Get("company/:id", new { id = 5 });
-
-            It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/company/5")));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_getting_resource_on_client_with_parameterized_root : with_client
-        {
-            Establish context = () =>
-                Subject.Root = new Resource("http://:company.example.com/api");
-
-            Because of = () =>
-                Subject.Get("user/:id", new { company = "acme", id = 5 });
-
-            It should_send_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://acme.example.com/api/user/5")));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting : with_client
-        {
-            Because of = () =>
-                Subject.Post(new { Name = "frobble" }, "user");
-
-            It should_dispatch_post_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PostRequest>()));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting_with_body_and_no_segments : with_client
-        {
-            Because of = () =>
-                Subject.Post(new { Id = "body", Name = "company-name" }, "company/:id");
-
-            It should_use_body_as_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
-
-            It should_not_add_extra_body_properties_as_parameters = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => !p.Resource.HasParameters)));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting_with_body_and_segments : with_client
-        {
-            Because of = () =>
-                Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
-
-            It should_use_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
-
-            It should_add_extra_segment_properties_as_parameters = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting_without_body : with_client
-        {
-            Because of = () =>
-                Subject.Post("companies");
-
-            It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Body is PostRequestBody)));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting_with_file : with_client
-        {
-            Because of = () =>
-                Subject.Post(An<IFile>(), "companies");
-
-            It should_have_files = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_posting_with_file_and_segments : with_client
-        {
-            Because of = () =>
-                Subject.Post(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" });
-
-            It should_have_files = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
-
-            It should_merge_url_parameters = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/companies/3")));
-
-            It should_include_additional_parameters_in_resource = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting_with_file_and_segments : with_client
-        {
-            Because of = () =>
-                Subject.Put(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" });
-
-            It should_include_additional_parameters_in_resource = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting : with_client
-        {
-            Because of = () =>
-                Subject.Put(new { Name = "frobble" }, "user");
-
-            It should_dispatch_put_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PutRequest>()));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting_with_body_and_no_segments : with_client
-        {
-            Because of = () =>
-                Subject.Put(new { Id = "body" }, "company/:id");
-
-            It should_use_body_as_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting_with_body_and_segments : with_client
-        {
-            Because of = () =>
-                Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
-
-            It should_use_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
-
-            It should_add_extra_segment_properties_as_parameters = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_patching_with_body_and_segments : with_client
-        {
-            Because of = () =>
-                Subject.Patch(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true });
-
-            It should_use_segments = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.Path == "http://example.com/company/segments")));
-
-            It should_add_extra_segment_properties_as_parameters = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting_without_body : with_client
-        {
-            Because of = () =>
-                Subject.Put("companies");
-
-            It should_not_have_body_set = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Body is PostRequestBody)));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_putting_with_file : with_client
-        {
-            Because of = () =>
-                Subject.Put(An<IFile>(), "companies");
-
-            It should_have_files = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param<PutRequest>.Matches(p => p.Body is FileUploadBody)));
-        }
-
-        [Subject(typeof(HttpClient))]
-        public class when_deleting : with_client
-        {
-            Because of = () =>
-                Subject.Delete("user/5");
-
-            It should_dispatch_delete_request = () =>
-                The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<DeleteRequest>()));
-        }
-
-        public class with_client : WithSubject<HttpClient>
+        class with_client
         {
             Establish context = () =>
             {
@@ -259,6 +39,236 @@ namespace SpeakEasy.Specifications
                 The<INamingConvention>().WhenToldTo(r => r.ConvertPropertyNameToParameterName(Param.IsAny<string>()))
                     .Return((string original) => original);
             };
+
+            class when_getting_collection_resource
+            {
+                static bool beforeCalled;
+
+                static bool afterCalled;
+
+                Establish context = () =>
+                {
+                    Subject.BeforeRequest += delegate { beforeCalled = true; };
+                    Subject.AfterRequest += delegate { afterCalled = true; };
+                };
+
+                Because of = () =>
+                    Subject.Get("companies").Await();
+
+                It should_send_request = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies")));
+
+                It should_raise_before_request_event_args = () =>
+                    beforeCalled.ShouldBeTrue();
+
+                It should_raise_after_request_event_args = () =>
+                    afterCalled.ShouldBeTrue();
+            }
+
+            class when_getting_collection_resource_with_custom_user_agent
+            {
+                Establish context = () =>
+                    The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
+
+                Because of = () =>
+                    Subject.Get("companies").Await();
+
+                It should_send_request = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent")));
+            }
+
+            class when_getting_specific_resource
+            {
+                Because of = () =>
+                    Subject.Get("company/:id", new { id = 5 }).Await();
+
+                It should_send_request = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/company/5")));
+            }
+
+            class when_getting_resource_on_client_with_parameterized_root
+            {
+                Establish context = () =>
+                    Subject.Root = new Resource("http://:company.example.com/api");
+
+                Because of = () =>
+                    Subject.Get("user/:id", new { company = "acme", id = 5 }).Await();
+
+                It should_send_request = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<GetRequest>.Matches(p =>
+                            p.Resource.Path == "http://acme.example.com/api/user/5")));
+            }
+
+            class when_posting
+            {
+                Because of = () =>
+                    Subject.Post(new { Name = "frobble" }, "user").Await();
+
+                It should_dispatch_post_request = () =>
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PostRequest>()));
+            }
+
+            class when_posting_with_body_and_no_segments
+            {
+                Because of = () =>
+                    Subject.Post(new { Id = "body", Name = "company-name" }, "company/:id").Await();
+
+                It should_use_body_as_segments = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(
+                            Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
+
+                It should_not_add_extra_body_properties_as_parameters = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => !p.Resource.HasParameters)));
+            }
+
+            class when_posting_with_body_and_segments
+            {
+                Because of = () =>
+                    Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+
+                It should_use_segments = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p =>
+                            p.Resource.Path == "http://example.com/company/segments")));
+
+                It should_add_extra_segment_properties_as_parameters = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+            }
+
+            class when_posting_without_body
+            {
+                Because of = () =>
+                    Subject.Post("companies").Await();
+
+                It should_not_have_body_set = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is PostRequestBody)));
+            }
+
+            class when_posting_with_file
+            {
+                Because of = () =>
+                    Subject.Post(An<IFile>(), "companies").Await();
+
+                It should_have_files = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
+            }
+
+            class when_posting_with_file_and_segments
+            {
+                Because of = () =>
+                    Subject.Post(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
+
+                It should_have_files = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
+
+                It should_merge_url_parameters = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p =>
+                            p.Resource.Path == "http://example.com/companies/3")));
+
+                It should_include_additional_parameters_in_resource = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+            }
+
+            class when_putting_with_file_and_segments
+            {
+                Because of = () =>
+                    Subject.Put(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
+
+                It should_include_additional_parameters_in_resource = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+            }
+
+            class when_putting
+            {
+                Because of = () =>
+                    Subject.Put(new { Name = "frobble" }, "user").Await();
+
+                It should_dispatch_put_request = () =>
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PutRequest>()));
+            }
+
+            class when_putting_with_body_and_no_segments
+            {
+                Because of = () =>
+                    Subject.Put(new { Id = "body" }, "company/:id").Await();
+
+                It should_use_body_as_segments = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p =>
+                            p.Resource.Path == "http://example.com/company/body")));
+            }
+
+            class when_putting_with_body_and_segments
+            {
+                Because of = () =>
+                    Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+
+                It should_use_segments = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p =>
+                            p.Resource.Path == "http://example.com/company/segments")));
+
+                It should_add_extra_segment_properties_as_parameters = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+            }
+
+            class when_patching_with_body_and_segments
+            {
+                Because of = () =>
+                    Subject.Patch(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+
+                It should_use_segments = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PatchRequest>.Matches(p =>
+                            p.Resource.Path == "http://example.com/company/segments")));
+
+                It should_add_extra_segment_properties_as_parameters = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+            }
+
+            class when_putting_without_body
+            {
+                Because of = () =>
+                    Subject.Put("companies").Await();
+
+                It should_not_have_body_set = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is PostRequestBody)));
+            }
+
+            class when_putting_with_file
+            {
+                Because of = () =>
+                    Subject.Put(An<IFile>(), "companies").Await();
+
+                It should_have_files = () =>
+                    The<IRequestRunner>().WasToldTo(r =>
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is FileUploadBody)));
+            }
+
+            class when_deleting
+            {
+                Because of = () =>
+                    Subject.Delete("user/5").Await();
+
+                It should_dispatch_delete_request = () =>
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<DeleteRequest>()));
+            }
         }
     }
 }
