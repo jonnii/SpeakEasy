@@ -49,7 +49,8 @@ namespace SpeakEasy
         /// <returns>A byte array with the contents of the response handler</returns>
         public static async Task<byte[]> AsByteArray(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler.ConfigureAwait(false)).AsByteArray();
+            var handler = await httpResponseHandler.ConfigureAwait(false);
+            return await handler.AsByteArray();
         }
 
         /// <summary>
@@ -60,7 +61,8 @@ namespace SpeakEasy
         /// <returns>A byte array with the contents of the response handler</returns>
         public static async Task<byte[]> AsByteArray(this Task<IHttpResponseHandler> httpResponseHandler, int bufferSize)
         {
-            return (await httpResponseHandler.ConfigureAwait(false)).AsByteArray(bufferSize);
+            var handler = await httpResponseHandler.ConfigureAwait(false);
+            return await handler.AsByteArray(bufferSize);
         }
 
         /// <summary>
@@ -70,7 +72,8 @@ namespace SpeakEasy
         /// <returns>The string representation of the response</returns>
         public static async Task<string> AsString(this Task<IHttpResponseHandler> httpResponseHandler)
         {
-            return (await httpResponseHandler.ConfigureAwait(false)).AsString();
+            var handler = await httpResponseHandler.ConfigureAwait(false);
+            return await handler.AsString();
         }
 
         /// <summary>
