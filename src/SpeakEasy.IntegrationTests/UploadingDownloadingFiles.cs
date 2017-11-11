@@ -15,9 +15,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Fact]
-        public void ShouldDownloadFileAsByteArray()
+        public async void ShouldDownloadFileAsByteArray()
         {
-            var contents = client.Get("invoices/:id", new { id = 5 })
+            var contents = await client.Get("invoices/:id", new { id = 5 })
                 .OnOk()
                 .AsByteArray();
 
@@ -27,9 +27,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Fact]
-        public void ShouldDownloadFileAsFile()
+        public async void ShouldDownloadFileAsFile()
         {
-            var file = client.Get("invoices/:id", new { id = 5 })
+            var file = await client.Get("invoices/:id", new { id = 5 })
                 .OnOk()
                 .AsFile();
 
@@ -38,13 +38,13 @@ namespace SpeakEasy.IntegrationTests
             //Assert.Equal("name", file.Name);
 
             var stream = new MemoryStream();
-            file.WriteToAsync(stream).Wait();
+            await file.WriteToAsync(stream);
 
             stream.Position = 0;
             string contentsAsString;
             using (var reader = new StreamReader(stream))
             {
-                contentsAsString = reader.ReadToEnd();
+                contentsAsString = await reader.ReadToEndAsync();
             }
 
             Assert.Equal("file contents", contentsAsString);

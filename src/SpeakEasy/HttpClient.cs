@@ -72,186 +72,106 @@ namespace SpeakEasy
 
         public IUserAgent UserAgent { get; }
 
-        public IHttpResponse Get(string relativeUrl, object segments = null)
-        {
-            return GetAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Post(object body, string relativeUrl, object segments = null)
-        {
-            return PostAsync(body, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Post(IFile file, string relativeUrl, object segments = null)
-        {
-            return PostAsync(file, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Post(IFile[] files, string relativeUrl, object segments = null)
-        {
-            return PostAsync(files, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Post(string relativeUrl, object segments = null)
-        {
-            return PostAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Put(object body, string relativeUrl, object segments = null)
-        {
-            return PutAsync(body, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Put(string relativeUrl, object segments = null)
-        {
-            return PutAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Put(IFile file, string relativeUrl, object segments = null)
-        {
-            return PutAsync(file, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Put(IFile[] files, string relativeUrl, object segments = null)
-        {
-            return PutAsync(files, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Patch(object body, string relativeUrl, object segments = null)
-        {
-            return PatchAsync(body, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Patch(string relativeUrl, object segments = null)
-        {
-            return PatchAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Patch(IFile file, string relativeUrl, object segments = null)
-        {
-            return PatchAsync(file, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Patch(IFile[] files, string relativeUrl, object segments = null)
-        {
-            return PatchAsync(files, relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Delete(string relativeUrl, object segments = null)
-        {
-            return DeleteAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Head(string relativeUrl, object segments = null)
-        {
-            return HeadAsync(relativeUrl, segments).Result;
-        }
-
-        public IHttpResponse Options(string relativeUrl, object segments = null)
-        {
-            return OptionsAsync(relativeUrl, segments).Result;
-        }
-
-        public Task<IHttpResponse> GetAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Get(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new GetRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PostAsync(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PostRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PostAsync(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null)
         {
-            return PostAsync(new[] { file }, relativeUrl, segments);
+            return Post(new[] { file }, relativeUrl, segments);
         }
 
-        public Task<IHttpResponse> PostAsync(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PostRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PostAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PostRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PutAsync(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PutRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PutAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PutRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PutAsync(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null)
         {
-            return PutAsync(new[] { file }, relativeUrl, segments);
+            return Put(new[] { file }, relativeUrl, segments);
         }
 
-        public Task<IHttpResponse> PutAsync(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PutRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PatchAsync(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PatchRequest(merged, new ObjectRequestBody(body));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PatchAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PatchRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> PatchAsync(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null)
         {
-            return PatchAsync(new[] { file }, relativeUrl, segments);
+            return Patch(new[] { file }, relativeUrl, segments);
         }
 
-        public Task<IHttpResponse> PatchAsync(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PatchRequest(merged, new FileUploadBody(merged, files));
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> DeleteAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Delete(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new DeleteRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> HeadAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Head(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new HeadRequest(merged);
             return RunAsync(request);
         }
 
-        public Task<IHttpResponse> OptionsAsync(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Options(string relativeUrl, object segments = null)
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new OptionsRequest(merged);

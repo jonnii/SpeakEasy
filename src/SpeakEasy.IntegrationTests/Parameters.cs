@@ -16,9 +16,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Fact]
-        public void ShouldAddQueryStringParametersOnGet()
+        public async void ShouldAddQueryStringParametersOnGet()
         {
-            var products = client
+            var products = await client
                 .Get("search", new { filter = "c" })
                 .OnOk()
                 .As<IEnumerable<SearchResult>>();
@@ -27,9 +27,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Fact]
-        public void ShouldMergeParametersAndUseExtraParametersAsQueryStringParameters()
+        public async void ShouldMergeParametersAndUseExtraParametersAsQueryStringParameters()
         {
-            var products = client
+            var products = await client
                 .Get("search/:category", new { category = "top100", filter = "c" })
                 .OnOk()
                 .As<IEnumerable<SearchResult>>();
@@ -42,9 +42,9 @@ namespace SpeakEasy.IntegrationTests
         }
 
         [Fact]
-        public void ShouldPostParameters()
+        public async void ShouldPostParameters()
         {
-            var user = client
+            var user = await client
                 .Post("search", new { username = "bob" })
                 .On(HttpStatusCode.Created)
                 .As<SearchResult>();

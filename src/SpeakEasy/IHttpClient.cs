@@ -30,149 +30,12 @@ namespace SpeakEasy
         IUserAgent UserAgent { get; }
 
         /// <summary>
-        /// Executes an http get request
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to get</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Get(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http post request
-        /// </summary>
-        /// <param name="body">An object that represents the body to post</param>
-        /// <param name="relativeUrl">The relative url to post to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(object body, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http post request with a file upload
-        /// </summary>
-        /// <param name="file">The file to upload</param>
-        /// <param name="relativeUrl">The relative url to post to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(IFile file, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http post request with a file uploads
-        /// </summary>
-        /// <param name="files">The files to upload</param>
-        /// <param name="relativeUrl">The relative url to post to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(IFile[] files, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http post request without a body
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to post to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Post(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http put request
-        /// </summary>
-        /// <param name="body">An object that represents the body to put</param>
-        /// <param name="relativeUrl">The relative url to put to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Put(object body, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http put request without a body
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to put to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Put(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http put request with a file upload
-        /// </summary>
-        /// <param name="file">The file to upload</param>
-        /// <param name="relativeUrl">The relative url to put to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Put(IFile file, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http put request with a file uploads
-        /// </summary>
-        /// <param name="files">The files to upload</param>
-        /// <param name="relativeUrl">The relative url to put to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Put(IFile[] files, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http patch request
-        /// </summary>
-        /// <param name="body">An object that represents the body to patch</param>
-        /// <param name="relativeUrl">The relative url to put to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Patch(object body, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http patch request without a body
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to patch to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Patch(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http patch request with a file upload
-        /// </summary>
-        /// <param name="file">The file to upload</param>
-        /// <param name="relativeUrl">The relative url to patch to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Patch(IFile file, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http patch request with a file uploads
-        /// </summary>
-        /// <param name="files">The files to upload</param>
-        /// <param name="relativeUrl">The relative url to patch to</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Patch(IFile[] files, string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http delete request
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to delete</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Delete(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http head request
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to delete</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Head(string relativeUrl, object segments = null);
-
-        /// <summary>
-        /// Executes an http options request
-        /// </summary>
-        /// <param name="relativeUrl">The relative url to delete</param>
-        /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
-        /// <returns>A chainable http response</returns>
-        IHttpResponse Options(string relativeUrl, object segments = null);
-
-        /// <summary>
         /// Executes an http get request asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> GetAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Get(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request asynchronously
@@ -181,7 +44,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PostAsync(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request with a file upload asynchronously
@@ -190,7 +53,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PostAsync(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request with a file uploads asynchronously
@@ -199,7 +62,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PostAsync(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http post request without a body asynchronously
@@ -207,7 +70,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PostAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request asynchronously
@@ -216,7 +79,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PutAsync(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request without a body asynchronously
@@ -224,7 +87,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PutAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request with a file upload asynchronously
@@ -233,7 +96,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PutAsync(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http put request with a file uploads asynchronously
@@ -242,7 +105,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PutAsync(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request asynchronously
@@ -251,7 +114,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PatchAsync(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request without a body asynchronously
@@ -259,7 +122,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PatchAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request with a file upload asynchronously
@@ -268,7 +131,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PatchAsync(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http patch request with a file uploads asynchronously
@@ -277,7 +140,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> PatchAsync(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http delete request asynchronously
@@ -285,7 +148,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> DeleteAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Delete(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http head request asynchronously
@@ -293,7 +156,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> HeadAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Head(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Executes an http options request asynchronously
@@ -301,7 +164,7 @@ namespace SpeakEasy
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> OptionsAsync(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Options(string relativeUrl, object segments = null);
 
         /// <summary>
         /// Builds a relative resource
