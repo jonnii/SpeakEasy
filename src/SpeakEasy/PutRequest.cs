@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace SpeakEasy
 {
     internal sealed class PutRequest : PostLikeRequest
@@ -12,6 +14,6 @@ namespace SpeakEasy
         {
         }
 
-        public override string HttpMethod { get; } = "PUT";
+        public override HttpMethod HttpMethod { get; } = HttpMethod.Put;
     }
 }

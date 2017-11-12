@@ -106,17 +106,9 @@ namespace SpeakEasy
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
         {
-            var method = GetMethod(httpRequest.HttpMethod);
-            var url = httpRequest.BuildRequestUrl(arrayFormatter);
-
             return new HttpRequestMessage(
-                method,
-                url);
-        }
-
-        private HttpMethod GetMethod(string method)
-        {
-            return new HttpMethod(method);
+                httpRequest.HttpMethod,
+                httpRequest.BuildRequestUrl(arrayFormatter));
         }
 
         // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)

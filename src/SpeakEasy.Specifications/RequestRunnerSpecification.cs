@@ -1,4 +1,3 @@
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using Machine.Fakes;
@@ -17,7 +16,7 @@ namespace SpeakEasy.Specifications
         {
             request = An<IHttpRequest>();
             request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IArrayFormatter>())).Return("http://example.com");
-            request.WhenToldTo(r => r.HttpMethod).Return("GET");
+            request.WhenToldTo(r => r.HttpMethod).Return(HttpMethod.Get);
 
             The<ICookieStrategy>().WhenToldTo(s => s.Get(Param.IsAny<IHttpRequest>()))
                     .Return(new CookieContainer());
@@ -44,7 +43,7 @@ namespace SpeakEasy.Specifications
             //     The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
         }
 
-        
+
         class when_building_web_request_with_options_request
         {
             Establish context = () =>

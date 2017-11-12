@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace SpeakEasy
 {
     internal sealed class OptionsRequest : GetLikeRequest
@@ -8,6 +10,6 @@ namespace SpeakEasy
 
         }
 
-        public override string HttpMethod { get; } = "OPTIONS";
+        public override HttpMethod HttpMethod { get; } = HttpMethod.Options;
     }
 }

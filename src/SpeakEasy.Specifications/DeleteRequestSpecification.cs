@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Machine.Fakes;
 using Machine.Specifications;
 
@@ -19,7 +20,7 @@ namespace SpeakEasy.Specifications
             };
 
             It should_have_delete_method = () =>
-                request.HttpMethod.ShouldEqual("DELETE");
+                request.HttpMethod.ShouldEqual(HttpMethod.Delete);
         }
     }
 }

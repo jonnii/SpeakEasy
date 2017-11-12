@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy
@@ -30,7 +31,7 @@ namespace SpeakEasy
 
         public bool HasUserAgent => UserAgent != null;
 
-        public abstract string HttpMethod { get; }
+        public abstract HttpMethod HttpMethod { get; }
 
         public int NumHeaders => headers.Count;
 

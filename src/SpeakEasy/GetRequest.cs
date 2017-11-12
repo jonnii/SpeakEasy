@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace SpeakEasy
 {
     public sealed class GetRequest : GetLikeRequest
@@ -7,6 +9,6 @@ namespace SpeakEasy
         {
         }
 
-        public override string HttpMethod { get; } = "GET";
+        public override HttpMethod HttpMethod { get; } = HttpMethod.Get;
     }
 }
