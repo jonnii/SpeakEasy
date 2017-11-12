@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
+using System.Net.Http;
 
 namespace SpeakEasy
 {
@@ -18,7 +18,7 @@ namespace SpeakEasy
         /// <summary>
         /// The http method for this request
         /// </summary>
-        string HttpMethod { get; }
+        HttpMethod HttpMethod { get; }
 
         /// <summary>
         /// The body of this request

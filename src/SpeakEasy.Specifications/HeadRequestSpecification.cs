@@ -1,4 +1,4 @@
-using System.Net;
+using System.Net.Http;
 using Machine.Fakes;
 using Machine.Specifications;
 
@@ -8,14 +8,14 @@ namespace SpeakEasy.Specifications
     class HeadRequestSpecification : WithFakes
     {
         static HeadRequest request;
-        
+
         Establish context = () =>
             request = new HeadRequest(new Resource("http://example.com/companies"));
-    
+
         class when_building_web_request
         {
             It should_have_head_method = () =>
-                request.HttpMethod.ShouldEqual("HEAD");
+                request.HttpMethod.ShouldEqual(HttpMethod.Head);
         }
     }
 }

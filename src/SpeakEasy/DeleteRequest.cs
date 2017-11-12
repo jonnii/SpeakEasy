@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace SpeakEasy
 {
     public sealed class DeleteRequest : GetLikeRequest
@@ -7,6 +9,6 @@ namespace SpeakEasy
         {
         }
 
-        public override string HttpMethod { get; } = "DELETE";
+        public override HttpMethod HttpMethod { get; } = HttpMethod.Delete;
     }
 }

@@ -1,32 +1,26 @@
-using System.Net;
+using System.Net.Http;
 using Machine.Fakes;
 using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
 {
-    public class PutRequestSpecification
+    [Subject(typeof(PutRequest))]
+    class PutRequestSpecification : WithFakes
     {
-        [Subject(typeof(PutRequest))]
-        public class when_building_web_request : with_put_request
-        {
-            It should_have_put_method = () =>
-                request.HttpMethod.ShouldEqual("PUT");
-        }
+        static ITransmissionSettings serializer;
 
-        public class with_serializer : WithFakes
-        {
-            Establish context = () =>
-                serializer = An<ITransmissionSettings>();
+        Establish context = () =>
+            serializer = An<ITransmissionSettings>();
 
-            protected static ITransmissionSettings serializer;
-        }
-
-        public class with_put_request : with_serializer
+        class with_put_request
         {
+            static PutRequest request;
+
             Establish context = () =>
                 request = new PutRequest(new Resource("http://example.com/companies"));
 
-            internal static PutRequest request;
+            It should_have_put_method = () =>
+                request.HttpMethod.ShouldEqual(HttpMethod.Put);
         }
     }
 }

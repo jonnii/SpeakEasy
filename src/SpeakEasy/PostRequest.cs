@@ -1,3 +1,5 @@
+using System.Net.Http;
+
 namespace SpeakEasy
 {
     public sealed class PostRequest : PostLikeRequest
@@ -12,6 +14,6 @@ namespace SpeakEasy
         {
         }
 
-        public override string HttpMethod { get; } = "POST";
+        public override HttpMethod HttpMethod { get; } = HttpMethod.Post;
     }
 }
