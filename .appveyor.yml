@@ -15,11 +15,11 @@ install:
 dotnet_csproj:
   patch: true
   file: 'src\**\*.csproj'
-  version: '%GitVersion_MajorMinorPatch%'
-  package_version: '%GitVersion_NuGetVersion%'
-  assembly_version: '%GitVersion_MajorMinorPatch%'
-  file_version: '%GitVersion_MajorMinorPatch%'
-  informational_version: '%GitVersion_MajorMinorPatch%'
+  version: $(GitVersion_NuGetVersion)
+  package_version: $(GitVersion_NuGetVersion)
+  assembly_version: $(GitVersion_MajorMinorPatch)
+  file_version: $(GitVersion_MajorMinorPatch)
+  informational_version: $(GitVersion_MajorMinorPatch)
 
 build:
   parallel: true
