@@ -29,10 +29,10 @@ build:
 test_script:
   - ps: .\build\run-tests.ps1
 
-# deploy:
-#   provider: NuGet
-#   skip_symbols: true
-#   api_key:
-#     secure: T5DAebGxPV1QtMqIYRQyPYhFr3yfKzlkOB2rtVl8SQkJD7nTLEPBPPtcI8MgbHj3
-#   on:
-#     appveyor_repo_tag: true
+deploy:
+  provider: NuGet
+  skip_symbols: true
+  api_key:
+    secure: Z1QcGBawSRfoLPWCtkhcZEMD4f+QLbw2o01T/BEuHL9hERKTSrVOutzAp8QCyDIf
+  on:
+    appveyor_repo_tag: true
