@@ -35,8 +35,8 @@ Ankh.NoLoad
 _ReSharper*/
 *.resharper
 [Tt]est[Rr]esult*
-src/.vs/
 .vscode/
+.vs/
 
 #Subversion files
 .svn
