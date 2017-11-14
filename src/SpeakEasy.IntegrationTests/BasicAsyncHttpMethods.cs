@@ -231,18 +231,18 @@ namespace SpeakEasy.IntegrationTests
             Assert.True(success);
         }
 
-        //[Fact]
-        //public async void ShouldDeserializeCollectionAsObject()
-        //{
-        //    var obj = await client
-        //        .GetAsync("products")
-        //        .On(HttpStatusCode.OK)
-        //        .As(typeof(List<Product>));
+        [Fact]
+        public async void ShouldDeserializeCollectionAsObject()
+        {
+           var obj = await client
+               .Get("products")
+               .On(HttpStatusCode.OK)
+               .As(typeof(List<Product>));
 
-        //    var products = (List<Product>)obj;
+           var products = (List<Product>)obj;
 
-        //    Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
-        //}
+           Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
+        }
 
         [Fact]
         public async void ShouldCallbackWithState()
