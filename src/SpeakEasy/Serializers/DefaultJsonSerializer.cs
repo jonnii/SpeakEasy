@@ -48,7 +48,7 @@ namespace SpeakEasy.Serializers
             using (var sr = new StreamReader(body))
             using (var jsonTextReader = new JsonTextReader(sr))
             {
-                return serializer.Deserialize(jsonTextReader);
+                return serializer.Deserialize(jsonTextReader, type);
             }
         }
     }
