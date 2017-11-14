@@ -53,7 +53,7 @@ namespace SpeakEasy.IntegrationTests
                 .On(HttpStatusCode.OK)
                 .As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
 
-            Assert.True(products.Any(p => p.Name == "Vanilla Cake"));
+            Assert.Contains("Vanilla Cake", products.Select( p => p.Name));
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace SpeakEasy.IntegrationTests
                 .OnOk()
                 .As<List<Product>>();
 
-            Assert.True(products.Any(p => p.Name == "Chocolate Cake"));
+            Assert.Contains("Chocolate Cake", products.Select( p => p.Name));
         }
 
         [Fact]
