@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -27,6 +28,7 @@ namespace SpeakEasy
         /// Writes the content to the given stream
         /// </summary>
         /// <param name="stream">The stream to write to</param>
-        Task WriteToAsync(Stream stream);
+        /// <param name="cancellationToken">An optional cancellation token</param>
+        Task WriteToAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

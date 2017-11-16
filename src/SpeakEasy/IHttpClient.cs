@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -34,8 +35,9 @@ namespace SpeakEasy
         /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Get(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Get(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http post request asynchronously
@@ -43,8 +45,9 @@ namespace SpeakEasy
         /// <param name="body">An object that represents the body to post</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http post request with a file upload asynchronously
@@ -52,8 +55,9 @@ namespace SpeakEasy
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http post request with a file uploads asynchronously
@@ -61,16 +65,18 @@ namespace SpeakEasy
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http post request without a body asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to post to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Post(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Post(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http put request asynchronously
@@ -78,16 +84,18 @@ namespace SpeakEasy
         /// <param name="body">An object that represents the body to put</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http put request without a body asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Put(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http put request with a file upload asynchronously
@@ -95,8 +103,9 @@ namespace SpeakEasy
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http put request with a file uploads asynchronously
@@ -104,8 +113,9 @@ namespace SpeakEasy
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http patch request asynchronously
@@ -113,16 +123,18 @@ namespace SpeakEasy
         /// <param name="body">An object that represents the body to patch</param>
         /// <param name="relativeUrl">The relative url to put to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http patch request without a body asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Patch(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http patch request with a file upload asynchronously
@@ -130,8 +142,9 @@ namespace SpeakEasy
         /// <param name="file">The file to upload</param>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http patch request with a file uploads asynchronously
@@ -139,32 +152,36 @@ namespace SpeakEasy
         /// <param name="files">The files to upload</param>
         /// <param name="relativeUrl">The relative url to patch to</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null);
+        Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http delete request asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Delete(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Delete(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http head request asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Head(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Head(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Executes an http options request asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to delete</param>
         /// <param name="segments">An object that contains any segments in the relativeUrl that need to be resolved</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> Options(string relativeUrl, object segments = null);
+        Task<IHttpResponse> Options(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Builds a relative resource
@@ -180,8 +197,9 @@ namespace SpeakEasy
         /// </summary>
         /// <typeparam name="T">The type of request to run</typeparam>
         /// <param name="request">the request</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A chainable http response</returns>
-        Task<IHttpResponse> RunAsync<T>(T request)
+        Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest;
     }
 }

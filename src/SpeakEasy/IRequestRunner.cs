@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -12,7 +13,8 @@ namespace SpeakEasy
         /// Runs a http request asynchronously
         /// </summary>
         /// <param name="request">The request to run</param>
+        /// <param name="cancellationToken">An optional cancellation token</param>
         /// <returns>A task for an http response</returns>
-        Task<IHttpResponse> RunAsync(IHttpRequest request);
+        Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace SpeakEasy.Serializers
             "text/javascript"
         };
 
-        public override Task SerializeAsync<T>(Stream stream, T body)
+        public override Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
             var serializer = new JsonSerializer();
             using (var sw = new StreamWriter(stream, new System.Text.UTF8Encoding(false), 1024, true))

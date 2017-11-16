@@ -19,7 +19,7 @@ namespace SpeakEasy
         {
             return new StreamableContent(
                 transmissionSettings.DefaultSerializerContentType,
-                stream => transmissionSettings.SerializeAsync(stream, body));
+                (stream, cancellationToken) => transmissionSettings.SerializeAsync(stream, body, cancellationToken));
         }
     }
 }

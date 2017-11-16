@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy.Contents
@@ -34,46 +35,46 @@ namespace SpeakEasy.Contents
             return string.Format("--{0}{3}Content-Disposition: form-data; name=\"{1}\"{3}{3}{2}{3}", MimeBoundary, parameter.Name, parameter.Value, Crlf);
         }
 
-        public async Task WriteToAsync(Stream stream)
+        public async Task WriteToAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken))
         {
             foreach (var parameter in resource.Parameters)
             {
-                await WriteParameter(stream, parameter).ConfigureAwait(false);
+                await WriteParameter(stream, parameter, cancellationToken).ConfigureAwait(false);
             }
 
             foreach (var file in files)
             {
-                await WriteFile(stream, file).ConfigureAwait(false);
+                await WriteFile(stream, file, cancellationToken).ConfigureAwait(false);
             }
 
-            await WriteFooter(stream).ConfigureAwait(false);
+            await WriteFooter(stream, cancellationToken).ConfigureAwait(false);
         }
 
-        private Task WriteFooter(Stream stream)
+        private Task WriteFooter(Stream stream, CancellationToken cancellationToken = default(CancellationToken))
         {
             var footer = DefaultEncoding.GetBytes(GetFooter());
-            return stream.WriteAsync(footer, 0, footer.Length);
+            return stream.WriteAsync(footer, 0, footer.Length, cancellationToken);
         }
 
-        private Task WriteParameter(Stream stream, Parameter parameter)
+        private Task WriteParameter(Stream stream, Parameter parameter, CancellationToken cancellationToken = default(CancellationToken))
         {
             var formattedParameter = GetFormattedParameter(parameter);
             var encoded = DefaultEncoding.GetBytes(formattedParameter);
 
-            return stream.WriteAsync(encoded, 0, encoded.Length);
+            return stream.WriteAsync(encoded, 0, encoded.Length, cancellationToken);
         }
 
-        private async Task WriteFile(Stream stream, IFile file)
+        private async Task WriteFile(Stream stream, IFile file, CancellationToken cancellationToken = default(CancellationToken))
         {
             var fileHeader = GetFileHeader(file);
 
             var encoded = DefaultEncoding.GetBytes(fileHeader);
-            await stream.WriteAsync(encoded, 0, encoded.Length).ConfigureAwait(false);
+            await stream.WriteAsync(encoded, 0, encoded.Length, cancellationToken).ConfigureAwait(false);
 
             await file.WriteToAsync(stream).ConfigureAwait(false);
 
             var crlf = DefaultEncoding.GetBytes(Crlf);
-            await stream.WriteAsync(crlf, 0, crlf.Length).ConfigureAwait(false);
+            await stream.WriteAsync(crlf, 0, crlf.Length, cancellationToken).ConfigureAwait(false);
         }
 
         public string GetFileHeader(IFile file)

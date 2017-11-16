@@ -1,14 +1,15 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy.Contents
 {
     public class StreamableContent : IContent
     {
-        private readonly Func<Stream, Task> onStream;
+        private readonly Func<Stream, CancellationToken, Task> onStream;
 
-        public StreamableContent(string contentType, Func<Stream, Task> onStream)
+        public StreamableContent(string contentType, Func<Stream, CancellationToken, Task> onStream)
         {
             this.onStream = onStream;
             ContentType = contentType;
@@ -20,9 +21,9 @@ namespace SpeakEasy.Contents
 
         public string ContentType { get; }
 
-        public Task WriteToAsync(Stream stream)
+        public Task WriteToAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return onStream(stream);
+            return onStream(stream, cancellationToken);
         }
     }
 }
