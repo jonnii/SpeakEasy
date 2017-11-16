@@ -1,9 +1,9 @@
 namespace SpeakEasy
 {
     /// <summary>
-    /// A logger is used to log messages from within SpeakEasy
+    /// An instrumentation sink 
     /// </summary>
-    public interface ISpeakEasyLogger
+    public interface IInstrumentationSink
     {
         /// <summary>
         /// BeforeRequest is called before every http request is sent

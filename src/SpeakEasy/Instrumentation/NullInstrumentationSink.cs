@@ -1,8 +1,8 @@
-﻿namespace SpeakEasy.Loggers
+﻿namespace SpeakEasy.Instrumentation
 {
-    public class NullLogger : ISpeakEasyLogger
+    public class NullInstrumentationSink : IInstrumentationSink
     {
-        public static ISpeakEasyLogger Instance = new NullLogger();
+        public static IInstrumentationSink Instance = new NullInstrumentationSink();
 
         public void BeforeRequest(IHttpRequest request)
         {

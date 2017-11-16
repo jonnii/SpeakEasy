@@ -45,19 +45,19 @@ namespace SpeakEasy
 
             UserAgent = settings.UserAgent;
             Root = new Resource(rootUrl);
-            Logger = settings.Logger;
+            InstrumentationSink = settings.InstrumentationSink;
         }
 
         public HttpClient(
             IRequestRunner requestRunner,
             INamingConvention namingConvention,
-            ISpeakEasyLogger logger,
+            IInstrumentationSink instrumentationSink,
             IUserAgent userAgent)
         {
             this.requestRunner = requestRunner;
 
             UserAgent = userAgent;
-            Logger = logger;
+            InstrumentationSink = instrumentationSink;
 
             merger = new ResourceMerger(namingConvention);
         }
@@ -66,7 +66,7 @@ namespace SpeakEasy
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
-        public ISpeakEasyLogger Logger { get; }
+        public IInstrumentationSink InstrumentationSink { get; }
 
         public Resource Root { get; set; }
 
@@ -200,14 +200,14 @@ namespace SpeakEasy
 
         private void OnBeforeRequest(IHttpRequest request)
         {
-            Logger.BeforeRequest(request);
+            InstrumentationSink.BeforeRequest(request);
             BeforeRequest?.Invoke(this, new BeforeRequestEventArgs(request));
         }
 
         private void OnAfterRequest(IHttpRequest request, IHttpResponse response)
         {
             AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response));
-            Logger.AfterRequest(request, response);
+            InstrumentationSink.AfterRequest(request, response);
         }
     }
 }

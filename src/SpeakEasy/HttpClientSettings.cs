@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SpeakEasy.Authenticators;
-using SpeakEasy.Loggers;
+using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -19,7 +19,7 @@ namespace SpeakEasy
         {
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
-            Logger = new NullLogger();
+            InstrumentationSink = new NullInstrumentationSink();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
             CookieStrategy = new TransientCookieStrategy();
@@ -31,7 +31,7 @@ namespace SpeakEasy
         /// <summary>
         /// The logging mechanism the client will use
         /// </summary>
-        public ISpeakEasyLogger Logger { get; set; }
+        public IInstrumentationSink InstrumentationSink { get; set; }
 
         /// <summary>
         /// Any custom authentication required to access the http api

@@ -1,11 +1,11 @@
 using System;
 
-namespace SpeakEasy.Loggers
+namespace SpeakEasy.Instrumentation
 {
     /// <summary>
-    /// Console logger outputs all logging information to the console
+    /// Console instrumentation sink outputs all instrumentation to the console
     /// </summary>
-    public class ConsoleLogger : ISpeakEasyLogger
+    public class ConsoleInstrumentationSink : IInstrumentationSink
     {
         public void BeforeRequest(IHttpRequest request)
         {
