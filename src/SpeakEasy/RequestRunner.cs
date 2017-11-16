@@ -73,6 +73,7 @@ namespace SpeakEasy
             //    }
             //}
 
+            // do we need this?
             //var bufferSize = response.ContentLength > 0
             //    ? response.ContentLength
             //    : DefaultBufferSize;
@@ -86,20 +87,6 @@ namespace SpeakEasy
             readResponseStream.Position = 0;
 
             return CreateHttpResponse(response, readResponseStream);
-
-            //using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
-            //{
-            //    using (var responseStream = response.GetResponseStream())
-            //    {
-
-            //        var readResponseStream = new MemoryStream();
-            //        await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
-
-            //        readResponseStream.Position = 0;
-
-            //        return CreateHttpResponse(response, readResponseStream);
-            //    }
-            //}
         }
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
@@ -108,25 +95,6 @@ namespace SpeakEasy
                 httpRequest.HttpMethod,
                 httpRequest.BuildRequestUrl(arrayFormatter));
         }
-
-        // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
-        // {
-        //     try
-        //     {
-        //         var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
-        //         return new HttpWebResponseWrapper((HttpWebResponse)response);
-        //     }
-        //     catch (WebException wex)
-        //     {
-        //         var innerResponse = wex.Response;
-        //         if (innerResponse != null)
-        //         {
-        //             return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-        //         }
-
-        //         throw;
-        //     }
-        // }
 
         // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
         // {
@@ -170,7 +138,7 @@ namespace SpeakEasy
                 //handler.UserAgent = httpRequest.UserAgent.Name;
             }
 
-            //BuildWebRequestFrameworkSpecific(httpRequest, handler);
+            // BuildWebRequestFrameworkSpecific(httpRequest, handler);
 
             // foreach (var header in httpRequest.Headers)
             // {
