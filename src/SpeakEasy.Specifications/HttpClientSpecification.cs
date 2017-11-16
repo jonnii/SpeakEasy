@@ -25,7 +25,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => HttpClient.Create("http://example.com/api", settings));
 
             It should_throw = () =>
-                exception.ShouldBeOfExactType<ConfigurationException>();
+                exception.ShouldBeOfExactType<InvalidOperationException>();
         }
 
         class with_client

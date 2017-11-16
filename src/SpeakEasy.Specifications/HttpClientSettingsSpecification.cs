@@ -101,7 +101,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => settings.Validate());
 
             It should_throw = () =>
-                exception.ShouldBeOfExactType<ConfigurationException>();
+                exception.ShouldBeOfExactType<InvalidOperationException>();
 
             static Exception exception;
         }

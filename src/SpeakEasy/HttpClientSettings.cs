@@ -106,15 +106,15 @@ namespace SpeakEasy
 
             if (!Serializers.Any())
             {
-                throw new ConfigurationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
+                throw new InvalidOperationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
             }
 
             if (CookieStrategy == null)
             {
-                throw new ConfigurationException("A cookie strategy is required.");
+                throw new InvalidOperationException("A cookie strategy is required.");
             }
 
-            throw new ConfigurationException("The http client settings are not valid.");
+            throw new InvalidOperationException("The http client settings are not valid.");
         }
     }
 }
