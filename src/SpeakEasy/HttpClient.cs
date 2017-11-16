@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -71,120 +72,120 @@ namespace SpeakEasy
 
         public IUserAgent UserAgent { get; }
 
-        public Task<IHttpResponse> Get(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Get(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new GetRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PostRequest(merged, new ObjectRequestBody(body));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Post(new[] { file }, relativeUrl, segments);
+            return Post(new[] { file }, relativeUrl, segments, cancellationToken);
         }
 
-        public Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PostRequest(merged, new FileUploadBody(merged, files));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Post(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Post(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PostRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PutRequest(merged, new ObjectRequestBody(body));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Put(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PutRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Put(new[] { file }, relativeUrl, segments);
+            return Put(new[] { file }, relativeUrl, segments, cancellationToken);
         }
 
-        public Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Put(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PutRequest(merged, new FileUploadBody(merged, files));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(object body, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments ?? body, segments != null);
             var request = new PatchRequest(merged, new ObjectRequestBody(body));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Patch(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PatchRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(IFile file, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return Patch(new[] { file }, relativeUrl, segments);
+            return Patch(new[] { file }, relativeUrl, segments, cancellationToken);
         }
 
-        public Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Patch(IFile[] files, string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new PatchRequest(merged, new FileUploadBody(merged, files));
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Delete(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Delete(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new DeleteRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Head(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Head(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new HeadRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public Task<IHttpResponse> Options(string relativeUrl, object segments = null)
+        public Task<IHttpResponse> Options(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var merged = BuildRelativeResource(relativeUrl, segments);
             var request = new OptionsRequest(merged);
-            return RunAsync(request);
+            return Run(request, cancellationToken);
         }
 
-        public async Task<IHttpResponse> RunAsync<T>(T request)
+        public async Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest
         {
             request.UserAgent = UserAgent;
 
             OnBeforeRequest(request);
 
-            var response = await requestRunner.RunAsync(request).ConfigureAwait(false);
+            var response = await requestRunner.RunAsync(request, cancellationToken).ConfigureAwait(false);
 
             OnAfterRequest(request, response);
 

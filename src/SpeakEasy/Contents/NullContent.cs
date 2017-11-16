@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy.Contents
@@ -19,7 +20,7 @@ namespace SpeakEasy.Contents
 
         public bool HasContent { get; } = false;
 
-        public Task WriteToAsync(Stream stream)
+        public Task WriteToAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotSupportedException();
         }

@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy
@@ -39,7 +37,7 @@ namespace SpeakEasy
             this.arrayFormatter = arrayFormatter;
         }
 
-        public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest)
+        public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest, CancellationToken cancellationToken = default(CancellationToken))
         {
             var webRequest = BuildClient(httpRequest);
 
@@ -50,7 +48,7 @@ namespace SpeakEasy
             if (serializedBody.HasContent)
             {
                 var memoryStream = new MemoryStream();
-                await serializedBody.WriteToAsync(memoryStream).ConfigureAwait(false);
+                await serializedBody.WriteToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
                 memoryStream.Position = 0;
 
                 message.Content = new StreamContent(memoryStream);
@@ -79,12 +77,12 @@ namespace SpeakEasy
             //    ? response.ContentLength
             //    : DefaultBufferSize;
 
-            var response = await webRequest.SendAsync(message).ConfigureAwait(false);
+            var response = await webRequest.SendAsync(message, cancellationToken).ConfigureAwait(false);
 
             var readResponseStream = new MemoryStream();
             var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize).ConfigureAwait(false);
+            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
             readResponseStream.Position = 0;
 
             return CreateHttpResponse(response, readResponseStream);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SpeakEasy.Serializers
@@ -12,7 +13,7 @@ namespace SpeakEasy.Serializers
 
         public abstract IEnumerable<string> SupportedMediaTypes { get; }
 
-        public abstract Task SerializeAsync<T>(Stream stream, T body);
+        public abstract Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken));
 
         public abstract object Deserialize(Stream body, Type type);
 

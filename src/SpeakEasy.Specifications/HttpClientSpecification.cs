@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Machine.Fakes;
 using Machine.Specifications;
@@ -33,7 +34,7 @@ namespace SpeakEasy.Specifications
             {
                 Subject.Root = new Resource("http://example.com");
 
-                The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>()))
+                The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>(), Param.IsAny<CancellationToken>()))
                     .Return(Task.Factory.StartNew(() => An<IHttpResponse>()));
 
                 The<INamingConvention>().WhenToldTo(r => r.ConvertPropertyNameToParameterName(Param.IsAny<string>()))
@@ -57,7 +58,7 @@ namespace SpeakEasy.Specifications
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies")));
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies"), Param.IsAny<CancellationToken>()));
 
                 It should_raise_before_request_event_args = () =>
                     beforeCalled.ShouldBeTrue();
@@ -76,7 +77,7 @@ namespace SpeakEasy.Specifications
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent")));
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
             }
 
             class when_getting_specific_resource
@@ -86,7 +87,7 @@ namespace SpeakEasy.Specifications
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/company/5")));
+                        r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/company/5"), Param.IsAny<CancellationToken>()));
             }
 
             class when_getting_resource_on_client_with_parameterized_root
@@ -100,7 +101,7 @@ namespace SpeakEasy.Specifications
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<GetRequest>.Matches(p =>
-                            p.Resource.Path == "http://acme.example.com/api/user/5")));
+                            p.Resource.Path == "http://acme.example.com/api/user/5"), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting
@@ -109,7 +110,7 @@ namespace SpeakEasy.Specifications
                     Subject.Post(new { Name = "frobble" }, "user").Await();
 
                 It should_dispatch_post_request = () =>
-                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PostRequest>()));
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PostRequest>(), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting_with_body_and_no_segments
@@ -120,11 +121,11 @@ namespace SpeakEasy.Specifications
                 It should_use_body_as_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(
-                            Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body")));
+                            Param<PostRequest>.Matches(p => p.Resource.Path == "http://example.com/company/body"), Param.IsAny<CancellationToken>()));
 
                 It should_not_add_extra_body_properties_as_parameters = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => !p.Resource.HasParameters)));
+                        r.RunAsync(Param<PostRequest>.Matches(p => !p.Resource.HasParameters), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting_with_body_and_segments
@@ -135,11 +136,11 @@ namespace SpeakEasy.Specifications
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<PostRequest>.Matches(p =>
-                            p.Resource.Path == "http://example.com/company/segments")));
+                            p.Resource.Path == "http://example.com/company/segments"), Param.IsAny<CancellationToken>()));
 
                 It should_add_extra_segment_properties_as_parameters = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("moreGarbage")), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting_without_body
@@ -149,7 +150,7 @@ namespace SpeakEasy.Specifications
 
                 It should_not_have_body_set = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is PostRequestBody)));
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is PostRequestBody), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting_with_file
@@ -159,7 +160,7 @@ namespace SpeakEasy.Specifications
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody), Param.IsAny<CancellationToken>()));
             }
 
             class when_posting_with_file_and_segments
@@ -169,16 +170,16 @@ namespace SpeakEasy.Specifications
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody)));
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Body is FileUploadBody), Param.IsAny<CancellationToken>()));
 
                 It should_merge_url_parameters = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<PostRequest>.Matches(p =>
-                            p.Resource.Path == "http://example.com/companies/3")));
+                            p.Resource.Path == "http://example.com/companies/3"), Param.IsAny<CancellationToken>()));
 
                 It should_include_additional_parameters_in_resource = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+                        r.RunAsync(Param<PostRequest>.Matches(p => p.Resource.HasParameter("additionalProperty")), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting_with_file_and_segments
@@ -188,7 +189,7 @@ namespace SpeakEasy.Specifications
 
                 It should_include_additional_parameters_in_resource = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("additionalProperty"))));
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("additionalProperty")), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting
@@ -197,7 +198,7 @@ namespace SpeakEasy.Specifications
                     Subject.Put(new { Name = "frobble" }, "user").Await();
 
                 It should_dispatch_put_request = () =>
-                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PutRequest>()));
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PutRequest>(), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting_with_body_and_no_segments
@@ -208,7 +209,7 @@ namespace SpeakEasy.Specifications
                 It should_use_body_as_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<PutRequest>.Matches(p =>
-                            p.Resource.Path == "http://example.com/company/body")));
+                            p.Resource.Path == "http://example.com/company/body"), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting_with_body_and_segments
@@ -219,11 +220,11 @@ namespace SpeakEasy.Specifications
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<PutRequest>.Matches(p =>
-                            p.Resource.Path == "http://example.com/company/segments")));
+                            p.Resource.Path == "http://example.com/company/segments"), Param.IsAny<CancellationToken>()));
 
                 It should_add_extra_segment_properties_as_parameters = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Resource.HasParameter("moreGarbage")), Param.IsAny<CancellationToken>()));
             }
 
             class when_patching_with_body_and_segments
@@ -234,11 +235,11 @@ namespace SpeakEasy.Specifications
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<PatchRequest>.Matches(p =>
-                            p.Resource.Path == "http://example.com/company/segments")));
+                            p.Resource.Path == "http://example.com/company/segments"), Param.IsAny<CancellationToken>()));
 
                 It should_add_extra_segment_properties_as_parameters = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.HasParameter("moreGarbage"))));
+                        r.RunAsync(Param<PatchRequest>.Matches(p => p.Resource.HasParameter("moreGarbage")), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting_without_body
@@ -248,7 +249,7 @@ namespace SpeakEasy.Specifications
 
                 It should_not_have_body_set = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is PostRequestBody)));
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is PostRequestBody), Param.IsAny<CancellationToken>()));
             }
 
             class when_putting_with_file
@@ -258,7 +259,7 @@ namespace SpeakEasy.Specifications
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is FileUploadBody)));
+                        r.RunAsync(Param<PutRequest>.Matches(p => p.Body is FileUploadBody), Param.IsAny<CancellationToken>()));
             }
 
             class when_deleting
@@ -267,7 +268,7 @@ namespace SpeakEasy.Specifications
                     Subject.Delete("user/5").Await();
 
                 It should_dispatch_delete_request = () =>
-                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<DeleteRequest>()));
+                    The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<DeleteRequest>(), Param.IsAny<CancellationToken>()));
             }
         }
     }
