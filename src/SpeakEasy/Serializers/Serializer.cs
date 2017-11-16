@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+// we don't need this class
 namespace SpeakEasy.Serializers
 {
     public abstract class Serializer : ISerializer
