@@ -1,4 +1,5 @@
 using System.Net.Http;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy
 {

@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
     public sealed class GetRequest : GetLikeRequest
     {

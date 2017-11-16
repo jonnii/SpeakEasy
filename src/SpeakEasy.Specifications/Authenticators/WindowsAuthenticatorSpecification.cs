@@ -2,6 +2,7 @@ using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications.Authenticators
 {

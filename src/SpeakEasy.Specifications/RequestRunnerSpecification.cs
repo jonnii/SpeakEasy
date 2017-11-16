@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications
 {

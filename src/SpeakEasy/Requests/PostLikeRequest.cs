@@ -1,4 +1,4 @@
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
     public abstract class PostLikeRequest : HttpRequest
     {

@@ -1,6 +1,6 @@
 using System.Net.Http;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
     internal sealed class PutRequest : PostLikeRequest
     {
