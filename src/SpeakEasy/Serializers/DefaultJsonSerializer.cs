@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace SpeakEasy.Serializers
 {
-    public class DefaultJsonSerializer : Serializer
+    public class DefaultJsonSerializer : ISerializer
     {
-        public override IEnumerable<string> SupportedMediaTypes => new[]
+        public IEnumerable<string> SupportedMediaTypes => new[]
         {
             "application/json",
             "text/json",
@@ -17,9 +16,12 @@ namespace SpeakEasy.Serializers
             "text/javascript"
         };
 
-        public override Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
+        public string MediaType => SupportedMediaTypes.First();
+
+        public void Serialize<T>(Stream stream, T body)
         {
             var serializer = new JsonSerializer();
+
             using (var sw = new StreamWriter(stream, new System.Text.UTF8Encoding(false), 1024, true))
             {
                 using (var jsonTextWriter = new JsonTextWriter(sw))
@@ -27,11 +29,9 @@ namespace SpeakEasy.Serializers
                     serializer.Serialize(jsonTextWriter, body);
                 }
             }
-
-            return Task.FromResult(true);
         }
 
-        public override T Deserialize<T>(Stream body)
+        public T Deserialize<T>(Stream body)
         {
             var serializer = new JsonSerializer();
 
@@ -42,7 +42,7 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public override object Deserialize(Stream body, Type type)
+        public object Deserialize(Stream body, Type type)
         {
             var serializer = new JsonSerializer();
 
