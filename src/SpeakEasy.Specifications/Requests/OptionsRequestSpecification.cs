@@ -1,9 +1,7 @@
-using System.Net;
-using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Requests;
 
-namespace SpeakEasy.Specifications
+namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(OptionsRequest))]
     class OptionsRequestSpecification

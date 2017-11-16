@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using SpeakEasy.Requests;
 
-namespace SpeakEasy.Specifications
+namespace SpeakEasy.Specifications.Requests
 {
     internal class TestHttpRequest : GetLikeRequest
     {

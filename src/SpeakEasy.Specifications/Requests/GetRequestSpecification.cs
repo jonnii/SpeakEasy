@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using SpeakEasy.Requests;
 
-namespace SpeakEasy.Specifications
+namespace SpeakEasy.Specifications.Requests
 {
     public class GetRequestSpecification
     {
