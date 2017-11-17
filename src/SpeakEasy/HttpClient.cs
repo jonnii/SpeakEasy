@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -187,9 +188,11 @@ namespace SpeakEasy
 
             OnBeforeRequest(request);
 
+            var watch = Stopwatch.StartNew();
             var response = await requestRunner.RunAsync(request, cancellationToken).ConfigureAwait(false);
+            watch.Stop();
 
-            OnAfterRequest(request, response);
+            OnAfterRequest(request, response, watch.ElapsedMilliseconds);
 
             return response;
         }
@@ -206,10 +209,10 @@ namespace SpeakEasy
             BeforeRequest?.Invoke(this, new BeforeRequestEventArgs(request));
         }
 
-        private void OnAfterRequest(IHttpRequest request, IHttpResponse response)
+        private void OnAfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs)
         {
-            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response));
-            InstrumentationSink.AfterRequest(request, response);
+            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response, elapsedMs));
+            InstrumentationSink.AfterRequest(request, response, elapsedMs);
         }
     }
 }

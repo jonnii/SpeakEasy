@@ -8,7 +8,7 @@
         {
         }
 
-        public void AfterRequest(IHttpRequest request, IHttpResponse response)
+        public void AfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs)
         {
         }
     }

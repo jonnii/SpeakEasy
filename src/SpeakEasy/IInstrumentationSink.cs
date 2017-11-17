@@ -16,6 +16,7 @@ namespace SpeakEasy
         /// </summary>
         /// <param name="request">The http request that was sent</param>
         /// <param name="response">The http response that was returned</param>
-        void AfterRequest(IHttpRequest request, IHttpResponse response);
+        /// <param name="elapsedMs">The time it took for the request to be made</param>
+        void AfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs);
     }
 }

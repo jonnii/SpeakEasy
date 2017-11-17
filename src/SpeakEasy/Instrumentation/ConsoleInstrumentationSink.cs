@@ -9,14 +9,12 @@ namespace SpeakEasy.Instrumentation
     {
         public void BeforeRequest(IHttpRequest request)
         {
-            Console.WriteLine("Running request");
-            Console.WriteLine(request);
+            Console.WriteLine("Running request: {0}", request);
         }
 
-        public void AfterRequest(IHttpRequest request, IHttpResponse response)
+        public void AfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs)
         {
-            Console.WriteLine("Received Response");
-            Console.WriteLine(response);
+            Console.WriteLine("Received Response: {0} in {1}ms", response, elapsedMs);
         }
     }
 }
