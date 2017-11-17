@@ -43,11 +43,6 @@ namespace SpeakEasy
         {
             var body = response.Body;
 
-            if (body is MemoryStream memoryStream)
-            {
-                return memoryStream.ToArray();
-            }
-
             using (var copy = new MemoryStream())
             {
                 await body.CopyToAsync(copy, bufferSize).ConfigureAwait(false);
