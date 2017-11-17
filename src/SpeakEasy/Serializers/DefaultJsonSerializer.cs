@@ -10,6 +10,26 @@ namespace SpeakEasy.Serializers
 {
     public class DefaultJsonSerializer : ISerializer
     {
+        private readonly JsonSerializer serializer;
+
+        private readonly int serializationBufferSize;
+
+        public DefaultJsonSerializer()
+            : this(new JsonSerializer())
+        {
+        }
+
+        public DefaultJsonSerializer(JsonSerializer serializer)
+            : this(serializer, 1024)
+        {
+        }
+
+        public DefaultJsonSerializer(JsonSerializer serializer, int serializationBufferSize)
+        {
+            this.serializer = serializer;
+            this.serializationBufferSize = serializationBufferSize;
+        }
+
         public IEnumerable<string> SupportedMediaTypes => new[]
         {
             "application/json",
@@ -22,11 +42,9 @@ namespace SpeakEasy.Serializers
 
         public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var serializer = new JsonSerializer();
-
-            using (var sw = new StreamWriter(stream, new System.Text.UTF8Encoding(false), 1024, true))
+            using (var streamWriter = new StreamWriter(stream, new System.Text.UTF8Encoding(false), serializationBufferSize, true))
             {
-                using (var jsonTextWriter = new JsonTextWriter(sw))
+                using (var jsonTextWriter = new JsonTextWriter(streamWriter))
                 {
                     serializer.Serialize(jsonTextWriter, body);
                 }
@@ -37,23 +55,23 @@ namespace SpeakEasy.Serializers
 
         public T Deserialize<T>(Stream body)
         {
-            var serializer = new JsonSerializer();
-
-            using (var sr = new StreamReader(body))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            using (var streamReader = new StreamReader(body))
             {
-                return serializer.Deserialize<T>(jsonTextReader);
+                using (var jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    return serializer.Deserialize<T>(jsonTextReader);
+                }
             }
         }
 
         public object Deserialize(Stream body, Type type)
         {
-            var serializer = new JsonSerializer();
-
-            using (var sr = new StreamReader(body))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            using (var streamReader = new StreamReader(body))
             {
-                return serializer.Deserialize(jsonTextReader, type);
+                using (var jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    return serializer.Deserialize(jsonTextReader, type);
+                }
             }
         }
     }
