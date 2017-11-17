@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Serializers;
@@ -13,24 +14,17 @@ namespace SpeakEasy.Specifications.Serializers
 
         Establish context = () =>
             stream = new MemoryStream();
-   
 
-        // [Subject(typeof(DefaultJsonSerializer))]
-        // public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
-        // {
-        //     Establish context = () =>
-        //         json = SimpleJson.SerializeObject(new { message = "hi sir" });
+        public class when_deserializing_dynamic
+        {
+            Because of = () =>
+                deserialized = Subject.Deserialize<dynamic>(new MemoryStream(Encoding.UTF8.GetBytes(@"{ ""message"": ""hi sir"" }")));
 
-        //     Because of = () =>
-        //         deserialized = Subject.DeserializeString<dynamic>(json);
+            It should_deserialize_items_when_array = () =>
+                ((string)deserialized.message).ShouldEqual("hi sir");
 
-        //     It should_deserialize_items_when_array = () =>
-        //         ((string)deserialized.message).ShouldEqual("hi sir");
-
-        //     static string json;
-
-        //     static dynamic deserialized;
-        // }
+            static dynamic deserialized;
+        }
 
         class when_deserializing_array_with_default_settings
         {
@@ -56,7 +50,7 @@ namespace SpeakEasy.Specifications.Serializers
                 Subject.SerializeAsync(stream, new Person { Name = "fred", Age = 30 }).Await();
                 stream.Position = 0;
             };
-            
+
             Because of = () =>
                 deserialized = Subject.Deserialize<Person>(stream);
 
