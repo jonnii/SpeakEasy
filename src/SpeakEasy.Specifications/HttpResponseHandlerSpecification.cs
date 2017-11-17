@@ -16,7 +16,7 @@ namespace SpeakEasy.Specifications
             {
                 deserializer = An<ISerializer>();
 
-                The<IHttpResponse>().WhenToldTo(r => r.Deserializer).Return(deserializer);
+                The<IHttpResponseWithBody>().WhenToldTo(r => r.Deserializer).Return(deserializer);
             };
 
             Because of = () =>
@@ -31,7 +31,7 @@ namespace SpeakEasy.Specifications
             static byte[] bytes;
 
             Establish context = () =>
-                The<IHttpResponse>().WhenToldTo(r => r.Body).Return(new MemoryStream(Encoding.UTF8.GetBytes("abcd")));
+                The<IHttpResponseWithBody>().WhenToldTo(r => r.Body).Return(new MemoryStream(Encoding.UTF8.GetBytes("abcd")));
 
             Because of = () =>
                 bytes = Subject.AsByteArray().Await();

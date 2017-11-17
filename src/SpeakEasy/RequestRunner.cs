@@ -115,16 +115,16 @@ namespace SpeakEasy
 
             var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
 
-            var readResponseStream = new MemoryStream();
+            //var readResponseStream = new MemoryStream();
             var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-            readResponseStream.Position = 0;
+            //await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            //readResponseStream.Position = 0;
 
             return CreateHttpResponse(
                 httpRequest,
                 httpResponse,
-                readResponseStream);
+                responseStream);
         }
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
