@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;

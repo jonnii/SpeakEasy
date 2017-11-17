@@ -1,5 +1,6 @@
 using System;
 using Machine.Specifications;
+using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;
