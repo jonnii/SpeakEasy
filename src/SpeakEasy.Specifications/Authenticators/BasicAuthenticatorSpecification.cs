@@ -4,11 +4,15 @@ using SpeakEasy.Authenticators;
 
 namespace SpeakEasy.Specifications.Authenticators
 {
-    public class BasicAuthenticatorSpecification
+    [Subject(typeof(BasicAuthenticator))]
+    class BasicAuthenticatorSpecification : WithFakes
     {
-        [Subject(typeof(BasicAuthenticator))]
-        public class when_authenticating : WithFakes
+        class when_authenticating
         {
+            static BasicAuthenticator authenticator;
+
+            static IHttpRequest request;
+
             Establish context = () =>
             {
                 request = An<IHttpRequest>();
@@ -20,10 +24,6 @@ namespace SpeakEasy.Specifications.Authenticators
 
             It should_add_authorization_header = () =>
                 request.WasToldTo(r => r.AddHeader("Authorization", Param<string>.Matches(p => p.StartsWith("Basic"))));
-
-            static BasicAuthenticator authenticator;
-
-            static IHttpRequest request;
         }
     }
 }

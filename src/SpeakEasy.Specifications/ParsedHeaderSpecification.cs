@@ -4,11 +4,15 @@ using Machine.Specifications;
 
 namespace SpeakEasy.Specifications
 {
-    public class ParsedHeaderSpecification
+    [Subject(typeof(ParsedHeaderValue))]
+    class ParsedHeaderSpecification
     {
-        [Subject(typeof(ParsedHeaderValue))]
-        public class when_getting_unknown_parameter
+        class when_getting_unknown_parameter
         {
+            static ParsedHeaderValue headerValue;
+
+            static Exception exception;
+
             Establish context = () =>
                 headerValue = new ParsedHeaderValue(new Dictionary<string, ParsedHeaderParameter[]> { { "parameter", new[] { new ParsedHeaderParameter("name", "value") } } });
 
@@ -17,10 +21,6 @@ namespace SpeakEasy.Specifications
 
             It should_throw_exception = () =>
                 exception.ShouldBeOfExactType<ArgumentException>();
-
-            static ParsedHeaderValue headerValue;
-
-            static Exception exception;
         }
     }
 }

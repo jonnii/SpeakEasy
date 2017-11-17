@@ -14,6 +14,8 @@ namespace SpeakEasy.Serializers
 
         private readonly int serializationBufferSize;
 
+        private readonly Task<bool> okTask = Task.FromResult(true);
+
         public DefaultJsonSerializer()
             : this(new JsonSerializer())
         {
@@ -50,7 +52,7 @@ namespace SpeakEasy.Serializers
                 }
             }
 
-            return Task.FromResult(true);
+            return okTask;
         }
 
         public T Deserialize<T>(Stream body)

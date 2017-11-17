@@ -3,52 +3,47 @@ using SpeakEasy.ArrayFormatters;
 
 namespace SpeakEasy.Specifications
 {
-    public class ResourceSpecification
+    [Subject(typeof(Resource))]
+    class ResourceSpecification
     {
-        [Subject(typeof(Resource))]
-        public class when_creating_simple_resource
+        static Resource root;
+
+        static Resource appended;
+
+        class when_creating_simple_resource
         {
             Establish context = () =>
-                resource = new Resource("company");
+                root = new Resource("company");
 
             It should_create_resource_with_no_parameters = () =>
-                resource.NumSegments.ShouldEqual(0);
-
-            static Resource resource;
+                root.NumSegments.ShouldEqual(0);
         }
 
-        [Subject(typeof(Resource))]
-        public class when_creating_with_trailing_slash
+        class when_creating_with_trailing_slash
         {
             Establish context = () =>
-                resource = new Resource("http://example.com/");
+                root = new Resource("http://example.com/");
 
             It should_trim_leading_slash = () =>
-                resource.Path.ShouldEqual("http://example.com");
-
-            static Resource resource;
+                root.Path.ShouldEqual("http://example.com");
         }
 
-        [Subject(typeof(Resource))]
-        public class when_adding_parameters
+        class when_adding_parameters
         {
             Establish context = () =>
-                resource = new Resource("company");
+                root = new Resource("company");
 
             Because of = () =>
-                resource.AddParameter("filter", 5);
+                root.AddParameter("filter", 5);
 
             It should_have_parameters = () =>
-                resource.HasParameters.ShouldBeTrue();
+                root.HasParameters.ShouldBeTrue();
 
             It should_have_parameter = () =>
-                resource.HasParameter("filter");
-
-            static Resource resource;
+                root.HasParameter("filter");
         }
 
-        [Subject(typeof(Resource))]
-        public class when_appending_resources
+        class when_appending_resources
         {
             Establish context = () =>
                 root = new Resource("http://example.com");
@@ -58,14 +53,9 @@ namespace SpeakEasy.Specifications
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
-
-            static Resource root;
-
-            static Resource appended;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_appending_resources_with_trailing_slash
+        class when_appending_resources_with_trailing_slash
         {
             Establish context = () =>
                 root = new Resource("http://example.com/");
@@ -75,14 +65,9 @@ namespace SpeakEasy.Specifications
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
-
-            static Resource root;
-
-            static Resource appended;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_appending_resources_with_leading_slash
+        class when_appending_resources_with_leading_slash
         {
             Establish context = () =>
                 root = new Resource("http://example.com");
@@ -90,16 +75,11 @@ namespace SpeakEasy.Specifications
             Because of = () =>
                 appended = root.Append(new Resource("/api/companies"));
 
-            It should_create_appended_resource = () =>
+            It should_create_appended_resource = () =>  
                 appended.Path.ShouldEqual("http://example.com/api/companies");
-
-            static Resource root;
-
-            static Resource appended;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_appending_resources_with_leading_and_trailing_slashes
+        class when_appending_resources_with_leading_and_trailing_slashes
         {
             Establish context = () =>
                 root = new Resource("http://example.com/");
@@ -109,91 +89,72 @@ namespace SpeakEasy.Specifications
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
-
-            static Resource root;
-
-            static Resource appended;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_creating_resource_with_parameters : with_resource_with_parameter
+        class when_creating_resource_with_parameters
         {
+            Establish context = () =>
+                root = new Resource("company/:name");
+
             It should_create_resource_with_parameter = () =>
-                resource.HasSegment("name");
+                root.HasSegment("name");
 
             It should_have_one_parameter = () =>
-                resource.NumSegments.ShouldEqual(1);
+                root.NumSegments.ShouldEqual(1);
         }
 
-        [Subject(typeof(Resource))]
-        public class when_getting_encoded_parameters
+        class when_getting_encoded_parameters
         {
+            static string encoded;
+
             Establish context = () =>
             {
-                resource = new Resource("companies");
-                resource.AddParameter("name", "jim");
-                resource.AddParameter("age", "26");
+                root = new Resource("companies");
+                root.AddParameter("name", "jim");
+                root.AddParameter("age", "26");
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim&age=26");
-
-            static Resource resource;
-
-            static string encoded;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_getting_encoded_parameters_with_null_parameters
+        class when_getting_encoded_parameters_with_null_parameters
         {
+            static string encoded;
+
             Establish context = () =>
             {
-                resource = new Resource("companies");
-                resource.AddParameter("name", "jim");
-                resource.AddParameter("age", null);
+                root = new Resource("companies");
+                root.AddParameter("name", "jim");
+                root.AddParameter("age", null);
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim");
-
-            static Resource resource;
-
-            static string encoded;
         }
 
-        [Subject(typeof(Resource))]
-        public class when_getting_encoded_parameters_with_all_null_parameters
+        class when_getting_encoded_parameters_with_all_null_parameters
         {
+            static string encoded;
+
             Establish context = () =>
             {
-                resource = new Resource("companies");
-                resource.AddParameter("name", null);
-                resource.AddParameter("age", null);
+                root = new Resource("companies");
+                root.AddParameter("name", null);
+                root.AddParameter("age", null);
             };
 
             Because of = () =>
-                encoded = resource.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
 
             It should_encode_parameters = () =>
                 encoded.ShouldBeEmpty();
-
-            static Resource resource;
-
-            static string encoded;
-        }
-
-        public class with_resource_with_parameter
-        {
-            Establish context = () =>
-                resource = new Resource("company/:name");
-
-            protected static Resource resource;
         }
     }
 }

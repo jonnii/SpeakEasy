@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Machine.Specifications;
 using SpeakEasy.Requests;
 
@@ -6,28 +7,18 @@ namespace SpeakEasy.Specifications.Requests
     [Subject(typeof(PatchRequest))]
     class PatchRequestSpecification
     {
-        //public class when_building_web_request : with_patch_request
-        //{
-        //    It should_have_patch_method = () =>
-        //        request.HttpMethod.ShouldEqual("PATCH");
+        class with_patch_request
+        {
+            static PatchRequest request;
 
-        //    static WebRequest webRequest;
-        //}
+            Establish context = () =>
+                request = new PatchRequest(new Resource("http://example.com/companies"));
 
-        //public class with_serializer : WithFakes
-        //{
-        //    Establish context = () =>
-        //        serializer = An<ITransmissionSettings>();
-
-        //    protected static ITransmissionSettings serializer;
-        //}
-
-        //public class with_patch_request : with_serializer
-        //{
-        //    Establish context = () =>
-        //        request = new PatchRequest(new Resource("http://example.com/companies"));
-
-        //    internal static PatchRequest request;
-        //}
+            class when_building_web_request
+            {
+                It should_have_patch_method = () =>
+                    request.HttpMethod.ShouldEqual(new HttpMethod("PATCH"));
+            }
+        }
     }
 }

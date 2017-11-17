@@ -1,26 +1,24 @@
-﻿using Machine.Fakes;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications.Requests
 {
-    public class PostRequestSpecification
+    [Subject(typeof(PostRequest))]
+    class PostRequestSpecification
     {
-        [Subject(typeof(PostRequest))]
-        public class in_general_without_body
+        static PostRequest request;
+
+        class in_general_without_body
         {
             Establish context = () =>
                 request = new PostRequest(new Resource("http://example.com/companies"));
 
             It should_have_null_body = () =>
                 request.Body.ShouldBeOfExactType<PostRequestBody>();
-
-            static PostRequest request;
         }
 
-        [Subject(typeof(PostRequest))]
-        public class when_building_request_url_with_object_body
+        class when_building_request_url_with_object_body
         {
             Establish context = () =>
             {
@@ -32,12 +30,9 @@ namespace SpeakEasy.Specifications.Requests
 
             It should_generate_query_params = () =>
                 request.BuildRequestUrl(new CommaSeparatedArrayFormatter()).ShouldEqual("http://example.com/companies?makemoney=allday");
-
-            static PostRequest request;
         }
 
-        [Subject(typeof(PostRequest))]
-        public class when_building_request_url_with_post_request_body
+        class when_building_request_url_with_post_request_body
         {
             Establish context = () =>
             {
@@ -49,19 +44,6 @@ namespace SpeakEasy.Specifications.Requests
 
             It should_not_generate_query_params = () =>
                 request.BuildRequestUrl(new CommaSeparatedArrayFormatter()).ShouldEqual("http://example.com/companies");
-
-            static PostRequest request;
-        }
-
-        public class with_transmission : WithFakes
-        {
-            Establish context = () =>
-            {
-                transmissionSettings = An<ITransmissionSettings>();
-                transmissionSettings.WhenToldTo(r => r.DefaultSerializerContentType).Return("application/json");
-            };
-
-            protected static ITransmissionSettings transmissionSettings;
         }
     }
 }

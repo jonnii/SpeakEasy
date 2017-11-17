@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Machine.Specifications;
 using SpeakEasy.Requests;
 
@@ -6,28 +7,18 @@ namespace SpeakEasy.Specifications.Requests
     [Subject(typeof(OptionsRequest))]
     class OptionsRequestSpecification
     {
-        //public class when_building_web_request : with_options_request
-        //{
-        //    It should_have_options_method = () =>
-        //        request.HttpMethod.ShouldEqual("OPTIONS");
+        class with_options_request
+        {
+            static OptionsRequest request;
 
-        //    static WebRequest webRequest;
-        //}
+            Establish context = () =>
+                request = new OptionsRequest(new Resource("http://example.com/companies"));
 
-        //public class with_serializer : WithFakes
-        //{
-        //    Establish context = () =>
-        //        transmissionSettings = An<ITransmissionSettings>();
-
-        //    protected static ITransmissionSettings transmissionSettings;
-        //}
-
-        //public class with_options_request : with_serializer
-        //{
-        //    Establish context = () =>
-        //        request = new OptionsRequest(new Resource("http://example.com/companies"));
-
-        //    internal static OptionsRequest request;
-        //}
+            class when_building_web_request
+            {
+                It should_have_options_method = () =>
+                    request.HttpMethod.ShouldEqual(HttpMethod.Options);
+            }
+        }
     }
 }
