@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using SpeakEasy.IntegrationTests.Controllers;
-using SpeakEasy.Serializers;
 using Xunit;
 
 namespace SpeakEasy.IntegrationTests
@@ -25,7 +24,6 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsType<DefaultJsonSerializer>(response.Deserializer);
         }
 
         [Fact]
@@ -53,7 +51,7 @@ namespace SpeakEasy.IntegrationTests
                 .On(HttpStatusCode.OK)
                 .As(r => new List<Product> { new Product { Name = "Vanilla Cake" } });
 
-            Assert.Contains("Vanilla Cake", products.Select( p => p.Name));
+            Assert.Contains("Vanilla Cake", products.Select(p => p.Name));
         }
 
         [Fact]
@@ -64,7 +62,7 @@ namespace SpeakEasy.IntegrationTests
                 .OnOk()
                 .As<List<Product>>();
 
-            Assert.Contains("Chocolate Cake", products.Select( p => p.Name));
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
         }
 
         [Fact]
@@ -234,14 +232,14 @@ namespace SpeakEasy.IntegrationTests
         [Fact]
         public async void ShouldDeserializeCollectionAsObject()
         {
-           var obj = await client
-               .Get("products")
-               .On(HttpStatusCode.OK)
-               .As(typeof(List<Product>));
+            var obj = await client
+                .Get("products")
+                .On(HttpStatusCode.OK)
+                .As(typeof(List<Product>));
 
-           var products = (List<Product>)obj;
+            var products = (List<Product>)obj;
 
-           Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
+            Assert.Contains("Chocolate Cake", products.Select(p => p.Name));
         }
 
         [Fact]

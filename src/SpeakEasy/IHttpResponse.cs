@@ -29,16 +29,6 @@ namespace SpeakEasy
         IHttpResponseState State { get; }
 
         /// <summary>
-        /// The body of the response
-        /// </summary>
-        //Stream Body { get; }
-
-        /// <summary>
-        /// The deserializer that will be used to deserialize the response
-        /// </summary>
-        ISerializer Deserializer { get; }
-
-        /// <summary>
         /// Executes the given action when the response status code matches the supplied status code.
         /// </summary>
         /// <param name="code">The http status code we're expecting</param>
