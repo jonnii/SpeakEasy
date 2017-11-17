@@ -18,9 +18,6 @@ namespace SpeakEasy.Specifications
             request = An<IHttpRequest>();
             request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IArrayFormatter>())).Return("http://example.com");
             request.WhenToldTo(r => r.HttpMethod).Return(HttpMethod.Get);
-
-            The<ICookieStrategy>().WhenToldTo(s => s.Get(Param.IsAny<IHttpRequest>()))
-                    .Return(new CookieContainer());
         };
 
         class when_building_web_request_with_get_request

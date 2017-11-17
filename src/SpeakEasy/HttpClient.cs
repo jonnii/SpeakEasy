@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using SpeakEasy.Requests;
@@ -39,8 +40,8 @@ namespace SpeakEasy
             requestRunner = new RequestRunner(
                 new TransmissionSettings(settings.Serializers),
                 settings.Authenticator,
-                settings.CookieStrategy,
-                settings.ArrayFormatter);
+                settings.ArrayFormatter,
+                new CookieContainer());
 
             merger = new ResourceMerger(settings.NamingConvention);
 

@@ -23,7 +23,6 @@ namespace SpeakEasy
             InstrumentationSink = new NullInstrumentationSink();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
-            CookieStrategy = new TransientCookieStrategy();
             ArrayFormatter = new MultipleValuesArrayFormatter();
 
             Serializers.Add(new DefaultJsonSerializer());
@@ -50,11 +49,6 @@ namespace SpeakEasy
         public IUserAgent UserAgent { get; set; }
 
         /// <summary>
-        /// The cooking container will be reused on all subsequent requests
-        /// </summary>
-        public ICookieStrategy CookieStrategy { get; set; }
-
-        /// <summary>
         /// The array formatter that will be used to format query string array paramters
         /// </summary>
         public IArrayFormatter ArrayFormatter { get; set; }
@@ -77,7 +71,7 @@ namespace SpeakEasy
         /// <summary>
         /// Indicates whether or not the http client settings are valid
         /// </summary>
-        public bool IsValid => Serializers.Any() && CookieStrategy != null && ArrayFormatter != null;
+        public bool IsValid => Serializers.Any() && ArrayFormatter != null;
 
         /// <summary>
         /// Configures the give serializer
@@ -108,11 +102,6 @@ namespace SpeakEasy
             if (!Serializers.Any())
             {
                 throw new InvalidOperationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
-            }
-
-            if (CookieStrategy == null)
-            {
-                throw new InvalidOperationException("A cookie strategy is required.");
             }
 
             throw new InvalidOperationException("The http client settings are not valid.");
