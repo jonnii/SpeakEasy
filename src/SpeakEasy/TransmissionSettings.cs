@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -23,9 +25,9 @@ namespace SpeakEasy
             get { return serializers.SelectMany(d => d.SupportedMediaTypes).Distinct(); }
         }
 
-        public void Serialize<T>(Stream stream, T body)
+        public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
-            DefaultSerializer.Serialize(stream, body);
+            return DefaultSerializer.SerializeAsync(stream, body, cancellationToken);
         }
 
         public ISerializer FindSerializer(string contentType)

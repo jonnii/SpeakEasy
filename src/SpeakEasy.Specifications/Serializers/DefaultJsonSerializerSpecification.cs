@@ -13,7 +13,7 @@ namespace SpeakEasy.Specifications.Serializers
 
         Establish context = () =>
             stream = new MemoryStream();
-
+   
 
         // [Subject(typeof(DefaultJsonSerializer))]
         // public class when_deserializing_dynamic : WithSubject<DefaultJsonSerializer>
@@ -36,7 +36,7 @@ namespace SpeakEasy.Specifications.Serializers
         {
             Establish context = () =>
             {
-                Subject.Serialize(stream, new[] { "a", "b", "c" });
+                Subject.SerializeAsync(stream, new[] { "a", "b", "c" }).Await();
                 stream.Position = 0;
             };
 
@@ -53,10 +53,10 @@ namespace SpeakEasy.Specifications.Serializers
         {
             Establish context = () =>
             {
-                Subject.Serialize(stream, new Person { Name = "fred", Age = 30 });
+                Subject.SerializeAsync(stream, new Person { Name = "fred", Age = 30 }).Await();
                 stream.Position = 0;
             };
-
+            
             Because of = () =>
                 deserialized = Subject.Deserialize<Person>(stream);
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SpeakEasy.Serializers
 {
@@ -17,7 +19,7 @@ namespace SpeakEasy.Serializers
 
         public IEnumerable<string> SupportedMediaTypes => new string[0];
 
-        public void Serialize<T>(Stream stream, T body)
+        public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }

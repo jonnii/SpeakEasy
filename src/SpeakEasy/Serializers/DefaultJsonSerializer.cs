@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace SpeakEasy.Serializers
@@ -18,7 +20,7 @@ namespace SpeakEasy.Serializers
 
         public string MediaType => SupportedMediaTypes.First();
 
-        public void Serialize<T>(Stream stream, T body)
+        public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
             var serializer = new JsonSerializer();
 
@@ -29,6 +31,8 @@ namespace SpeakEasy.Serializers
                     serializer.Serialize(jsonTextWriter, body);
                 }
             }
+
+            return Task.FromResult(true);
         }
 
         public T Deserialize<T>(Stream body)
