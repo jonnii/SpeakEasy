@@ -1,4 +1,3 @@
-using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
