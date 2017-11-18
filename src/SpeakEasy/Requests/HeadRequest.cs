@@ -1,7 +1,6 @@
 using System.Net.Http;
-using SpeakEasy.Requests;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
     public sealed class HeadRequest : GetLikeRequest
     {

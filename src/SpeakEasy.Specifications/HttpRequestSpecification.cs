@@ -1,5 +1,6 @@
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Requests;
 using SpeakEasy.Specifications.Requests;
 
 namespace SpeakEasy.Specifications

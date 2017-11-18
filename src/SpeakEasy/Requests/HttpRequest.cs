@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
     public abstract class HttpRequest : IHttpRequest
     {

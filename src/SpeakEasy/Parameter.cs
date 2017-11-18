@@ -24,11 +24,9 @@ namespace SpeakEasy
                 throw new NotSupportedException($"Could not convert the parameter {Name} to a query string because it did not have a value");
             }
 
-            var enumerable = Value as Array;
-
-            if (enumerable != null)
+            if (Value is Array array)
             {
-                return arrayFormatter.FormatParameter(Name, enumerable, ToQueryStringValue);
+                return arrayFormatter.FormatParameter(Name, array, ToQueryStringValue);
             }
 
             var value = ToQueryStringValue(Value);
@@ -38,9 +36,9 @@ namespace SpeakEasy
 
         private string ToQueryStringValue(object value)
         {
-            if (value is DateTime)
+            if (value is DateTime time)
             {
-                return ((DateTime)value).ToString("o", CultureInfo.InvariantCulture);
+                return time.ToString("o", CultureInfo.InvariantCulture);
             }
 
             var raw = value.ToString();
