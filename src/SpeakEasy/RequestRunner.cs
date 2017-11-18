@@ -11,7 +11,7 @@ namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
     {
-        private const int DefaultBufferSize = 0x100;
+        private static readonly Cookie[] NoCookies = new Cookie[0];
 
         private readonly ITransmissionSettings transmissionSettings;
 
@@ -22,6 +22,7 @@ namespace SpeakEasy
         private readonly System.Net.Http.HttpClient client;
 
         private readonly CookieContainer cookieContainer;
+
         private readonly IUserAgent userAgent;
 
         // private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
@@ -60,11 +61,6 @@ namespace SpeakEasy
             // handler.Method = httpRequest.HttpMethod;
             // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
-            //if (httpRequest.HasUserAgent)
-            {
-                //handler.UserAgent = httpRequest.UserAgent.Name;
-            }
-
             // BuildWebRequestFrameworkSpecific(httpRequest, handler);
 
             // foreach (var header in httpRequest.Headers)
@@ -77,13 +73,13 @@ namespace SpeakEasy
             return httpClient;
         }
 
-        public async Task<IHttpResponse> RunAsync(IHttpRequest tt, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            authenticator.Authenticate(tt);
+            authenticator.Authenticate(request);
 
-            var serializedBody = tt.Body.Serialize(transmissionSettings, arrayFormatter);
+            var serializedBody = request.Body.Serialize(transmissionSettings, arrayFormatter);
 
-            var httpRequest = BuildHttpRequestMessage(tt);
+            var httpRequest = BuildHttpRequestMessage(request);
 
             if (serializedBody.HasContent)
             {
@@ -148,9 +144,7 @@ namespace SpeakEasy
         //     {
         //         webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
         //     }
-
         // }
-
 
         private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
         {
@@ -167,9 +161,7 @@ namespace SpeakEasy
                 // request.Headers[header.Name] = header.Value;
             }
         }
-
-        private static readonly Cookie[] NoCookies = new Cookie[0];
-
+        
         public IHttpResponse CreateHttpResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse, Stream body)
         {
             if (httpRequest == null)
