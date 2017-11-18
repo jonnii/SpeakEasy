@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy.Requests
 {
-    public abstract class HttpRequest : IHttpRequest
+    internal abstract class HttpRequest : IHttpRequest
     {
         private readonly List<Header> headers = new List<Header>();
 

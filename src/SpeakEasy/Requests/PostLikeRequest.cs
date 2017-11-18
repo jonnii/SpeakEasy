@@ -1,6 +1,6 @@
 namespace SpeakEasy.Requests
 {
-    public abstract class PostLikeRequest : HttpRequest
+    internal abstract class PostLikeRequest : HttpRequest
     {
         protected PostLikeRequest(Resource resource)
             : base(resource, new PostRequestBody(resource))

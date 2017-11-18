@@ -2,7 +2,7 @@ using System.Net.Http;
 
 namespace SpeakEasy.Requests
 {
-    public sealed class DeleteRequest : GetLikeRequest
+    internal sealed class DeleteRequest : GetLikeRequest
     {
         public DeleteRequest(Resource resource)
             : base(resource)
