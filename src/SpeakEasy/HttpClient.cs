@@ -42,7 +42,8 @@ namespace SpeakEasy
                 new TransmissionSettings(settings.Serializers),
                 settings.Authenticator,
                 settings.ArrayFormatter,
-                new CookieContainer());
+                new CookieContainer(),
+                settings.UserAgent);
 
             merger = new ResourceMerger(settings.NamingConvention);
 
@@ -184,8 +185,6 @@ namespace SpeakEasy
         public async Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest
         {
-            request.UserAgent = UserAgent;
-
             OnBeforeRequest(request);
 
             var watch = Stopwatch.StartNew();

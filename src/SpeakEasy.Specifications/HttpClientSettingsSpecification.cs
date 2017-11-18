@@ -29,7 +29,7 @@ namespace SpeakEasy.Specifications
                     settings.NamingConvention.ShouldBeOfExactType<DefaultNamingConvention>();
 
                 It should_have_default_user_agent = () =>
-                    settings.UserAgent.Name.ShouldEqual("SpeakEasy");
+                    settings.UserAgent.Name.ShouldStartWith("SpeakEasy/");
 
                 It should_have_default_array_formatter = () =>
                     settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();

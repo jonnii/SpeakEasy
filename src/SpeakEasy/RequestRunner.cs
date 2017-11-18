@@ -22,6 +22,7 @@ namespace SpeakEasy
         private readonly System.Net.Http.HttpClient client;
 
         private readonly CookieContainer cookieContainer;
+        private readonly IUserAgent userAgent;
 
         // private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
         //     new Dictionary<string, Action<HttpWebRequest, string>>
@@ -33,12 +34,14 @@ namespace SpeakEasy
             ITransmissionSettings transmissionSettings,
             IAuthenticator authenticator,
             IArrayFormatter arrayFormatter,
-            CookieContainer cookieContainer)
+            CookieContainer cookieContainer,
+            IUserAgent userAgent)
         {
             this.transmissionSettings = transmissionSettings;
             this.authenticator = authenticator;
             this.arrayFormatter = arrayFormatter;
             this.cookieContainer = cookieContainer;
+            this.userAgent = userAgent;
 
             client = BuildClient();
         }
@@ -49,7 +52,7 @@ namespace SpeakEasy
             {
                 AllowAutoRedirect = false,
                 UseDefaultCredentials = false,
-                CookieContainer = cookieContainer
+                CookieContainer = cookieContainer,
                 //Credentials = httpRequest.Credentials,
             };
 
@@ -69,7 +72,9 @@ namespace SpeakEasy
             //     ApplyHeaderToRequest(header, handler);
             // }
 
-            return new System.Net.Http.HttpClient(handler);
+            var httpClient = new System.Net.Http.HttpClient(handler);
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent.Name);
+            return httpClient;
         }
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest tt, CancellationToken cancellationToken = default(CancellationToken))

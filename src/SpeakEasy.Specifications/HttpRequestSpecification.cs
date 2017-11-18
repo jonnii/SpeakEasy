@@ -16,18 +16,6 @@ namespace SpeakEasy.Specifications
         {
             It should_allow_auto_redirects = () =>
                 request.AllowAutoRedirect.ShouldBeTrue();
-
-            It should_not_have_custom_user_agent = () =>
-                request.HasUserAgent.ShouldBeFalse();
-        }
-
-        class when_custom_user_agent_defined
-        {
-            Establish context = () =>
-                request.UserAgent = new UserAgent("awesome agent!");
-
-            It should_have_custom_user_agent = () =>
-                request.HasUserAgent.ShouldBeTrue();
         }
 
         class when_adding_header

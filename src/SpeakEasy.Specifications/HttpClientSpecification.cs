@@ -68,18 +68,18 @@ namespace SpeakEasy.Specifications
                     afterCalled.ShouldBeTrue();
             }
 
-            class when_getting_collection_resource_with_custom_user_agent
-            {
-                Establish context = () =>
-                    The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
+            //class when_getting_collection_resource_with_custom_user_agent
+            //{
+            //    Establish context = () =>
+            //        The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
 
-                Because of = () =>
-                    Subject.Get("companies").Await();
+            //    Because of = () =>
+            //        Subject.Get("companies").Await();
 
-                It should_send_request = () =>
-                    The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
-            }
+            //    It should_send_request = () =>
+            //        The<IRequestRunner>().WasToldTo(r =>
+            //            r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
+            //}
 
             class when_getting_specific_resource
             {

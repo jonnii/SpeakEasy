@@ -21,15 +21,11 @@ namespace SpeakEasy
 
         public IRequestBody Body { get; }
 
-        public IUserAgent UserAgent { get; set; }
-
         public IWebProxy Proxy { get; set; }
 
         public X509CertificateCollection ClientCertificates { get; set; }
 
         public int? MaximumAutomaticRedirections { get; set; }
-
-        public bool HasUserAgent => UserAgent != null;
 
         public abstract HttpMethod HttpMethod { get; }
 

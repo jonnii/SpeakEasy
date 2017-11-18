@@ -26,11 +26,6 @@ namespace SpeakEasy
         IRequestBody Body { get; }
 
         /// <summary>
-        /// The user agent of this http request
-        /// </summary>
-        IUserAgent UserAgent { get; set; }
-
-        /// <summary>
         /// The web proxy to use when making this http request
         /// </summary>
         // IWebProxy Proxy { get; set; }
@@ -44,11 +39,6 @@ namespace SpeakEasy
         /// The maximum number of automatic redirections when allow auto redirect it set to true
         /// </summary>
         int? MaximumAutomaticRedirections { get; set; }
-
-        /// <summary>
-        /// Indicates that this http request has a user agent
-        /// </summary>
-        bool HasUserAgent { get; }
 
         /// <summary>
         /// The number of headers on this http request

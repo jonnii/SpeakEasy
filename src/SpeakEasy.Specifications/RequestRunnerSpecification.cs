@@ -14,10 +14,23 @@ namespace SpeakEasy.Specifications
 
         Establish context = () =>
         {
+            The<IUserAgent>().WhenToldTo(u => u.Name).Return("SpeakEasy/1.0.0");
+
             request = An<IHttpRequest>();
             request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IArrayFormatter>())).Return("http://example.com");
             request.WhenToldTo(r => r.HttpMethod).Return(HttpMethod.Get);
         };
+
+        class when
+        {
+            static System.Net.Http.HttpClient client;
+
+            Because of = () =>
+                client = Subject.BuildClient();
+
+            It should_have_user_agent = () =>
+                client.DefaultRequestHeaders.UserAgent.ToString().ShouldEqual("SpeakEasy/1.0.0");
+        }
 
         class when_building_web_request_with_get_request
         {
