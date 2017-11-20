@@ -57,6 +57,8 @@ namespace SpeakEasy
                 //Credentials = httpRequest.Credentials,
             };
 
+            authenticator.Authenticate(handler);
+
             // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
             // handler.Method = httpRequest.HttpMethod;
             // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
@@ -69,14 +71,16 @@ namespace SpeakEasy
             // }
 
             var httpClient = new System.Net.Http.HttpClient(handler);
+
+            authenticator.Authenticate(httpClient);
+
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent.Name);
+
             return httpClient;
         }
 
         public async Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            authenticator.Authenticate(request);
-
             var serializedBody = request.Body.Serialize(transmissionSettings, arrayFormatter);
 
             var httpRequest = BuildHttpRequestMessage(request);
@@ -161,7 +165,7 @@ namespace SpeakEasy
                 // request.Headers[header.Name] = header.Value;
             }
         }
-        
+
         public IHttpResponse CreateHttpResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse, Stream body)
         {
             if (httpRequest == null)

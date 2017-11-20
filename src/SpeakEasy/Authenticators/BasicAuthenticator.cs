@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace SpeakEasy.Authenticators
@@ -15,12 +17,15 @@ namespace SpeakEasy.Authenticators
             this.password = password;
         }
 
-        public void Authenticate(IHttpRequest httpRequest)
+        public void Authenticate(HttpClientHandler httpClientHandler)
         {
-            var token = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Concat(username, ":", password)));
-            var authorizationHeader = string.Concat("Basic ", token);
+        }
 
-            httpRequest.AddHeader("Authorization", authorizationHeader);
+        public void Authenticate(System.Net.Http.HttpClient httpClient)
+        {
+            var headerValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Concat(username, ":", password)));
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", headerValue);
         }
     }
 }
