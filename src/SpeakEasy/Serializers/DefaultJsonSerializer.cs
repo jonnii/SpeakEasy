@@ -32,7 +32,7 @@ namespace SpeakEasy.Serializers
             this.serializationBufferSize = serializationBufferSize;
         }
 
-        public IEnumerable<string> SupportedMediaTypes => new[]
+        public virtual IEnumerable<string> SupportedMediaTypes => new[]
         {
             "application/json",
             "text/json",
@@ -40,9 +40,9 @@ namespace SpeakEasy.Serializers
             "text/javascript"
         };
 
-        public string MediaType => SupportedMediaTypes.First();
+        public virtual string MediaType => SupportedMediaTypes.First();
 
-        public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
+        public virtual Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var streamWriter = new StreamWriter(stream, new System.Text.UTF8Encoding(false), serializationBufferSize, true))
             {
@@ -55,7 +55,7 @@ namespace SpeakEasy.Serializers
             return okTask;
         }
 
-        public T Deserialize<T>(Stream body)
+        public virtual T Deserialize<T>(Stream body)
         {
             using (var streamReader = new StreamReader(body))
             {
@@ -66,7 +66,7 @@ namespace SpeakEasy.Serializers
             }
         }
 
-        public object Deserialize(Stream body, Type type)
+        public virtual object Deserialize(Stream body, Type type)
         {
             using (var streamReader = new StreamReader(body))
             {
