@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy
 {
-    public class HttpResponseHandler : IHttpResponseHandler
+    internal class HttpResponseHandler : IHttpResponseHandler
     {
-        private readonly IHttpResponse response;
+        private readonly IHttpResponseWithBody response;
 
-        public HttpResponseHandler(IHttpResponse response)
+        public HttpResponseHandler(IHttpResponseWithBody response)
         {
             this.response = response;
         }
@@ -42,11 +42,6 @@ namespace SpeakEasy
         public async Task<byte[]> AsByteArray(int bufferSize)
         {
             var body = response.Body;
-
-            if (body is MemoryStream memoryStream)
-            {
-                return memoryStream.ToArray();
-            }
 
             using (var copy = new MemoryStream())
             {

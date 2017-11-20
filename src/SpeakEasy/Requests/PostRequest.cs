@@ -1,8 +1,8 @@
 using System.Net.Http;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
-    public sealed class PostRequest : PostLikeRequest
+    internal sealed class PostRequest : PostLikeRequest
     {
         public PostRequest(Resource resource)
             : base(resource)

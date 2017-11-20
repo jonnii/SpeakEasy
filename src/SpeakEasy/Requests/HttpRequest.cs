@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
-    public abstract class HttpRequest : IHttpRequest
+    internal abstract class HttpRequest : IHttpRequest
     {
         private readonly List<Header> headers = new List<Header>();
 
@@ -21,15 +21,11 @@ namespace SpeakEasy
 
         public IRequestBody Body { get; }
 
-        public IUserAgent UserAgent { get; set; }
-
         public IWebProxy Proxy { get; set; }
 
         public X509CertificateCollection ClientCertificates { get; set; }
 
         public int? MaximumAutomaticRedirections { get; set; }
-
-        public bool HasUserAgent => UserAgent != null;
 
         public abstract HttpMethod HttpMethod { get; }
 

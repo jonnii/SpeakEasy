@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace SpeakEasy
 {
-    public class ResourceMerger : IResourceMerger
+    internal class ResourceMerger : IResourceMerger
     {
         public ResourceMerger(INamingConvention namingConvention)
         {

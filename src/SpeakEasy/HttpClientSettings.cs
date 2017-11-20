@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
-using SpeakEasy.Loggers;
+using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -19,10 +20,9 @@ namespace SpeakEasy
         {
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
-            Logger = new NullLogger();
+            InstrumentationSink = new NullInstrumentationSink();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
-            CookieStrategy = new TransientCookieStrategy();
             ArrayFormatter = new MultipleValuesArrayFormatter();
 
             Serializers.Add(new DefaultJsonSerializer());
@@ -31,7 +31,7 @@ namespace SpeakEasy
         /// <summary>
         /// The logging mechanism the client will use
         /// </summary>
-        public ISpeakEasyLogger Logger { get; set; }
+        public IInstrumentationSink InstrumentationSink { get; set; }
 
         /// <summary>
         /// Any custom authentication required to access the http api
@@ -47,11 +47,6 @@ namespace SpeakEasy
         /// The user agent the web client will send when making http requests
         /// </summary>
         public IUserAgent UserAgent { get; set; }
-
-        /// <summary>
-        /// The cooking container will be reused on all subsequent requests
-        /// </summary>
-        public ICookieStrategy CookieStrategy { get; set; }
 
         /// <summary>
         /// The array formatter that will be used to format query string array paramters
@@ -76,7 +71,7 @@ namespace SpeakEasy
         /// <summary>
         /// Indicates whether or not the http client settings are valid
         /// </summary>
-        public bool IsValid => Serializers.Any() && CookieStrategy != null && ArrayFormatter != null;
+        public bool IsValid => Serializers.Any() && ArrayFormatter != null;
 
         /// <summary>
         /// Configures the give serializer
@@ -106,15 +101,10 @@ namespace SpeakEasy
 
             if (!Serializers.Any())
             {
-                throw new ConfigurationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
+                throw new InvalidOperationException("There are no configured serializers, you may have forgotten to add a serializer to the settings.");
             }
 
-            if (CookieStrategy == null)
-            {
-                throw new ConfigurationException("A cookie strategy is required.");
-            }
-
-            throw new ConfigurationException("The http client settings are not valid.");
+            throw new InvalidOperationException("The http client settings are not valid.");
         }
     }
 }

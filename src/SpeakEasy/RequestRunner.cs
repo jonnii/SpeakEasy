@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -9,15 +11,19 @@ namespace SpeakEasy
 {
     public class RequestRunner : IRequestRunner
     {
-        private const int DefaultBufferSize = 0x100;
+        private static readonly Cookie[] NoCookies = new Cookie[0];
 
         private readonly ITransmissionSettings transmissionSettings;
 
         private readonly IAuthenticator authenticator;
 
-        private readonly ICookieStrategy cookieStrategy;
-
         private readonly IArrayFormatter arrayFormatter;
+
+        private readonly System.Net.Http.HttpClient client;
+
+        private readonly CookieContainer cookieContainer;
+
+        private readonly IUserAgent userAgent;
 
         // private readonly Dictionary<string, Action<HttpWebRequest, string>> reservedHeaderApplicators =
         //     new Dictionary<string, Action<HttpWebRequest, string>>
@@ -28,22 +34,52 @@ namespace SpeakEasy
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
             IAuthenticator authenticator,
-            ICookieStrategy cookieStrategy,
-            IArrayFormatter arrayFormatter)
+            IArrayFormatter arrayFormatter,
+            CookieContainer cookieContainer,
+            IUserAgent userAgent)
         {
             this.transmissionSettings = transmissionSettings;
             this.authenticator = authenticator;
-            this.cookieStrategy = cookieStrategy;
             this.arrayFormatter = arrayFormatter;
+            this.cookieContainer = cookieContainer;
+            this.userAgent = userAgent;
+
+            client = BuildClient();
         }
 
-        public async Task<IHttpResponse> RunAsync(IHttpRequest httpRequest, CancellationToken cancellationToken = default(CancellationToken))
+        public System.Net.Http.HttpClient BuildClient()
         {
-            var webRequest = BuildClient(httpRequest);
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                UseDefaultCredentials = false,
+                CookieContainer = cookieContainer,
+                //Credentials = httpRequest.Credentials,
+            };
 
-            var serializedBody = httpRequest.Body.Serialize(transmissionSettings, arrayFormatter);
+            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            // handler.Method = httpRequest.HttpMethod;
+            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
-            var message = BuildHttpRequestMessage(httpRequest);
+            // BuildWebRequestFrameworkSpecific(httpRequest, handler);
+
+            // foreach (var header in httpRequest.Headers)
+            // {
+            //     ApplyHeaderToRequest(header, handler);
+            // }
+
+            var httpClient = new System.Net.Http.HttpClient(handler);
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent.Name);
+            return httpClient;
+        }
+
+        public async Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            authenticator.Authenticate(request);
+
+            var serializedBody = request.Body.Serialize(transmissionSettings, arrayFormatter);
+
+            var httpRequest = BuildHttpRequestMessage(request);
 
             if (serializedBody.HasContent)
             {
@@ -51,9 +87,9 @@ namespace SpeakEasy
                 await serializedBody.WriteToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
                 memoryStream.Position = 0;
 
-                message.Content = new StreamContent(memoryStream);
-                message.Content.Headers.ContentLength = memoryStream.Length;
-                message.Content.Headers.ContentType = new MediaTypeHeaderValue(serializedBody.ContentType);
+                httpRequest.Content = new StreamContent(memoryStream);
+                httpRequest.Content.Headers.ContentLength = memoryStream.Length;
+                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(serializedBody.ContentType);
             }
 
             //if (serializedBody.HasContent)
@@ -73,33 +109,13 @@ namespace SpeakEasy
             //    }
             //}
 
-            //var bufferSize = response.ContentLength > 0
-            //    ? response.ContentLength
-            //    : DefaultBufferSize;
+            var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+            var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-            var response = await webRequest.SendAsync(message, cancellationToken).ConfigureAwait(false);
-
-            var readResponseStream = new MemoryStream();
-            var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
-            await responseStream.CopyToAsync(readResponseStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-            readResponseStream.Position = 0;
-
-            return CreateHttpResponse(response, readResponseStream);
-
-            //using (var response = await GetResponseWrapper(webRequest).ConfigureAwait(false))
-            //{
-            //    using (var responseStream = response.GetResponseStream())
-            //    {
-
-            //        var readResponseStream = new MemoryStream();
-            //        await responseStream.CopyToAsync(readResponseStream, (int)bufferSize).ConfigureAwait(false);
-
-            //        readResponseStream.Position = 0;
-
-            //        return CreateHttpResponse(response, readResponseStream);
-            //    }
-            //}
+            return CreateHttpResponse(
+                httpRequest,
+                httpResponse,
+                responseStream);
         }
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
@@ -108,25 +124,6 @@ namespace SpeakEasy
                 httpRequest.HttpMethod,
                 httpRequest.BuildRequestUrl(arrayFormatter));
         }
-
-        // private async Task<HttpWebResponseWrapper> GetResponseWrapper(WebRequest webRequest)
-        // {
-        //     try
-        //     {
-        //         var response = await webRequest.GetResponseAsync().ConfigureAwait(false);
-        //         return new HttpWebResponseWrapper((HttpWebResponse)response);
-        //     }
-        //     catch (WebException wex)
-        //     {
-        //         var innerResponse = wex.Response;
-        //         if (innerResponse != null)
-        //         {
-        //             return new HttpWebResponseWrapper((HttpWebResponse)innerResponse);
-        //         }
-
-        //         throw;
-        //     }
-        // }
 
         // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
         // {
@@ -149,39 +146,6 @@ namespace SpeakEasy
         //     }
         // }
 
-        public System.Net.Http.HttpClient BuildClient(IHttpRequest httpRequest)
-        {
-            authenticator.Authenticate(httpRequest);
-
-            var handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = false,
-                UseDefaultCredentials = false,
-                Credentials = httpRequest.Credentials,
-                CookieContainer = httpRequest.CookieContainer ?? cookieStrategy.Get(httpRequest),
-            };
-
-            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            // handler.Method = httpRequest.HttpMethod;
-            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-
-            if (httpRequest.HasUserAgent)
-            {
-                //handler.UserAgent = httpRequest.UserAgent.Name;
-            }
-
-            //BuildWebRequestFrameworkSpecific(httpRequest, handler);
-
-            // foreach (var header in httpRequest.Headers)
-            // {
-            //     ApplyHeaderToRequest(header, handler);
-            // }
-
-            var client = new System.Net.Http.HttpClient(handler);
-
-            return client;
-        }
-
         private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
         {
             var headerName = header.Name;
@@ -197,37 +161,48 @@ namespace SpeakEasy
                 // request.Headers[header.Name] = header.Value;
             }
         }
-
-        public IHttpResponse CreateHttpResponse(HttpResponseMessage webResponse, Stream body)
+        
+        public IHttpResponse CreateHttpResponse(HttpRequestMessage httpRequest, HttpResponseMessage httpResponse, Stream body)
         {
-            if (webResponse == null)
+            if (httpRequest == null)
             {
-                throw new ArgumentNullException(nameof(webResponse));
+                throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            if (webResponse.Content == null)
+            if (httpResponse == null)
             {
-                throw new ArgumentNullException(nameof(webResponse.Content));
+                throw new ArgumentNullException(nameof(httpResponse));
             }
 
-            var contentType = webResponse.Content?.Headers?.ContentType?.MediaType ?? "application/json";
+            if (httpResponse.Content == null)
+            {
+                throw new ArgumentNullException(nameof(httpResponse.Content));
+            }
+
+            var contentType = httpResponse.Content?.Headers?.ContentType?.MediaType ?? "application/json";
 
             var deserializer = transmissionSettings.FindSerializer(contentType);
 
+            var cookieCollection = cookieContainer.GetCookies(httpRequest.RequestUri);
+
+            var cookies = cookieCollection.Count == 0
+                ? NoCookies
+                : cookieCollection.Cast<Cookie>().ToArray();
+
             var state = new HttpResponseState(
-                webResponse.StatusCode,
-                webResponse.ReasonPhrase,
-                webResponse.RequestMessage.RequestUri,
-                new Cookie[0],
+                httpResponse.StatusCode,
+                httpResponse.ReasonPhrase,
+                httpResponse.RequestMessage.RequestUri,
+                cookies.ToArray(),
                 contentType,
-                webResponse.Headers.Server.ToString(),
-                webResponse.Content.Headers);
+                httpResponse.Headers.Server.ToString(),
+                httpResponse.Content.Headers);
 
             return new HttpResponse(
                 deserializer,
                 body,
                 state,
-                webResponse.Content.Headers);
+                httpResponse.Content.Headers);
         }
     }
 }

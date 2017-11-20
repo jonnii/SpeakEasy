@@ -5,12 +5,13 @@ using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
-    public class HttpResponse : IHttpResponse
+    public class HttpResponse : IHttpResponseWithBody
     {
         public HttpResponse(
             ISerializer deserializer,
             Stream body,
-            IHttpResponseState state, HttpContentHeaders headers)
+            IHttpResponseState state,
+            HttpContentHeaders headers)
         {
             Deserializer = deserializer;
             Body = body;

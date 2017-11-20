@@ -1,15 +1,19 @@
-using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications.Authenticators
 {
-    public class WindowsAuthenticatorSpecification
+    [Subject(typeof(BasicAuthenticator))]
+    class WindowsAuthenticatorSpecification : WithFakes
     {
-        [Subject(typeof(BasicAuthenticator))]
-        public class when_authenticating : WithFakes
+        class when_authenticating
         {
+            static WindowsAuthenticator authenticator;
+
+            static IHttpRequest request;
+
             Establish context = () =>
             {
                 request = new GetRequest(new Resource("path"));
@@ -21,10 +25,6 @@ namespace SpeakEasy.Specifications.Authenticators
 
             It should_add_authorization_header = () =>
                 request.Credentials.ShouldNotBeNull();
-
-            static WindowsAuthenticator authenticator;
-
-            static IHttpRequest request;
         }
     }
 }

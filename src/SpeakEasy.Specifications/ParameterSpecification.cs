@@ -1,12 +1,17 @@
 using System;
 using Machine.Specifications;
+using SpeakEasy.ArrayFormatters;
 
 namespace SpeakEasy.Specifications
 {
-    public class ParameterSpecification
+    [Subject(typeof(Parameter))]
+    class ParameterSpecification
     {
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string
+        static Parameter parameter;
+
+        static string formatted;
+
+        class when_converting_to_query_string
         {
             Establish context = () =>
                 parameter = new Parameter("name", "value");
@@ -16,14 +21,9 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
-
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string_with_string_array_value
+        
+        class when_converting_to_query_string_with_string_array_value
         {
             Establish context = () =>
                 parameter = new Parameter("name", new[] { "value1", "value2" });
@@ -33,14 +33,9 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value1,value2");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
-
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string_with_int_array_value
+        
+        class when_converting_to_query_string_with_int_array_value
         {
             Establish context = () =>
                 parameter = new Parameter("name", new[] { 3, 4, 5 });
@@ -50,14 +45,9 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=3,4,5");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
-
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
+        
+        class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
         {
             Establish context = () =>
                 parameter = new Parameter("name", new[] { 3, 4, 5 });
@@ -67,14 +57,9 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=3&name=4&name=5");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
 
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string_with_date_time
+        class when_converting_to_query_string_with_date_time
         {
             Establish context = () =>
                 parameter = new Parameter("name", new DateTime(2013, 10, 15, 14, 30, 44));
@@ -84,14 +69,9 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=2013-10-15T14:30:44.0000000");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
-
-        [Subject(typeof(Parameter))]
-        public class when_converting_to_query_string_with_nullable_date_time
+        
+        class when_converting_to_query_string_with_nullable_date_time
         {
             Establish context = () =>
                 parameter = new Parameter("name", (DateTime?)new DateTime(2013, 10, 15, 14, 30, 44, DateTimeKind.Utc));
@@ -101,22 +81,15 @@ namespace SpeakEasy.Specifications
 
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=2013-10-15T14:30:44.0000000Z");
-
-            static Parameter parameter;
-
-            static string formatted;
         }
 
-        [Subject(typeof(Parameter))]
-        public class when_value_is_nullable
+        class when_value_is_nullable
         {
             Establish context = () =>
                 parameter = new Parameter("name", new DateTime?());
 
             It should_not_have_value = () =>
                 parameter.HasValue.ShouldBeFalse();
-
-            static Parameter parameter;
         }
     }
 }

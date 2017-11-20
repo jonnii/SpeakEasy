@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications
 {
@@ -25,7 +26,7 @@ namespace SpeakEasy.Specifications
                 exception = Catch.Exception(() => HttpClient.Create("http://example.com/api", settings));
 
             It should_throw = () =>
-                exception.ShouldBeOfExactType<ConfigurationException>();
+                exception.ShouldBeOfExactType<InvalidOperationException>();
         }
 
         class with_client
@@ -67,18 +68,18 @@ namespace SpeakEasy.Specifications
                     afterCalled.ShouldBeTrue();
             }
 
-            class when_getting_collection_resource_with_custom_user_agent
-            {
-                Establish context = () =>
-                    The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
+            //class when_getting_collection_resource_with_custom_user_agent
+            //{
+            //    Establish context = () =>
+            //        The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
 
-                Because of = () =>
-                    Subject.Get("companies").Await();
+            //    Because of = () =>
+            //        Subject.Get("companies").Await();
 
-                It should_send_request = () =>
-                    The<IRequestRunner>().WasToldTo(r =>
-                        r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
-            }
+            //    It should_send_request = () =>
+            //        The<IRequestRunner>().WasToldTo(r =>
+            //            r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
+            //}
 
             class when_getting_specific_resource
             {

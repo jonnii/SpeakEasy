@@ -1,12 +1,11 @@
+using System.Reflection;
+
 namespace SpeakEasy
 {
     public class UserAgent : IUserAgent
     {
-        public static UserAgent SpeakEasy => new UserAgent("SpeakEasy");
-
-        public UserAgent()
-        {
-        }
+        public static UserAgent SpeakEasy => new UserAgent(
+            $"SpeakEasy/{typeof(UserAgent).GetTypeInfo().Assembly.GetName().Version}");
 
         public UserAgent(string name)
         {

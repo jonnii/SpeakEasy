@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http.Headers;
 
@@ -27,16 +26,6 @@ namespace SpeakEasy
         /// The state of this http response
         /// </summary>
         IHttpResponseState State { get; }
-
-        /// <summary>
-        /// The body of the response
-        /// </summary>
-        Stream Body { get; }
-
-        /// <summary>
-        /// The deserializer that will be used to deserialize the response
-        /// </summary>
-        ISerializer Deserializer { get; }
 
         /// <summary>
         /// Executes the given action when the response status code matches the supplied status code.

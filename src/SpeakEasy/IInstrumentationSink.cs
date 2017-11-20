@@ -1,9 +1,9 @@
 namespace SpeakEasy
 {
     /// <summary>
-    /// A logger is used to log messages from within SpeakEasy
+    /// An instrumentation sink 
     /// </summary>
-    public interface ISpeakEasyLogger
+    public interface IInstrumentationSink
     {
         /// <summary>
         /// BeforeRequest is called before every http request is sent
@@ -16,6 +16,7 @@ namespace SpeakEasy
         /// </summary>
         /// <param name="request">The http request that was sent</param>
         /// <param name="response">The http response that was returned</param>
-        void AfterRequest(IHttpRequest request, IHttpResponse response);
+        /// <param name="elapsedMs">The time it took for the request to be made</param>
+        void AfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs);
     }
 }

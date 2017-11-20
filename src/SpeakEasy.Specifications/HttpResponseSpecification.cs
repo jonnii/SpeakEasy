@@ -1,228 +1,198 @@
-﻿// using System;
-// using System.IO;
-// using System.Net;
-// using System.Text;
-// using Machine.Fakes;
-// using Machine.Specifications;
-// using SpeakEasy.Specifications.Fixtures;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using Machine.Fakes;
+using Machine.Specifications;
+using SpeakEasy.Specifications.Fixtures;
 
-// namespace SpeakEasy.Specifications
-// {
-//     public class HttpResponseSpecification
-//     {
-//         [Subject(typeof(HttpResponse))]
-//         public class in_general_with_ok_response : with_ok_response
-//         {
-//             It should_indicate_when_ok = () =>
-//                 response.IsOk().ShouldBeTrue();
+namespace SpeakEasy.Specifications
+{
+    [Subject(typeof(HttpResponse))]
+    class HttpResponseSpecification : WithFakes
+    {
+        static ISerializer deserializer;
 
-//             It should_indicate_is_not_other_status_code = () =>
-//                 response.Is(HttpStatusCode.BadRequest).ShouldBeFalse();
-//         }
+        static Stream bodyStream;
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_correct_status_and_typed_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.On(HttpStatusCode.OK, (Person p) => { called = true; });
+        static Exception exception;
 
-//             It should_deserialize_person = () =>
-//                 deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
+        static bool called;
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeTrue();
+        Establish context = () =>
+        {
+            deserializer = An<ISerializer>();
+            bodyStream = new MemoryStream(Encoding.UTF8.GetBytes("lollipops"));
+            called = false;
+        };
 
-//             static bool called;
-//         }
+        class with_ok_response
+        {
+            static HttpResponse response;
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_incorrect_status_and_typed_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.On(HttpStatusCode.Created, (Person p) => { called = true; });
+            Establish context = () =>
+                response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.OK);
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeFalse();
+            class in_general_with_ok_response
+            {
+                It should_indicate_when_ok = () =>
+                    response.IsOk().ShouldBeTrue();
 
-//             static bool called;
-//         }
+                It should_indicate_is_not_other_status_code = () =>
+                    response.Is(HttpStatusCode.BadRequest).ShouldBeFalse();
+            }
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_ok_with_correct_status_and_typed_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.OnOk((Person p) => { called = true; });
+            class when_on_with_correct_status_and_typed_callback
+            {
+                Because of = () =>
+                    response.On(HttpStatusCode.OK, (Person p) => { called = true; });
 
-//             It should_deserialize_person = () =>
-//                 deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
+                It should_deserialize_person = () =>
+                    deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeTrue();
+                It should_call_callback = () =>
+                    called.ShouldBeTrue();
+            }
 
-//             static bool called;
-//         }
+            class when_on_with_incorrect_status_and_typed_callback
+            {
+                Because of = () =>
+                    response.On(HttpStatusCode.Created, (Person p) => { called = true; });
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_ok_with_correct_status_code : with_ok_response
-//         {
-//             Because of = () =>
-//                 handler = response.OnOk();
+                It should_call_callback = () =>
+                    called.ShouldBeFalse();
+            }
 
-//             It should_return_handler = () =>
-//                 handler.ShouldNotBeNull();
+            class when_on_ok_with_correct_status_and_typed_callback
+            {
+                Because of = () =>
+                    response.OnOk((Person p) => { called = true; });
 
-//             static IHttpResponseHandler handler;
-//         }
+                It should_deserialize_person = () =>
+                    deserializer.WasToldTo(d => d.Deserialize<Person>(Param.IsAny<Stream>()));
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_ok_with_incorrect_status_code : with_created_response
-//         {
-//             Because of = () =>
-//                 exception = Catch.Exception(() => response.OnOk());
+                It should_call_callback = () =>
+                    called.ShouldBeTrue();
+            }
 
-//             It should_return_handler = () =>
-//                 exception.ShouldBeOfExactType<HttpException>();
+            class when_on_ok_with_correct_status_code
+            {
+                static IHttpResponseHandler handler;
 
-//             static Exception exception;
-//         }
+                Because of = () =>
+                    handler = response.OnOk();
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_correct_status_code_and_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.On(HttpStatusCode.OK, () => { called = true; });
+                It should_return_handler = () =>
+                    handler.ShouldNotBeNull();
+            }
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeTrue();
+            class when_on_with_correct_status_code_and_callback
+            {
+                Because of = () =>
+                    response.On(HttpStatusCode.OK, () => { called = true; });
 
-//             static bool called;
-//         }
+                It should_call_callback = () =>
+                    called.ShouldBeTrue();
+            }
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_incorrect_status_code_and_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.On(HttpStatusCode.Created, () => { called = true; });
+            class when_on_with_incorrect_status_code_and_callback
+            {
+                Because of = () =>
+                    response.On(HttpStatusCode.Created, () => { called = true; });
 
-//             It should_not_call_callback = () =>
-//                 called.ShouldBeFalse();
+                It should_not_call_callback = () =>
+                    called.ShouldBeFalse();
+            }
 
-//             static bool called;
-//         }
+            class when_on_ok_with_callback
+            {
+                Because of = () =>
+                    response.OnOk(() => { called = true; });
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_incorrect_status_code : with_created_response
-//         {
-//             Because of = () =>
-//                 exception = Catch.Exception(() => response.On(HttpStatusCode.OK));
+                It should_call_callback = () =>
+                    called.ShouldBeTrue();
+            }
 
-//             It should_throw_http_exception = () =>
-//                 exception.ShouldBeOfExactType<HttpException>();
+            class when_on_with_state_callback
+            {
+                Because of = () =>
+                    response.On(HttpStatusCode.OK, state => { called = true; });
 
-//             static Exception exception;
-//         }
+                It should_call_callback = () =>
+                    called.ShouldBeTrue();
+            }
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_incorrect_integer_status_code : with_created_response
-//         {
-//             Because of = () =>
-//                 exception = Catch.Exception(() => response.On(301));
+            //class when_getting_header
+            //{
+            //    Because of = () =>
+            //        header = response.GetHeaderValue("awesome-header");
 
-//             It should_throw_http_exception = () =>
-//                 exception.ShouldBeOfExactType<HttpException>();
+            //    It should_get_header_value = () =>
+            //        header.ShouldEqual("value");
 
-//             static Exception exception;
-//         }
+            //    static string header;
+            //}
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_ok_with_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.OnOk(() => { called = true; });
+            //class when_getting_header_with_different_case
+            //{
+            //    Because of = () =>
+            //        header = response.GetHeaderValue("AWESOME-HEADER");
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeTrue();
+            //    It should_get_header_value = () =>
+            //        header.ShouldEqual("value");
 
-//             static bool called;
-//         }
+            //    static string header;
+            //}
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_on_with_state_callback : with_ok_response
-//         {
-//             Because of = () =>
-//                 response.On(HttpStatusCode.OK, state => { called = true; });
+            //class when_getting_non_existant_header
+            //{
+            //    Because of = () =>
+            //        header = Catch.Exception(() => response.GetHeaderValue("fribble"));
 
-//             It should_call_callback = () =>
-//                 called.ShouldBeTrue();
+            //    It should_throw_exception = () =>
+            //        header.ShouldBeOfExactType<ArgumentException>();
 
-//             static bool called;
-//         }
+            //    static Exception header;
+            //}
+        }
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_getting_header : with_ok_response
-//         {
-//             Because of = () =>
-//                 header = response.GetHeaderValue("awesome-header");
+        class with_created_response
+        {
+            static HttpResponse response;
 
-//             It should_get_header_value = () =>
-//                 header.ShouldEqual("value");
+            Establish context = () =>
+                response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.Created);
 
-//             static string header;
-//         }
+            class when_on_ok_with_incorrect_status_code
+            {
+                Because of = () =>
+                    exception = Catch.Exception(() => response.OnOk());
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_getting_header_with_different_case : with_ok_response
-//         {
-//             Because of = () =>
-//                 header = response.GetHeaderValue("AWESOME-HEADER");
+                It should_return_handler = () =>
+                    exception.ShouldBeOfExactType<HttpException>();
+            }
 
-//             It should_get_header_value = () =>
-//                 header.ShouldEqual("value");
+            class when_on_with_incorrect_status_code
+            {
+                Because of = () =>
+                    exception = Catch.Exception(() => response.On(HttpStatusCode.OK));
 
-//             static string header;
-//         }
+                It should_throw_http_exception = () =>
+                    exception.ShouldBeOfExactType<HttpException>();
+            }
 
-//         [Subject(typeof(HttpResponse))]
-//         public class when_getting_non_existant_header : with_ok_response
-//         {
-//             Because of = () =>
-//                 header = Catch.Exception(() => response.GetHeaderValue("fribble"));
+            class when_on_with_incorrect_integer_status_code
+            {
+                Because of = () =>
+                    exception = Catch.Exception(() => response.On(301));
 
-//             It should_throw_exception = () =>
-//                 header.ShouldBeOfExactType<ArgumentException>();
+                It should_throw_http_exception = () =>
+                    exception.ShouldBeOfExactType<HttpException>();
+            }
+        }
 
-//             static Exception header;
-//         }
-
-//         public class with_deserializer : WithFakes
-//         {
-//             Establish context = () =>
-//             {
-//                 deserializer = An<ISerializer>();
-//                 bodyStream = new MemoryStream(Encoding.Default.GetBytes("lollipops"));
-//             };
-
-//             protected static ISerializer deserializer;
-
-//             protected static Stream bodyStream;
-//         }
-
-//         public class with_ok_response : with_deserializer
-//         {
-//             Establish context = () =>
-//                 response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.OK);
-
-//             protected static HttpResponse response;
-//         }
-
-//         public class with_created_response : with_deserializer
-//         {
-//             Establish context = () =>
-//                 response = HttpResponses.Create(deserializer, bodyStream, HttpStatusCode.Created);
-
-//             protected static HttpResponse response;
-//         }
-
-//         public class Person { }
-//     }
-// }
+        class Person
+        {
+        }
+    }
+}

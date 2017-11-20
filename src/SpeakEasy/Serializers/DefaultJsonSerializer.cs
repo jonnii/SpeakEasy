@@ -1,15 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace SpeakEasy.Serializers
 {
-    public class DefaultJsonSerializer : Serializer
+    public class DefaultJsonSerializer : ISerializer
     {
-        public override IEnumerable<string> SupportedMediaTypes => new[]
+        private readonly JsonSerializer serializer;
+
+        private readonly int serializationBufferSize;
+
+        private readonly Task<bool> okTask = Task.FromResult(true);
+
+        public DefaultJsonSerializer()
+            : this(new JsonSerializer())
+        {
+        }
+
+        public DefaultJsonSerializer(JsonSerializer serializer)
+            : this(serializer, 1024)
+        {
+        }
+
+        public DefaultJsonSerializer(JsonSerializer serializer, int serializationBufferSize)
+        {
+            this.serializer = serializer;
+            this.serializationBufferSize = serializationBufferSize;
+        }
+
+        public IEnumerable<string> SupportedMediaTypes => new[]
         {
             "application/json",
             "text/json",
@@ -17,39 +40,40 @@ namespace SpeakEasy.Serializers
             "text/javascript"
         };
 
-        public override Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
+        public string MediaType => SupportedMediaTypes.First();
+
+        public Task SerializeAsync<T>(Stream stream, T body, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var serializer = new JsonSerializer();
-            using (var sw = new StreamWriter(stream, new System.Text.UTF8Encoding(false), 1024, true))
+            using (var streamWriter = new StreamWriter(stream, new System.Text.UTF8Encoding(false), serializationBufferSize, true))
             {
-                using (var jsonTextWriter = new JsonTextWriter(sw))
+                using (var jsonTextWriter = new JsonTextWriter(streamWriter))
                 {
                     serializer.Serialize(jsonTextWriter, body);
                 }
             }
 
-            return Task.FromResult(true);
+            return okTask;
         }
 
-        public override T Deserialize<T>(Stream body)
+        public T Deserialize<T>(Stream body)
         {
-            var serializer = new JsonSerializer();
-
-            using (var sr = new StreamReader(body))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            using (var streamReader = new StreamReader(body))
             {
-                return serializer.Deserialize<T>(jsonTextReader);
+                using (var jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    return serializer.Deserialize<T>(jsonTextReader);
+                }
             }
         }
 
-        public override object Deserialize(Stream body, Type type)
+        public object Deserialize(Stream body, Type type)
         {
-            var serializer = new JsonSerializer();
-
-            using (var sr = new StreamReader(body))
-            using (var jsonTextReader = new JsonTextReader(sr))
+            using (var streamReader = new StreamReader(body))
             {
-                return serializer.Deserialize(jsonTextReader, type);
+                using (var jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    return serializer.Deserialize(jsonTextReader, type);
+                }
             }
         }
     }

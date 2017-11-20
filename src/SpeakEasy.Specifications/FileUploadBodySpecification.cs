@@ -4,38 +4,34 @@ using SpeakEasy.Contents;
 
 namespace SpeakEasy.Specifications
 {
-    public class FileUploadBodySpecification
+    [Subject(typeof(FileUploadBody))]
+    class FileUploadBodySpecification : WithFakes
     {
-        [Subject(typeof(FileUploadBody))]
-        public class in_general : with_file_upload_body
+        static FileUploadBody body;
+
+        static ITransmissionSettings transmissionSettings;
+
+        Establish context = () =>
+        {
+            body = new FileUploadBody(new Resource("http://example.com/fribble/frabble"), new[] { An<IFile>() });
+            transmissionSettings = An<ITransmissionSettings>();
+        };
+
+        class in_general
         {
             It should_consume_resource = () =>
                 body.ConsumesResourceParameters.ShouldBeTrue();
         }
 
-        [Subject(typeof(FileUploadBody))]
-        public class when_serializing : with_file_upload_body
+        class when_serializing
         {
+            static IContent serializable;
+
             Because of = () =>
                 serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
 
             It should_have_content_type_for_multipart_form_data = () =>
                 serializable.ShouldBeOfExactType<MultipartMimeContent>();
-
-            static IContent serializable;
-        }
-
-        public class with_file_upload_body : WithFakes
-        {
-            Establish context = () =>
-            {
-                body = new FileUploadBody(new Resource("http://example.com/fribble/frabble"), new[] { An<IFile>() });
-                transmissionSettings = An<ITransmissionSettings>();
-            };
-
-            protected static FileUploadBody body;
-
-            protected static ITransmissionSettings transmissionSettings;
         }
     }
 }

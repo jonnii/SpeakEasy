@@ -6,10 +6,27 @@ using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
 {
-    public class TransmissionSpecification
+    [Subject(typeof(TransmissionSettings))]
+    class TransmissionSpecification : WithFakes
     {
-        [Subject(typeof(TransmissionSettings))]
-        public class when_getting_supported : with_transmission
+        protected static TransmissionSettings transmissionSettings;
+
+        protected static ISerializer firstDeserializer;
+
+        protected static ISerializer secondDeserializer;
+
+        Establish context = () =>
+        {
+            firstDeserializer = An<ISerializer>();
+            firstDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "application/json" });
+
+            secondDeserializer = An<ISerializer>();
+            secondDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "text/xml", "application/json" });
+
+            transmissionSettings = new TransmissionSettings(new[] { firstDeserializer, secondDeserializer });
+        };
+
+        class when_getting_supported
         {
             Because of = () =>
                  contentTypes = transmissionSettings.DeserializableMediaTypes;
@@ -20,48 +37,26 @@ namespace SpeakEasy.Specifications
             static IEnumerable<string> contentTypes;
         }
 
-        [Subject(typeof(TransmissionSettings))]
-        public class when_finding_deserializer_for_content_type : with_transmission
+        class when_finding_deserializer_for_content_type
         {
+            static ISerializer deserializer;
+
             Because of = () =>
                 deserializer = transmissionSettings.FindSerializer("application/json");
 
             It should_find_deserializer = () =>
                 deserializer.ShouldBeTheSameAs(firstDeserializer);
-
-            static ISerializer deserializer;
         }
 
-        [Subject(typeof(TransmissionSettings))]
-        public class when_finding_deserializer_for_content_type_that_isnt_registered : with_transmission
+        class when_finding_deserializer_for_content_type_that_isnt_registered
         {
+            static ISerializer deserializer;
+
             Because of = () =>
                 deserializer = transmissionSettings.FindSerializer("application/fribble");
 
             It should_return_null_deserializer = () =>
                 deserializer.ShouldBeOfExactType<NullSerializer>();
-
-            static ISerializer deserializer;
-        }
-
-        public class with_transmission : WithFakes
-        {
-            Establish context = () =>
-            {
-                firstDeserializer = An<ISerializer>();
-                firstDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "application/json" });
-
-                secondDeserializer = An<ISerializer>();
-                secondDeserializer.WhenToldTo(r => r.SupportedMediaTypes).Return(new[] { "text/xml", "application/json" });
-
-                transmissionSettings = new TransmissionSettings(new[] { firstDeserializer, secondDeserializer });
-            };
-
-            protected static TransmissionSettings transmissionSettings;
-
-            protected static ISerializer firstDeserializer;
-
-            protected static ISerializer secondDeserializer;
         }
     }
 }

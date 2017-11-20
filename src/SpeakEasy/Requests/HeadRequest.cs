@@ -1,8 +1,8 @@
 using System.Net.Http;
 
-namespace SpeakEasy
+namespace SpeakEasy.Requests
 {
-    public sealed class HeadRequest : GetLikeRequest
+    internal sealed class HeadRequest : GetLikeRequest
     {
         public HeadRequest(Resource resource)
             : base(resource)

@@ -1,6 +1,9 @@
 using System;
+using System.Diagnostics;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using SpeakEasy.Requests;
 
 namespace SpeakEasy
 {
@@ -38,26 +41,27 @@ namespace SpeakEasy
             requestRunner = new RequestRunner(
                 new TransmissionSettings(settings.Serializers),
                 settings.Authenticator,
-                settings.CookieStrategy,
-                settings.ArrayFormatter);
+                settings.ArrayFormatter,
+                new CookieContainer(),
+                settings.UserAgent);
 
             merger = new ResourceMerger(settings.NamingConvention);
 
             UserAgent = settings.UserAgent;
             Root = new Resource(rootUrl);
-            Logger = settings.Logger;
+            InstrumentationSink = settings.InstrumentationSink;
         }
 
         public HttpClient(
             IRequestRunner requestRunner,
             INamingConvention namingConvention,
-            ISpeakEasyLogger logger,
+            IInstrumentationSink instrumentationSink,
             IUserAgent userAgent)
         {
             this.requestRunner = requestRunner;
 
             UserAgent = userAgent;
-            Logger = logger;
+            InstrumentationSink = instrumentationSink;
 
             merger = new ResourceMerger(namingConvention);
         }
@@ -66,7 +70,7 @@ namespace SpeakEasy
 
         public event EventHandler<AfterRequestEventArgs> AfterRequest;
 
-        public ISpeakEasyLogger Logger { get; }
+        public IInstrumentationSink InstrumentationSink { get; }
 
         public Resource Root { get; set; }
 
@@ -181,13 +185,13 @@ namespace SpeakEasy
         public async Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest
         {
-            request.UserAgent = UserAgent;
-
             OnBeforeRequest(request);
 
+            var watch = Stopwatch.StartNew();
             var response = await requestRunner.RunAsync(request, cancellationToken).ConfigureAwait(false);
+            watch.Stop();
 
-            OnAfterRequest(request, response);
+            OnAfterRequest(request, response, watch.ElapsedMilliseconds);
 
             return response;
         }
@@ -200,14 +204,14 @@ namespace SpeakEasy
 
         private void OnBeforeRequest(IHttpRequest request)
         {
-            Logger.BeforeRequest(request);
+            InstrumentationSink.BeforeRequest(request);
             BeforeRequest?.Invoke(this, new BeforeRequestEventArgs(request));
         }
 
-        private void OnAfterRequest(IHttpRequest request, IHttpResponse response)
+        private void OnAfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs)
         {
-            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response));
-            Logger.AfterRequest(request, response);
+            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response, elapsedMs));
+            InstrumentationSink.AfterRequest(request, response, elapsedMs);
         }
     }
 }
