@@ -4,26 +4,26 @@ using SpeakEasy.Authenticators;
 
 namespace SpeakEasy.Specifications.Authenticators
 {
-    [Subject(typeof(BasicAuthenticator))]
-    class BasicAuthenticatorSpecification : WithFakes
-    {
-        class when_authenticating
-        {
-            static BasicAuthenticator authenticator;
+    //[Subject(typeof(BasicAuthenticator))]
+    //class BasicAuthenticatorSpecification : WithFakes
+    //{
+    //    class when_authenticating
+    //    {
+    //        static BasicAuthenticator authenticator;
 
-            static IHttpRequest request;
+    //        static IHttpRequest request;
 
-            Establish context = () =>
-            {
-                request = An<IHttpRequest>();
-                authenticator = new BasicAuthenticator("username", "password");
-            };
+    //        Establish context = () =>
+    //        {
+    //            request = An<IHttpRequest>();
+    //            authenticator = new BasicAuthenticator("username", "password");
+    //        };
 
-            Because of = () =>
-                authenticator.Authenticate(request);
+    //        Because of = () =>
+    //            authenticator.Authenticate(request);
 
-            It should_add_authorization_header = () =>
-                request.WasToldTo(r => r.AddHeader("Authorization", Param<string>.Matches(p => p.StartsWith("Basic"))));
-        }
-    }
+    //        It should_add_authorization_header = () =>
+    //            request.WasToldTo(r => r.AddHeader("Authorization", Param<string>.Matches(p => p.StartsWith("Basic"))));
+    //    }
+    //}
 }

@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http;
 
 namespace SpeakEasy.Authenticators
 {
@@ -38,9 +39,13 @@ namespace SpeakEasy.Authenticators
             this.credentials = credentials;
         }
 
-        public void Authenticate(IHttpRequest httpRequest)
+        public void Authenticate(HttpClientHandler httpClientHandler)
         {
-            httpRequest.Credentials = credentials;
+            httpClientHandler.Credentials = credentials;
+        }
+
+        public void Authenticate(System.Net.Http.HttpClient httpClient)
+        {
         }
     }
 }

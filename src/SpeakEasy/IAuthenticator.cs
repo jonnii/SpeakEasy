@@ -1,4 +1,6 @@
-﻿namespace SpeakEasy
+﻿using System.Net.Http;
+
+namespace SpeakEasy
 {
     /// <summary>
     /// An authenticator is responsible for applying an authentication scheme to an http request, this usually 
@@ -9,7 +11,9 @@
         /// <summary>
         /// Apply the authentication scheme to the http request
         /// </summary>
-        /// <param name="httpRequest">The http request to authenticate</param>
-        void Authenticate(IHttpRequest httpRequest);
+        /// <param name="httpClientHandler">The http request to authenticate</param>
+        void Authenticate(HttpClientHandler httpClientHandler);
+
+        void Authenticate(System.Net.Http.HttpClient httpClient);
     }
 }
