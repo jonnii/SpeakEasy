@@ -25,6 +25,7 @@ build:
   parallel: true
   project: src\SpeakEasy.sln
   publish_nuget: true
+  publish_nuget_symbols: true
 
 test_script:
   - ps: .\build\run-tests.ps1
