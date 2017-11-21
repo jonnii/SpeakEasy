@@ -196,6 +196,11 @@ namespace SpeakEasy
             return response;
         }
 
+        public IHttpEndpoint Pipeline(Action<IHttpPipeline> action)
+        {
+            throw new NotImplementedException();
+        }
+
         public Resource BuildRelativeResource(string relativeUrl, object segments, bool shouldMergeProperties = true)
         {
             var resource = Root.Append(relativeUrl);

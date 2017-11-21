@@ -8,7 +8,7 @@ namespace SpeakEasy.IntegrationTests
     {
         public static string ApiUrl => "http://*:1337/";
 
-        private IWebHost host;
+        private readonly IWebHost host;
 
         public ApiFixture()
         {

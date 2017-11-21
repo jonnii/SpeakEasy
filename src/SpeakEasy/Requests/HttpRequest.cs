@@ -39,11 +39,6 @@ namespace SpeakEasy.Requests
 
         public CookieContainer CookieContainer { get; set; }
 
-        public void AddHeader(string name, string value)
-        {
-            headers.Add(new Header(name, value));
-        }
-
         public string BuildRequestUrl(IArrayFormatter arrayFormatter)
         {
             if (!Resource.HasParameters || Body.ConsumesResourceParameters)

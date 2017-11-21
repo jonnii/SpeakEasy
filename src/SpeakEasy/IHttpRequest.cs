@@ -61,13 +61,6 @@ namespace SpeakEasy
         bool AllowAutoRedirect { get; set; }
 
         /// <summary>
-        /// Adds a header to this http request
-        /// </summary>
-        /// <param name="name">The name of the http header</param>
-        /// <param name="value">The value of the header</param>
-        void AddHeader(string name, string value);
-
-        /// <summary>
         /// Builds the method specific request url
         /// </summary>
         /// <returns>A url</returns>

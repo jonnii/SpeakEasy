@@ -9,6 +9,8 @@ namespace SpeakEasy
     /// </summary>
     public interface IRequestRunner
     {
+        //void AddToPipeline()
+
         /// <summary>
         /// Runs a http request asynchronously
         /// </summary>

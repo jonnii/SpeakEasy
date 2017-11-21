@@ -18,14 +18,5 @@ namespace SpeakEasy.Specifications
             It should_allow_auto_redirects = () =>
                 request.AllowAutoRedirect.ShouldBeTrue();
         }
-
-        class when_adding_header
-        {
-            Because of = () =>
-                request.AddHeader("header", "value");
-
-            It should_add_header = () =>
-                request.NumHeaders.ShouldEqual(1);
-        }
     }
 }

@@ -124,9 +124,17 @@ namespace SpeakEasy
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)
         {
-            return new HttpRequestMessage(
+            var message = new HttpRequestMessage(
                 httpRequest.HttpMethod,
                 httpRequest.BuildRequestUrl(arrayFormatter));
+
+            // untyped headers
+            foreach (var header in httpRequest.Headers)
+            {
+                message.Headers.Add(header.Name, header.Value);
+            }
+
+            return message;
         }
 
         // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
