@@ -47,12 +47,12 @@ namespace SpeakEasy.IntegrationTests
         {
             public IHttpMiddleware Next { get; set; }
 
-            public Task<IHttpResponse> Invoke(IHttpRequest request, CancellationToken cancellationToken)
+            public async Task<IHttpResponse> Invoke(IHttpRequest request, CancellationToken cancellationToken)
             {
                 request.AddHeader("x-special-header", "frank");
                 request.AddHeader(x => x.ExpectContinue = true);
 
-                return Next.Invoke(request, cancellationToken);
+                return await Next.Invoke(request, cancellationToken).ConfigureAwait(false);
             }
         }
     }

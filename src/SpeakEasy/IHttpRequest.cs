@@ -28,29 +28,9 @@ namespace SpeakEasy
         IRequestBody Body { get; }
 
         /// <summary>
-        /// The web proxy to use when making this http request
-        /// </summary>
-        // IWebProxy Proxy { get; set; }
-
-        /// <summary>
-        /// The x509 certificates associated with this http request
-        /// </summary>
-        // X509CertificateCollection ClientCertificates { get; }
-
-        /// <summary>
-        /// The maximum number of automatic redirections when allow auto redirect it set to true
-        /// </summary>
-        int? MaximumAutomaticRedirections { get; set; }
-
-        /// <summary>
         /// The credentials on this http request
         /// </summary>
         ICredentials Credentials { get; set; }
-
-        /// <summary>
-        /// Indicates whether or not this http request should allow auto redirects
-        /// </summary>
-        bool AllowAutoRedirect { get; set; }
 
         /// <summary>
         /// Builds the method specific request url

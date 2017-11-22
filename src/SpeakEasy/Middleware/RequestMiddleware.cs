@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Middleware
 {
-    public class DefaultRequestMiddleware : IHttpMiddleware
+    internal class RequestMiddleware : IHttpMiddleware
     {
         private static readonly Cookie[] NoCookies = new Cookie[0];
 
@@ -21,7 +21,7 @@ namespace SpeakEasy.Middleware
 
         private readonly System.Net.Http.HttpClient client;
 
-        public DefaultRequestMiddleware(
+        public RequestMiddleware(
             ITransmissionSettings transmissionSettings,
             IArrayFormatter arrayFormatter,
             CookieContainer cookieContainer,
@@ -70,6 +70,11 @@ namespace SpeakEasy.Middleware
             var message = new HttpRequestMessage(
                 httpRequest.HttpMethod,
                 httpRequest.BuildRequestUrl(arrayFormatter));
+
+            foreach (var mediaType in transmissionSettings.DeserializableMediaTypes)
+            {
+                message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
+            }
 
             foreach (var header in httpRequest.Headers)
             {

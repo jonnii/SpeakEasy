@@ -37,9 +37,14 @@ namespace SpeakEasy.IntegrationTests.Controllers
         }
 
         [HttpGet("overview")]
-        public dynamic GetOverview()
+        public IActionResult GetOverview()
         {
-            return "a super string";
+            return new ContentResult
+            {
+                Content = "a super string",
+                ContentType = "text/plain",
+                StatusCode = 200
+            };
         }
 
         [HttpGet("{id}", Name = nameof(GetProduct))]

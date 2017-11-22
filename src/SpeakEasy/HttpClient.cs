@@ -79,29 +79,23 @@ namespace SpeakEasy
             var handler = new HttpClientHandler
             {
                 AllowAutoRedirect = false,
+                //MaxAutomaticRedirections = 0,
+
                 UseDefaultCredentials = false,
-                CookieContainer = cookieContainer
+                CookieContainer = cookieContainer,
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None,
+                //ClientCertificates = { },
+                //Proxy =
             };
 
             settings.Authenticator.Authenticate(handler);
-
-            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-
-            // BuildWebRequestFrameworkSpecific(httpRequest, handler);
-
-            // foreach (var header in httpRequest.Headers)
-            // {
-            //     ApplyHeaderToRequest(header, handler);
-            // }
-
+            
             var httpClient = new System.Net.Http.HttpClient(handler);
 
             settings.Authenticator.Authenticate(httpClient);
-            
+
             return httpClient;
         }
-
 
         public Task<IHttpResponse> Get(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {

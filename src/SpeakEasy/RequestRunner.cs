@@ -25,7 +25,7 @@ namespace SpeakEasy
         {
             this.middleware = middleware;
 
-            defaultMiddleware = new DefaultRequestMiddleware(
+            defaultMiddleware = new RequestMiddleware(
                 transmissionSettings,
                 arrayFormatter,
                 cookieContainer,
@@ -59,26 +59,5 @@ namespace SpeakEasy
 
             return head.Invoke;
         }
-
-        // private void BuildWebRequestFrameworkSpecific(IHttpRequest httpRequest, HttpWebRequest webRequest)
-        // {
-        //     // ServicePointManager.Expect100Continue = false;
-        //     webRequest.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None;
-
-        //     if (httpRequest.ClientCertificates != null)
-        //     {
-        //         webRequest.ClientCertificates = httpRequest.ClientCertificates;
-        //     }
-
-        //     if (httpRequest.Proxy != null)
-        //     {
-        //         webRequest.Proxy = httpRequest.Proxy;
-        //     }
-
-        //     if (httpRequest.AllowAutoRedirect && httpRequest.MaximumAutomaticRedirections != null)
-        //     {
-        //         webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
-        //     }
-        // }
     }
 }
