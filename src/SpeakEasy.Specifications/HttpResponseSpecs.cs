@@ -9,7 +9,7 @@ using SpeakEasy.Specifications.Fixtures;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HttpResponse))]
-    class HttpResponseSpecification : WithFakes
+    class HttpResponseSpecs : WithFakes
     {
         static ISerializer deserializer;
 

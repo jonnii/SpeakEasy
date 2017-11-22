@@ -5,7 +5,7 @@ using SpeakEasy.Contents;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(FileUploadBody))]
-    class FileUploadBodySpecification : WithFakes
+    class FileUploadBodySpecs : WithFakes
     {
         static FileUploadBody body;
 

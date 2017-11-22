@@ -3,7 +3,7 @@
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(UserAgent))]
-    class UserAgentSpecifications
+    class UserAgentSpecs
     {
         class default_user_agent
         {

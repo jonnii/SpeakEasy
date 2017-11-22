@@ -5,7 +5,7 @@ using SpeakEasy.ArrayFormatters;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(MultipleValuesArrayFormatter))]
-    class MultipleValuesArrayFormatterSpecification : WithSubject<MultipleValuesArrayFormatter>
+    class MultipleValuesArrayFormatterSpecs : WithSubject<MultipleValuesArrayFormatter>
     {
         class when_formatting
         {

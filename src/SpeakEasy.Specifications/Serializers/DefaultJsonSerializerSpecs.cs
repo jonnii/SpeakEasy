@@ -7,7 +7,7 @@ using SpeakEasy.Serializers;
 namespace SpeakEasy.Specifications.Serializers
 {
     [Subject(typeof(DefaultJsonSerializer))]
-    public class DefaultJsonSerializerSpecification
+    public class DefaultJsonSerializerSpecs
     {
         static MemoryStream stream;
 

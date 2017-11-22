@@ -4,7 +4,7 @@ using SpeakEasy.Contents;
 
 namespace SpeakEasy.Specifications.Contents
 {
-    public class MultipartMimeContentSpecification
+    public class MultipartMimeContentSpecs
     {
         [Subject(typeof(MultipartMimeContent))]
         public class in_general : with_body

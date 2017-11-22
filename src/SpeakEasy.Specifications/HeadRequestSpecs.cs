@@ -6,7 +6,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HeadRequest))]
-    class HeadRequestSpecification : WithFakes
+    class HeadRequestSpecs : WithFakes
     {
         static HeadRequest request;
 

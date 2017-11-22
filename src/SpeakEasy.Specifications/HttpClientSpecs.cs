@@ -11,7 +11,7 @@ namespace SpeakEasy.Specifications
     using SystemHttpClient = System.Net.Http.HttpClient;
 
     [Subject(typeof(HttpClient))]
-    class HttpClientSpecification : WithFakes
+    class HttpClientSpecs : WithFakes
     {
         static HttpClient client;
 

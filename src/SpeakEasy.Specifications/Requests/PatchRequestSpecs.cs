@@ -5,7 +5,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(PatchRequest))]
-    class PatchRequestSpecification
+    class PatchRequestSpecs
     {
         class with_patch_request
         {

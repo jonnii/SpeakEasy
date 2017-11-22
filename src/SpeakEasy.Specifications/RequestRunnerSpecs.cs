@@ -5,7 +5,7 @@ using Machine.Specifications;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(RequestRunner))]
-    class RequestRunnerSpecification : WithSubject<RequestRunner>
+    class RequestRunnerSpecs : WithSubject<RequestRunner>
     {
         static HttpRequestMessage webRequest;
 
@@ -57,8 +57,6 @@ namespace SpeakEasy.Specifications
 
         //     static HttpWebRequest webRequest;
         // }
-
-
 
         // [Subject(typeof(PostRequest))]
         // public class when_building_web_request_with_no_body : with_request_runner

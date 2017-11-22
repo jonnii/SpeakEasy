@@ -5,7 +5,7 @@ using Machine.Specifications;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(ResourceMerger))]
-    class ResourceMergerSpecification : WithSubject<ResourceMerger>
+    class ResourceMergerSpecs : WithSubject<ResourceMerger>
     {
         static Resource resource;
 

@@ -5,7 +5,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(PostRequest))]
-    class PostRequestSpecification
+    class PostRequestSpecs
     {
         static PostRequest request;
 

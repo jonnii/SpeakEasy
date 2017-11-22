@@ -6,7 +6,7 @@ using Machine.Specifications;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HttpResponseHandler))]
-    class HttpResponseHandlerSpecification : WithSubject<HttpResponseHandler>
+    class HttpResponseHandlerSpecs : WithSubject<HttpResponseHandler>
     {
         class when_unwrapping_as
         {

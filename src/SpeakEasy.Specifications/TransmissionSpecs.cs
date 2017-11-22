@@ -7,7 +7,7 @@ using SpeakEasy.Serializers;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(TransmissionSettings))]
-    class TransmissionSpecification : WithFakes
+    class TransmissionSpecs : WithFakes
     {
         protected static TransmissionSettings transmissionSettings;
 

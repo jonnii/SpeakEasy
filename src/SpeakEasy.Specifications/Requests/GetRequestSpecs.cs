@@ -5,7 +5,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(GetRequest))]
-    class GetRequestSpecification
+    class GetRequestSpecs
     {
         class with_get_request
         {

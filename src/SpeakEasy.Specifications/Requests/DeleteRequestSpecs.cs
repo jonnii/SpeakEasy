@@ -5,7 +5,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(DeleteRequest))]
-    class DeleteRequestSpecification
+    class DeleteRequestSpecs
     {
         static DeleteRequest request;
 

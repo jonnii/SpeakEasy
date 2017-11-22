@@ -11,7 +11,7 @@ using SpeakEasy.Serializers;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HttpClientSettings))]
-    class HttpClientSettingsSpecification
+    class HttpClientSettingsSpecs
     {
         static HttpClientSettings settings;
 

@@ -6,7 +6,7 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications.Requests
 {
     [Subject(typeof(PutRequest))]
-    class PutRequestSpecification : WithFakes
+    class PutRequestSpecs : WithFakes
     {
         static ITransmissionSettings serializer;
 

@@ -4,7 +4,7 @@ using SpeakEasy.ArrayFormatters;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(Resource))]
-    class ResourceSpecification
+    class ResourceSpecs
     {
         static Resource root;
 
@@ -75,7 +75,7 @@ namespace SpeakEasy.Specifications
             Because of = () =>
                 appended = root.Append(new Resource("/api/companies"));
 
-            It should_create_appended_resource = () =>  
+            It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
         }
 

@@ -5,7 +5,7 @@ using SpeakEasy.ArrayFormatters;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(Parameter))]
-    class ParameterSpecification
+    class ParameterSpecs
     {
         static Parameter parameter;
 
@@ -22,7 +22,7 @@ namespace SpeakEasy.Specifications
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value");
         }
-        
+
         class when_converting_to_query_string_with_string_array_value
         {
             Establish context = () =>
@@ -34,7 +34,7 @@ namespace SpeakEasy.Specifications
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=value1,value2");
         }
-        
+
         class when_converting_to_query_string_with_int_array_value
         {
             Establish context = () =>
@@ -46,7 +46,7 @@ namespace SpeakEasy.Specifications
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=3,4,5");
         }
-        
+
         class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
         {
             Establish context = () =>
@@ -70,7 +70,7 @@ namespace SpeakEasy.Specifications
             It should_format_as_query_string = () =>
                 formatted.ShouldEqual("name=2013-10-15T14:30:44.0000000");
         }
-        
+
         class when_converting_to_query_string_with_nullable_date_time
         {
             Establish context = () =>

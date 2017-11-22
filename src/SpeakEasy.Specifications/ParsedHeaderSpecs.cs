@@ -5,7 +5,7 @@ using Machine.Specifications;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(ParsedHeaderValue))]
-    class ParsedHeaderSpecification
+    class ParsedHeaderSpecs
     {
         class when_getting_unknown_parameter
         {
