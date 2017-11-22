@@ -262,5 +262,16 @@ namespace SpeakEasy.IntegrationTests
 
             Assert.True(success);
         }
+
+        [Fact]
+        public async void ShouldGetAsyncString()
+        {
+            var response = await client
+                .Get("products/overview")
+                .OnOk()
+                .As<string>();
+
+            Assert.Equal("a super string", response);
+        }
     }
 }
