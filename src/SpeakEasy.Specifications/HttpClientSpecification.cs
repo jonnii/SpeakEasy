@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Machine.Fakes;
@@ -7,9 +8,13 @@ using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications
 {
+    using SystemHttpClient = System.Net.Http.HttpClient;
+
     [Subject(typeof(HttpClient))]
-    class HttpClientSpecification : WithSubject<HttpClient>
+    class HttpClientSpecification : WithFakes
     {
+        static HttpClient client;
+
         class when_creating_with_invalid_settings
         {
             static HttpClientSettings settings;
@@ -33,7 +38,7 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
             {
-                Subject.Root = new Resource("http://example.com");
+                client = new HttpClient("http://example.com", new HttpClientSettings(), The<IRequestRunner>());
 
                 The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>(), Param.IsAny<CancellationToken>()))
                     .Return(Task.Factory.StartNew(() => An<IHttpResponse>()));
@@ -42,49 +47,31 @@ namespace SpeakEasy.Specifications
                     .Return((string original) => original);
             };
 
-            class when_getting_collection_resource
+            class when_building_system_client
             {
-                static bool beforeCalled;
-
-                static bool afterCalled;
-
-                Establish context = () =>
-                {
-                    Subject.BeforeRequest += delegate { beforeCalled = true; };
-                    Subject.AfterRequest += delegate { afterCalled = true; };
-                };
+                static SystemHttpClient system_http_client;
 
                 Because of = () =>
-                    Subject.Get("companies").Await();
+                    system_http_client = client.BuildSystemClient(new CookieContainer());
+
+                It should_create_client = () =>
+                    system_http_client.ShouldNotBeNull();
+            }
+
+            class when_getting_collection_resource
+            {
+                Because of = () =>
+                    client.Get("companies").Await();
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies"), Param.IsAny<CancellationToken>()));
-
-                It should_raise_before_request_event_args = () =>
-                    beforeCalled.ShouldBeTrue();
-
-                It should_raise_after_request_event_args = () =>
-                    afterCalled.ShouldBeTrue();
             }
-
-            //class when_getting_collection_resource_with_custom_user_agent
-            //{
-            //    Establish context = () =>
-            //        The<IUserAgent>().WhenToldTo(u => u.Name).Return("custom user agent");
-
-            //    Because of = () =>
-            //        Subject.Get("companies").Await();
-
-            //    It should_send_request = () =>
-            //        The<IRequestRunner>().WasToldTo(r =>
-            //            r.RunAsync(Param<GetRequest>.Matches(p => p.UserAgent.Name == "custom user agent"), Param.IsAny<CancellationToken>()));
-            //}
 
             class when_getting_specific_resource
             {
                 Because of = () =>
-                    Subject.Get("company/:id", new { id = 5 }).Await();
+                    client.Get("company/:id", new { id = 5 }).Await();
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -94,10 +81,10 @@ namespace SpeakEasy.Specifications
             class when_getting_resource_on_client_with_parameterized_root
             {
                 Establish context = () =>
-                    Subject.Root = new Resource("http://:company.example.com/api");
+                    client = new HttpClient("http://:company.example.com/api", new HttpClientSettings(), The<IRequestRunner>());
 
                 Because of = () =>
-                    Subject.Get("user/:id", new { company = "acme", id = 5 }).Await();
+                    client.Get("user/:id", new { company = "acme", id = 5 }).Await();
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -108,7 +95,7 @@ namespace SpeakEasy.Specifications
             class when_posting
             {
                 Because of = () =>
-                    Subject.Post(new { Name = "frobble" }, "user").Await();
+                    client.Post(new { Name = "frobble" }, "user").Await();
 
                 It should_dispatch_post_request = () =>
                     The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PostRequest>(), Param.IsAny<CancellationToken>()));
@@ -117,7 +104,7 @@ namespace SpeakEasy.Specifications
             class when_posting_with_body_and_no_segments
             {
                 Because of = () =>
-                    Subject.Post(new { Id = "body", Name = "company-name" }, "company/:id").Await();
+                    client.Post(new { Id = "body", Name = "company-name" }, "company/:id").Await();
 
                 It should_use_body_as_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -132,7 +119,7 @@ namespace SpeakEasy.Specifications
             class when_posting_with_body_and_segments
             {
                 Because of = () =>
-                    Subject.Post(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+                    client.Post(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
 
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -147,7 +134,7 @@ namespace SpeakEasy.Specifications
             class when_posting_without_body
             {
                 Because of = () =>
-                    Subject.Post("companies").Await();
+                    client.Post("companies").Await();
 
                 It should_not_have_body_set = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -157,7 +144,7 @@ namespace SpeakEasy.Specifications
             class when_posting_with_file
             {
                 Because of = () =>
-                    Subject.Post(An<IFile>(), "companies").Await();
+                    client.Post(An<IFile>(), "companies").Await();
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -167,7 +154,7 @@ namespace SpeakEasy.Specifications
             class when_posting_with_file_and_segments
             {
                 Because of = () =>
-                    Subject.Post(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
+                    client.Post(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -186,7 +173,7 @@ namespace SpeakEasy.Specifications
             class when_putting_with_file_and_segments
             {
                 Because of = () =>
-                    Subject.Put(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
+                    client.Put(An<IFile>(), "companies/:id", new { id = 3, additionalProperty = "what's up" }).Await();
 
                 It should_include_additional_parameters_in_resource = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -196,7 +183,7 @@ namespace SpeakEasy.Specifications
             class when_putting
             {
                 Because of = () =>
-                    Subject.Put(new { Name = "frobble" }, "user").Await();
+                    client.Put(new { Name = "frobble" }, "user").Await();
 
                 It should_dispatch_put_request = () =>
                     The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<PutRequest>(), Param.IsAny<CancellationToken>()));
@@ -205,7 +192,7 @@ namespace SpeakEasy.Specifications
             class when_putting_with_body_and_no_segments
             {
                 Because of = () =>
-                    Subject.Put(new { Id = "body" }, "company/:id").Await();
+                    client.Put(new { Id = "body" }, "company/:id").Await();
 
                 It should_use_body_as_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -216,7 +203,7 @@ namespace SpeakEasy.Specifications
             class when_putting_with_body_and_segments
             {
                 Because of = () =>
-                    Subject.Put(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+                    client.Put(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
 
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -231,7 +218,7 @@ namespace SpeakEasy.Specifications
             class when_patching_with_body_and_segments
             {
                 Because of = () =>
-                    Subject.Patch(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
+                    client.Patch(new { Id = "body" }, "company/:id", new { Id = "segments", moreGarbage = true }).Await();
 
                 It should_use_segments = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -246,7 +233,7 @@ namespace SpeakEasy.Specifications
             class when_putting_without_body
             {
                 Because of = () =>
-                    Subject.Put("companies").Await();
+                    client.Put("companies").Await();
 
                 It should_not_have_body_set = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -256,7 +243,7 @@ namespace SpeakEasy.Specifications
             class when_putting_with_file
             {
                 Because of = () =>
-                    Subject.Put(An<IFile>(), "companies").Await();
+                    client.Put(An<IFile>(), "companies").Await();
 
                 It should_have_files = () =>
                     The<IRequestRunner>().WasToldTo(r =>
@@ -266,7 +253,7 @@ namespace SpeakEasy.Specifications
             class when_deleting
             {
                 Because of = () =>
-                    Subject.Delete("user/5").Await();
+                    client.Delete("user/5").Await();
 
                 It should_dispatch_delete_request = () =>
                     The<IRequestRunner>().WasToldTo(r => r.RunAsync(Param.IsAny<DeleteRequest>(), Param.IsAny<CancellationToken>()));

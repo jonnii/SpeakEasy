@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
-using SpeakEasy.Instrumentation;
+using SpeakEasy.IntegrationTests.Middleware;
 
 namespace SpeakEasy.IntegrationTests
 {
@@ -8,7 +8,7 @@ namespace SpeakEasy.IntegrationTests
     {
         public static string ApiUrl => "http://*:1337/";
 
-        private IWebHost host;
+        private readonly IWebHost host;
 
         public ApiFixture()
         {
@@ -20,10 +20,8 @@ namespace SpeakEasy.IntegrationTests
 
             host.Start();
 
-            var settings = new HttpClientSettings
-            {
-                InstrumentationSink = new ConsoleInstrumentationSink()
-            };
+            var settings = new HttpClientSettings();
+            settings.AppendMiddleware(new ConsoleLoggingMiddleware());
 
             Client = HttpClient.Create("http://localhost:1337/api", settings);
         }

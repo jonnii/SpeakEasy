@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
@@ -26,51 +27,15 @@ namespace SpeakEasy
         IRequestBody Body { get; }
 
         /// <summary>
-        /// The web proxy to use when making this http request
-        /// </summary>
-        // IWebProxy Proxy { get; set; }
-
-        /// <summary>
-        /// The x509 certificates associated with this http request
-        /// </summary>
-        // X509CertificateCollection ClientCertificates { get; }
-
-        /// <summary>
-        /// The maximum number of automatic redirections when allow auto redirect it set to true
-        /// </summary>
-        int? MaximumAutomaticRedirections { get; set; }
-
-        /// <summary>
-        /// The number of headers on this http request
-        /// </summary>
-        int NumHeaders { get; }
-
-        /// <summary>
-        /// Gets the headers attached to this http request
-        /// </summary>
-        IEnumerable<Header> Headers { get; }
-
-        /// <summary>
-        /// The credentials on this http request
-        /// </summary>
-        ICredentials Credentials { get; set; }
-
-        /// <summary>
-        /// Indicates whether or not this http request should allow auto redirects
-        /// </summary>
-        bool AllowAutoRedirect { get; set; }
-
-        /// <summary>
-        /// Adds a header to this http request
-        /// </summary>
-        /// <param name="name">The name of the http header</param>
-        /// <param name="value">The value of the header</param>
-        void AddHeader(string name, string value);
-
-        /// <summary>
         /// Builds the method specific request url
         /// </summary>
         /// <returns>A url</returns>
         string BuildRequestUrl(IArrayFormatter arrayFormatter);
+
+        void AddHeader(string header, string value);
+
+        void AddHeader(Action<HttpRequestHeaders> headers);
+
+        List<Action<HttpRequestHeaders>> Headers { get; }
     }
 }

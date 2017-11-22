@@ -2,9 +2,11 @@
 
 ## 1.0.0
 
-  * Target `netstandard1.6`
+  * Add `netstandard1.6` target
   * Explicit dependency on `Newtonsoft.Json`
   * Async only
+  * Deserializer for text/plain
+  * Middleware replaces instrumentation and events
 
 ## 0.4.1
 
