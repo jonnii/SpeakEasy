@@ -35,7 +35,7 @@ namespace SpeakEasy
 
         private readonly HttpClientSettings settings;
 
-        public HttpClient(string rootUrl, HttpClientSettings settings)
+        internal HttpClient(string rootUrl, HttpClientSettings settings)
         {
             this.settings = settings;
 

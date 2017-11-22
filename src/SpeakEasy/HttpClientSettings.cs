@@ -25,6 +25,8 @@ namespace SpeakEasy
 
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new TextPlainSerializer());
+
+            Middleware.AppendMiddleware(new UserAgentMiddleware());
         }
 
         /// <summary>
@@ -38,12 +40,9 @@ namespace SpeakEasy
         public List<ISerializer> Serializers { get; set; }
 
         /// <summary>
-        /// The available serialiazers
+        /// The available middleware
         /// </summary>
-        internal List<IHttpMiddleware> Middleware { get; } = new List<IHttpMiddleware>
-        {
-            new UserAgentMiddleware()
-        };
+        public MiddlewareCollection Middleware { get; } = new MiddlewareCollection();
 
         /// <summary>
         /// The array formatter that will be used to format query string array paramters
@@ -104,42 +103,5 @@ namespace SpeakEasy
             throw new InvalidOperationException("The http client settings are not valid.");
         }
 
-        public int MiddlewareCount => Middleware.Count;
-
-        public void AppendMiddleware(IHttpMiddleware middleware)
-        {
-            Middleware.Add(middleware);
-        }
-
-        public void PrependMiddleware(IHttpMiddleware middleware)
-        {
-            Middleware.Insert(0, middleware);
-        }
-
-        public bool HasMiddleware<TMiddleware>()
-            where TMiddleware : IHttpMiddleware
-        {
-            return Middleware.Any(t => t is TMiddleware);
-        }
-
-        public void ReplaceMiddleware<TMiddleware>(TMiddleware replacement)
-            where TMiddleware : IHttpMiddleware
-        {
-            var index = RemoveMiddleware<TMiddleware>();
-            Middleware.Insert(index, replacement);
-        }
-
-        public int RemoveMiddleware<TMiddleware>()
-            where TMiddleware : IHttpMiddleware
-        {
-            if (!HasMiddleware<TMiddleware>())
-            {
-                throw new ArgumentException();
-            }
-
-            var index = Middleware.FindIndex(t => t is TMiddleware);
-            Middleware.RemoveAt(index);
-            return index;
-        }
     }
 }
