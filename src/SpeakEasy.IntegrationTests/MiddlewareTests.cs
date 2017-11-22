@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using SpeakEasy.IntegrationTests.Middleware;
 using SpeakEasy.Middleware;

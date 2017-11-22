@@ -35,10 +35,7 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
             {
-                Subject = new HttpClient(
-                    "http://example.com",
-                    new HttpClientSettings(),
-                    The<IRequestRunner>());
+                Subject = new HttpClient("http://example.com", new HttpClientSettings(), The<IRequestRunner>());
 
                 The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>(), Param.IsAny<CancellationToken>()))
                     .Return(Task.Factory.StartNew(() => An<IHttpResponse>()));
@@ -83,10 +80,7 @@ namespace SpeakEasy.Specifications
             class when_getting_resource_on_client_with_parameterized_root
             {
                 Establish context = () =>
-                    Subject = new HttpClient(
-                        "http://:company.example.com/api",
-                        new HttpClientSettings(),
-                        The<IRequestRunner>());
+                    Subject = new HttpClient("http://:company.example.com/api", new HttpClientSettings(), The<IRequestRunner>());
 
                 Because of = () =>
                     Subject.Get("user/:id", new { company = "acme", id = 5 }).Await();
