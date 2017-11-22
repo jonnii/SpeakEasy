@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Machine.Specifications;
@@ -27,7 +26,7 @@ namespace SpeakEasy.Specifications
                 settings.NamingConvention.ShouldBeOfExactType<DefaultNamingConvention>();
 
             It should_have_default_user_agent = () =>
-                settings.HasMiddleware<UserAgentMiddleware>().ShouldBeTrue();
+                settings.Middleware.Has<UserAgentMiddleware>().ShouldBeTrue();
 
             It should_have_default_array_formatter = () =>
                 settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();
@@ -97,50 +96,50 @@ namespace SpeakEasy.Specifications
         class when_appending_middleware
         {
             Because of = () =>
-                settings.AppendMiddleware(new TestMiddleware());
+                settings.Middleware.Append(new TestMiddleware());
 
             It should_have_middleware = () =>
-                settings.HasMiddleware<TestMiddleware>().ShouldBeTrue();
+                settings.Middleware.Has<TestMiddleware>().ShouldBeTrue();
 
             It should_add_to_end_of_middleware_chain = () =>
-                settings.Middleware.Last().ShouldBeOfExactType<TestMiddleware>();
+                settings.Middleware.AtPosition(settings.Middleware.Count - 1).ShouldBeOfExactType<TestMiddleware>();
         }
 
         class when_prepending_middleware
         {
             Because of = () =>
-                settings.PrependMiddleware(new TestMiddleware());
+                settings.Middleware.Prepend(new TestMiddleware());
 
             It should_have_middleware = () =>
-                settings.HasMiddleware<TestMiddleware>().ShouldBeTrue();
+                settings.Middleware.Has<TestMiddleware>().ShouldBeTrue();
 
             It should_add_to_start_of_middleware_chain = () =>
-                settings.Middleware.First().ShouldBeOfExactType<TestMiddleware>();
+                settings.Middleware.AtPosition(0).ShouldBeOfExactType<TestMiddleware>();
         }
 
         class when_replacing_middleware_with_same_type
         {
-            static UserAgentMiddleware replacment;
+            static UserAgentMiddleware replacement;
 
             Establish context = () =>
             {
-                settings.PrependMiddleware(new TestMiddleware());
-                settings.AppendMiddleware(new TestMiddleware());
+                settings.Middleware.Prepend(new TestMiddleware());
+                settings.Middleware.Append(new TestMiddleware());
 
-                replacment = new UserAgentMiddleware();
+                replacement = new UserAgentMiddleware();
             };
 
             Because of = () =>
-                settings.ReplaceMiddleware(replacment);
+                settings.Middleware.Replace(replacement);
 
             It should_replace_middleware_in_place = () =>
-                settings.Middleware.ElementAt(1).ShouldBeOfExactType<UserAgentMiddleware>();
+                settings.Middleware.AtPosition(1).ShouldBeOfExactType<UserAgentMiddleware>();
 
             It should_have_correct_middleware_count = () =>
-                settings.MiddlewareCount.ShouldEqual(3);
+                settings.Middleware.Count.ShouldEqual(3);
 
             It should_replace_instance = () =>
-                settings.Middleware.ElementAt(1).ShouldBeTheSameAs(replacment);
+                settings.Middleware.AtPosition(1).ShouldBeTheSameAs(replacement);
         }
 
         class TestMiddleware : IHttpMiddleware

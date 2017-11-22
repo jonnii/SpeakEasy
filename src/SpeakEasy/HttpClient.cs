@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using SpeakEasy.Bodies;
 using SpeakEasy.Requests;
 
 namespace SpeakEasy
@@ -35,7 +36,7 @@ namespace SpeakEasy
 
         private readonly HttpClientSettings settings;
 
-        public HttpClient(string rootUrl, HttpClientSettings settings)
+        internal HttpClient(string rootUrl, HttpClientSettings settings)
         {
             this.settings = settings;
 

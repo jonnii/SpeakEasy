@@ -1,5 +1,6 @@
 ﻿using Machine.Specifications;
 using SpeakEasy.ArrayFormatters;
+using SpeakEasy.Bodies;
 using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications.Requests

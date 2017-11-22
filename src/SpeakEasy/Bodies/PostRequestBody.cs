@@ -1,7 +1,7 @@
 using System.Text;
 using SpeakEasy.Contents;
 
-namespace SpeakEasy
+namespace SpeakEasy.Bodies
 {
     internal class PostRequestBody : IRequestBody
     {

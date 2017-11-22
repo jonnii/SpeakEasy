@@ -1,6 +1,6 @@
 using SpeakEasy.Contents;
 
-namespace SpeakEasy
+namespace SpeakEasy.Bodies
 {
     public class ObjectRequestBody : IRequestBody
     {
