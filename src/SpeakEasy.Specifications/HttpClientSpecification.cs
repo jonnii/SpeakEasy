@@ -8,8 +8,10 @@ using SpeakEasy.Requests;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HttpClient))]
-    class HttpClientSpecification : WithSubject<HttpClient>
+    class HttpClientSpecification : WithFakes
     {
+        static HttpClient Subject;
+
         class when_creating_with_invalid_settings
         {
             static HttpClientSettings settings;
@@ -33,7 +35,10 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
             {
-                Subject.Root = new Resource("http://example.com");
+                Subject = new HttpClient(
+                    "http://example.com",
+                    new HttpClientSettings(),
+                    The<IRequestRunner>());
 
                 The<IRequestRunner>().WhenToldTo(r => r.RunAsync(Param.IsAny<IHttpRequest>(), Param.IsAny<CancellationToken>()))
                     .Return(Task.Factory.StartNew(() => An<IHttpResponse>()));
@@ -44,28 +49,12 @@ namespace SpeakEasy.Specifications
 
             class when_getting_collection_resource
             {
-                static bool beforeCalled;
-
-                static bool afterCalled;
-
-                Establish context = () =>
-                {
-                    Subject.BeforeRequest += delegate { beforeCalled = true; };
-                    Subject.AfterRequest += delegate { afterCalled = true; };
-                };
-
                 Because of = () =>
                     Subject.Get("companies").Await();
 
                 It should_send_request = () =>
                     The<IRequestRunner>().WasToldTo(r =>
                         r.RunAsync(Param<GetRequest>.Matches(p => p.Resource.Path == "http://example.com/companies"), Param.IsAny<CancellationToken>()));
-
-                It should_raise_before_request_event_args = () =>
-                    beforeCalled.ShouldBeTrue();
-
-                It should_raise_after_request_event_args = () =>
-                    afterCalled.ShouldBeTrue();
             }
 
             //class when_getting_collection_resource_with_custom_user_agent
@@ -94,7 +83,10 @@ namespace SpeakEasy.Specifications
             class when_getting_resource_on_client_with_parameterized_root
             {
                 Establish context = () =>
-                    Subject.Root = new Resource("http://:company.example.com/api");
+                    Subject = new HttpClient(
+                        "http://:company.example.com/api",
+                        new HttpClientSettings(),
+                        The<IRequestRunner>());
 
                 Because of = () =>
                     Subject.Get("user/:id", new { company = "acme", id = 5 }).Await();

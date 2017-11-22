@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
-using SpeakEasy.Instrumentation;
+using SpeakEasy.IntegrationTests.Middleware;
 
 namespace SpeakEasy.IntegrationTests
 {
@@ -20,10 +20,8 @@ namespace SpeakEasy.IntegrationTests
 
             host.Start();
 
-            var settings = new HttpClientSettings
-            {
-                InstrumentationSink = new ConsoleInstrumentationSink()
-            };
+            var settings = new HttpClientSettings();
+            settings.AddMiddleware(new ConsoleLoggingMiddleware());
 
             Client = HttpClient.Create("http://localhost:1337/api", settings);
         }

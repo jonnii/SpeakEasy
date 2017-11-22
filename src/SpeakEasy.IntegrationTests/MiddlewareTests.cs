@@ -1,30 +1,20 @@
 ﻿using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using SpeakEasy.Instrumentation;
+using SpeakEasy.IntegrationTests.Middleware;
 using Xunit;
 
 namespace SpeakEasy.IntegrationTests
 {
-    //[Collection("Api collection")]
     public class MiddlewareTests
     {
-        //private readonly IHttpClient client;
-
-        //public MiddlewareTests(ApiFixture fixture)
-        //{
-        //    client = fixture.Client;
-        //}
-
         [Fact]
         public async void ShouldGetAsync()
         {
-            var settings = new HttpClientSettings
-            {
-                InstrumentationSink = new ConsoleInstrumentationSink(),
-            };
+            var settings = new HttpClientSettings();
 
-            //settings.Middleware.Add(new CustomHeadersMiddleware());
+            settings.AddMiddleware(new ConsoleLoggingMiddleware());
+            settings.AddMiddleware(new CustomHeadersMiddleware());
 
             var client = HttpClient.Create("http://localhost:1337/api", settings);
 

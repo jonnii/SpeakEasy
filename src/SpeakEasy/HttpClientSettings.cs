@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
-using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -20,7 +19,6 @@ namespace SpeakEasy
         {
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
-            InstrumentationSink = new NullInstrumentationSink();
             NamingConvention = new DefaultNamingConvention();
             UserAgent = SpeakEasy.UserAgent.SpeakEasy;
             ArrayFormatter = new MultipleValuesArrayFormatter();
@@ -28,11 +26,6 @@ namespace SpeakEasy
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new TextPlainSerializer());
         }
-
-        /// <summary>
-        /// The logging mechanism the client will use
-        /// </summary>
-        public IInstrumentationSink InstrumentationSink { get; set; }
 
         /// <summary>
         /// Any custom authentication required to access the http api
@@ -43,6 +36,11 @@ namespace SpeakEasy
         /// The available serialiazers
         /// </summary>
         public List<ISerializer> Serializers { get; set; }
+
+        /// <summary>
+        /// The available serialiazers
+        /// </summary>
+        public List<IHttpMiddleware> Middleware { get; set; } = new List<IHttpMiddleware>();
 
         /// <summary>
         /// The user agent the web client will send when making http requests
@@ -73,6 +71,11 @@ namespace SpeakEasy
         /// Indicates whether or not the http client settings are valid
         /// </summary>
         public bool IsValid => Serializers.Any() && ArrayFormatter != null;
+
+        public void AddMiddleware(IHttpMiddleware middleware)
+        {
+            Middleware.Add(middleware);
+        }
 
         /// <summary>
         /// Configures the give serializer

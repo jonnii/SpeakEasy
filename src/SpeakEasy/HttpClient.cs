@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using SpeakEasy.Requests;
@@ -34,47 +35,81 @@ namespace SpeakEasy
 
         private readonly IResourceMerger merger;
 
+        private readonly HttpClientSettings settings;
+
         public HttpClient(string rootUrl, HttpClientSettings settings)
         {
+            this.settings = settings;
+
             settings.Validate();
 
+            var cookieContainer = new CookieContainer();
+            var client = BuildClient(cookieContainer);
+
             requestRunner = new RequestRunner(
+                client,
                 new TransmissionSettings(settings.Serializers),
-                settings.Authenticator,
                 settings.ArrayFormatter,
-                new CookieContainer(),
-                settings.UserAgent);
+                cookieContainer,
+                settings.Middleware);
 
             merger = new ResourceMerger(settings.NamingConvention);
 
             UserAgent = settings.UserAgent;
             Root = new Resource(rootUrl);
-            InstrumentationSink = settings.InstrumentationSink;
         }
 
-        public HttpClient(
-            IRequestRunner requestRunner,
-            INamingConvention namingConvention,
-            IInstrumentationSink instrumentationSink,
-            IUserAgent userAgent)
+        internal HttpClient(
+            string rootUrl,
+            HttpClientSettings settings,
+            IRequestRunner requestRunner)
         {
+            this.settings = settings;
+
+            settings.Validate();
+
             this.requestRunner = requestRunner;
 
-            UserAgent = userAgent;
-            InstrumentationSink = instrumentationSink;
+            merger = new ResourceMerger(settings.NamingConvention);
 
-            merger = new ResourceMerger(namingConvention);
+            UserAgent = settings.UserAgent;
+            Root = new Resource(rootUrl);
         }
 
-        public event EventHandler<BeforeRequestEventArgs> BeforeRequest;
-
-        public event EventHandler<AfterRequestEventArgs> AfterRequest;
-
-        public IInstrumentationSink InstrumentationSink { get; }
-
-        public Resource Root { get; set; }
+        public Resource Root { get; }
 
         public IUserAgent UserAgent { get; }
+
+        public System.Net.Http.HttpClient BuildClient(CookieContainer cookieContainer)
+        {
+            var handler = new HttpClientHandler
+            {
+                AllowAutoRedirect = false,
+                UseDefaultCredentials = false,
+                CookieContainer = cookieContainer
+            };
+
+            settings.Authenticator.Authenticate(handler);
+
+            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
+            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
+
+            // BuildWebRequestFrameworkSpecific(httpRequest, handler);
+
+            // foreach (var header in httpRequest.Headers)
+            // {
+            //     ApplyHeaderToRequest(header, handler);
+            // }
+
+            var httpClient = new System.Net.Http.HttpClient(handler);
+
+            settings.Authenticator.Authenticate(httpClient);
+
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent.Name);
+
+            return httpClient;
+        }
+
 
         public Task<IHttpResponse> Get(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -182,36 +217,16 @@ namespace SpeakEasy
             return Run(request, cancellationToken);
         }
 
-        public async Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest
         {
-            OnBeforeRequest(request);
-
-            var watch = Stopwatch.StartNew();
-            var response = await requestRunner.RunAsync(request, cancellationToken).ConfigureAwait(false);
-            watch.Stop();
-
-            OnAfterRequest(request, response, watch.ElapsedMilliseconds);
-
-            return response;
+            return requestRunner.RunAsync(request, cancellationToken);
         }
 
         public Resource BuildRelativeResource(string relativeUrl, object segments, bool shouldMergeProperties = true)
         {
             var resource = Root.Append(relativeUrl);
             return merger.Merge(resource, segments, shouldMergeProperties);
-        }
-
-        private void OnBeforeRequest(IHttpRequest request)
-        {
-            InstrumentationSink.BeforeRequest(request);
-            BeforeRequest?.Invoke(this, new BeforeRequestEventArgs(request));
-        }
-
-        private void OnAfterRequest(IHttpRequest request, IHttpResponse response, long elapsedMs)
-        {
-            AfterRequest?.Invoke(this, new AfterRequestEventArgs(request, response, elapsedMs));
-            InstrumentationSink.AfterRequest(request, response, elapsedMs);
         }
     }
 }

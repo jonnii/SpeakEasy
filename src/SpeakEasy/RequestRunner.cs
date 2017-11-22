@@ -2,74 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using SpeakEasy.Middleware;
 
 namespace SpeakEasy
 {
+    using SystemHttpClient = System.Net.Http.HttpClient;
+
     public class RequestRunner : IRequestRunner
     {
-        private readonly IAuthenticator authenticator;
+        private readonly List<IHttpMiddleware> middleware;
 
-        private readonly CookieContainer cookieContainer;
-
-        private readonly IUserAgent userAgent;
-
-        private readonly List<IHttpMiddleware> middleware = new List<IHttpMiddleware>();
+        private readonly IHttpMiddleware defaultMiddleware;
 
         public RequestRunner(
+            SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
-            IAuthenticator authenticator,
             IArrayFormatter arrayFormatter,
             CookieContainer cookieContainer,
-            IUserAgent userAgent)
+            List<IHttpMiddleware> middleware)
         {
-            this.authenticator = authenticator;
-            this.cookieContainer = cookieContainer;
-            this.userAgent = userAgent;
+            this.middleware = middleware;
 
-            var client = BuildClient();
-
-            var defaultMiddleware = new DefaultRequestDispatchingMiddleware(
+            defaultMiddleware = new DefaultRequestDispatchingMiddleware(
                 transmissionSettings,
                 arrayFormatter,
                 cookieContainer,
                 client);
-
-            middleware.Add(defaultMiddleware);
-        }
-
-        public System.Net.Http.HttpClient BuildClient()
-        {
-            var handler = new HttpClientHandler
-            {
-                AllowAutoRedirect = false,
-                UseDefaultCredentials = false,
-                CookieContainer = cookieContainer,
-                //Credentials = httpRequest.Credentials,
-            };
-
-            authenticator.Authenticate(handler);
-
-            // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
-
-            // BuildWebRequestFrameworkSpecific(httpRequest, handler);
-
-            // foreach (var header in httpRequest.Headers)
-            // {
-            //     ApplyHeaderToRequest(header, handler);
-            // }
-
-            var httpClient = new System.Net.Http.HttpClient(handler);
-
-            authenticator.Authenticate(httpClient);
-
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent.Name);
-
-            return httpClient;
         }
 
         public Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
@@ -81,16 +41,20 @@ namespace SpeakEasy
 
         private Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> BuildMiddlewareChain()
         {
+            if (!middleware.Any())
+            {
+                return defaultMiddleware.Invoke;
+            }
+
             var head = middleware[0];
 
             for (var i = 0; i < middleware.Count; ++i)
             {
                 var current = middleware[i];
 
-                if (i < middleware.Count - 1)
-                {
-                    current.Next = middleware[i + 1];
-                }
+                current.Next = i < middleware.Count - 1
+                    ? middleware[i + 1]
+                    : defaultMiddleware;
             }
 
             return head.Invoke;

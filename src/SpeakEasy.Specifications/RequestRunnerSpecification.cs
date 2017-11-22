@@ -21,16 +21,16 @@ namespace SpeakEasy.Specifications
             request.WhenToldTo(r => r.HttpMethod).Return(HttpMethod.Get);
         };
 
-        class when
-        {
-            static System.Net.Http.HttpClient client;
+        //class when
+        //{
+        //    static System.Net.Http.HttpClient client;
 
-            Because of = () =>
-                client = Subject.BuildClient();
+        //    Because of = () =>
+        //        client = Subject.BuildClient();
 
-            It should_have_user_agent = () =>
-                client.DefaultRequestHeaders.UserAgent.ToString().ShouldEqual("SpeakEasy/1.0.0");
-        }
+        //    It should_have_user_agent = () =>
+        //        client.DefaultRequestHeaders.UserAgent.ToString().ShouldEqual("SpeakEasy/1.0.0");
+        //}
 
         //class when_building_web_request_with_get_request
         //{

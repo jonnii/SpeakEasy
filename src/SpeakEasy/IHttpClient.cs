@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,16 +9,6 @@ namespace SpeakEasy
     /// </summary>
     public interface IHttpClient
     {
-        /// <summary>
-        /// An event that is raised before each request is run
-        /// </summary>
-        event EventHandler<BeforeRequestEventArgs> BeforeRequest;
-
-        /// <summary>
-        /// An event that is raised after each request is s
-        /// </summary>
-        event EventHandler<AfterRequestEventArgs> AfterRequest;
-
         /// <summary>
         /// The root resource for this http client, all calls will be relative to this resource
         /// </summary>

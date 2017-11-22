@@ -2,7 +2,6 @@ using System;
 using Machine.Specifications;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
-using SpeakEasy.Instrumentation;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
@@ -21,9 +20,6 @@ namespace SpeakEasy.Specifications
             {
                 It should_have_null_authenticator = () =>
                     settings.Authenticator.ShouldBeOfExactType<NullAuthenticator>();
-
-                It should_have_null_instrumentation_sink = () =>
-                    settings.InstrumentationSink.ShouldBeOfExactType<NullInstrumentationSink>();
 
                 It should_have_default_naming_convention = () =>
                     settings.NamingConvention.ShouldBeOfExactType<DefaultNamingConvention>();
