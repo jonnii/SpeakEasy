@@ -10,7 +10,7 @@ namespace SpeakEasy.Specifications.Fixtures
         {
             var cookies = new[]
             {
-                new Cookie("foo", "bob"),
+                new Cookie("foo", "bob")
             };
 
             return new HttpResponse(
