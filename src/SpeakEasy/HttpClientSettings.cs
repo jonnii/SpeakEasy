@@ -26,7 +26,7 @@ namespace SpeakEasy
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new TextPlainSerializer());
 
-            Middleware.AppendMiddleware(new UserAgentMiddleware());
+            Middleware.Append(new UserAgentMiddleware());
         }
 
         /// <summary>
@@ -102,6 +102,5 @@ namespace SpeakEasy
 
             throw new InvalidOperationException("The http client settings are not valid.");
         }
-
     }
 }

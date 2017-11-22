@@ -27,13 +27,9 @@ namespace SpeakEasy
         {
             this.middleware = middleware;
 
-            defaultMiddleware = new RequestMiddleware(
-                transmissionSettings,
-                arrayFormatter,
-                cookieContainer,
-                client);
+            defaultMiddleware = new RequestMiddleware(client, transmissionSettings, arrayFormatter, cookieContainer);
 
-            middleware.AppendMiddleware(defaultMiddleware);
+            middleware.Append(defaultMiddleware);
 
             middlewareHead = middleware.BuildMiddlewareChain();
         }

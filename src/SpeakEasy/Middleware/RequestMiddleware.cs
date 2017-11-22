@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Middleware
 {
+    using SystemHttpClient = System.Net.Http.HttpClient;
+
     internal class RequestMiddleware : IHttpMiddleware
     {
         private static readonly Cookie[] NoCookies = new Cookie[0];
@@ -19,13 +21,13 @@ namespace SpeakEasy.Middleware
 
         private readonly CookieContainer cookieContainer;
 
-        private readonly System.Net.Http.HttpClient client;
+        private readonly SystemHttpClient client;
 
         public RequestMiddleware(
+            SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
             IArrayFormatter arrayFormatter,
-            CookieContainer cookieContainer,
-            System.Net.Http.HttpClient client)
+            CookieContainer cookieContainer)
         {
             this.transmissionSettings = transmissionSettings;
             this.arrayFormatter = arrayFormatter;

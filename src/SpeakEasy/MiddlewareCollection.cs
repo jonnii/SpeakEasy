@@ -8,37 +8,37 @@ namespace SpeakEasy
 {
     public class MiddlewareCollection
     {
-        private List<IHttpMiddleware> middlewares = new List<IHttpMiddleware>();
+        private readonly List<IHttpMiddleware> middlewares = new List<IHttpMiddleware>();
 
         public int MiddlewareCount => middlewares.Count;
 
-        public void AppendMiddleware(IHttpMiddleware middleware)
+        public void Append(IHttpMiddleware middleware)
         {
             middlewares.Add(middleware);
         }
 
-        public void PrependMiddleware(IHttpMiddleware middleware)
+        public void Prepend(IHttpMiddleware middleware)
         {
             middlewares.Insert(0, middleware);
         }
 
-        public bool HasMiddleware<TMiddleware>()
+        public bool Has<TMiddleware>()
             where TMiddleware : IHttpMiddleware
         {
             return middlewares.Any(t => t is TMiddleware);
         }
 
-        public void ReplaceMiddleware<TMiddleware>(TMiddleware replacement)
+        public void Replace<TMiddleware>(TMiddleware replacement)
             where TMiddleware : IHttpMiddleware
         {
-            var index = RemoveMiddleware<TMiddleware>();
+            var index = Remove<TMiddleware>();
             middlewares.Insert(index, replacement);
         }
 
-        public int RemoveMiddleware<TMiddleware>()
+        public int Remove<TMiddleware>()
             where TMiddleware : IHttpMiddleware
         {
-            if (!HasMiddleware<TMiddleware>())
+            if (!Has<TMiddleware>())
             {
                 throw new ArgumentException();
             }
