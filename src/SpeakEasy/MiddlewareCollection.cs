@@ -10,7 +10,18 @@ namespace SpeakEasy
     {
         private readonly List<IHttpMiddleware> middlewares = new List<IHttpMiddleware>();
 
-        public int MiddlewareCount => middlewares.Count;
+        public int Count => middlewares.Count;
+
+        public bool Has<TMiddleware>()
+            where TMiddleware : IHttpMiddleware
+        {
+            return middlewares.Any(t => t is TMiddleware);
+        }
+
+        public IHttpMiddleware AtPosition(int index)
+        {
+            return middlewares[index];
+        }
 
         public void Append(IHttpMiddleware middleware)
         {
@@ -20,12 +31,6 @@ namespace SpeakEasy
         public void Prepend(IHttpMiddleware middleware)
         {
             middlewares.Insert(0, middleware);
-        }
-
-        public bool Has<TMiddleware>()
-            where TMiddleware : IHttpMiddleware
-        {
-            return middlewares.Any(t => t is TMiddleware);
         }
 
         public void Replace<TMiddleware>(TMiddleware replacement)

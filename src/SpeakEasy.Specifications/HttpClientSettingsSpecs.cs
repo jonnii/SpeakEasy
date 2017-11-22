@@ -102,8 +102,8 @@ namespace SpeakEasy.Specifications
             It should_have_middleware = () =>
                 settings.Middleware.Has<TestMiddleware>().ShouldBeTrue();
 
-            //It should_add_to_end_of_middleware_chain = () =>
-            //    settings.Middleware.Last().ShouldBeOfExactType<TestMiddleware>();
+            It should_add_to_end_of_middleware_chain = () =>
+                settings.Middleware.AtPosition(settings.Middleware.Count - 1).ShouldBeOfExactType<TestMiddleware>();
         }
 
         class when_prepending_middleware
@@ -114,8 +114,8 @@ namespace SpeakEasy.Specifications
             It should_have_middleware = () =>
                 settings.Middleware.Has<TestMiddleware>().ShouldBeTrue();
 
-            //It should_add_to_start_of_middleware_chain = () =>
-            //    settings.Middleware.First().ShouldBeOfExactType<TestMiddleware>();
+            It should_add_to_start_of_middleware_chain = () =>
+                settings.Middleware.AtPosition(0).ShouldBeOfExactType<TestMiddleware>();
         }
 
         class when_replacing_middleware_with_same_type
@@ -133,14 +133,14 @@ namespace SpeakEasy.Specifications
             Because of = () =>
                 settings.Middleware.Replace(replacement);
 
-            //It should_replace_middleware_in_place = () =>
-            //    settings.Middleware.ElementAt(1).ShouldBeOfExactType<UserAgentMiddleware>();
+            It should_replace_middleware_in_place = () =>
+                settings.Middleware.AtPosition(1).ShouldBeOfExactType<UserAgentMiddleware>();
 
             It should_have_correct_middleware_count = () =>
-                settings.Middleware.MiddlewareCount.ShouldEqual(3);
+                settings.Middleware.Count.ShouldEqual(3);
 
-            //It should_replace_instance = () =>
-            //    settings.Middleware.ElementAt(1).ShouldBeTheSameAs(replacement);
+            It should_replace_instance = () =>
+                settings.Middleware.AtPosition(1).ShouldBeTheSameAs(replacement);
         }
 
         class TestMiddleware : IHttpMiddleware
