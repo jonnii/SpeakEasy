@@ -1,5 +1,4 @@
 using System;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -202,20 +201,6 @@ namespace SpeakEasy
         /// <returns>A chainable http response</returns>
         Task<IHttpResponse> Run<T>(T request, CancellationToken cancellationToken = default(CancellationToken))
             where T : IHttpRequest;
-
-        IHttpEndpoint Pipeline(Action<IHttpPipeline> action);
-    }
-
-    public interface IHttpPipeline
-    {
-        void BeforeRequest(Header header);
-
-        void BeforeRequest(Action<HttpRequestHeaders> header);
-    }
-
-    public interface IHttpEndpoint
-    {
-        Task<IHttpResponse> Get(string relativeUrl, object segments = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }
 

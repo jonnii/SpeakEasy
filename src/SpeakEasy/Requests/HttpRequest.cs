@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
 namespace SpeakEasy.Requests
 {
     internal abstract class HttpRequest : IHttpRequest
     {
-        private readonly List<Header> headers = new List<Header>();
-
         protected HttpRequest(Resource resource, IRequestBody body)
         {
             Resource = resource;
@@ -29,10 +29,6 @@ namespace SpeakEasy.Requests
 
         public abstract HttpMethod HttpMethod { get; }
 
-        public int NumHeaders => headers.Count;
-
-        public IEnumerable<Header> Headers => headers;
-
         public ICredentials Credentials { get; set; }
 
         public bool AllowAutoRedirect { get; set; }
@@ -49,6 +45,18 @@ namespace SpeakEasy.Requests
             var queryString = Resource.GetEncodedParameters(arrayFormatter);
 
             return string.Concat(Resource.Path, "?", queryString);
+        }
+
+        public List<Action<HttpRequestHeaders>> Headers { get; } = new List<Action<HttpRequestHeaders>>();
+
+        public void AddHeader(string header, string value)
+        {
+            Headers.Add(f => f.Add(header, value));
+        }
+
+        public void AddHeader(Action<HttpRequestHeaders> headers)
+        {
+            Headers.Add(headers);
         }
     }
 }

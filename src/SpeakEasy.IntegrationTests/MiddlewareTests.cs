@@ -42,6 +42,9 @@ namespace SpeakEasy.IntegrationTests
 
         public Task<IHttpResponse> Invoke(IHttpRequest request, CancellationToken cancellationToken)
         {
+            request.AddHeader("x-special-header", "frank");
+            request.AddHeader(x => x.ExpectContinue = true);
+
             return Next.Invoke(request, cancellationToken);
         }
     }

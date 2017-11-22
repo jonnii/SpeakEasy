@@ -17,7 +17,7 @@ namespace SpeakEasy
 
         private readonly IUserAgent userAgent;
 
-        public List<IHttpMiddleware> middleware = new List<IHttpMiddleware>();
+        private readonly List<IHttpMiddleware> middleware = new List<IHttpMiddleware>();
 
         public RequestRunner(
             ITransmissionSettings transmissionSettings,
@@ -54,7 +54,6 @@ namespace SpeakEasy
             authenticator.Authenticate(handler);
 
             // handler.AllowAutoRedirect = httpRequest.AllowAutoRedirect;
-            // handler.Method = httpRequest.HttpMethod;
             // handler.Accept = string.Join(", ", transmissionSettings.DeserializableMediaTypes);
 
             // BuildWebRequestFrameworkSpecific(httpRequest, handler);
@@ -75,12 +74,12 @@ namespace SpeakEasy
 
         public Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var head = BuildMiddlwareChain();
+            var head = BuildMiddlewareChain();
 
             return head.Invoke(request, cancellationToken);
         }
 
-        private Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> BuildMiddlwareChain()
+        private Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> BuildMiddlewareChain()
         {
             var head = middleware[0];
 
@@ -117,21 +116,5 @@ namespace SpeakEasy
         //         webRequest.MaximumAutomaticRedirections = httpRequest.MaximumAutomaticRedirections.Value;
         //     }
         // }
-
-        private void ApplyHeaderToRequest(Header header, HttpRequestMessage request)
-        {
-            var headerName = header.Name;
-
-            // if (reservedHeaderApplicators.ContainsKey(headerName))
-            // {
-            //     reservedHeaderApplicators[headerName](request, header.Value);
-            // }
-            // else
-            {
-                request.Headers.Add(header.Name, new[] { header.Value });
-
-                // request.Headers[header.Name] = header.Value;
-            }
-        }
     }
 }

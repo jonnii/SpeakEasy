@@ -71,10 +71,9 @@ namespace SpeakEasy.Middleware
                 httpRequest.HttpMethod,
                 httpRequest.BuildRequestUrl(arrayFormatter));
 
-            // untyped headers
-            foreach (var header in httpRequest.Headers)
+            foreach (var tt in httpRequest.Headers)
             {
-                message.Headers.Add(header.Name, header.Value);
+                tt(message.Headers);
             }
 
             return message;
@@ -111,7 +110,7 @@ namespace SpeakEasy.Middleware
                 httpResponse.StatusCode,
                 httpResponse.ReasonPhrase,
                 httpResponse.RequestMessage.RequestUri,
-                Enumerable.ToArray<Cookie>(cookies),
+                cookies,
                 contentType,
                 httpResponse.Headers.Server.ToString(),
                 httpResponse.Content.Headers);

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
@@ -41,16 +43,6 @@ namespace SpeakEasy
         int? MaximumAutomaticRedirections { get; set; }
 
         /// <summary>
-        /// The number of headers on this http request
-        /// </summary>
-        int NumHeaders { get; }
-
-        /// <summary>
-        /// Gets the headers attached to this http request
-        /// </summary>
-        IEnumerable<Header> Headers { get; }
-
-        /// <summary>
         /// The credentials on this http request
         /// </summary>
         ICredentials Credentials { get; set; }
@@ -65,5 +57,11 @@ namespace SpeakEasy
         /// </summary>
         /// <returns>A url</returns>
         string BuildRequestUrl(IArrayFormatter arrayFormatter);
+
+        void AddHeader(string header, string value);
+
+        void AddHeader(Action<HttpRequestHeaders> headers);
+
+        List<Action<HttpRequestHeaders>> Headers { get; }
     }
 }
