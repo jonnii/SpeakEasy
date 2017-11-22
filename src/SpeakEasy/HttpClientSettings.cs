@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
+using SpeakEasy.Middleware;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy
@@ -20,7 +21,6 @@ namespace SpeakEasy
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
             NamingConvention = new DefaultNamingConvention();
-            UserAgent = SpeakEasy.UserAgent.SpeakEasy;
             ArrayFormatter = new MultipleValuesArrayFormatter();
 
             Serializers.Add(new DefaultJsonSerializer());
@@ -40,12 +40,10 @@ namespace SpeakEasy
         /// <summary>
         /// The available serialiazers
         /// </summary>
-        public List<IHttpMiddleware> Middleware { get; set; } = new List<IHttpMiddleware>();
-
-        /// <summary>
-        /// The user agent the web client will send when making http requests
-        /// </summary>
-        public IUserAgent UserAgent { get; set; }
+        public List<IHttpMiddleware> Middleware { get; set; } = new List<IHttpMiddleware>
+        {
+            new UserAgentMiddleware()
+        };
 
         /// <summary>
         /// The array formatter that will be used to format query string array paramters
@@ -109,6 +107,32 @@ namespace SpeakEasy
             }
 
             throw new InvalidOperationException("The http client settings are not valid.");
+        }
+
+        public bool HasMiddleware<TMiddleware>()
+            where TMiddleware : IHttpMiddleware
+        {
+            return Middleware.Any(t => t is TMiddleware);
+        }
+
+        public void ReplaceMiddleware<TMiddleware>(TMiddleware replacement)
+            where TMiddleware : IHttpMiddleware
+        {
+            var index = RemoveMiddleware<TMiddleware>();
+            Middleware.Insert(index, replacement);
+        }
+
+        public int RemoveMiddleware<TMiddleware>()
+            where TMiddleware : IHttpMiddleware
+        {
+            if (!HasMiddleware<TMiddleware>())
+            {
+                throw new ArgumentException();
+            }
+
+            var index = Middleware.FindIndex(t => t is TMiddleware);
+            Middleware.RemoveAt(index);
+            return index;
         }
     }
 }

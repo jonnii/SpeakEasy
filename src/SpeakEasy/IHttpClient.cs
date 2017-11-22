@@ -15,11 +15,6 @@ namespace SpeakEasy
         Resource Root { get; }
 
         /// <summary>
-        /// The currently set user agent
-        /// </summary>
-        IUserAgent UserAgent { get; }
-
-        /// <summary>
         /// Executes an http get request asynchronously
         /// </summary>
         /// <param name="relativeUrl">The relative url to get</param>

@@ -25,7 +25,7 @@ namespace SpeakEasy
         {
             this.middleware = middleware;
 
-            defaultMiddleware = new DefaultRequestDispatchingMiddleware(
+            defaultMiddleware = new DefaultRequestMiddleware(
                 transmissionSettings,
                 arrayFormatter,
                 cookieContainer,

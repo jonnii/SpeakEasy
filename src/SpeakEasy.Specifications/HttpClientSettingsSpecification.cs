@@ -2,6 +2,7 @@ using System;
 using Machine.Specifications;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
+using SpeakEasy.Middleware;
 using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
@@ -25,7 +26,7 @@ namespace SpeakEasy.Specifications
                     settings.NamingConvention.ShouldBeOfExactType<DefaultNamingConvention>();
 
                 It should_have_default_user_agent = () =>
-                    settings.UserAgent.Name.ShouldStartWith("SpeakEasy/");
+                    settings.HasMiddleware<UserAgentMiddleware>().ShouldBeTrue();
 
                 It should_have_default_array_formatter = () =>
                     settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();

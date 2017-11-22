@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -55,7 +53,6 @@ namespace SpeakEasy
 
             merger = new ResourceMerger(settings.NamingConvention);
 
-            UserAgent = settings.UserAgent;
             Root = new Resource(rootUrl);
         }
 
@@ -72,13 +69,10 @@ namespace SpeakEasy
 
             merger = new ResourceMerger(settings.NamingConvention);
 
-            UserAgent = settings.UserAgent;
             Root = new Resource(rootUrl);
         }
 
         public Resource Root { get; }
-
-        public IUserAgent UserAgent { get; }
 
         public System.Net.Http.HttpClient BuildClient(CookieContainer cookieContainer)
         {
@@ -104,9 +98,7 @@ namespace SpeakEasy
             var httpClient = new System.Net.Http.HttpClient(handler);
 
             settings.Authenticator.Authenticate(httpClient);
-
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(settings.UserAgent.Name);
-
+            
             return httpClient;
         }
 
