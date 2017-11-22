@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,10 +10,6 @@ namespace SpeakEasy
 
     public class RequestRunner : IRequestRunner
     {
-        private readonly MiddlewareCollection middleware;
-
-        private readonly IHttpMiddleware defaultMiddleware;
-
         private readonly Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> middlewareHead;
 
         public RequestRunner(
@@ -25,12 +19,8 @@ namespace SpeakEasy
             CookieContainer cookieContainer,
             MiddlewareCollection middleware)
         {
-            this.middleware = middleware;
-
-            defaultMiddleware = new RequestMiddleware(client, transmissionSettings, arrayFormatter, cookieContainer);
-
+            var defaultMiddleware = new RequestMiddleware(client, transmissionSettings, arrayFormatter, cookieContainer);
             middleware.Append(defaultMiddleware);
-
             middlewareHead = middleware.BuildMiddlewareChain();
         }
 

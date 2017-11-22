@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Machine.Fakes;
 using Machine.Specifications;
+using SpeakEasy.Bodies;
 using SpeakEasy.Requests;
 
 namespace SpeakEasy.Specifications
