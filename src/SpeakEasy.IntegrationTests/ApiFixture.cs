@@ -21,7 +21,7 @@ namespace SpeakEasy.IntegrationTests
             host.Start();
 
             var settings = new HttpClientSettings();
-            settings.AddMiddleware(new ConsoleLoggingMiddleware());
+            settings.AppendMiddleware(new ConsoleLoggingMiddleware());
 
             Client = HttpClient.Create("http://localhost:1337/api", settings);
         }

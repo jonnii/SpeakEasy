@@ -40,7 +40,7 @@ namespace SpeakEasy
         /// <summary>
         /// The available serialiazers
         /// </summary>
-        public List<IHttpMiddleware> Middleware { get; set; } = new List<IHttpMiddleware>
+        internal List<IHttpMiddleware> Middleware { get; } = new List<IHttpMiddleware>
         {
             new UserAgentMiddleware()
         };
@@ -69,11 +69,6 @@ namespace SpeakEasy
         /// Indicates whether or not the http client settings are valid
         /// </summary>
         public bool IsValid => Serializers.Any() && ArrayFormatter != null;
-
-        public void AddMiddleware(IHttpMiddleware middleware)
-        {
-            Middleware.Add(middleware);
-        }
 
         /// <summary>
         /// Configures the give serializer
@@ -109,6 +104,18 @@ namespace SpeakEasy
             throw new InvalidOperationException("The http client settings are not valid.");
         }
 
+        public int MiddlewareCount => Middleware.Count;
+
+        public void AppendMiddleware(IHttpMiddleware middleware)
+        {
+            Middleware.Add(middleware);
+        }
+
+        public void PrependMiddleware(IHttpMiddleware middleware)
+        {
+            Middleware.Insert(0, middleware);
+        }
+
         public bool HasMiddleware<TMiddleware>()
             where TMiddleware : IHttpMiddleware
         {
@@ -133,6 +140,11 @@ namespace SpeakEasy
             var index = Middleware.FindIndex(t => t is TMiddleware);
             Middleware.RemoveAt(index);
             return index;
+        }
+
+        public List<IHttpMiddleware> ReifyMiddlewareChain()
+        {
+            throw new NotImplementedException();
         }
     }
 }

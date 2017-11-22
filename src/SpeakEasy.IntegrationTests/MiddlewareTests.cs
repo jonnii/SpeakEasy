@@ -15,8 +15,8 @@ namespace SpeakEasy.IntegrationTests
         {
             var settings = new HttpClientSettings();
 
-            settings.AddMiddleware(new ConsoleLoggingMiddleware());
-            settings.AddMiddleware(new CustomHeadersMiddleware(name));
+            settings.AppendMiddleware(new ConsoleLoggingMiddleware());
+            settings.AppendMiddleware(new CustomHeadersMiddleware(name));
 
             var client = HttpClient.Create("http://localhost:1337/api", settings);
 
@@ -35,7 +35,7 @@ namespace SpeakEasy.IntegrationTests
         {
             var settings = new HttpClientSettings();
 
-            settings.AddMiddleware(new ConsoleLoggingMiddleware());
+            settings.AppendMiddleware(new ConsoleLoggingMiddleware());
             settings.ReplaceMiddleware(new UserAgentMiddleware(new UserAgent(userAgent)));
 
             var client = HttpClient.Create("http://localhost:1337/api", settings);
