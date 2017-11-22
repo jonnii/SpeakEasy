@@ -1,11 +1,8 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Threading;
-using Machine.Fakes;
+﻿using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Middleware;
 
-namespace SpeakEasy.Specifications
+namespace SpeakEasy.Specifications.Middleware
 {
     [Subject(typeof(UserAgentMiddleware))]
     class UserAgentMiddlewareSpecs : WithFakes

@@ -42,7 +42,7 @@ namespace SpeakEasy
             settings.Validate();
 
             var cookieContainer = new CookieContainer();
-            var client = BuildClient(cookieContainer);
+            var client = BuildSystemClient(cookieContainer);
 
             requestRunner = new RequestRunner(
                 client,
@@ -74,7 +74,7 @@ namespace SpeakEasy
 
         public Resource Root { get; }
 
-        public System.Net.Http.HttpClient BuildClient(CookieContainer cookieContainer)
+        internal System.Net.Http.HttpClient BuildSystemClient(CookieContainer cookieContainer)
         {
             var handler = new HttpClientHandler
             {
@@ -89,7 +89,7 @@ namespace SpeakEasy
             };
 
             settings.Authenticator.Authenticate(handler);
-            
+
             var httpClient = new System.Net.Http.HttpClient(handler);
 
             settings.Authenticator.Authenticate(httpClient);

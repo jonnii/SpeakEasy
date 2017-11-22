@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 
@@ -26,11 +25,6 @@ namespace SpeakEasy
         /// The body of this request
         /// </summary>
         IRequestBody Body { get; }
-
-        /// <summary>
-        /// The credentials on this http request
-        /// </summary>
-        ICredentials Credentials { get; set; }
 
         /// <summary>
         /// Builds the method specific request url

@@ -22,8 +22,6 @@ namespace SpeakEasy.Requests
 
         public abstract HttpMethod HttpMethod { get; }
 
-        public ICredentials Credentials { get; set; }
-
         public string BuildRequestUrl(IArrayFormatter arrayFormatter)
         {
             if (!Resource.HasParameters || Body.ConsumesResourceParameters)
@@ -38,7 +36,7 @@ namespace SpeakEasy.Requests
 
         public void AddHeader(string header, string value)
         {
-            Headers.Add(f => f.Add(header, value));
+            Headers.Add(h => h.Add(header, value));
         }
 
         public void AddHeader(Action<HttpRequestHeaders> headers)
