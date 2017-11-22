@@ -141,10 +141,5 @@ namespace SpeakEasy
             Middleware.RemoveAt(index);
             return index;
         }
-
-        public List<IHttpMiddleware> ReifyMiddlewareChain()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

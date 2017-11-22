@@ -16,6 +16,8 @@ namespace SpeakEasy
 
         private readonly IHttpMiddleware defaultMiddleware;
 
+        private readonly Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> middlewareHead;
+
         public RequestRunner(
             SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
@@ -30,13 +32,13 @@ namespace SpeakEasy
                 arrayFormatter,
                 cookieContainer,
                 client);
+
+            middlewareHead = BuildMiddlewareChain();
         }
 
         public Task<IHttpResponse> RunAsync(IHttpRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var head = BuildMiddlewareChain();
-
-            return head.Invoke(request, cancellationToken);
+            return middlewareHead.Invoke(request, cancellationToken);
         }
 
         private Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> BuildMiddlewareChain()
