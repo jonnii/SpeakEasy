@@ -1,3 +1,5 @@
+using SpeakEasy.Bodies;
+
 namespace SpeakEasy.Requests
 {
     internal abstract class PostLikeRequest : HttpRequest

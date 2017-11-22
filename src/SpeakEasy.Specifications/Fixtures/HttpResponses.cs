@@ -8,11 +8,6 @@ namespace SpeakEasy.Specifications.Fixtures
     {
         public static HttpResponse Create(ISerializer serializer, Stream bodyStream, HttpStatusCode code)
         {
-            var headers = new[]
-            {
-                new Header("awesome-header", "value")
-            };
-
             var cookies = new[]
             {
                 new Cookie("foo", "bob"),
