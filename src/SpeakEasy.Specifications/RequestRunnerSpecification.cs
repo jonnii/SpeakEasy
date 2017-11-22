@@ -32,45 +32,45 @@ namespace SpeakEasy.Specifications
                 client.DefaultRequestHeaders.UserAgent.ToString().ShouldEqual("SpeakEasy/1.0.0");
         }
 
-        class when_building_web_request_with_get_request
-        {
-            Establish context = () =>
-                request = new GetRequest(new Resource("http://example.com/companies"));
+        //class when_building_web_request_with_get_request
+        //{
+        //    Establish context = () =>
+        //        request = new GetRequest(new Resource("http://example.com/companies"));
 
-            Because of = () =>
-                webRequest = Subject.BuildHttpRequestMessage(request);
+        //    Because of = () =>
+        //        webRequest = Subject.BuildHttpRequestMessage(request);
 
-            It should_set_url = () =>
-                webRequest.RequestUri.ToString().ShouldEqual("http://example.com/companies");
+        //    It should_set_url = () =>
+        //        webRequest.RequestUri.ToString().ShouldEqual("http://example.com/companies");
 
-            It should_set_method = () =>
-                webRequest.Method.ShouldEqual(HttpMethod.Get);
+        //    It should_set_method = () =>
+        //        webRequest.Method.ShouldEqual(HttpMethod.Get);
 
-            // It should_initialize_cookie_container = () =>
-            //     webRequest.CookieContainer.ShouldNotBeNull();
+        //    // It should_initialize_cookie_container = () =>
+        //    //     webRequest.CookieContainer.ShouldNotBeNull();
 
-            // It should_get_cookie_from_cookie_strategy = () =>
-            //     The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
-        }
+        //    // It should_get_cookie_from_cookie_strategy = () =>
+        //    //     The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
+        //}
 
 
-        class when_building_web_request_with_options_request
-        {
-            Establish context = () =>
-                request = new OptionsRequest(new Resource("http://example.com/companies"));
+        //class when_building_web_request_with_options_request
+        //{
+        //    Establish context = () =>
+        //        request = new OptionsRequest(new Resource("http://example.com/companies"));
 
-            Because of = () =>
-                webRequest = Subject.BuildHttpRequestMessage(request);
+        //    Because of = () =>
+        //        webRequest = Subject.BuildHttpRequestMessage(request);
 
-            It should_set_method = () =>
-                webRequest.Method.ShouldEqual(HttpMethod.Options);
+        //    It should_set_method = () =>
+        //        webRequest.Method.ShouldEqual(HttpMethod.Options);
 
-            // It should_initialize_cookie_container = () =>
-            //     webRequest.CookieContainer.ShouldNotBeNull();
+        //    // It should_initialize_cookie_container = () =>
+        //    //     webRequest.CookieContainer.ShouldNotBeNull();
 
-            // It should_get_cookie_from_cookie_strategy = () =>
-            //     The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
-        }
+        //    // It should_get_cookie_from_cookie_strategy = () =>
+        //    //     The<ICookieStrategy>().WasToldTo(s => s.Get(Param.IsAny<IHttpRequest>()));
+        //}
 
         // [Subject(typeof(RequestRunner))]
         // public class when_building_web_request_with_custom_user_agent : with_request_runner
