@@ -36,6 +36,12 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return products;
         }
 
+        [HttpGet("overview")]
+        public dynamic GetOverview()
+        {
+            return "a super string";
+        }
+
         [HttpGet("{id}", Name = nameof(GetProduct))]
         public Product GetProduct(int id)
         {
