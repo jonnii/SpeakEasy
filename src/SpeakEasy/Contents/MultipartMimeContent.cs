@@ -33,13 +33,18 @@ namespace SpeakEasy.Contents
                 await file.WriteToAsync(ms);
                 ms.Position = 0;
 
-                var byteArrayContent = new StreamContent(ms);
+                var fileContent = new StreamContent(ms);
                 if (!string.IsNullOrEmpty(file.ContentType))
                 {
-                    byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                    fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
                 }
 
-                content.Add(byteArrayContent, file.Name, file.FileName);
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = $"\"{file.FileName}\""
+                };
+
+                content.Add(fileContent, file.Name, file.FileName);
             }
 
             if (resource.HasParameters)
