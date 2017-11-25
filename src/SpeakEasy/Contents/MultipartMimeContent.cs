@@ -1,5 +1,7 @@
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,6 +50,42 @@ namespace SpeakEasy.Contents
             }
 
             await WriteFooter(stream, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task WriteTo(HttpRequestMessage httpRequest, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var content = new MultipartFormDataContent();
+
+            foreach (var file in files)
+            {
+                var ms = new MemoryStream();
+                await file.WriteToAsync(ms);
+                ms.Position = 0;
+
+                var byteArrayContent = new StreamContent(ms);
+                if (!string.IsNullOrEmpty(file.ContentType))
+                {
+                    byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
+                }
+
+                content.Add(byteArrayContent, file.Name, file.FileName);
+            }
+
+
+            //foreach (var parameter in resource.Parameters)
+            //{
+            //    await WriteParameter(stream, parameter, cancellationToken).ConfigureAwait(false);
+            //}
+
+            //content.Add(new MultipartFormDataContent());
+
+            httpRequest.Content = content;
+
+            //httpRequest.Content = new StreamContent(memoryStream);
+            //httpRequest.Content.Headers.ContentLength = memoryStream.Length;
+            //httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(ContentType);
+
+            //return Task.FromResult(0);
         }
 
         private Task WriteFooter(Stream stream, CancellationToken cancellationToken = default(CancellationToken))

@@ -47,16 +47,7 @@ namespace SpeakEasy.Middleware
 
             var httpRequest = BuildHttpRequestMessage(request);
 
-            if (serializedBody.HasContent)
-            {
-                var memoryStream = new MemoryStream();
-                await serializedBody.WriteToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
-                memoryStream.Position = 0;
-
-                httpRequest.Content = new StreamContent(memoryStream);
-                httpRequest.Content.Headers.ContentLength = memoryStream.Length;
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(serializedBody.ContentType);
-            }
+            await serializedBody.WriteTo(httpRequest, cancellationToken).ConfigureAwait(false);
 
             var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
             var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);

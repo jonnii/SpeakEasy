@@ -59,7 +59,8 @@ namespace SpeakEasy.IntegrationTests
 
             var fileNames = await client
                 .Post(file, "invoices")
-                .On(HttpStatusCode.Created).As<string[]>();
+                .On(HttpStatusCode.Created)
+                .As<string[]>();
 
             Assert.Equal("\"name\"", fileNames.Single());
         }

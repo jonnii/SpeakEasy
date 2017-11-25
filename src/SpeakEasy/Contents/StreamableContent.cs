@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +26,18 @@ namespace SpeakEasy.Contents
         public Task WriteToAsync(Stream stream, CancellationToken cancellationToken = default(CancellationToken))
         {
             return onStream(stream, cancellationToken);
+        }
+
+        public async Task WriteTo(HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+        {
+            // this still needs stream management
+            var memoryStream = new MemoryStream();
+            await WriteToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
+            memoryStream.Position = 0;
+
+            httpRequest.Content = new StreamContent(memoryStream);
+            httpRequest.Content.Headers.ContentLength = memoryStream.Length;
+            httpRequest.Content.Headers.ContentType = MediaTypeHeaderValue.Parse(ContentType);
         }
     }
 }
