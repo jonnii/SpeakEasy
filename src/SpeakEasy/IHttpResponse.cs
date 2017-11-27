@@ -8,7 +8,7 @@ namespace SpeakEasy
     /// A chainable http response which gives you access to all the data available
     /// on a response to an http service
     /// </summary>
-    public interface IHttpResponse
+    public interface IHttpResponse : IDisposable
     {
         HttpContentHeaders Headers { get; }
 

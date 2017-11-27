@@ -5,16 +5,21 @@ using System.Net.Http.Headers;
 
 namespace SpeakEasy
 {
-    public class HttpResponse : IHttpResponseWithBody
+    public class HttpResponse : IHttpResponse
     {
+        private readonly ISerializer deserializer;
+
+        private readonly SingleUseStream body;
+
         public HttpResponse(
             ISerializer deserializer,
             Stream body,
             IHttpResponseState state,
             HttpContentHeaders headers)
         {
-            Deserializer = deserializer;
-            Body = body;
+            this.deserializer = deserializer;
+            this.body = new SingleUseStream(body);
+
             State = state;
             Headers = headers;
         }
@@ -22,10 +27,6 @@ namespace SpeakEasy
         public HttpContentHeaders Headers { get; }
 
         public IHttpResponseState State { get; }
-
-        public Stream Body { get; }
-
-        public ISerializer Deserializer { get; }
 
         public string ContentType => State.ContentType;
 
@@ -53,7 +54,7 @@ namespace SpeakEasy
                 return this;
             }
 
-            var deserialied = Deserializer.Deserialize<T>(Body);
+            var deserialied = deserializer.Deserialize<T>(body.GetAndConsumeStream());
             action(deserialied);
 
             return this;
@@ -86,7 +87,7 @@ namespace SpeakEasy
                 OnIncorrectStatusCode(code);
             }
 
-            return new HttpResponseHandler(this);
+            return new HttpResponseHandler(this, deserializer, body);
         }
 
         public IHttpResponseHandler On(int code)
@@ -101,7 +102,7 @@ namespace SpeakEasy
                 OnIncorrectStatusCode(HttpStatusCode.OK);
             }
 
-            return new HttpResponseHandler(this);
+            return new HttpResponseHandler(this, deserializer, body);
         }
 
         private void OnIncorrectStatusCode(HttpStatusCode expected)
@@ -132,6 +133,12 @@ namespace SpeakEasy
         public bool IsOk()
         {
             return Is(HttpStatusCode.OK);
+        }
+
+        public void Dispose()
+        {
+            body.Dispose();
+            State.Dispose();
         }
     }
 }

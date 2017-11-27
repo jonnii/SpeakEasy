@@ -6,35 +6,28 @@ using Machine.Specifications;
 namespace SpeakEasy.Specifications
 {
     [Subject(typeof(HttpResponseHandler))]
-    class HttpResponseHandlerSpecs : WithSubject<HttpResponseHandler>
+    class HttpResponseHandlerSpecs : WithFakes
     {
+        static HttpResponseHandler handler;
+
+        Establish context = () =>
+            handler = new HttpResponseHandler(The<IHttpResponse>(), The<ISerializer>(), new SingleUseStream(new MemoryStream(Encoding.UTF8.GetBytes("abcd"))));
+
         class when_unwrapping_as
         {
-            static ISerializer deserializer;
-
-            Establish context = () =>
-            {
-                deserializer = An<ISerializer>();
-
-                The<IHttpResponseWithBody>().WhenToldTo(r => r.Deserializer).Return(deserializer);
-            };
-
             Because of = () =>
-                Subject.As<Company>();
+                handler.As<Company>();
 
             It should_deserialize_with_deserializer = () =>
-                deserializer.WasToldTo(d => d.Deserialize<Company>(Param.IsAny<Stream>()));
+                The<ISerializer>().WasToldTo(d => d.Deserialize<Company>(Param.IsAny<Stream>()));
         }
 
         class when_getting_as_byte_array
         {
             static byte[] bytes;
 
-            Establish context = () =>
-                The<IHttpResponseWithBody>().WhenToldTo(r => r.Body).Return(new MemoryStream(Encoding.UTF8.GetBytes("abcd")));
-
             Because of = () =>
-                bytes = Subject.AsByteArray().Await();
+                bytes = handler.AsByteArray().Await();
 
             It should_get_bytes = () =>
                 bytes.Length.ShouldBeGreaterThan(0);

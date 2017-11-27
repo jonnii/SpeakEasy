@@ -20,10 +20,11 @@ namespace SpeakEasy.IntegrationTests
         [Fact]
         public async void ShouldGetAsync()
         {
-            var response = await client.Get("products/1");
-
-            Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            using (var response = await client.Get("products/1"))
+            {
+                Assert.Contains(":1337/api/products/1", response.State.RequestUrl.ToString());
+                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            }
         }
 
         [Fact]
@@ -248,7 +249,7 @@ namespace SpeakEasy.IntegrationTests
             var message = string.Empty;
 
             await client.Post("locations")
-                .On(HttpStatusCode.BadRequest, status => { message = status.StatusDescription; });
+                .On(HttpStatusCode.BadRequest, status => { message = status.ReasonPhrase; });
 
             Assert.Equal("titles cannot start with 'bad'", message);
         }

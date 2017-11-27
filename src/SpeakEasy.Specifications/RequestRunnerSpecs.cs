@@ -7,8 +7,6 @@ namespace SpeakEasy.Specifications
     [Subject(typeof(RequestRunner))]
     class RequestRunnerSpecs : WithSubject<RequestRunner>
     {
-        static HttpRequestMessage webRequest;
-
         static IHttpRequest request;
 
         Establish context = () =>

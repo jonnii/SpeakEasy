@@ -50,12 +50,14 @@ namespace SpeakEasy.Middleware
                 await serializedBody.WriteTo(httpRequest, cancellationToken).ConfigureAwait(false);
 
                 var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-                var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                {
+                    var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
-                return CreateHttpResponse(
-                    httpRequest,
-                    httpResponse,
-                    responseStream);
+                    return CreateHttpResponse(
+                        httpRequest,
+                        httpResponse,
+                        responseStream);
+                }
             }
         }
 
@@ -106,13 +108,9 @@ namespace SpeakEasy.Middleware
                 : cookieCollection.Cast<Cookie>().ToArray();
 
             var state = new HttpResponseState(
-                httpResponse.StatusCode,
-                httpResponse.ReasonPhrase,
-                httpResponse.RequestMessage.RequestUri,
+                httpResponse,
                 cookies,
-                contentType,
-                httpResponse.Headers.Server.ToString(),
-                httpResponse.Content.Headers);
+                contentType);
 
             return new HttpResponse(
                 deserializer,

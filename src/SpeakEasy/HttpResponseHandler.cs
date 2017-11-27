@@ -6,27 +6,29 @@ namespace SpeakEasy
 {
     internal class HttpResponseHandler : IHttpResponseHandler
     {
-        private readonly IHttpResponseWithBody response;
+        private readonly IHttpResponse response;
 
-        public HttpResponseHandler(IHttpResponseWithBody response)
+        private readonly ISerializer serializer;
+
+        private readonly SingleUseStream body;
+
+        public HttpResponseHandler(IHttpResponse response, ISerializer serializer, SingleUseStream body)
         {
             this.response = response;
+            this.serializer = serializer;
+            this.body = body;
         }
 
         public IHttpResponse Response => response;
 
         public object As(Type type)
         {
-            var deserializer = response.Deserializer;
-
-            return deserializer.Deserialize(response.Body, type);
+            return serializer.Deserialize(body.GetAndConsumeStream(), type);
         }
 
         public T As<T>()
         {
-            var deserializer = response.Deserializer;
-
-            return deserializer.Deserialize<T>(response.Body);
+            return serializer.Deserialize<T>(body.GetAndConsumeStream());
         }
 
         public T As<T>(Func<IHttpResponseHandler, T> constructor)
@@ -41,18 +43,16 @@ namespace SpeakEasy
 
         public async Task<byte[]> AsByteArray(int bufferSize)
         {
-            var body = response.Body;
-
             using (var copy = new MemoryStream())
             {
-                await body.CopyToAsync(copy, bufferSize).ConfigureAwait(false);
+                await body.GetAndConsumeStream().CopyToAsync(copy, bufferSize).ConfigureAwait(false);
                 return copy.ToArray();
             }
         }
 
         public async Task<string> AsString()
         {
-            using (var reader = new StreamReader(response.Body))
+            using (var reader = new StreamReader(body.GetAndConsumeStream()))
             {
                 return await reader.ReadToEndAsync().ConfigureAwait(false);
             }
@@ -66,7 +66,7 @@ namespace SpeakEasy
                 contentDisposition.Name,
                 contentDisposition.FileName,
                 response.ContentType,
-                response.Body);
+                body.GetAndConsumeStream());
         }
     }
 }
