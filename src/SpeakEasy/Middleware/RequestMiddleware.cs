@@ -45,26 +45,18 @@ namespace SpeakEasy.Middleware
         {
             var serializedBody = request.Body.Serialize(transmissionSettings, arrayFormatter);
 
-            var httpRequest = BuildHttpRequestMessage(request);
-
-            if (serializedBody.HasContent)
+            using (var httpRequest = BuildHttpRequestMessage(request))
             {
-                var memoryStream = new MemoryStream();
-                await serializedBody.WriteToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
-                memoryStream.Position = 0;
+                await serializedBody.WriteTo(httpRequest, cancellationToken).ConfigureAwait(false);
 
-                httpRequest.Content = new StreamContent(memoryStream);
-                httpRequest.Content.Headers.ContentLength = memoryStream.Length;
-                httpRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(serializedBody.ContentType);
+                var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
+                var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+
+                return CreateHttpResponse(
+                    httpRequest,
+                    httpResponse,
+                    responseStream);
             }
-
-            var httpResponse = await client.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
-            var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
-
-            return CreateHttpResponse(
-                httpRequest,
-                httpResponse,
-                responseStream);
         }
 
         public HttpRequestMessage BuildHttpRequestMessage(IHttpRequest httpRequest)

@@ -1,4 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -12,19 +17,23 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return File(Encoding.UTF8.GetBytes("file contents"), "application/octet-stream", "foo.txt");
         }
 
-        //public async Task<HttpResponseMessage> Post(HttpRequestMessage message)
-        //{
-        //    if (!Request.Content.IsMimeMultipartContent("form-data"))
-        //    {
-        //        return message.CreateResponse(HttpStatusCode.UnsupportedMediaType);
-        //    }
+        [HttpPost]
+        public IActionResult Post([FromForm]IList<IFormFile> files)
+        {
 
-        //    var streamProvider = new MultipartFileStreamProvider(Environment.CurrentDirectory);
+            return Ok();
 
-        //    await Request.Content.ReadAsMultipartAsync(streamProvider);
-        //    var fileNames = streamProvider.FileData.Select(f => f.Headers.ContentDisposition.Name);
+            //if (!Request.Content.IsMimeMultipartContent("form-data"))
+            //{
+            //    return message.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            //}
 
-        //    return message.CreateResponse(HttpStatusCode.Created, fileNames.ToArray());
-        //}
+            //var streamProvider = new MultipartFileStreamProvider(Environment.CurrentDirectory);
+
+            //await Request.Content.ReadAsMultipartAsync(streamProvider);
+            //var fileNames = streamProvider.FileData.Select(f => f.Headers.ContentDisposition.Name);
+
+            //return message.CreateResponse(HttpStatusCode.Created, fileNames.ToArray());
+        }
     }
 }

@@ -1,4 +1,6 @@
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text;
 using Xunit;
 
@@ -50,16 +52,18 @@ namespace SpeakEasy.IntegrationTests
             Assert.Equal("file contents", contentsAsString);
         }
 
-        //[Test]
-        //public void ShouldUploadOneFileByteArray()
-        //{
-        //    var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
+        [Fact(Skip = "file uploading is vexing")]
+        public async void ShouldUploadOneFileByteArray()
+        {
+            var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
 
-        //    var fileNames = client.Post(file, "invoices")
-        //        .On(HttpStatusCode.Created).As<string[]>();
+            var fileNames = await client
+                .Post(file, "invoices", new { param1 = "bob", param2 = "fribble" })
+                .On(HttpStatusCode.OK)
+                .As<string[]>();
 
-        //    Assert.That(fileNames.Single(), Is.EqualTo("\"name\""));
-        //}
+            Assert.Equal("\"name\"", fileNames.Single());
+        }
 
         //[Test]
         //public void ShouldUploadMultipleFilesByteArray()
