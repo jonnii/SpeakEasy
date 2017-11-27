@@ -58,8 +58,8 @@ namespace SpeakEasy.IntegrationTests
             var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
 
             var fileNames = await client
-                .Post(file, "invoices")
-                .On(HttpStatusCode.Created)
+                .Post(file, "invoices", new { param1 = "bob", param2 = "fribble" })
+                .On(HttpStatusCode.OK)
                 .As<string[]>();
 
             Assert.Equal("\"name\"", fileNames.Single());

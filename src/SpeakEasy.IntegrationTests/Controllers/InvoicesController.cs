@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SpeakEasy.IntegrationTests.Controllers
@@ -15,12 +17,11 @@ namespace SpeakEasy.IntegrationTests.Controllers
             return File(Encoding.UTF8.GetBytes("file contents"), "application/octet-stream", "foo.txt");
         }
 
-        [Route("")]
-        public IActionResult Post(List<IFormFile> files)
+        [HttpPost]
+        public IActionResult Post([FromForm]IList<IFormFile> files)
         {
-            var kk = files.Select(f => f.Name);
 
-            return Created("foo", kk);
+            return Ok();
 
             //if (!Request.Content.IsMimeMultipartContent("form-data"))
             //{
