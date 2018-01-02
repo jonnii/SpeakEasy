@@ -16,11 +16,8 @@ namespace SpeakEasy
 
         string ReasonPhrase { get; }
 
-        //string ContentEncoding { get; }
+        string ContentEncoding { get; }
 
-        //string StatusDescription { get; }
-
-        //DateTime LastModified { get; }
-
+        DateTime LastModified { get; }
     }
 }

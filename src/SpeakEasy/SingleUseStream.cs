@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SpeakEasy
 {
-    public class SingleUseStream : IDisposable
+    internal class SingleUseStream : IDisposable
     {
         private readonly Stream stream;
 
@@ -18,8 +18,9 @@ namespace SpeakEasy
         {
             if (isConsumed)
             {
-                // TODO: Write a better exception message here
-                throw new InvalidOperationException("You tried to use a stream twice");
+                throw new InvalidOperationException(
+                    "An attempt was made to consume the same stream twice. This can happen if you " +
+                    "try to do two things with an http response.");
             }
 
             isConsumed = true;
