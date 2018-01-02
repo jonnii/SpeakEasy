@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
+using System.Net.Http;
 
 namespace SpeakEasy.Specifications.Fixtures
 {
@@ -16,13 +16,10 @@ namespace SpeakEasy.Specifications.Fixtures
             return new HttpResponse(
                 serializer,
                 bodyStream,
-                new HttpResponseState(code,
-                    "status description",
-                    new Uri("http://example.com/companies"),
+                new HttpResponseState(
+                    new HttpResponseMessage { StatusCode = code },
                     cookies,
-                    "contentType",
-                    "server",
-                    null), null);
+                    "contentType"), null);
         }
     }
 }

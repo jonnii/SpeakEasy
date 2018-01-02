@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace SpeakEasy
 {
@@ -9,40 +9,37 @@ namespace SpeakEasy
     /// </summary>
     public class HttpResponseState : IHttpResponseState
     {
-        private readonly HttpContentHeaders headers;
+        private readonly HttpResponseMessage httpResponseMessage;
 
         public HttpResponseState(
-            HttpStatusCode statusCode,
-            string statusDescription,
-            Uri requestUrl,
+            HttpResponseMessage httpResponseMessage,
             Cookie[] cookies,
-            string contentType,
-            string server,
-            HttpContentHeaders headers)
+            string contentType)
         {
-            this.headers = headers;
-            StatusCode = statusCode;
-            StatusDescription = statusDescription;
-            RequestUrl = requestUrl;
+            this.httpResponseMessage = httpResponseMessage;
             Cookies = cookies;
             ContentType = contentType;
-            Server = server;
         }
 
-        public string Server { get; }
+        public string Server => httpResponseMessage.Headers.Server.ToString();
 
-        public string ContentEncoding => headers.ContentEncoding.ToString();
+        public string ContentEncoding => httpResponseMessage.Content.Headers.ContentEncoding.ToString();
 
-        public DateTime LastModified => headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date;
+        public DateTime LastModified => httpResponseMessage.Content.Headers.LastModified.GetValueOrDefault(DateTime.UtcNow).Date;
 
-        public HttpStatusCode StatusCode { get; }
+        public HttpStatusCode StatusCode => httpResponseMessage.StatusCode;
 
-        public string StatusDescription { get; }
+        public string ReasonPhrase => httpResponseMessage.ReasonPhrase;
 
-        public Uri RequestUrl { get; }
+        public Uri RequestUrl => httpResponseMessage.RequestMessage.RequestUri;
 
         public Cookie[] Cookies { get; }
 
         public string ContentType { get; }
+
+        public void Dispose()
+        {
+            httpResponseMessage.Dispose();
+        }
     }
 }
