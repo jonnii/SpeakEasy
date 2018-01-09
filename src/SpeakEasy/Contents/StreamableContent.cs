@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Contents
 {
-    public class StreamableContent : IContent
+    internal class StreamableContent : IContent
     {
         private readonly Func<Stream, CancellationToken, Task> onStream;
 

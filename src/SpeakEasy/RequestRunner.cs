@@ -8,7 +8,7 @@ namespace SpeakEasy
 {
     using SystemHttpClient = System.Net.Http.HttpClient;
 
-    public class RequestRunner : IRequestRunner
+    internal class RequestRunner : IRequestRunner
     {
         private readonly Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> middlewareHead;
 

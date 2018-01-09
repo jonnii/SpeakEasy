@@ -2,7 +2,7 @@ using SpeakEasy.Contents;
 
 namespace SpeakEasy.Bodies
 {
-    public class FileUploadBody : IRequestBody
+    internal class FileUploadBody : IRequestBody
     {
         private readonly Resource resource;
 

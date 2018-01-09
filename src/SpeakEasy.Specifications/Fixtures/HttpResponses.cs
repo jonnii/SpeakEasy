@@ -4,7 +4,7 @@ using System.Net.Http;
 
 namespace SpeakEasy.Specifications.Fixtures
 {
-    public static class HttpResponses
+    internal static class HttpResponses
     {
         public static HttpResponse Create(ISerializer serializer, Stream bodyStream, HttpStatusCode code)
         {

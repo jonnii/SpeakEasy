@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpeakEasy.Contents
 {
-    public class ByteArrayContent : IContent
+    internal class ByteArrayContent : IContent
     {
         public ByteArrayContent(string contentType, byte[] bytes)
         {

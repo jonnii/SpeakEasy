@@ -2,7 +2,7 @@ using SpeakEasy.Contents;
 
 namespace SpeakEasy.Bodies
 {
-    public class ObjectRequestBody : IRequestBody
+    internal class ObjectRequestBody : IRequestBody
     {
         private readonly object body;
 

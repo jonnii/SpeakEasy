@@ -33,6 +33,6 @@ namespace SpeakEasy
         /// Builds the http response state from this http web response
         /// </summary>
         /// <returns>An http response state</returns>
-        HttpResponseState BuildState();
+        IHttpResponseState BuildState();
     }
 }
