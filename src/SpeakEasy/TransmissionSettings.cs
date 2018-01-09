@@ -7,7 +7,7 @@ using SpeakEasy.Serializers;
 
 namespace SpeakEasy
 {
-    public class TransmissionSettings : ITransmissionSettings
+    internal class TransmissionSettings : ITransmissionSettings
     {
         private readonly IEnumerable<ISerializer> serializers;
 

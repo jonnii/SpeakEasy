@@ -7,7 +7,7 @@ namespace SpeakEasy
     /// <summary>
     /// The http response state contains the details of an http response, for example cookies and headers.
     /// </summary>
-    public class HttpResponseState : IHttpResponseState
+    internal class HttpResponseState : IHttpResponseState
     {
         private readonly HttpResponseMessage httpResponseMessage;
 

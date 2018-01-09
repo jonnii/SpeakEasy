@@ -80,13 +80,9 @@ namespace SpeakEasy
             var handler = new HttpClientHandler
             {
                 AllowAutoRedirect = false,
-                //MaxAutomaticRedirections = 0,
-
                 UseDefaultCredentials = false,
                 CookieContainer = cookieContainer,
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None,
-                //ClientCertificates = { },
-                //Proxy =
+                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip | DecompressionMethods.None
             };
 
             settings.Authenticator.Authenticate(handler);
