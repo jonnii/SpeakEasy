@@ -53,10 +53,24 @@ namespace SpeakEasy.Specifications
                 static SystemHttpClient system_http_client;
 
                 Because of = () =>
-                    system_http_client = client.BuildSystemClient(new CookieContainer());
+                    system_http_client = client.BuildSystemClient(new CookieContainer(), null);
 
                 It should_create_client = () =>
                     system_http_client.ShouldNotBeNull();
+
+                It should_create_with_system_default_timeout = () =>
+                    system_http_client.Timeout.ShouldEqual(new SystemHttpClient().Timeout);
+            }
+
+            class when_building_system_client_with_custom_timeout
+            {
+                static SystemHttpClient system_http_client;
+
+                Because of = () =>
+                    system_http_client = client.BuildSystemClient(new CookieContainer(), TimeSpan.FromMinutes(10));
+
+                It should_create_with_custom_timeout = () =>
+                    system_http_client.Timeout.ShouldEqual(TimeSpan.FromMinutes(10));
             }
 
             class when_getting_collection_resource

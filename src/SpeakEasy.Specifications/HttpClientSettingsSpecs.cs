@@ -133,13 +133,13 @@ namespace SpeakEasy.Specifications
                 settings.Middleware.Replace(replacement);
 
             It should_replace_middleware_in_place = () =>
-                settings.Middleware.AtPosition(1).ShouldBeOfExactType<UserAgentMiddleware>();
+                settings.Middleware.AtPosition(2).ShouldBeOfExactType<UserAgentMiddleware>();
 
             It should_have_correct_middleware_count = () =>
-                settings.Middleware.Count.ShouldEqual(3);
+                settings.Middleware.Count.ShouldEqual(4);
 
             It should_replace_instance = () =>
-                settings.Middleware.AtPosition(1).ShouldBeTheSameAs(replacement);
+                settings.Middleware.AtPosition(2).ShouldBeTheSameAs(replacement);
         }
 
         class TestMiddleware : IHttpMiddleware

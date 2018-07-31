@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.1.0
+
+  * Add ability to customize the HttpClient global timeout
+
 ## 1.0.0
 
   * Add `netstandard1.6` target

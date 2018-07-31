@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -43,7 +44,7 @@ namespace SpeakEasy
             settings.Validate();
 
             var cookieContainer = new CookieContainer();
-            var client = BuildSystemClient(cookieContainer);
+            var client = BuildSystemClient(cookieContainer, settings.DefaultTimeout);
 
             requestRunner = new RequestRunner(
                 client,
@@ -75,7 +76,7 @@ namespace SpeakEasy
 
         public Resource Root { get; }
 
-        internal System.Net.Http.HttpClient BuildSystemClient(CookieContainer cookieContainer)
+        internal System.Net.Http.HttpClient BuildSystemClient(CookieContainer cookieContainer, TimeSpan? defaultTimeout)
         {
             var handler = new HttpClientHandler
             {
@@ -88,6 +89,11 @@ namespace SpeakEasy
             settings.Authenticator.Authenticate(handler);
 
             var httpClient = new System.Net.Http.HttpClient(handler);
+
+            if (defaultTimeout != null)
+            {
+                httpClient.Timeout = defaultTimeout.Value;
+            }
 
             settings.Authenticator.Authenticate(httpClient);
 
