@@ -4,7 +4,7 @@
     <AssemblyTitle>SpeakEasy.IntegrationTests</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>jonnii</Authors>
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <AssemblyName>SpeakEasy.IntegrationTests</AssemblyName>
     <PackageId>SpeakEasy.IntegrationTests</PackageId>
     <PackageTags>SpeakEasy.IntegrationTests</PackageTags>

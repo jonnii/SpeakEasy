@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Middleware;
@@ -26,6 +27,7 @@ namespace SpeakEasy
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new TextPlainSerializer());
 
+            Middleware.Append(new TimeoutMiddleware());
             Middleware.Append(new UserAgentMiddleware());
         }
 
@@ -68,6 +70,12 @@ namespace SpeakEasy
         /// Indicates whether or not the http client settings are valid
         /// </summary>
         public bool IsValid => Serializers.Any() && ArrayFormatter != null;
+
+        /// <summary>
+        /// The default timeout for the HttpClient to 30 minutes, 
+        /// to use the system default (100 seconds) set this property to null.
+        /// </summary>
+        public TimeSpan? DefaultTimeout { get; set; } = TimeSpan.FromMinutes(30);
 
         /// <summary>
         /// Configures the give serializer

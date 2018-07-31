@@ -8,7 +8,7 @@ namespace SpeakEasy.Specifications
         class default_user_agent
         {
             It should_contain_app_version = () =>
-                UserAgent.SpeakEasy.Name.ShouldEqual("SpeakEasy/1.0.0.0");
+                UserAgent.SpeakEasy.Name.ShouldContain("SpeakEasy/1.0");
         }
     }
 }
