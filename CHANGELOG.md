@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.0
+
+  * [Bug] Fixes for file uploads with form data
+
 ## 1.1.0
 
   * Add ability to customize the HttpClient global timeout
