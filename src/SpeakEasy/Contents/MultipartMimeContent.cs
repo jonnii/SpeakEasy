@@ -30,14 +30,14 @@ namespace SpeakEasy.Contents
 
                 var fileContent = new StreamContent(ms);
 
-                //fileContent.Headers.ContentType = string.IsNullOrWhiteSpace(file.ContentType)
-                //    ? MediaTypeHeaderValue.Parse("application/octet-stream")
-                //    : MediaTypeHeaderValue.Parse(file.ContentType);
+                fileContent.Headers.ContentType = string.IsNullOrWhiteSpace(file.ContentType)
+                    ? MediaTypeHeaderValue.Parse("application/octet-stream")
+                    : MediaTypeHeaderValue.Parse(file.ContentType);
 
-                //fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                //{
-                //    FileName = $"\"{file.FileName}\""
-                //};
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = $"\"{file.FileName}\""
+                };
 
                 content.Add(fileContent, file.Name, file.FileName);
             }
