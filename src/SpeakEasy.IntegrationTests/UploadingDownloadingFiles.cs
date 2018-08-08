@@ -1,7 +1,7 @@
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
+using SpeakEasy.IntegrationTests.Controllers;
 using Xunit;
 
 namespace SpeakEasy.IntegrationTests
@@ -52,29 +52,48 @@ namespace SpeakEasy.IntegrationTests
             Assert.Equal("file contents", contentsAsString);
         }
 
-        [Fact(Skip = "file uploading is vexing")]
+        [Fact]
         public async void ShouldUploadOneFileByteArray()
         {
-            var file = FileUpload.FromBytes("name", "filename", new byte[] { 0xDE });
+            var file = FileUpload.FromBytes("name", "file.txt", Encoding.ASCII.GetBytes("File Content"));
+            string iAmNull = null;
 
-            var fileNames = await client
-                .Post(file, "invoices", new { param1 = "bob", param2 = "fribble" })
+            var result = await client
+                .Post(file, "invoices", new { param1 = "bob", param2 = "fribble", iAmNull })
                 .On(HttpStatusCode.OK)
-                .As<string[]>();
+                .As<FileUploadResult>();
 
-            Assert.Equal("\"name\"", fileNames.Single());
+            Assert.Equal(3, result.Parameters.Length);
+            Assert.Contains(result.Parameters, x => x.Key == "param1" && x.Value == "bob");
+            Assert.Contains(result.Parameters, x => x.Key == "param2" && x.Value == "fribble");
+            Assert.Contains(result.Parameters, x => x.Key == "iAmNull" && string.IsNullOrWhiteSpace(x.Value));
+
+            Assert.Single(result.TextFileInfos);
+            Assert.Contains(result.TextFileInfos, x => x.FileName == "file.txt" && x.Content == "File Content");
         }
 
-        //[Test]
-        //public void ShouldUploadMultipleFilesByteArray()
-        //{
-        //    var files = new[] { FileUpload.FromBytes("name1", "filename", new byte[] { 0xDE }), FileUpload.FromBytes("name2", "filename", new byte[] { 0xDE }) };
+        [Fact]
+        public async void ShouldUploadManyFileByteArray()
+        {
+            var files = new IFile[]
+            {
+                FileUpload.FromBytes("first file", "first.txt", Encoding.ASCII.GetBytes("First Content")),
+                FileUpload.FromBytes("second file", "second.txt", Encoding.ASCII.GetBytes("Second Content")),
+                FileUpload.FromBytes("third file", "third.txt", Encoding.ASCII.GetBytes("Third Content"))
+            };
 
-        //    var fileNames = client.Post(files, "invoices/:id", new { id = 1234 })
-        //        .On(HttpStatusCode.Created).As<IEnumerable<string>>();
+            var result = await client
+                .Post(files, "invoices", new { id = 123 })
+                .On(HttpStatusCode.OK)
+                .As<FileUploadResult>();
 
-        //    Assert.That(fileNames.First(), Is.EqualTo("\"name1\""));
-        //    Assert.That(fileNames.Last(), Is.EqualTo("\"name2\""));
-        //}
+            Assert.Single(result.Parameters);
+            Assert.Contains(result.Parameters, x => x.Key == "id" && x.Value == "123");
+
+            Assert.Equal(3, result.TextFileInfos.Length);
+            Assert.Contains(result.TextFileInfos, x => x.FileName == "first.txt" && x.Content == "First Content");
+            Assert.Contains(result.TextFileInfos, x => x.FileName == "second.txt" && x.Content == "Second Content");
+            Assert.Contains(result.TextFileInfos, x => x.FileName == "third.txt" && x.Content == "Third Content");
+        }
     }
 }
