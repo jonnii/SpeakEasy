@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using SpeakEasy.IntegrationTests.Controllers;
@@ -64,7 +63,7 @@ namespace SpeakEasy.IntegrationTests
                 .On(HttpStatusCode.OK)
                 .As<FileUploadResult>();
 
-            Assert.Equal(3, result.Parameters.Count());
+            Assert.Equal(3, result.Parameters.Length);
             Assert.Contains(result.Parameters, x => x.Key == "param1" && x.Value == "bob");
             Assert.Contains(result.Parameters, x => x.Key == "param2" && x.Value == "fribble");
             Assert.Contains(result.Parameters, x => x.Key == "iAmNull" && string.IsNullOrWhiteSpace(x.Value));
@@ -76,7 +75,7 @@ namespace SpeakEasy.IntegrationTests
         [Fact]
         public async void ShouldUploadManyFileByteArray()
         {
-            var files = new[]
+            var files = new IFile[]
             {
                 FileUpload.FromBytes("first file", "first.txt", Encoding.ASCII.GetBytes("First Content")),
                 FileUpload.FromBytes("second file", "second.txt", Encoding.ASCII.GetBytes("Second Content")),
@@ -91,7 +90,7 @@ namespace SpeakEasy.IntegrationTests
             Assert.Single(result.Parameters);
             Assert.Contains(result.Parameters, x => x.Key == "id" && x.Value == "123");
 
-            Assert.Equal(3, result.TextFileInfos.Count());
+            Assert.Equal(3, result.TextFileInfos.Length);
             Assert.Contains(result.TextFileInfos, x => x.FileName == "first.txt" && x.Content == "First Content");
             Assert.Contains(result.TextFileInfos, x => x.FileName == "second.txt" && x.Content == "Second Content");
             Assert.Contains(result.TextFileInfos, x => x.FileName == "third.txt" && x.Content == "Third Content");
