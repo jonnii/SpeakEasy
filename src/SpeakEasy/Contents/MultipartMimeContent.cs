@@ -1,5 +1,4 @@
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -13,17 +12,11 @@ namespace SpeakEasy.Contents
 
         private readonly IFile[] files;
 
-        private const string MimeBoundary = "---------------------------29772313742745";
-
-        private const string Crlf = "\r\n";
-
         public MultipartMimeContent(Resource resource, IFile[] files)
         {
             this.resource = resource;
             this.files = files;
         }
-
-        public bool HasContent => files.Any();
 
         public async Task WriteTo(HttpRequestMessage httpRequest, CancellationToken cancellationToken = default(CancellationToken))
         {

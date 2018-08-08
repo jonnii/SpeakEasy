@@ -1,6 +1,4 @@
-﻿//using System.Net.Http.Headers;
-
-namespace SpeakEasy.IntegrationTests.Controllers
+﻿namespace SpeakEasy.IntegrationTests.Controllers
 {
     public class TextFileInfo
     {

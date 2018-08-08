@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-//using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
@@ -16,7 +14,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
     [Route("api/invoices")]
     public class InvoicesController : Controller
     {
-        private static readonly FormOptions defaultFormOptions = new FormOptions();
+        private static readonly FormOptions DefaultFormOptions = new FormOptions();
 
         [Route("{id}")]
         public IActionResult Get(int id)
@@ -37,7 +35,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
 
             var boundary = MultipartRequestHelper.GetBoundary(
                 MediaTypeHeaderValue.Parse(Request.ContentType),
-                defaultFormOptions.MultipartBoundaryLengthLimit);
+                DefaultFormOptions.MultipartBoundaryLengthLimit);
 
             var reader = new MultipartReader(boundary, HttpContext.Request.Body);
             try
@@ -68,9 +66,9 @@ namespace SpeakEasy.IntegrationTests.Controllers
 
                             formAccumulator.Append(key, value);
 
-                            if (formAccumulator.ValueCount > defaultFormOptions.ValueCountLimit)
+                            if (formAccumulator.ValueCount > DefaultFormOptions.ValueCountLimit)
                             {
-                                throw new InvalidDataException($"Form key count limit {defaultFormOptions.ValueCountLimit} exceeded.");
+                                throw new InvalidDataException($"Form key count limit {DefaultFormOptions.ValueCountLimit} exceeded.");
                             }
 
                             break;
