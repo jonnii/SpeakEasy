@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,6 +12,10 @@ namespace SpeakEasy.Contents
         private readonly Resource resource;
 
         private readonly IFile[] files;
+
+        private const string MimeBoundary = "---------------------------29772313742745";
+
+        private const string Crlf = "\r\n";
 
         public MultipartMimeContent(Resource resource, IFile[] files)
         {
@@ -34,10 +36,10 @@ namespace SpeakEasy.Contents
                 ms.Position = 0;
 
                 var fileContent = new StreamContent(ms);
-                if (!string.IsNullOrEmpty(file.ContentType))
-                {
-                    fileContent.Headers.ContentType = MediaTypeHeaderValue.Parse(file.ContentType);
-                }
+
+                fileContent.Headers.ContentType = string.IsNullOrWhiteSpace(file.ContentType)
+                    ? MediaTypeHeaderValue.Parse("application/octet-stream")
+                    : MediaTypeHeaderValue.Parse(file.ContentType);
 
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
@@ -49,11 +51,17 @@ namespace SpeakEasy.Contents
 
             if (resource.HasParameters)
             {
-                var formattedParameters = resource
-                    .Parameters
-                    .Select(t => new KeyValuePair<string, string>(t.Name, t.Value.ToString()));
+                foreach (var parameter in resource.Parameters)
+                {
+                    var stringContent = new StringContent(parameter.Value?.ToString() ?? string.Empty);
 
-                content.Add(new FormUrlEncodedContent(formattedParameters));
+                    stringContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = parameter.Name
+                    };
+
+                    content.Add(stringContent);
+                }
             }
 
             httpRequest.Content = content;
