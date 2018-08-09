@@ -50,7 +50,7 @@ namespace SpeakEasy.Contents
 
                     stringContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        Name = parameter.Name
+                        Name = $"\"{parameter.Name}\""
                     };
 
                     content.Add(stringContent);
