@@ -23,7 +23,7 @@ namespace SpeakEasy.IntegrationTests.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(/*[FromForm] IList<IFormFile> files*/)
+        public async Task<IActionResult> Post()
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
@@ -38,58 +38,52 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 DefaultFormOptions.MultipartBoundaryLengthLimit);
 
             var reader = new MultipartReader(boundary, HttpContext.Request.Body);
-            try
+
+            var section = await reader.ReadNextSectionAsync().ConfigureAwait(false);
+
+            while (section != null)
             {
-                var section = await reader.ReadNextSectionAsync().ConfigureAwait(false);
+                var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(
+                    section.ContentDisposition,
+                    out ContentDispositionHeaderValue contentDisposition);
 
-                while (section != null)
+                if (!hasContentDispositionHeader)
                 {
-                    var hasContentDispositionHeader = ContentDispositionHeaderValue.TryParse(
-                        section.ContentDisposition,
-                        out ContentDispositionHeaderValue contentDisposition);
-
-                    if (!hasContentDispositionHeader)
-                    {
-                        section = await reader.ReadNextSectionAsync().ConfigureAwait(false);
-                        continue;
-                    }
-
-                    switch (contentDisposition)
-                    {
-                        case var disposition when MultipartRequestHelper.HasAttachment(disposition):
-                            fileInfos.Add(await GetTextFileInfo(section, contentDisposition).ConfigureAwait(false));
-                            break;
-
-                        case var disposition when MultipartRequestHelper.HasFormDataContentDisposition(disposition):
-
-                            var (key, value) = await GetKeyAndValue(section, contentDisposition).ConfigureAwait(false);
-
-                            formAccumulator.Append(key, value);
-
-                            if (formAccumulator.ValueCount > DefaultFormOptions.ValueCountLimit)
-                            {
-                                throw new InvalidDataException($"Form key count limit {DefaultFormOptions.ValueCountLimit} exceeded.");
-                            }
-
-                            break;
-                    }
-
                     section = await reader.ReadNextSectionAsync().ConfigureAwait(false);
+                    continue;
                 }
 
-                return Ok(new FileUploadResult
+                switch (contentDisposition)
                 {
-                    TextFileInfos = fileInfos.ToArray(),
-                    Parameters = formAccumulator
-                        .GetResults()
-                        .Select(x => new Parameter { Key = x.Key, Value = x.Value })
-                        .ToArray()
-                });
+                    case var disposition when MultipartRequestHelper.HasAttachment(disposition):
+                        fileInfos.Add(await GetTextFileInfo(section, contentDisposition).ConfigureAwait(false));
+                        break;
+
+                    case var disposition when MultipartRequestHelper.HasFormDataContentDisposition(disposition):
+
+                        var (key, value) = await GetKeyAndValue(section, contentDisposition).ConfigureAwait(false);
+
+                        formAccumulator.Append(key, value);
+
+                        if (formAccumulator.ValueCount > DefaultFormOptions.ValueCountLimit)
+                        {
+                            throw new InvalidDataException($"Form key count limit {DefaultFormOptions.ValueCountLimit} exceeded.");
+                        }
+
+                        break;
+                }
+
+                section = await reader.ReadNextSectionAsync().ConfigureAwait(false);
             }
-            catch (Exception ex)
+
+            return Ok(new FileUploadResult
             {
-                throw;
-            }
+                TextFileInfos = fileInfos.ToArray(),
+                Parameters = formAccumulator
+                    .GetResults()
+                    .Select(x => new Parameter { Key = x.Key, Value = x.Value })
+                    .ToArray()
+            });
         }
 
         private async Task<(string Key, string Value)> GetKeyAndValue(
