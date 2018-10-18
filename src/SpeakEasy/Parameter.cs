@@ -43,7 +43,7 @@ namespace SpeakEasy
 
             var raw = value.ToString();
 
-            return Uri.EscapeUriString(raw);
+            return Uri.EscapeDataString(raw);
         }
     }
 }
