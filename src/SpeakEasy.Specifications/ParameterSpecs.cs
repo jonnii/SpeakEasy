@@ -91,5 +91,17 @@ namespace SpeakEasy.Specifications
             It should_not_have_value = () =>
                 parameter.HasValue.ShouldBeFalse();
         }
+
+        class when_converting_values_containing_slashes_and_ampersands
+        {
+            Establish context = () =>
+                parameter = new Parameter("name", "value/this&that");
+
+            Because of = () =>
+                formatted = parameter.ToQueryString(new CommaSeparatedArrayFormatter());
+
+            It should_properly_escape_special_characters = () =>
+                formatted.ShouldEqual("name=value%2Fthis%26that");
+        }
     }
 }
