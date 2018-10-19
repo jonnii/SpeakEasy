@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.1
+
+ * [Bug] Fixes for escaping query params with ampersands
+
 ## 1.2.0
 
   * [Bug] Fixes for file uploads with form data
