@@ -84,5 +84,10 @@ namespace SpeakEasy
                 .Where(p => p.HasValue)
                 .Select(p => p.ToQueryString(arrayFormatter));
         }
+
+        public override string ToString()
+        {
+            return Path;
+        }
     }
 }

@@ -156,5 +156,14 @@ namespace SpeakEasy.Specifications
             It should_encode_parameters = () =>
                 encoded.ShouldBeEmpty();
         }
+
+        class formatting_to_string
+        {
+            Establish context = () =>
+                root = new Resource("http://example.com/api/companies");
+
+            It should_create_appended_resource = () =>
+                root.ToString().ShouldEqual("http://example.com/api/companies");
+        }
     }
 }
