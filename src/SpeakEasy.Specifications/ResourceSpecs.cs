@@ -162,7 +162,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
                 root = new Resource("http://example.com/api/companies");
 
-            It should_create_appended_resource = () =>
+            It should_use_path_as_to_string = () =>
                 root.ToString().ShouldEqual("http://example.com/api/companies");
         }
     }
