@@ -1,11 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>SpeakEasy.Specifications</Description>
-    <AssemblyTitle>SpeakEasy.Specifications</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
     <Authors>jonnii</Authors>
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
     <AssemblyName>SpeakEasy.Specifications</AssemblyName>
     <PackageId>SpeakEasy.Specifications</PackageId>
     <PackageTags>SpeakEasy.Specifications</PackageTags>
