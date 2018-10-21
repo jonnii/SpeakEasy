@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications.Requests
             static PatchRequest request;
 
             Establish context = () =>
-                request = new PatchRequest(new Resource("http://example.com/companies"));
+                request = new PatchRequest(Resource.Create("http://example.com/companies"));
 
             class when_building_web_request
             {

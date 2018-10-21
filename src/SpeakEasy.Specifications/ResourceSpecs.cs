@@ -13,7 +13,7 @@ namespace SpeakEasy.Specifications
         class when_creating_simple_resource
         {
             Establish context = () =>
-                root = new Resource("company");
+                root = Resource.Create("company");
 
             It should_create_resource_with_no_parameters = () =>
                 root.NumSegments.ShouldEqual(0);
@@ -22,7 +22,7 @@ namespace SpeakEasy.Specifications
         class when_creating_with_trailing_slash
         {
             Establish context = () =>
-                root = new Resource("http://example.com/");
+                root = Resource.Create("http://example.com/");
 
             It should_trim_leading_slash = () =>
                 root.Path.ShouldEqual("http://example.com");
@@ -31,7 +31,7 @@ namespace SpeakEasy.Specifications
         class when_adding_parameters
         {
             Establish context = () =>
-                root = new Resource("company");
+                root = Resource.Create("company");
 
             Because of = () =>
                 root.AddParameter("filter", 5);
@@ -46,10 +46,10 @@ namespace SpeakEasy.Specifications
         class when_appending_resources
         {
             Establish context = () =>
-                root = new Resource("http://example.com");
+                root = Resource.Create("http://example.com");
 
             Because of = () =>
-                appended = root.Append(new Resource("api/companies"));
+                appended = root.Append(Resource.Create("api/companies"));
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
@@ -58,10 +58,10 @@ namespace SpeakEasy.Specifications
         class when_appending_resources_with_trailing_slash
         {
             Establish context = () =>
-                root = new Resource("http://example.com/");
+                root = Resource.Create("http://example.com/");
 
             Because of = () =>
-                appended = root.Append(new Resource("api/companies"));
+                appended = root.Append(Resource.Create("api/companies"));
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
@@ -70,10 +70,10 @@ namespace SpeakEasy.Specifications
         class when_appending_resources_with_leading_slash
         {
             Establish context = () =>
-                root = new Resource("http://example.com");
+                root = Resource.Create("http://example.com");
 
             Because of = () =>
-                appended = root.Append(new Resource("/api/companies"));
+                appended = root.Append(Resource.Create("/api/companies"));
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
@@ -82,10 +82,10 @@ namespace SpeakEasy.Specifications
         class when_appending_resources_with_leading_and_trailing_slashes
         {
             Establish context = () =>
-                root = new Resource("http://example.com/");
+                root = Resource.Create("http://example.com/");
 
             Because of = () =>
-                appended = root.Append(new Resource("/api/companies"));
+                appended = root.Append(Resource.Create("/api/companies"));
 
             It should_create_appended_resource = () =>
                 appended.Path.ShouldEqual("http://example.com/api/companies");
@@ -94,7 +94,7 @@ namespace SpeakEasy.Specifications
         class when_creating_resource_with_parameters
         {
             Establish context = () =>
-                root = new Resource("company/:name");
+                root = Resource.Create("company/:name");
 
             It should_create_resource_with_parameter = () =>
                 root.HasSegment("name");
@@ -109,7 +109,7 @@ namespace SpeakEasy.Specifications
 
             Establish context = () =>
             {
-                root = new Resource("companies");
+                root = Resource.Create("companies");
                 root.AddParameter("name", "jim");
                 root.AddParameter("age", "26");
             };
@@ -127,7 +127,7 @@ namespace SpeakEasy.Specifications
 
             Establish context = () =>
             {
-                root = new Resource("companies");
+                root = Resource.Create("companies");
                 root.AddParameter("name", "jim");
                 root.AddParameter("age", null);
             };
@@ -145,7 +145,7 @@ namespace SpeakEasy.Specifications
 
             Establish context = () =>
             {
-                root = new Resource("companies");
+                root = Resource.Create("companies");
                 root.AddParameter("name", null);
                 root.AddParameter("age", null);
             };
@@ -160,7 +160,7 @@ namespace SpeakEasy.Specifications
         class formatting_to_string
         {
             Establish context = () =>
-                root = new Resource("http://example.com/api/companies");
+                root = Resource.Create("http://example.com/api/companies");
 
             It should_use_path_as_to_string = () =>
                 root.ToString().ShouldEqual("http://example.com/api/companies");

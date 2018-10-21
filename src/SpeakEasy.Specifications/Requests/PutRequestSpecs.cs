@@ -18,7 +18,7 @@ namespace SpeakEasy.Specifications.Requests
             static PutRequest request;
 
             Establish context = () =>
-                request = new PutRequest(new Resource("http://example.com/companies"));
+                request = new PutRequest(Resource.Create("http://example.com/companies"));
 
             It should_have_put_method = () =>
                 request.HttpMethod.ShouldEqual(HttpMethod.Put);

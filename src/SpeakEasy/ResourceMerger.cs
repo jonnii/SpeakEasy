@@ -80,7 +80,7 @@ namespace SpeakEasy
                 properties.Remove(lowerSegmentName);
             }
 
-            return new Resource(merged);
+            return Resource.Create(merged);
         }
     }
 }

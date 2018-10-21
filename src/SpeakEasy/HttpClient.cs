@@ -55,7 +55,7 @@ namespace SpeakEasy
 
             merger = new ResourceMerger(settings.NamingConvention);
 
-            Root = new Resource(rootUrl);
+            Root = Resource.Create(rootUrl);
         }
 
         internal HttpClient(
@@ -71,7 +71,7 @@ namespace SpeakEasy
 
             merger = new ResourceMerger(settings.NamingConvention);
 
-            Root = new Resource(rootUrl);
+            Root = Resource.Create(rootUrl);
         }
 
         public Resource Root { get; }
