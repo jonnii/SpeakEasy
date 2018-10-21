@@ -12,12 +12,7 @@ namespace SpeakEasy
         public static Resource Create(string path)
         {
             var segments = segmentsCache.GetOrAdd(path, GetSegments);
-            return Build(path, segments);
-        }
-
-        private static Resource Build(string path, string[] segmentNames)
-        {
-            return new Resource(path.TrimEnd('/'), segmentNames);
+            return new Resource(path.TrimEnd('/'), segments);
         }
 
         private static string[] GetSegments(string path)
