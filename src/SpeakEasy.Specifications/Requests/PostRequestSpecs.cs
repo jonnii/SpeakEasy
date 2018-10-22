@@ -13,7 +13,7 @@ namespace SpeakEasy.Specifications.Requests
         class in_general_without_body
         {
             Establish context = () =>
-                request = new PostRequest(new Resource("http://example.com/companies"));
+                request = new PostRequest(Resource.Create("http://example.com/companies"));
 
             It should_have_null_body = () =>
                 request.Body.ShouldBeOfExactType<PostRequestBody>();
@@ -23,7 +23,7 @@ namespace SpeakEasy.Specifications.Requests
         {
             Establish context = () =>
             {
-                var resource = new Resource("http://example.com/companies");
+                var resource = Resource.Create("http://example.com/companies");
                 resource.AddParameter("makemoney", "allday");
 
                 request = new PostRequest(resource, new ObjectRequestBody(new { }));
@@ -37,10 +37,10 @@ namespace SpeakEasy.Specifications.Requests
         {
             Establish context = () =>
             {
-                var resource = new Resource("http://example.com/companies");
+                var resource = Resource.Create("http://example.com/companies");
                 resource.AddParameter("makemoney", "allday");
 
-                request = new PostRequest(resource, new PostRequestBody(new Resource("foo")));
+                request = new PostRequest(resource, new PostRequestBody(Resource.Create("foo")));
             };
 
             It should_not_generate_query_params = () =>

@@ -26,7 +26,7 @@ namespace SpeakEasy.Specifications.Middleware
         class when_building_web_request_with_get_request
         {
             Establish context = () =>
-                request = new GetRequest(new Resource("http://example.com/companies"));
+                request = new GetRequest(Resource.Create("http://example.com/companies"));
 
             Because of = () =>
                 web_request = middleware.BuildHttpRequestMessage(request);
@@ -41,7 +41,7 @@ namespace SpeakEasy.Specifications.Middleware
         class when_building_web_request_with_options_request
         {
             Establish context = () =>
-                request = new OptionsRequest(new Resource("http://example.com/companies"));
+                request = new OptionsRequest(Resource.Create("http://example.com/companies"));
 
             Because of = () =>
                 web_request = middleware.BuildHttpRequestMessage(request);

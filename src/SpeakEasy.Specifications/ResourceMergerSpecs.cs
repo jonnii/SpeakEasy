@@ -17,7 +17,7 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
             {
-                resource = new Resource("company/:name");
+                resource = Resource.Create("company/:name");
                 Subject.NamingConvention = new DefaultNamingConvention();
             };
 
@@ -54,7 +54,7 @@ namespace SpeakEasy.Specifications
         {
             Establish context = () =>
             {
-                resource = new Resource("company/:name/:companyType");
+                resource = Resource.Create("company/:name/:companyType");
                 Subject.NamingConvention = new DefaultNamingConvention();
             };
 
@@ -71,7 +71,7 @@ namespace SpeakEasy.Specifications
         class when_merging_null_segments
         {
             Establish context = () =>
-                resource = new Resource("company");
+                resource = Resource.Create("company");
 
             Because of = () =>
                 merged = Subject.Merge(resource, null);
@@ -83,7 +83,7 @@ namespace SpeakEasy.Specifications
         class when_merging_null_segments_when_resource_has_segments
         {
             Establish context = () =>
-                resource = new Resource("company/:id");
+                resource = Resource.Create("company/:id");
 
             Because of = () =>
                 exception = Catch.Exception(() => Subject.Merge(resource, null));
@@ -97,7 +97,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
             {
                 Subject.NamingConvention = new DefaultNamingConvention();
-                resource = new Resource("companies");
+                resource = Resource.Create("companies");
             };
 
             Because of = () =>
@@ -112,7 +112,7 @@ namespace SpeakEasy.Specifications
             Establish context = () =>
             {
                 Subject.NamingConvention = new DefaultNamingConvention();
-                resource = new Resource("company/:id");
+                resource = Resource.Create("company/:id");
             };
 
             Because of = () =>

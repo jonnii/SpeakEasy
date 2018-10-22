@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications.Requests
         class in_general
         {
             Establish context = () =>
-                request = new DeleteRequest(new Resource("hello"));
+                request = new DeleteRequest(Resource.Create("hello"));
 
             It should_have_delete_method = () =>
                 request.HttpMethod.ShouldEqual(HttpMethod.Delete);

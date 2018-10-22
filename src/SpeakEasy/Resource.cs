@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -6,15 +7,32 @@ namespace SpeakEasy
 {
     public class Resource
     {
+        private static ConcurrentDictionary<string, string[]> segmentsCache = new ConcurrentDictionary<string, string[]>();
+
+        public static Resource Create(string path)
+        {
+            var segments = segmentsCache.GetOrAdd(path, GetSegments);
+            return new Resource(path.TrimEnd('/'), segments);
+        }
+
+        private static string[] GetSegments(string path)
+        {
+            var segmentMatches = Regex.Matches(path, ":([a-zA-Z-]+)");
+
+            return segmentMatches
+                .Cast<Match>()
+                .Select(m => m.Groups[1].Value)
+                .ToArray();
+        }
+
         private readonly string[] segmentNames;
 
-        private readonly List<Parameter> parameters = new List<Parameter>();
+        private List<Parameter> parameters;
 
-        public Resource(string path)
+        private Resource(string path, string[] segmentNames)
         {
-            Path = path.TrimEnd('/');
-
-            segmentNames = ExtractSegments();
+            Path = path;
+            this.segmentNames = segmentNames;
         }
 
         public string Path { get; }
@@ -25,35 +43,25 @@ namespace SpeakEasy
 
         public bool HasSegments => segmentNames.Any();
 
-        public IEnumerable<Parameter> Parameters => parameters;
+        public IEnumerable<Parameter> Parameters => parameters ?? Enumerable.Empty<Parameter>();
 
-        public bool HasParameters => parameters.Any();
+        public bool HasParameters => parameters != null && parameters.Any();
 
-        public int NumParameters => parameters.Count;
+        public int NumParameters => parameters == null ? 0 : parameters.Count;
 
         public bool HasSegment(string name)
         {
             return segmentNames.Contains(name);
         }
 
-        private string[] ExtractSegments()
-        {
-            var segmentMatches = Regex.Matches(Path, ":([a-zA-Z-]+)");
-
-            return segmentMatches
-                .Cast<Match>()
-                .Select(m => m.Groups[1].Value)
-                .ToArray();
-        }
-
         public void AddParameter(string name, object value)
         {
-            parameters.Add(new Parameter(name, value));
+            (parameters ?? (parameters = new List<Parameter>())).Add(new Parameter(name, value));
         }
 
         public bool HasParameter(string name)
         {
-            return parameters.Any(p => p.Name == name);
+            return parameters != null && parameters.Any(p => p.Name == name);
         }
 
         public Resource Append(Resource resource)
@@ -63,12 +71,12 @@ namespace SpeakEasy
                     ? string.Concat(Path, resource.Path)
                     : string.Concat(Path, "/", resource.Path);
 
-            return new Resource(combined);
+            return Create(combined);
         }
 
         public Resource Append(string resource)
         {
-            return Append(new Resource(resource));
+            return Append(Create(resource));
         }
 
         public string GetEncodedParameters(IArrayFormatter arrayFormatter)
@@ -80,6 +88,11 @@ namespace SpeakEasy
 
         private IEnumerable<string> GetFormattedParameters(IArrayFormatter arrayFormatter)
         {
+            if (parameters == null)
+            {
+                return Enumerable.Empty<string>();
+            }
+
             return parameters
                 .Where(p => p.HasValue)
                 .Select(p => p.ToQueryString(arrayFormatter));

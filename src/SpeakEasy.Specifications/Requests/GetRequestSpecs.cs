@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications.Requests
             static GetRequest request;
 
             Establish context = () =>
-                request = new GetRequest(new Resource("http://example.com/companies"));
+                request = new GetRequest(Resource.Create("http://example.com/companies"));
 
             class when_building_web_request_with_parameters
             {
@@ -22,7 +22,7 @@ namespace SpeakEasy.Specifications.Requests
 
                 Establish context = () =>
                 {
-                    var resource = new Resource("http://example.com/companies");
+                    var resource = Resource.Create("http://example.com/companies");
                     resource.AddParameter("filter", "ftse");
                     resource.AddParameter("starred", true);
 

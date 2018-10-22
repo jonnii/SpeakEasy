@@ -14,7 +14,7 @@ namespace SpeakEasy.Specifications.Bodies
 
         Establish context = () =>
         {
-            body = new FileUploadBody(new Resource("http://example.com/fribble/frabble"), new[] { An<IFile>() });
+            body = new FileUploadBody(Resource.Create("http://example.com/fribble/frabble"), new[] { An<IFile>() });
             transmissionSettings = An<ITransmissionSettings>();
         };
 

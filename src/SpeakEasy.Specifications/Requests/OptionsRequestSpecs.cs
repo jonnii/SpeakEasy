@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications.Requests
             static OptionsRequest request;
 
             Establish context = () =>
-                request = new OptionsRequest(new Resource("http://example.com/companies"));
+                request = new OptionsRequest(Resource.Create("http://example.com/companies"));
 
             class when_building_web_request
             {

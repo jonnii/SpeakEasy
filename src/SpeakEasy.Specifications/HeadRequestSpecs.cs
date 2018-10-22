@@ -11,7 +11,7 @@ namespace SpeakEasy.Specifications
         static HeadRequest request;
 
         Establish context = () =>
-            request = new HeadRequest(new Resource("http://example.com/companies"));
+            request = new HeadRequest(Resource.Create("http://example.com/companies"));
 
         class when_building_web_request
         {
