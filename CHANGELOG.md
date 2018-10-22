@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.2.2
+
+ * Target only `netstandard2.0`
+ * Better Resource `ToString`
+ * Cache resource segment parsing
+
 ## 1.2.1
 
  * [Bug] Fixes for escaping query params with ampersands
