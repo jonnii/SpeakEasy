@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using SpeakEasy.Contents;
 
@@ -19,6 +20,11 @@ namespace SpeakEasy.Bodies
             if (!resource.HasParameters)
             {
                 return new ByteArrayContent(transmissionSettings.DefaultSerializerContentType, new byte[0]);
+            }
+
+            if (resource.Parameters.Any(p => p.Value is IFile))
+            {
+                return new MultipartFileFormDataContent(resource);
             }
 
             var parameters = resource.GetEncodedParameters(arrayFormatter);
