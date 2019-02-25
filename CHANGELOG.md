@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.2.3
+
+ * Enabling post requests using form-data for a file
+
 ## 1.2.2
 
  * Target only `netstandard2.0`
