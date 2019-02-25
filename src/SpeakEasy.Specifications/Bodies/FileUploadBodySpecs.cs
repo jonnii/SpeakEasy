@@ -16,7 +16,7 @@ namespace SpeakEasy.Specifications.Bodies
 
         static Resource resource;
 
-        private Establish context = () =>
+        Establish context = () =>
         {
             resource = Resource.Create("http://example.com/fribble/frabble");
             body = new FileUploadBody(resource, new[] { An<IFile>() });
@@ -30,16 +30,6 @@ namespace SpeakEasy.Specifications.Bodies
         }
 
         class when_serializing
-        {
-            static IContent serializable;
-
-            Because of = () =>
-                serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
-
-            It should_have_content_type_for_multipart_form_data = () =>
-                serializable.ShouldBeOfExactType<MultipartMimeContent>();
-        }
-        class when_serializing_
         {
             static IContent serializable;
 

@@ -52,6 +52,7 @@ namespace SpeakEasy.Specifications.Requests
             It should_not_generate_query_params = () =>
                 request.BuildRequestUrl(new CommaSeparatedArrayFormatter()).ShouldEqual("http://example.com/companies");
         }
+
         class when_building_request_url_with_post_request_body_of_a_file
         {
             static IRequestBody body;

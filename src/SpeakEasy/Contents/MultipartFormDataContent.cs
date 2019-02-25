@@ -24,13 +24,13 @@ namespace SpeakEasy.Contents
             {
                 foreach (var parameter in resource.Parameters)
                 {
-                    if (parameter.Value is IFile)
+                    if (parameter.Value is IFile file)
                     {
-                        var file = (IFile) parameter.Value;
                         var ms = new MemoryStream();
                         await file.WriteToAsync(ms);
-                        
+
                         var fileContent = new StringContent(Encoding.ASCII.GetString(ms.ToArray()));
+
                         fileContent.Headers.ContentType = string.IsNullOrWhiteSpace(file.ContentType)
                             ? MediaTypeHeaderValue.Parse("application/octet-stream")
                             : MediaTypeHeaderValue.Parse(file.ContentType);
@@ -56,7 +56,7 @@ namespace SpeakEasy.Contents
                     }
                 }
             }
-            
+
             httpRequest.Content = content;
         }
     }
