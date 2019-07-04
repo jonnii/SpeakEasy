@@ -48,7 +48,7 @@ namespace SpeakEasy
         /// <summary>
         /// The array formatter that will be used to format query string array paramters
         /// </summary>
-        public IArrayFormatter ArrayFormatter { get; set; }
+        public IParameterFormatter ArrayFormatter { get; set; }
 
         /// <summary>
         /// The default serializer

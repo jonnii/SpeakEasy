@@ -17,7 +17,7 @@ namespace SpeakEasy.Middleware
 
         private readonly ITransmissionSettings transmissionSettings;
 
-        private readonly IArrayFormatter arrayFormatter;
+        private readonly IParameterFormatter arrayFormatter;
 
         private readonly CookieContainer cookieContainer;
 
@@ -26,7 +26,7 @@ namespace SpeakEasy.Middleware
         public RequestMiddleware(
             SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
-            IArrayFormatter arrayFormatter,
+            IParameterFormatter arrayFormatter,
             CookieContainer cookieContainer)
         {
             this.transmissionSettings = transmissionSettings;

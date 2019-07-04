@@ -15,7 +15,7 @@ namespace SpeakEasy
         public RequestRunner(
             SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
-            IArrayFormatter arrayFormatter,
+            IParameterFormatter arrayFormatter,
             CookieContainer cookieContainer,
             MiddlewareCollection middleware)
         {

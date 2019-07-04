@@ -21,7 +21,7 @@ namespace SpeakEasy.Requests
 
         public abstract HttpMethod HttpMethod { get; }
 
-        public string BuildRequestUrl(IArrayFormatter arrayFormatter)
+        public string BuildRequestUrl(IParameterFormatter arrayFormatter)
         {
             if (!Resource.HasParameters || Body.ConsumesResourceParameters)
             {

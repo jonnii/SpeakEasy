@@ -97,7 +97,7 @@ namespace SpeakEasy.Specifications
                 root = Resource.Create("company/:name");
 
             It should_create_resource_with_parameter = () =>
-                root.HasSegment("name");
+                root.HasSegment("name").ShouldBeTrue();
 
             It should_have_one_parameter = () =>
                 root.NumSegments.ShouldEqual(1);

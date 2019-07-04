@@ -54,3 +54,5 @@ packages/
 #resticle
 targets
 ..\src\CommonAssemblyInfo.cs
+
+src/.idea/
