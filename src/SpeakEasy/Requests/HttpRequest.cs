@@ -21,14 +21,14 @@ namespace SpeakEasy.Requests
 
         public abstract HttpMethod HttpMethod { get; }
 
-        public string BuildRequestUrl(IQuerySerializer arrayFormatter)
+        public string BuildRequestUrl(IQuerySerializer querySerializer)
         {
             if (!Resource.HasParameters || Body.ConsumesResourceParameters)
             {
                 return Resource.Path;
             }
 
-            var queryString = Resource.GetEncodedParameters(arrayFormatter);
+            var queryString = Resource.GetEncodedParameters(querySerializer);
 
             return string.Concat(Resource.Path, "?", queryString);
         }

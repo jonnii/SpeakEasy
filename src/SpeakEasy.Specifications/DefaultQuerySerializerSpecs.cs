@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Machine.Specifications;
 using SpeakEasy.Serializers;
 
-namespace SpeakEasy.Specifications.Serializers
+namespace SpeakEasy.Specifications
 {
     [Subject(typeof(DefaultQuerySerializer))]
     class DefaultQuerySerializerSpecs

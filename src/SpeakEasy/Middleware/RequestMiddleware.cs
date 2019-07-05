@@ -17,7 +17,7 @@ namespace SpeakEasy.Middleware
 
         private readonly ITransmissionSettings transmissionSettings;
 
-        private readonly IQuerySerializer arrayFormatter;
+        private readonly IQuerySerializer querySerializer;
 
         private readonly CookieContainer cookieContainer;
 
@@ -26,11 +26,11 @@ namespace SpeakEasy.Middleware
         public RequestMiddleware(
             SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
-            IQuerySerializer arrayFormatter,
+            IQuerySerializer querySerializer,
             CookieContainer cookieContainer)
         {
             this.transmissionSettings = transmissionSettings;
-            this.arrayFormatter = arrayFormatter;
+            this.querySerializer = querySerializer;
             this.cookieContainer = cookieContainer;
             this.client = client;
         }
@@ -43,7 +43,7 @@ namespace SpeakEasy.Middleware
 
         public async Task<IHttpResponse> Invoke(IHttpRequest request, CancellationToken cancellationToken)
         {
-            var serializedBody = request.Body.Serialize(transmissionSettings, arrayFormatter);
+            var serializedBody = request.Body.Serialize(transmissionSettings, querySerializer);
 
             using (var httpRequest = BuildHttpRequestMessage(request))
             {
@@ -65,7 +65,7 @@ namespace SpeakEasy.Middleware
         {
             var message = new HttpRequestMessage(
                 httpRequest.HttpMethod,
-                httpRequest.BuildRequestUrl(arrayFormatter));
+                httpRequest.BuildRequestUrl(querySerializer));
 
             foreach (var mediaType in transmissionSettings.DeserializableMediaTypes)
             {

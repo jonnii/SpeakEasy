@@ -79,18 +79,18 @@ namespace SpeakEasy
             return Append(Create(resource));
         }
 
-        public string GetEncodedParameters(IQuerySerializer arrayFormatter)
+        public string GetEncodedParameters(IQuerySerializer querySerializer)
         {
-            var formattedParameters = GetFormattedParameters(arrayFormatter);
+            var formattedParameters = GetFormattedParameters(querySerializer);
 
             return string.Join("&", formattedParameters);
         }
 
-        private IEnumerable<string> GetFormattedParameters(IQuerySerializer arrayFormatter)
+        private IEnumerable<string> GetFormattedParameters(IQuerySerializer querySerializer)
         {
-            return parameters == null 
-                ? Enumerable.Empty<string>() 
-                : arrayFormatter.Serialize(parameters);
+            return parameters == null
+                ? Enumerable.Empty<string>()
+                : querySerializer.Serialize(parameters);
         }
 
         public override string ToString()

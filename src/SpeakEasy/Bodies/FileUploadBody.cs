@@ -16,7 +16,7 @@ namespace SpeakEasy.Bodies
 
         public bool ConsumesResourceParameters { get; } = true;
 
-        public IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer querySerializer)
         {
             return new MultipartMimeContent(resource, files);
         }
