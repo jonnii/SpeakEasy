@@ -27,8 +27,8 @@ namespace SpeakEasy.Specifications
             It should_have_default_user_agent = () =>
                 settings.Middleware.Has<UserAgentMiddleware>().ShouldBeTrue();
 
-            It should_have_default_array_formatter = () =>
-                settings.ArrayFormatter.ShouldBeOfExactType<MultipleValuesArrayFormatter>();
+            It should_have_default_query_serializer = () =>
+                settings.QuerySerializer.ShouldBeOfExactType<DefaultQuerySerializer>();
 
             It should_be_valid = () =>
                 settings.IsValid.ShouldBeTrue();
@@ -49,7 +49,7 @@ namespace SpeakEasy.Specifications
         class without_array_formatter
         {
             Because of = () =>
-                settings.ArrayFormatter = null;
+                settings.QuerySerializer = null;
 
             It should_not_be_valid = () =>
                 settings.IsValid.ShouldBeFalse();

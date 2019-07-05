@@ -7,6 +7,8 @@ namespace SpeakEasy.Serializers
 {
     public class DefaultQuerySerializer : IQuerySerializer
     {
+        public bool ExpandArrayValues { get; set; } = true;
+
         public string FormatParameter(string name, Array values, Func<object, string> valueFormatter)
         {
             var items = string.Join(",", values.Cast<object>()

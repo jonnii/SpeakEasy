@@ -20,7 +20,7 @@ namespace SpeakEasy
             Serializers = new List<ISerializer>();
             Authenticator = new NullAuthenticator();
             NamingConvention = new DefaultNamingConvention();
-            ArrayFormatter = new MultipleValuesArrayFormatter();
+            QuerySerializer = new DefaultQuerySerializer();
 
             Serializers.Add(new DefaultJsonSerializer());
             Serializers.Add(new TextPlainSerializer());
@@ -35,7 +35,7 @@ namespace SpeakEasy
         public IAuthenticator Authenticator { get; set; }
 
         /// <summary>
-        /// The available serialiazers
+        /// The available serializers
         /// </summary>
         public List<ISerializer> Serializers { get; set; }
 
@@ -45,9 +45,9 @@ namespace SpeakEasy
         public MiddlewareCollection Middleware { get; } = new MiddlewareCollection();
 
         /// <summary>
-        /// The array formatter that will be used to format query string array paramters
+        /// The query formatter that will be used to format query string array parameters
         /// </summary>
-        public IQuerySerializer ArrayFormatter { get; set; }
+        public IQuerySerializer QuerySerializer { get; set; }
 
         /// <summary>
         /// The default serializer
@@ -67,10 +67,10 @@ namespace SpeakEasy
         /// <summary>
         /// Indicates whether or not the http client settings are valid
         /// </summary>
-        public bool IsValid => Serializers.Any() && ArrayFormatter != null;
+        public bool IsValid => Serializers.Any() && QuerySerializer != null;
 
         /// <summary>
-        /// The default timeout for the HttpClient to 30 minutes, 
+        /// The default timeout for the HttpClient to 30 minutes,
         /// to use the system default (100 seconds) set this property to null.
         /// </summary>
         public TimeSpan? DefaultTimeout { get; set; } = TimeSpan.FromMinutes(30);
