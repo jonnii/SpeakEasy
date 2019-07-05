@@ -12,7 +12,7 @@ namespace SpeakEasy.Specifications
         Establish context = () =>
         {
             request = An<IHttpRequest>();
-            request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IArrayFormatter>())).Return("http://example.com");
+            request.WhenToldTo(r => r.BuildRequestUrl(Param.IsAny<IQuerySerializer>())).Return("http://example.com");
             request.WhenToldTo(r => r.HttpMethod).Return(HttpMethod.Get);
         };
 

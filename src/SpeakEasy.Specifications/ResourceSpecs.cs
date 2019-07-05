@@ -1,5 +1,5 @@
 ﻿using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
+using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
 {
@@ -115,7 +115,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim&age=26");
@@ -133,7 +133,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim");
@@ -151,7 +151,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldBeEmpty();

@@ -15,7 +15,7 @@ namespace SpeakEasy.Bodies
 
         public bool ConsumesResourceParameters { get; } = true;
 
-        public IContent Serialize(ITransmissionSettings transmissionSettings, IParameterFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer arrayFormatter)
         {
             if (!resource.HasParameters)
             {

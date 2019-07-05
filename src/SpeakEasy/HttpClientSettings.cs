@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Middleware;
 using SpeakEasy.Serializers;
@@ -48,7 +47,7 @@ namespace SpeakEasy
         /// <summary>
         /// The array formatter that will be used to format query string array paramters
         /// </summary>
-        public IParameterFormatter ArrayFormatter { get; set; }
+        public IQuerySerializer ArrayFormatter { get; set; }
 
         /// <summary>
         /// The default serializer

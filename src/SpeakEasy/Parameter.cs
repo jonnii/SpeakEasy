@@ -1,6 +1,3 @@
-using System;
-using System.Globalization;
-
 namespace SpeakEasy
 {
     public class Parameter

@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Text;
 using Machine.Fakes;
 using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Bodies;
 using SpeakEasy.Requests;
+using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications.Requests
 {
@@ -36,7 +36,7 @@ namespace SpeakEasy.Specifications.Requests
             };
 
             It should_generate_query_params = () =>
-                request.BuildRequestUrl(new CommaSeparatedArrayFormatter()).ShouldEqual("http://example.com/companies?makemoney=allday");
+                request.BuildRequestUrl(new DefaultQuerySerializer()).ShouldEqual("http://example.com/companies?makemoney=allday");
         }
 
         class when_building_request_url_with_post_request_body
@@ -50,7 +50,7 @@ namespace SpeakEasy.Specifications.Requests
             };
 
             It should_not_generate_query_params = () =>
-                request.BuildRequestUrl(new CommaSeparatedArrayFormatter()).ShouldEqual("http://example.com/companies");
+                request.BuildRequestUrl(new DefaultQuerySerializer()).ShouldEqual("http://example.com/companies");
         }
 
         class when_building_request_url_with_post_request_body_of_a_file
@@ -85,7 +85,7 @@ namespace SpeakEasy.Specifications.Requests
             Because of = () =>
             {
                 var httpRequest = new HttpRequestMessage(HttpMethod.Post, "");
-                serializable = body.Serialize(An<ITransmissionSettings>(), An<IArrayFormatter>());
+                serializable = body.Serialize(An<ITransmissionSettings>(), An<IQuerySerializer>());
                 serializable.WriteTo(httpRequest).Wait();
                 content = (MultipartFormDataContent) httpRequest.Content;
             };

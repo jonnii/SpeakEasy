@@ -1,6 +1,6 @@
 ﻿using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Requests;
+using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications.Requests
 {
@@ -30,7 +30,7 @@ namespace SpeakEasy.Specifications.Requests
                 };
 
                 Because of = () =>
-                    url = request.BuildRequestUrl(new CommaSeparatedArrayFormatter());
+                    url = request.BuildRequestUrl(new DefaultQuerySerializer());
 
                 It should_set_url = () =>
                     url.ShouldEqual("http://example.com/companies?filter=ftse&starred=True");

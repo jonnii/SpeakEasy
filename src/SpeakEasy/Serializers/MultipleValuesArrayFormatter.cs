@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace SpeakEasy.ArrayFormatters
+namespace SpeakEasy.Serializers
 {
-    public class MultipleValuesArrayFormatter : IParameterFormatter
+    public class MultipleValuesArrayFormatter : IQuerySerializer
     {
         public string FormatParameter(string name, Array values, Func<object, string> valueFormatter)
         {
@@ -15,14 +15,14 @@ namespace SpeakEasy.ArrayFormatters
 
             return string.Join("&", items);
         }
-        
+
         public IEnumerable<string> FormatParameters(IEnumerable<Parameter> parameters)
         {
             return parameters
                 .Where(p => p.HasValue)
                 .Select(ToQueryString);
         }
-        
+
         private string ToQueryString(Parameter parameter)
         {
             if (!parameter.HasValue)
@@ -39,7 +39,7 @@ namespace SpeakEasy.ArrayFormatters
 
             return string.Concat(parameter.Name, "=", value);
         }
-        
+
         private string ToQueryStringValue(object value)
         {
             if (value is DateTime time)

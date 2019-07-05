@@ -30,7 +30,7 @@ namespace SpeakEasy
         /// Builds the method specific request url
         /// </summary>
         /// <returns>A url</returns>
-        string BuildRequestUrl(IParameterFormatter arrayFormatter);
+        string BuildRequestUrl(IQuerySerializer arrayFormatter);
 
         void AddHeader(string header, string value);
 

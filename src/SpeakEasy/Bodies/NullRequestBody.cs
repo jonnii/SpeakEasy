@@ -6,7 +6,7 @@ namespace SpeakEasy.Bodies
     {
         public bool ConsumesResourceParameters { get; } = false;
 
-        public IContent Serialize(ITransmissionSettings transmissionSettings, IParameterFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer arrayFormatter)
         {
             return new NullContent(transmissionSettings);
         }

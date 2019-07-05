@@ -20,7 +20,7 @@ namespace SpeakEasy.Specifications.Middleware
 
         Establish context = () =>
         {
-            middleware = new RequestMiddleware(new SystemHttpClient(), The<ITransmissionSettings>(), The<IArrayFormatter>(), new CookieContainer());
+            middleware = new RequestMiddleware(new SystemHttpClient(), The<ITransmissionSettings>(), The<IQuerySerializer>(), new CookieContainer());
         };
 
         class when_building_web_request_with_get_request

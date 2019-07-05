@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
 using SpeakEasy.Authenticators;
 using SpeakEasy.Middleware;
 using SpeakEasy.Serializers;

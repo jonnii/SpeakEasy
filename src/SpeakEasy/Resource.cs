@@ -79,14 +79,14 @@ namespace SpeakEasy
             return Append(Create(resource));
         }
 
-        public string GetEncodedParameters(IParameterFormatter arrayFormatter)
+        public string GetEncodedParameters(IQuerySerializer arrayFormatter)
         {
             var formattedParameters = GetFormattedParameters(arrayFormatter);
 
             return string.Join("&", formattedParameters);
         }
 
-        private IEnumerable<string> GetFormattedParameters(IParameterFormatter arrayFormatter)
+        private IEnumerable<string> GetFormattedParameters(IQuerySerializer arrayFormatter)
         {
             return parameters == null 
                 ? Enumerable.Empty<string>() 

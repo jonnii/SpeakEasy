@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace SpeakEasy.ArrayFormatters
+namespace SpeakEasy.Serializers
 {
-    public class CommaSeparatedArrayFormatter : IParameterFormatter
+    public class DefaultQuerySerializer : IQuerySerializer
     {
         public string FormatParameter(string name, Array values, Func<object, string> valueFormatter)
         {

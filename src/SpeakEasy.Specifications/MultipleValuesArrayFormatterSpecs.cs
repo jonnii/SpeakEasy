@@ -1,6 +1,6 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
+using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
 {
