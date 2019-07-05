@@ -8,6 +8,6 @@ namespace SpeakEasy
     /// </summary>
     public interface IQuerySerializer
     {
-        IEnumerable<string> FormatParameters(IEnumerable<Parameter> parameters);
+        IEnumerable<string> Serialize(IEnumerable<Parameter> parameters);
     }
 }

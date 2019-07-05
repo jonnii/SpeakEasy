@@ -24,7 +24,7 @@ namespace SpeakEasy.Specifications.Serializers
         class when_converting_to_query_string
         {
             Because of = () =>
-                formatted = serializer.FormatParameters(new []
+                formatted = serializer.Serialize(new []
                 {
                     new Parameter("name", "value")
                 });
@@ -41,7 +41,7 @@ namespace SpeakEasy.Specifications.Serializers
                     serializer.ExpandArrayValues = true;
 
                 Because of = () =>
-                    formatted = serializer.FormatParameters(new []
+                    formatted = serializer.Serialize(new []
                     {
                         new Parameter("name", new[] { 3, 4, 5 })
                     });
@@ -59,7 +59,7 @@ namespace SpeakEasy.Specifications.Serializers
             class when_converting_to_query_string_with_string_array_value
             {
                 Because of = () =>
-                    formatted = serializer.FormatParameters(new []
+                    formatted = serializer.Serialize(new []
                     {
                         new Parameter("name", new[] { "value1", "value2" })
                     });
@@ -71,7 +71,7 @@ namespace SpeakEasy.Specifications.Serializers
             class when_converting_to_query_string_with_int_array_value
             {
                 Because of = () =>
-                    formatted = serializer.FormatParameters(new []
+                    formatted = serializer.Serialize(new []
                     {
                         new Parameter("name", new[] { 3, 4, 5 })
                     });
@@ -84,7 +84,7 @@ namespace SpeakEasy.Specifications.Serializers
         class when_converting_to_query_string_with_date_time
         {
             Because of = () =>
-                formatted = serializer.FormatParameters(new[]
+                formatted = serializer.Serialize(new[]
                 {
                     new Parameter("name", new DateTime(2013, 10, 15, 14, 30, 44))
                 });
@@ -96,7 +96,7 @@ namespace SpeakEasy.Specifications.Serializers
         class when_converting_to_query_string_with_nullable_date_time
         {
             Because of = () =>
-                formatted = serializer.FormatParameters(new []
+                formatted = serializer.Serialize(new []
                 {
                     new Parameter("name", (DateTime?)new DateTime(2013, 10, 15, 14, 30, 44, DateTimeKind.Utc))
                 });
@@ -108,7 +108,7 @@ namespace SpeakEasy.Specifications.Serializers
         class when_converting_values_containing_slashes_and_ampersands
         {
             Because of = () =>
-                formatted = serializer.FormatParameters(new []
+                formatted = serializer.Serialize(new []
                 {
                     new Parameter("name", "value/this&that")
                 });

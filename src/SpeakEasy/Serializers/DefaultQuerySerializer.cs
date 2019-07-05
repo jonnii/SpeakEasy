@@ -9,24 +9,7 @@ namespace SpeakEasy.Serializers
     {
         public bool ExpandArrayValues { get; set; } = true;
 
-        public string FormatParameter(string name, Array values, Func<object, string> valueFormatter)
-        {
-            var items = string.Join(",", values.Cast<object>()
-                .Select(valueFormatter));
-
-            return string.Concat(name, "=", items);
-        }
-
-//        public string FormatExpanded(string name, Array values, Func<object, string> valueFormatter)
-//        {
-//            var items = values
-//                .Cast<object>()
-//                .Select(s => string.Concat(name, "=", valueFormatter(s)));
-//
-//            return string.Join("&", items);
-//        }
-
-        public IEnumerable<string> FormatParameters(IEnumerable<Parameter> parameters)
+        public IEnumerable<string> Serialize(IEnumerable<Parameter> parameters)
         {
             return parameters
                 .Where(p => p.HasValue)
@@ -44,11 +27,9 @@ namespace SpeakEasy.Serializers
             {
                 if (ExpandArrayValues)
                 {
-                    foreach (var t in array)
+                    foreach (var item in array)
                     {
-                        yield return string.Concat(parameter.Name, "=", ToQueryStringValue(t));
-
-//                        yield return FormatParameter(parameter.Name, t, ToQueryStringValue);
+                        yield return string.Concat(parameter.Name, "=", ToQueryStringValue(item));
                     }
                 }
                 else

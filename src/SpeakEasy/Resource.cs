@@ -90,7 +90,7 @@ namespace SpeakEasy
         {
             return parameters == null 
                 ? Enumerable.Empty<string>() 
-                : arrayFormatter.FormatParameters(parameters);
+                : arrayFormatter.Serialize(parameters);
         }
 
         public override string ToString()
