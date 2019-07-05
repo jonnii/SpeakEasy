@@ -18,7 +18,7 @@ namespace SpeakEasy
         /// Serializes the request body
         /// </summary>
         /// <param name="transmissionSettings">The transmission settings</param>
-        /// <param name="querySerializer">The array formatter for array parameters</param>
+        /// <param name="querySerializer">The query serializer for array parameters</param>
         /// <returns>A byte array with the contents of this body</returns>
         IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer querySerializer);
     }
