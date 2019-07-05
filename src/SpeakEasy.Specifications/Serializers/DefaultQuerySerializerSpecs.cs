@@ -33,43 +33,52 @@ namespace SpeakEasy.Specifications.Serializers
                 formatted.ShouldContain("name=value");
         }
 
-        class when_converting_to_query_string_with_string_array_value
+        class when_expanding_array_values
         {
-            Because of = () =>
-                formatted = serializer.FormatParameters(new []
-                {
-                    new Parameter("name", new[] { "value1", "value2" })
-                });
+            class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
+            {
+                Establish context = () =>
+                    serializer.ExpandArrayValues = true;
 
-            It should_format_as_query_string = () =>
-                formatted.ShouldContain("name=value1,value2");
+                Because of = () =>
+                    formatted = serializer.FormatParameters(new []
+                    {
+                        new Parameter("name", new[] { 3, 4, 5 })
+                    });
+
+                It should_format_as_query_string = () =>
+                    formatted.ShouldContain("name=3", "name=4", "name=5");
+            }
         }
 
-        class when_converting_to_query_string_with_int_array_value
-        {
-            Because of = () =>
-                formatted = serializer.FormatParameters(new []
-                {
-                    new Parameter("name", new[] { 3, 4, 5 })
-                });
-
-            It should_format_as_query_string = () =>
-                formatted.ShouldContain("name=3,4,5");
-        }
-
-        class when_converting_to_query_string_with_int_array_value_and_multiple_values_array_formatter
+        class when_not_expanding_array_values
         {
             Establish context = () =>
-                serializer.ExpandArrayValues = true;
+                serializer.ExpandArrayValues = false;
 
-            Because of = () =>
-                formatted = serializer.FormatParameters(new []
-                {
-                    new Parameter("name", new[] { 3, 4, 5 })
-                });
+            class when_converting_to_query_string_with_string_array_value
+            {
+                Because of = () =>
+                    formatted = serializer.FormatParameters(new []
+                    {
+                        new Parameter("name", new[] { "value1", "value2" })
+                    });
 
-            It should_format_as_query_string = () =>
-                formatted.ShouldContain("name=3", "name=4", "name=5");
+                It should_format_as_query_string = () =>
+                    formatted.ShouldContain("name=value1,value2");
+            }
+
+            class when_converting_to_query_string_with_int_array_value
+            {
+                Because of = () =>
+                    formatted = serializer.FormatParameters(new []
+                    {
+                        new Parameter("name", new[] { 3, 4, 5 })
+                    });
+
+                It should_format_as_query_string = () =>
+                    formatted.ShouldContain("name=3,4,5");
+            }
         }
 
         class when_converting_to_query_string_with_date_time

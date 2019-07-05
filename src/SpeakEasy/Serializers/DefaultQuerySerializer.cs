@@ -42,7 +42,7 @@ namespace SpeakEasy.Serializers
 
             if (parameter.Value is Array array)
             {
-                if (!ExpandArrayValues)
+                if (ExpandArrayValues)
                 {
                     foreach (var t in array)
                     {
