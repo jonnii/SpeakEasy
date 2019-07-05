@@ -17,8 +17,8 @@ namespace SpeakEasy.Specifications.Serializers
 
         class in_general
         {
-            It should_not_expand_arrays = () =>
-                serializer.ExpandArrayValues.ShouldBeFalse();
+            It should_expand_array_values = () =>
+                serializer.ExpandArrayValues.ShouldBeTrue();
         }
 
         class when_converting_to_query_string

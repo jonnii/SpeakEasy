@@ -17,14 +17,23 @@ namespace SpeakEasy.Serializers
             return string.Concat(name, "=", items);
         }
 
+//        public string FormatExpanded(string name, Array values, Func<object, string> valueFormatter)
+//        {
+//            var items = values
+//                .Cast<object>()
+//                .Select(s => string.Concat(name, "=", valueFormatter(s)));
+//
+//            return string.Join("&", items);
+//        }
+
         public IEnumerable<string> FormatParameters(IEnumerable<Parameter> parameters)
         {
             return parameters
                 .Where(p => p.HasValue)
-                .Select(ToQueryString);
+                .SelectMany(ToQueryString);
         }
 
-        private string ToQueryString(Parameter parameter)
+        private IEnumerable<string> ToQueryString(Parameter parameter)
         {
             if (!parameter.HasValue)
             {
@@ -33,12 +42,27 @@ namespace SpeakEasy.Serializers
 
             if (parameter.Value is Array array)
             {
-                return FormatParameter(parameter.Name, array, ToQueryStringValue);
+                if (!ExpandArrayValues)
+                {
+                    foreach (var t in array)
+                    {
+                        yield return string.Concat(parameter.Name, "=", ToQueryStringValue(t));
+
+//                        yield return FormatParameter(parameter.Name, t, ToQueryStringValue);
+                    }
+                }
+                else
+                {
+                    var items = string.Join(",", array.Cast<object>()
+                        .Select(ToQueryStringValue));
+
+                    yield return string.Concat(parameter.Name, "=", items);
+                }
             }
 
             var value = ToQueryStringValue(parameter.Value);
 
-            return string.Concat(parameter.Name, "=", value);
+            yield return string.Concat(parameter.Name, "=", value);
         }
 
         private string ToQueryStringValue(object value)
