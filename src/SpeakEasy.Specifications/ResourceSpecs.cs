@@ -1,5 +1,5 @@
 ﻿using Machine.Specifications;
-using SpeakEasy.ArrayFormatters;
+using SpeakEasy.Serializers;
 
 namespace SpeakEasy.Specifications
 {
@@ -97,7 +97,7 @@ namespace SpeakEasy.Specifications
                 root = Resource.Create("company/:name");
 
             It should_create_resource_with_parameter = () =>
-                root.HasSegment("name");
+                root.HasSegment("name").ShouldBeTrue();
 
             It should_have_one_parameter = () =>
                 root.NumSegments.ShouldEqual(1);
@@ -115,7 +115,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim&age=26");
@@ -133,7 +133,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldEqual("name=jim");
@@ -151,7 +151,7 @@ namespace SpeakEasy.Specifications
             };
 
             Because of = () =>
-                encoded = root.GetEncodedParameters(new CommaSeparatedArrayFormatter());
+                encoded = root.GetEncodedParameters(new DefaultQuerySerializer());
 
             It should_encode_parameters = () =>
                 encoded.ShouldBeEmpty();

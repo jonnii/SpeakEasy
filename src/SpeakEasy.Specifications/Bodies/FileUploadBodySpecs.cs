@@ -34,7 +34,7 @@ namespace SpeakEasy.Specifications.Bodies
             static IContent serializable;
 
             Because of = () =>
-                serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
+                serializable = body.Serialize(transmissionSettings, An<IQuerySerializer>());
 
             It should_have_content_type_for_multipart_form_data = () =>
                 serializable.ShouldBeOfExactType<MultipartMimeContent>();
@@ -69,7 +69,7 @@ namespace SpeakEasy.Specifications.Bodies
                 body = new FileUploadBody(resource, new[] { An<IFile>() });
 
                 transmissionSettings = An<ITransmissionSettings>();
-                serializable = body.Serialize(transmissionSettings, An<IArrayFormatter>());
+                serializable = body.Serialize(transmissionSettings, An<IQuerySerializer>());
             };
 
             It should_have_content_type_for_multipart_form_data = () =>

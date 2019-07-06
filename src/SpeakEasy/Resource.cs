@@ -7,11 +7,11 @@ namespace SpeakEasy
 {
     public class Resource
     {
-        private static ConcurrentDictionary<string, string[]> segmentsCache = new ConcurrentDictionary<string, string[]>();
+        private static readonly ConcurrentDictionary<string, string[]> SegmentsCache = new ConcurrentDictionary<string, string[]>();
 
         public static Resource Create(string path)
         {
-            var segments = segmentsCache.GetOrAdd(path, GetSegments);
+            var segments = SegmentsCache.GetOrAdd(path, GetSegments);
             return new Resource(path.TrimEnd('/'), segments);
         }
 
@@ -47,7 +47,7 @@ namespace SpeakEasy
 
         public bool HasParameters => parameters != null && parameters.Any();
 
-        public int NumParameters => parameters == null ? 0 : parameters.Count;
+        public int NumParameters => parameters?.Count ?? 0;
 
         public bool HasSegment(string name)
         {
@@ -79,23 +79,18 @@ namespace SpeakEasy
             return Append(Create(resource));
         }
 
-        public string GetEncodedParameters(IArrayFormatter arrayFormatter)
+        public string GetEncodedParameters(IQuerySerializer querySerializer)
         {
-            var formattedParameters = GetFormattedParameters(arrayFormatter);
+            var formattedParameters = GetFormattedParameters(querySerializer);
 
             return string.Join("&", formattedParameters);
         }
 
-        private IEnumerable<string> GetFormattedParameters(IArrayFormatter arrayFormatter)
+        private IEnumerable<string> GetFormattedParameters(IQuerySerializer querySerializer)
         {
-            if (parameters == null)
-            {
-                return Enumerable.Empty<string>();
-            }
-
-            return parameters
-                .Where(p => p.HasValue)
-                .Select(p => p.ToQueryString(arrayFormatter));
+            return parameters == null
+                ? Enumerable.Empty<string>()
+                : querySerializer.Serialize(parameters);
         }
 
         public override string ToString()

@@ -15,11 +15,11 @@ namespace SpeakEasy
         public RequestRunner(
             SystemHttpClient client,
             ITransmissionSettings transmissionSettings,
-            IArrayFormatter arrayFormatter,
+            IQuerySerializer querySerializer,
             CookieContainer cookieContainer,
             MiddlewareCollection middleware)
         {
-            var defaultMiddleware = new RequestMiddleware(client, transmissionSettings, arrayFormatter, cookieContainer);
+            var defaultMiddleware = new RequestMiddleware(client, transmissionSettings, querySerializer, cookieContainer);
             middleware.Append(defaultMiddleware);
             middlewareHead = middleware.BuildMiddlewareChain();
         }

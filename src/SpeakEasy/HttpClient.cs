@@ -49,7 +49,7 @@ namespace SpeakEasy
             requestRunner = new RequestRunner(
                 client,
                 new TransmissionSettings(settings.Serializers),
-                settings.ArrayFormatter,
+                settings.QuerySerializer,
                 cookieContainer,
                 settings.Middleware);
 

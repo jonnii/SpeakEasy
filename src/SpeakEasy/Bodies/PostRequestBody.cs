@@ -15,7 +15,7 @@ namespace SpeakEasy.Bodies
 
         public bool ConsumesResourceParameters { get; } = true;
 
-        public IContent Serialize(ITransmissionSettings transmissionSettings, IArrayFormatter arrayFormatter)
+        public IContent Serialize(ITransmissionSettings transmissionSettings, IQuerySerializer querySerializer)
         {
             if (!resource.HasParameters)
             {
@@ -27,7 +27,7 @@ namespace SpeakEasy.Bodies
                 return new MultipartFileFormDataContent(resource);
             }
 
-            var parameters = resource.GetEncodedParameters(arrayFormatter);
+            var parameters = resource.GetEncodedParameters(querySerializer);
             var content = Encoding.UTF8.GetBytes(parameters);
 
             return new ByteArrayContent("application/x-www-form-urlencoded", content);

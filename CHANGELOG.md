@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.3.0
+
+ * Ability to change the way in which the query string is formatted
+
 ## 1.2.3
 
  * Enabling post requests using form-data for a file
