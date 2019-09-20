@@ -18,7 +18,7 @@
     <PackageReference Include="Machine.Specifications.Should" Version="1.0.0" />
     <PackageReference Include="Machine.Specifications.Runner.VisualStudio" Version="2.9.0" />
     <PackageReference Include="Machine.Fakes.Moq" Version="2.11.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.3.0" />
 
     <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
   </ItemGroup>
