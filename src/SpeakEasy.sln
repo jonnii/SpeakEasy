@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeakEasy", "SpeakEasy\SpeakEasy.csproj", "{ACFAEFBE-EE50-459F-B7DF-8C30068626CF}"
 EndProject
@@ -15,7 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7044505B-5
 		..\GitVersion.yml = ..\GitVersion.yml
 		..\LICENSE.txt = ..\LICENSE.txt
 		..\README.md = ..\README.md
-		..\VERSION = ..\VERSION
 	EndProjectSection
 EndProject
 Global

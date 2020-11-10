@@ -8,8 +8,8 @@ before_build:
 
 build_script:
   - ps: dotnet restore src\SpeakEasy.sln
-  - ps: dotnet build src\SpeakEasy.sln --no-restore --configuration Release /p:Version=%GitVersion_SemVer% /p:AssemblyVersion=%GitVersion_AssemblySemVer% /p:FileVersion=%GitVersion_AssemblySemFileVer% /p:InformationalVersion=%GitVersion_InformationalVersion%
-  - ps: dotnet pack src\SpeakEasy.sln --configuration Release --no-restore --no-build --output artifacts /p:Version=%GitVersion_SemVer%
+  - ps: dotnet build src\SpeakEasy.sln --no-restore --configuration Release /p:Version=$env:GitVersion_SemVer /p:AssemblyVersion=$env:GitVersion_AssemblySemVer /p:FileVersion=$env:GitVersion_AssemblySemFileVer /p:InformationalVersion=$env:GitVersion_InformationalVersion
+  - ps: dotnet pack src\SpeakEasy.sln --configuration Release --no-restore --no-build --output artifacts /p:Version=$env:GitVersion_SemVer
 
 test_script:
   - ps: dotnet test src\SpeakEasy.sln

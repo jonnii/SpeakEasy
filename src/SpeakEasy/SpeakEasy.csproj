@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Description>SpeakEasy... making http easy!</Description>
     <AssemblyTitle>SpeakEasy</AssemblyTitle>
-    <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>jonnii</Authors>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <AssemblyName>SpeakEasy</AssemblyName>
