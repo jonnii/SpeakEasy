@@ -1,33 +1,21 @@
 skip_branch_with_pr: true
 
-# build cache to preserve files/folders between builds
-cache:
-  - '%LocalAppData%\NuGet\v3-cache'
-
 image: Visual Studio 2019
 configuration: Release
 
-install:
-  - cmd: dotnet restore src\SpeakEasy.sln
+before_build:
   - ps: gitversion /l console /output buildserver
 
-dotnet_csproj:
-  patch: true
-  file: 'src\**\*.csproj'
-  version: $(GitVersion_NuGetVersion)
-  package_version: $(GitVersion_NuGetVersion)
-  assembly_version: $(GitVersion_MajorMinorPatch)
-  file_version: $(GitVersion_MajorMinorPatch)
-  informational_version: $(GitVersion_MajorMinorPatch)
-
-build:
-  parallel: true
-  project: src\SpeakEasy.sln
-  publish_nuget: true
-  publish_nuget_symbols: true
+build_script:
+  - ps: dotnet restore src\SpeakEasy.sln
+  - ps: dotnet build src\SpeakEasy.sln --no-restore --configuration Release /p:Version=%GitVersion_SemVer% /p:AssemblyVersion=%GitVersion_AssemblySemVer% /p:FileVersion=%GitVersion_AssemblySemFileVer% /p:InformationalVersion=%GitVersion_InformationalVersion%
+  - ps: dotnet pack src\SpeakEasy.sln --configuration Release --no-restore --no-build --output artifacts /p:Version=%GitVersion_SemVer%
 
 test_script:
-  - ps: .\build\run-tests.ps1
+  - ps: dotnet test src\SpeakEasy.sln
+
+artifacts:
+  - path: artifacts/*
 
 deploy:
   provider: NuGet
@@ -36,3 +24,4 @@ deploy:
     secure: oG6FNO1zPKE7PDFAlOw9AmsVV2ZxO3VIWorkUXD4oKALfTd+p8E1IYIf22ZyS3LU
   on:
     appveyor_repo_tag: true
+  artifact: /.*\.nupkg/
