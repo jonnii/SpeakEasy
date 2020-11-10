@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Machine.Specifications;
 using SpeakEasy.Serializers;
 
@@ -48,6 +49,9 @@ namespace SpeakEasy.Specifications
 
                 It should_format_as_query_string = () =>
                     formatted.ShouldContain("name=3", "name=4", "name=5");
+
+                It should_have_three_values = () =>
+                    formatted.Count().ShouldEqual(3);
             }
         }
 

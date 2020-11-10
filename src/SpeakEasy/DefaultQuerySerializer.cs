@@ -40,10 +40,12 @@ namespace SpeakEasy
                     yield return string.Concat(parameter.Name, "=", items);
                 }
             }
+            else
+            {
+                var value = ToQueryStringValue(parameter.Value);
 
-            var value = ToQueryStringValue(parameter.Value);
-
-            yield return string.Concat(parameter.Name, "=", value);
+                yield return string.Concat(parameter.Name, "=", value);
+            }
         }
 
         private string ToQueryStringValue(object value)
