@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>SpeakEasy... making http easy!</Description>
+    <AssemblyTitle>SpeakEasy.Authenticators.Jwt</AssemblyTitle>
+    <Authors>jonnii</Authors>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <AssemblyName>SpeakEasy.Authenticators.Jwt</AssemblyName>
+    <PackageId>SpeakEasy.Authenticators.Jwt</PackageId>
+    <PackageTags>SpeakEasy Jwt</PackageTags>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
+  </ItemGroup>
+
+</Project>
