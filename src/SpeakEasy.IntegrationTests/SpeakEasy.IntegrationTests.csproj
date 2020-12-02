@@ -27,6 +27,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
 
+    <ProjectReference Include="..\SpeakEasy.Authenticators.Jwt\SpeakEasy.Authenticators.Jwt.csproj" />
+
     <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
   </ItemGroup>
 
