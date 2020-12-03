@@ -123,5 +123,14 @@ var settings = new HttpClientSettings
 var client = HttpClient.Create("http://example.com/api");
 ````
 
+## Using JWT authentication
+
+``` c#
+var settings = new HttpClientSettings();
+settings.AddJwtMiddleware(new HttpJsonJwtStrategy("http://url_to_token_provider"));
+
+var client = HttpClient.Create("http://example.com/api", settings);
+```
+
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/jonnii/speakeasy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
