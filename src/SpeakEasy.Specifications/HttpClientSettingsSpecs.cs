@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Machine.Specifications;
@@ -151,29 +148,6 @@ namespace SpeakEasy.Specifications
             public Task<IHttpResponse> Invoke(IHttpRequest request, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
-            }
-        }
-
-        class MiddlewareEnumerable : IEnumerable<IHttpMiddleware>
-        {
-            private readonly MiddlewareCollection collection;
-
-            public MiddlewareEnumerable(MiddlewareCollection collection)
-            {
-                this.collection = collection;
-            }
-
-            public IEnumerator<IHttpMiddleware> GetEnumerator()
-            {
-                for (var i = 0; i < collection.Count; i++)
-                {
-                    yield return collection.AtPosition(i);
-                }
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
             }
         }
     }
