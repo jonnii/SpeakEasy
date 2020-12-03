@@ -1,17 +1,29 @@
-﻿using System.Threading;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using SpeakEasy.Authenticators.Jwt;
 using SpeakEasy.IntegrationTests.Middleware;
 using SpeakEasy.Middleware;
 using Xunit;
 
 namespace SpeakEasy.IntegrationTests
 {
+    [Collection("Api collection")]
     public class MiddlewareTests
     {
+        private readonly ApiFixture fixture;
+
+        public MiddlewareTests(ApiFixture fixture)
+        {
+            this.fixture = fixture;
+        }
+
         [Theory]
         [InlineData("bob")]
         [InlineData("jeff")]
-        public async void ShouldAddCustomHeaders(string name)
+        public async Task ShouldAddCustomHeaders(string name)
         {
             var settings = new HttpClientSettings();
 
@@ -31,7 +43,7 @@ namespace SpeakEasy.IntegrationTests
         [Theory]
         [InlineData("FancyAgent")]
         [InlineData("MozillaForReal")]
-        public async void ShouldHaveCustomUserAgent(string userAgent)
+        public async Task ShouldHaveCustomUserAgent(string userAgent)
         {
             var settings = new HttpClientSettings();
 
@@ -46,6 +58,26 @@ namespace SpeakEasy.IntegrationTests
                 .AsString();
 
             Assert.Equal(userAgent, response);
+        }
+
+        [Fact]
+        public async Task ShouldAddJwtHeader()
+        {
+            var settings = new HttpClientSettings();
+            settings.Middleware.Append(new ConsoleLoggingMiddleware());
+            settings.AddJwtMiddleware(new HttpJsonJwtStrategy("http://localhost:1337/api/token"));
+
+            var client = HttpClient.Create("http://localhost:1337/api", settings);
+
+            var response = await client
+                .Get("middleware/authorization")
+                .OnOk()
+                .AsString();
+
+            var token = response.Split(' ', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+
+            Assert.StartsWith("Bearer ", response);
+            Assert.Null(Record.Exception(() => new JwtSecurityToken(token)));
         }
 
         public class CustomHeadersMiddleware : IHttpMiddleware
