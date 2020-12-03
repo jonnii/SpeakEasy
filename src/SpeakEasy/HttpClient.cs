@@ -51,7 +51,7 @@ namespace SpeakEasy
                 new TransmissionSettings(settings.Serializers),
                 settings.QuerySerializer,
                 cookieContainer,
-                settings.Middleware);
+                settings.Middleware.Clone());
 
             merger = new ResourceMerger(settings.NamingConvention);
 

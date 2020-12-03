@@ -14,6 +14,13 @@ namespace SpeakEasy.Authenticators.Jwt
 
         private JwtSecurityToken current;
 
+        public HttpJsonJwtStrategy(string tokenUrl, IAuthenticator authenticator = null, bool refreshOnExpiry = true)
+        {
+            this.refreshOnExpiry = refreshOnExpiry;
+
+            client = CreateClient(tokenUrl, authenticator);
+        }
+
         public HttpJsonJwtStrategy(string tokenUrl, HttpClientSettings settings, bool refreshOnExpiry = true)
         {
             this.refreshOnExpiry = refreshOnExpiry;
@@ -21,10 +28,16 @@ namespace SpeakEasy.Authenticators.Jwt
             client = HttpClient.Create(tokenUrl, settings);
         }
 
-        public HttpJsonJwtStrategy(IHttpClient client, bool refreshOnExpiry = true)
+        private IHttpClient CreateClient(string tokenUrl, IAuthenticator authenticator)
         {
-            this.client = client;
-            this.refreshOnExpiry = refreshOnExpiry;
+            var settings = new HttpClientSettings();
+
+            if (authenticator != null)
+            {
+                settings.Authenticator = authenticator;
+            }
+
+            return HttpClient.Create(tokenUrl, settings);
         }
 
         public override async Task<string> GetToken(CancellationToken cancellationToken = default)

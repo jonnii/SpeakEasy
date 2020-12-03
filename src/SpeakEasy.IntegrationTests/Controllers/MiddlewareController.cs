@@ -33,5 +33,18 @@ namespace SpeakEasy.IntegrationTests.Controllers
                 StatusCode = 200
             };
         }
+
+        [HttpGet("authorization")]
+        public IActionResult GetAuthorization()
+        {
+            var value = Request.Headers["Authorization"].ToString();
+
+            return new ContentResult
+            {
+                Content = value,
+                ContentType = "text/plain",
+                StatusCode = 200
+            };
+        }
     }
 }

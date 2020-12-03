@@ -53,6 +53,18 @@ namespace SpeakEasy.Middleware
             return index;
         }
 
+        internal MiddlewareCollection Clone()
+        {
+            var collection = new MiddlewareCollection();
+
+            foreach (var middleware in middlewares)
+            {
+                collection.Append(middleware);
+            }
+
+            return collection;
+        }
+
         public Func<IHttpRequest, CancellationToken, Task<IHttpResponse>> BuildMiddlewareChain()
         {
             var head = middlewares[0];
