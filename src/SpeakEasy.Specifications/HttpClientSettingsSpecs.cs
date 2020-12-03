@@ -119,23 +119,6 @@ namespace SpeakEasy.Specifications
                 settings.Middleware.AtPosition(0).ShouldBeOfExactType<TestMiddleware>();
         }
 
-        class when_cloning_middleware
-        {
-            static MiddlewareCollection collection;
-
-            Establish context = () =>
-                settings.Middleware.Append(new TestMiddleware());
-
-            Because of = () =>
-                collection = settings.Middleware.Clone();
-
-            It should_have_same_number_of_middleware = () =>
-                collection.Count.ShouldEqual(settings.Middleware.Count);
-
-            It should_have_same_sequence_of_middleware = () =>
-                new MiddlewareEnumerable(collection).SequenceEqual(new MiddlewareEnumerable(settings.Middleware)).ShouldBeTrue();
-        }
-
         class when_replacing_middleware_with_same_type
         {
             static UserAgentMiddleware replacement;

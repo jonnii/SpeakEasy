@@ -19,9 +19,11 @@
     <PackageReference Include="Machine.Fakes.Moq" Version="2.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
-    <ProjectReference Include="..\SpeakEasy.Authenticators.Jwt\SpeakEasy.Authenticators.Jwt.csproj" />
+  </ItemGroup>
 
+  <ItemGroup>
     <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
+    <ProjectReference Include="..\SpeakEasy.Authenticators.Jwt\SpeakEasy.Authenticators.Jwt.csproj" />
   </ItemGroup>
 
 </Project>
