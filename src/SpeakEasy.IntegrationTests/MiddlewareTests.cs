@@ -76,10 +76,8 @@ namespace SpeakEasy.IntegrationTests
 
             var token = response.Split(' ', StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
 
-            var exception = Record.Exception(() => new JwtSecurityToken(token));
-
             Assert.StartsWith("Bearer ", response);
-            Assert.Null(exception);
+            Assert.Null(Record.Exception(() => new JwtSecurityToken(token)));
         }
 
         public class CustomHeadersMiddleware : IHttpMiddleware
