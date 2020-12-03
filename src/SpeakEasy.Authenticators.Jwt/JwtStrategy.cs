@@ -16,19 +16,7 @@ namespace SpeakEasy.Authenticators.Jwt
 
         protected virtual bool IsExpired(JwtSecurityToken token)
         {
-            var now = DateTime.UtcNow;
-
-            if (token.ValidFrom != DateTime.MinValue && token.ValidFrom < now)
-            {
-                return false;
-            }
-
-            if (token.ValidTo != DateTime.MinValue && token.ValidTo > now)
-            {
-                return false;
-            }
-
-            return true;
+            return token.ValidTo != DateTime.MinValue && token.ValidTo < DateTime.UtcNow;
         }
 
         public abstract Task<string> GetToken(CancellationToken cancellationToken = default);

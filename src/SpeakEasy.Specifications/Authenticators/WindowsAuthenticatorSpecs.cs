@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Http;
 using Machine.Fakes;
 using Machine.Specifications;
 using SpeakEasy.Authenticators;
@@ -7,23 +9,23 @@ namespace SpeakEasy.Specifications.Authenticators
     [Subject(typeof(WindowsAuthenticator))]
     class WindowsAuthenticatorSpecs : WithFakes
     {
-        //class when_authenticating
-        //{
-        //    static WindowsAuthenticator authenticator;
+        class when_authenticating
+        {
+            static WindowsAuthenticator authenticator;
 
-        //    static IHttpRequest request;
+            static HttpClientHandler handler;
 
-        //    Establish context = () =>
-        //    {
-        //        request = new GetRequest(new Resource("path"));
-        //        authenticator = new WindowsAuthenticator();
-        //    };
+            Establish context = () =>
+            {
+                handler = new HttpClientHandler();
+                authenticator = new WindowsAuthenticator();
+            };
 
-        //    Because of = () =>
-        //        authenticator.Authenticate(request);
+            Because of = () =>
+                authenticator.Authenticate(handler);
 
-        //    It should_add_authorization_header = () =>
-        //        request.Credentials.ShouldNotBeNull();
-        //}
+            It should_add_authorization_header = () =>
+                handler.Credentials.ShouldBeTheSameAs(CredentialCache.DefaultCredentials);
+        }
     }
 }
