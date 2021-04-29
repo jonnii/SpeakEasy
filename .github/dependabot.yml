@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: System.IdentityModel.Tokens.Jwt
+    versions:
+    - 6.10.0
+    - 6.10.1
+    - 6.10.2
+    - 6.9.0
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.8.3
+    - 16.9.1
